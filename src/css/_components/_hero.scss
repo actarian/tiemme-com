@@ -1,0 +1,127 @@
+@import '../mixins';
+
+%section--hero {
+	position: relative;
+	background: white;
+
+	[swiper] {
+		@extend %swiper-hero;
+	}
+
+	.background {
+		z-index: 0;
+	}
+
+	.container {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		align-items: center;
+		padding-bottom: 150px;
+	}
+
+	@media screen {
+
+		.aspect {
+			height: 100%;
+		}
+
+		.container {
+			height: 100%;
+		}
+
+		@include media-breakpoint-up(sm) {
+			height: calc(100vh - 35px);
+		}
+
+		@include media-breakpoint-down(xs) {
+			height: 70vh;
+
+			.container {
+				padding-top: 0;
+			}
+		}
+
+	}
+
+	@media print {
+		background: white;
+
+		video,
+		img,
+		[data-thron] {
+			display: none;
+		}
+	}
+}
+
+%section--hero-title {
+
+	.title {
+		font-size: 70px;
+		line-height: 40px;
+		font-weight: $font-medium;
+		margin-bottom: 15px;
+		color: $foreground-negative;
+		text-transform: uppercase;
+		font-family: $font-secondary;
+
+		small {
+			font-size: 50px;
+		}
+	}
+
+	.abstract {
+		font-size: 22px;
+		line-height: 31px;
+		font-weight: $font-light;
+		color: $foreground-negative;
+	}
+
+	@media print {
+
+		.title {
+			color: $foreground;
+		}
+
+		.abstract {
+			color: $foreground;
+		}
+
+		.category {
+			color: $foreground;
+		}
+
+	}
+
+}
+
+.section--hero {
+	@extend %section--hero;
+	@extend %section--hero-title;
+
+	@include media-breakpoint-up(md) {
+		height: 770px;
+	}
+
+	@include media-breakpoint-down(sm) {
+		height: 70vh;
+	}
+}
+
+.scroll__indicator {
+	position: absolute;
+	left: 50%;
+	bottom: 30px;
+	transform: translateX(-50%);
+	z-index: 10;
+
+	svg {
+		width: 40px;
+		height: 40px;
+		fill: white;
+		animation: down-soft 1.8s both infinite;
+		animation-delay: 3s;
+	}
+}

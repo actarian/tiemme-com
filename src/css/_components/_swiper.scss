@@ -1,0 +1,132 @@
+%swiper {
+
+	@media screen {
+		line-height: 0;
+
+		.swiper-pagination-bullets {
+
+			&,
+			.swiper-container-horizontal>& {
+				position: relative;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				padding: 20px 0;
+				bottom: 0;
+			}
+		}
+
+		.swiper-pagination-bullet {
+			display: inline-block;
+			position: relative;
+			width: 18px;
+			height: 18px;
+			border-radius: 9px;
+			border: 2px solid rgba(#16255b, 0.5);
+			background: transparent;
+			opacity: 1;
+			outline: none;
+
+			&:before {
+				content: '';
+				display: block;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-top: -4px;
+				margin-left: -4px;
+				width: 8px;
+				height: 8px;
+				border-radius: 4px;
+				background: #16255b;
+				opacity: 0;
+				transition: opacity ease-in-out 350ms;
+			}
+
+			&:hover:before {
+				opacity: 1;
+			}
+		}
+
+		.swiper-pagination-bullet-active {
+			&:before {
+				opacity: 1;
+			}
+		}
+	}
+
+}
+
+%swiper-hero {
+	@extend %swiper;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+
+	.swiper-slide {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		text-align: left;
+		align-items: flex-start;
+	}
+
+	@media screen {
+		position: relative;
+
+		.swiper-pagination-bullet {
+			border-color: rgba(white, 0.5);
+
+			&:before {
+				background: white;
+			}
+		}
+
+		@include media-breakpoint-up(sm) {
+			.swiper-pagination-bullets {
+
+				&,
+				.swiper-container-horizontal>& {
+					bottom: 85px;
+				}
+			}
+		}
+
+		@include media-breakpoint-down(xs) {
+			.swiper-pagination-bullets {
+
+				&,
+				.swiper-container-horizontal>& {
+					bottom: 85px;
+				}
+			}
+		}
+
+	}
+}
+
+%swiper-slides {
+	@extend %swiper;
+
+	.swiper-slide {
+		transition: all ease-out 600ms;
+	}
+
+	.swiper-slide-active {
+		transform: scale(1);
+	}
+
+	.swiper-slide-prev {
+		transform: translateX(70%) scale(0.7);
+	}
+
+	.swiper-slide-next {
+		transform: translateX(-70%) scale(0.7);
+	}
+
+	.swiper-slide-active {
+		z-index: 1;
+	}
+}
