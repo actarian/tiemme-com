@@ -1,0 +1,87 @@
+<section class="section--slides">
+	<div class="swiper-container" swiper-slides>
+		<div class="container">
+			<div class="section--slides__title">Guide di installazione</div>
+		</div>
+		<div class="swiper-wrapper">
+			<div class="swiper-slide">
+				<div class="inner">
+					<div class="container">
+						<div class="card--slide" video [item]="{'coId':9285,'id':'d01305c9-daa9-49a4-865d-7686d23bb428','typeName':'Video','name':'Title'}">
+							<div class="picture picture--video" [class]="{ playing: playing }">
+								<video oncanplay="this.muted = true;" playsinline muted loop poster="/img/video/video-01.jpg">
+									<source src="/img/video/video-01.mp4">
+								</video>
+								<div class="overlay" (click)="togglePlay($event)"></div>
+								<div class="btn--play">
+									<svg class="icon icon--play-progress-background"><use xlink:href="#play-progress"></use></svg>
+									<svg class="icon icon--play-progress" viewBox="0 0 196 196">
+										<path xmlns="http://www.w3.org/2000/svg" stroke-width="2px" stroke-dasharray="1" stroke-dashoffset="1" pathLength="1" stroke-linecap="square" d="M195.5,98c0,53.8-43.7,97.5-97.5,97.5S0.5,151.8,0.5,98S44.2,0.5,98,0.5S195.5,44.2,195.5,98z"/>
+									</svg>
+									<svg class="icon icon--play" *if="!playing"><use xlink:href="#play"></use></svg>
+									<svg class="icon icon--play" *if="playing"><use xlink:href="#pause"></use></svg>
+								</div>
+							</div>
+							<div class="content">
+								<div class="title"><b>CLIP</b> Sistemi Radianti a Pavimento</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="swiper-slide">
+				<div class="inner">
+					<div class="container">
+						<div class="card--slide">
+							<div class="picture picture--video" video [item]="{'coId':9285,'id':'d01305c9-daa9-49a4-865d-7686d23bb428','typeName':'Video','name':'Title'}">
+								<video oncanplay="this.muted = true;" playsinline muted loop poster="/img/video/video-02.jpg">
+									<source src="/img/video/video-02.mp4">
+								</video>
+								<div class="overlay" (click)="togglePlay($event)"></div>
+								<div class="btn--play" [class]="{ playing: playing }">
+									<svg class="icon icon--play-progress-background"><use xlink:href="#play-progress"></use></svg>
+									<svg class="icon icon--play-progress" viewBox="0 0 196 196">
+										<path xmlns="http://www.w3.org/2000/svg" stroke-width="2px" stroke-dasharray="1" stroke-dashoffset="1" pathLength="1" stroke-linecap="square" d="M195.5,98c0,53.8-43.7,97.5-97.5,97.5S0.5,151.8,0.5,98S44.2,0.5,98,0.5S195.5,44.2,195.5,98z"/>
+									</svg>
+									<svg class="icon icon--play" *if="!playing"><use xlink:href="#play"></use></svg>
+									<svg class="icon icon--play" *if="playing"><use xlink:href="#pause"></use></svg>
+								</div>
+							</div>
+							<div class="content">
+								<div class="title"><b>TECHNO</b> Sistemi Radianti a Pavimento</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="swiper-slide">
+				<div class="inner">
+					<div class="container">
+						<div class="card--slide">
+							<div class="picture picture--video" video [item]="{'coId':9285,'id':'d01305c9-daa9-49a4-865d-7686d23bb428','typeName':'Video','name':'Title'}">
+								<video oncanplay="this.muted = true;" playsinline muted loop poster="/img/video/video-03.jpg">
+									<source src="/img/video/video-03.mp4">
+								</video>
+								<div class="overlay" (click)="togglePlay($event)"></div>
+								<div class="btn--play" [class]="{ playing: playing }">
+									<svg class="icon icon--play-progress-background"><use xlink:href="#play-progress"></use></svg>
+									<svg class="icon icon--play-progress" viewBox="0 0 196 196">
+										<path xmlns="http://www.w3.org/2000/svg" stroke-width="2px" stroke-dasharray="1" stroke-dashoffset="1" pathLength="1" stroke-linecap="square" d="M195.5,98c0,53.8-43.7,97.5-97.5,97.5S0.5,151.8,0.5,98S44.2,0.5,98,0.5S195.5,44.2,195.5,98z"/>
+									</svg>
+									<svg class="icon icon--play" *if="!playing"><use xlink:href="#play"></use></svg>
+									<svg class="icon icon--play" *if="playing"><use xlink:href="#pause"></use></svg>
+								</div>
+							</div>
+							<div class="content">
+								<div class="title"><b>3895G</b> Gruppo di miscelazione per impianti radianti</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="swiper-button-prev swiper-button-white"></div>
+		<div class="swiper-button-next swiper-button-white"></div>
+		<div class="swiper-pagination swiper-pagination-white"></div>
+	</div>
+</section>

@@ -7,8 +7,10 @@ import LazyDirective from './lazy/lazy.directive';
 import ProductMenuComponent from './product-menu/product-menu.component';
 import SpritesComponent from './sprites/sprites.component';
 import SrcDirective from './src/src.directive';
+import SwiperListingDirective from './swiper/swiper-listing.directive';
 import SwiperSlidesDirective from './swiper/swiper-slides.directive';
 import SwiperDirective from './swiper/swiper.directive';
+import VideoComponent from './video/video.component';
 
 export default class AppModule extends Module {}
 
@@ -25,7 +27,9 @@ AppModule.meta = {
 		SpritesComponent,
 		SrcDirective,
 		SwiperDirective,
+		SwiperListingDirective,
 		SwiperSlidesDirective,
+		VideoComponent,
 	],
 	bootstrap: AppComponent,
 };

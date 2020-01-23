@@ -1,0 +1,38 @@
+.section--listing {
+	padding: 0 0 80px 0;
+	background: rgb(255, 255, 255);
+	background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(185, 189, 205, 1) 100%);
+	// filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#b9bdcd',GradientType=0 );
+}
+
+.section--news {
+	padding: 80px 0;
+
+	.listing--news {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+
+		.card--news {
+			max-width: 40.17857%;
+			flex: 1 1 40.17857%;
+		}
+	}
+}
+
+.section--products {
+	padding: 80px 0;
+
+	.listing--products {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+
+		.card--product {
+			max-width: 40.17857%;
+			flex: 1 1 40.17857%;
+			margin-bottom: 80px;
+			z-index: 1;
+		}
+	}
+}

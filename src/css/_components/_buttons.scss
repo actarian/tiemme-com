@@ -38,43 +38,75 @@ button,
 	@extend %btn;
 }
 
-.btn--primary {
+.btn--link {
 	@extend %btn;
 	display: inline-block;
 
-	&:hover,
-	&:focus {
+	span {
+		display: inline-block;
+		padding: 4px;
+		font-size: 16px;
+		line-height: 1;
+		font-weight: $font-semibold;
+		border: none;
+		transition: all ease-in-out .2s;
+	}
 
+	&,
+	&:active,
+	&:visited {
 		span {
-			color: #fff;
-			border-color: $foreground-primary;
-			background: $foreground-primary;
+			color: $foreground;
 			transition: all ease-in-out .2s;
 		}
 	}
 
-	span {
-		display: inline-block;
-		padding: 15px 50px;
-		font-size: 13px;
-		font-weight: $font-regular;
-		color: $foreground-primary;
-		border: 2px solid $foreground-primary;
-		border-radius: 500px;
-		transition: all ease-in-out .2s;
-		font-family: $font-primary;
+	&:focus,
+	&:hover {
+		span {
+			background: $background-secondary;
+			color: $foreground;
+		}
 	}
 
-	b {
+	@include media-breakpoint-down(xs) {
+		display: block;
+	}
+}
+
+.btn--category {
+	@extend %btn;
+	display: inline-block;
+
+	span {
+		display: inline-block;
+		padding: 8px 16px;
+		font-size: 16px;
+		line-height: 1;
 		font-weight: $font-semibold;
-		text-transform: uppercase;
+		border: none;
+		transition: all ease-in-out .2s;
+	}
+
+	&,
+	&:active,
+	&:visited {
+		span {
+			background: $background-secondary;
+			color: $foreground;
+			transition: all ease-in-out .2s;
+		}
+	}
+
+	&:focus,
+	&:hover {
+		span {
+			background: $background-negative;
+			color: $foreground-negative;
+		}
 	}
 
 	.section--negative & {
-		span {
-			color: $foreground-negative;
-			border-color: $foreground-negative;
-		}
 
 		&,
 		&:active,
@@ -82,8 +114,8 @@ button,
 		&:hover,
 		&:visited {
 			span {
+				background: $background-negative;
 				color: $foreground-negative;
-				border-color: $foreground-negative;
 			}
 		}
 	}
@@ -93,51 +125,25 @@ button,
 	}
 }
 
-.btn--secondary {
-	@extend %btn;
-	display: inline-block;
-
-	span {
-		display: inline-block;
-		padding: 15px 50px;
-		text-transform: uppercase;
-		font-size: 13px;
-		font-weight: $font-semibold;
-		color: #fff;
-		background: $foreground-primary;
-		border-radius: 50px;
-		font-family: $font-primary;
+.btn--zoom {
+	.icon--search {
+		width: 20px;
+		height: 20px;
 	}
 
-	&,
-	&:active,
-	&:focus,
-	&:hover,
-	&:visited {
-		span {
-			color: #fff;
-		}
+	.icon--close {
+		width: 20px;
+		height: 20px;
+	}
+}
+
+.btn--wishlist {
+	.icon--wishlist {
+		width: 25px;
+		height: 22px;
 	}
 
-	.section--negative & {
-		span {
-			color: $foreground-negative;
-			border-color: $foreground-negative;
-		}
-
-		&,
-		&:active,
-		&:focus,
-		&:hover,
-		&:visited {
-			span {
-				color: $foreground-negative;
-				border-color: $foreground-negative;
-			}
-		}
-	}
-
-	@include media-breakpoint-down(xs) {
-		display: block;
+	.icon--wishlist+span {
+		margin-left: 10px;
 	}
 }

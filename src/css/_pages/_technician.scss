@@ -1,0 +1,35 @@
+.section--technician {
+	padding: 80px 0 0 0;
+	background: rgb(255, 255, 255);
+	background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(185, 189, 205, 1) 100%);
+	// filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#b9bdcd',GradientType=0 );
+
+	.row {
+		align-items: flex-end;
+	}
+
+	.picture--technician {
+		margin: 0 auto;
+		width: 310px;
+		height: 550px;
+		background: transparent;
+	}
+
+	.category {
+		@extend %category;
+		margin-bottom: 20px;
+	}
+
+	.title {
+		@extend %title;
+		margin-bottom: 30px;
+	}
+
+	.abstract {
+		@extend %abstract;
+	}
+
+	.group--cta {
+		margin-bottom: 80px;
+	}
+}

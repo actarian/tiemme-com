@@ -12,8 +12,8 @@ $grid-breakpoints: (xs: 0,
 $container-max-widths: (sm: calc(100vw - 40px),
 	md: calc(100vw - 160px),
 	lg: calc(100vw - 160px),
-	xl: 1120px) !default; // calc(100vw - 300px)) !default;
+	xl: 1600px) !default; // calc(100vw - 300px)) !default;
 $container-fluid-max-widths: (sm: calc(100vw - 80px),
 	md: calc(100vw - 120px),
 	lg: calc(100vw - 160px),
-	xl: calc(100vw - 200px)) !default; // calc(100vw - 300px)) !default;
+	xl: 2000px) !default; // calc(100vw - 300px)) !default;

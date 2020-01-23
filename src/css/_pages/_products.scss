@@ -1,0 +1,50 @@
+.section--product {
+	position: absolute;
+	top: 0;
+	width: 100%;
+}
+
+.icon--background {
+	position: absolute;
+	width: 30vw;
+	height: 30vw;
+	right: 0;
+	fill: rgba(#16255b, 0.1);
+	margin-top: 150px;
+}
+
+.section--products {
+
+	&>.container>.title {
+		font-family: $font-secondary;
+		font-size: 20px;
+		line-height: 1;
+		font-weight: $font-medium;
+		text-align: center;
+		text-transform: uppercase;
+		margin: 40px 0;
+	}
+
+}
+
+.section--text-picture {
+
+	.picture--product {
+		box-shadow: 0 20px 20px -5px rgba(0, 0, 0, 0.2);
+	}
+
+	&.section--intro {
+		.row {
+			align-items: center;
+		}
+	}
+
+	&:not(.section--intro) {
+		margin-top: -80px;
+
+		.abstract {
+			padding-top: 160px;
+		}
+	}
+
+}

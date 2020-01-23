@@ -21,3 +21,8 @@ body {
 	-webkit-touch-callout: none;
 	user-select: none;
 }
+
+[if],
+[for] {
+	display: none;
+}

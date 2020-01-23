@@ -14,9 +14,15 @@
 @import '_components/hero';
 @import '_components/navs';
 @import '_components/swiper';
+@import '_components/media';
+
+@import '_components/cards';
 
 @import '_components/responsive';
 
-@import '_pages/index';
 @import '_pages/header';
 @import '_pages/footer';
+@import '_pages/listing';
+@import '_pages/index';
+@import '_pages/products';
+@import '_pages/technician';

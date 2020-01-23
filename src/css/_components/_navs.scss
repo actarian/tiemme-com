@@ -129,10 +129,13 @@ ul {
 
 	&>li {
 		position: relative;
+		flex: 0 1 auto;
 
 		&>a,
 		&>span {
-			padding: 0 40px;
+			justify-content: space-between;
+
+			padding: 0 20px 0 40px;
 			height: 68px;
 			line-height: 68px;
 			font-size: 24px;
@@ -146,11 +149,24 @@ ul {
 			background: $background-negative;
 			color: $foreground-negative;
 
-			.icon {
+			span {
+				flex: 1 1 auto;
+			}
+
+			.icon:first-child {
 				margin-left: -30px;
 				margin-right: 10px;
 				width: 40px;
 				height: 40px;
+				fill: $foreground-negative;
+				transition: ease-in-out 350ms;
+				transition-property: fill;
+			}
+
+			.icon--caret-down {
+				width: 8px;
+				height: 5px;
+				margin-left: 10px;
 				fill: $foreground-negative;
 				transition: ease-in-out 350ms;
 				transition-property: fill;
@@ -165,10 +181,20 @@ ul {
 					fill: $foreground;
 				}
 			}
+
+			&.empty {
+
+				span,
+				.icon {
+					opacity: 0.5;
+				}
+			}
+
 		}
 
 		&.group--search {
 			@extend %nav-item;
+			flex: 1 1 auto;
 			margin-left: 5px;
 			background: rgba(#16255b, 0.6);
 
@@ -214,6 +240,12 @@ ul {
 			top: 0;
 			z-index: 1;
 			background: rgba(white, 0.15);
+		}
+	}
+
+	&.nav--product--primary {
+		&>li {
+			flex: 1 1 auto;
 		}
 	}
 }
@@ -362,7 +394,6 @@ ul {
 }
 
 .dropdown {
-
 	position: absolute;
 	max-height: 350px;
 	top: -22px;
@@ -385,6 +416,12 @@ ul {
 		text-transform: uppercase;
 		line-height: 1;
 		color: black;
+	}
+
+	&--with-icons {
+		&>.category {
+			padding: 0 40px 0 60px;
+		}
 	}
 }
 
@@ -433,6 +470,17 @@ ul {
 			animation-name: nav-dropdown;
 			animation-duration: 350ms;
 			animation-fill-mode: forwards;
+
+			.icon:first-child {
+				margin-left: -30px;
+				margin-right: 10px;
+				width: 40px;
+				height: 40px;
+				fill: $foreground;
+				transition: ease-in-out 350ms;
+				transition-property: fill;
+			}
+
 		}
 	}
 

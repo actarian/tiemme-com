@@ -27,11 +27,10 @@
 	width: 100%;
 	overflow: hidden;
 
-	img,
-	svg,
-	video,
-	canvas,
-	ng-transclude {
+	&>img,
+	&>svg,
+	&>video,
+	&>canvas {
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -51,11 +50,10 @@
 	padding-top: 100% / $w * $h;
 	overflow: hidden;
 
-	img,
-	svg,
-	video,
-	canvas,
-	ng-transclude {
+	&>img,
+	&>svg,
+	&>video,
+	&>canvas {
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -71,11 +69,10 @@
 	padding-top: 100% / $w * $h;
 	overflow: hidden;
 
-	img,
-	svg,
-	video,
-	canvas,
-	ng-transclude {
+	&>img,
+	&>svg,
+	&>video,
+	&>canvas {
 		position: absolute;
 		bottom: 10px;
 		left: 0;

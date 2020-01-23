@@ -1,0 +1,67 @@
+<!-- header -->
+<header class="section--header">
+	<div class="container-fluid">
+		<!-- menu -->
+		<div class="dropdown--menu" *if="menu == 'main'">
+			<!-- menu liv 1 -->
+			<ul class="nav--menu">
+				<li>
+					<a href="#">Azienda</a>
+				</li>
+				<li (dropdown)="onDropdown($event)" dropdown-id="1000" dropdown-target="span">
+					<span>Prodotti <svg class="icon icon--caret-right"><use xlink:href="#caret-right"></use></svg></span>
+				</li>
+				<li>
+					<a href="#">Media</a>
+				</li>
+				<li (dropdown)="onDropdown($event)" dropdown-id="1003" dropdown-target="span">
+					<span>Comunicazione <svg class="icon icon--caret-right"><use xlink:href="#caret-right"></use></svg></span>
+				</li>
+				<li>
+					<a href="#">Contatti</a>
+				</li>
+			</ul>
+			<!-- menu liv 2 -->
+			<ul class="nav--menu" *if="dropdownId == 1000">
+				<li><a href="/product-radiant.html">Componenti Idraulici</a></li>
+				<li><a href="/product-radiant.html">Rubinetti</a></li>
+				<li><a href="/product-radiant.html">Sistemi radianti</a></li>
+				<li><a href="/product-radiant.html">Centrale Termica</a></li>
+			</ul>
+			<ul class="nav--menu" *if="dropdownId == 1003">
+				<li><a href="#">News</a></li>
+				<li><a href="#">Eventi e Fiere</a></li>
+				<li><a href="#">Il Tecnico Risponde</a></li>
+				<li><a href="#">Realizzazioni</a></li>
+			</ul>
+		</div>
+		<!-- club -->
+		<div class="dropdown--menu" *if="menu == 'club'">club</div>
+		<ul class="nav--header">
+			<li class="left">
+				<button type="button" class="btn--menu" [class]="{ active: menu == 'main' }" (click)="toggleMenu('main')"><span></span><span></span><span></span></button>
+			</li>
+			<li class="center">
+				<a href="/" class="brand"><img src="img/svg/logo.svg" title="Tiemme" /></a>
+			</li>
+			<li class="right">
+				<div class="group--language">
+					<button type="button" class="btn--languages" (dropdown)="onDropdown($event)" dropdown-id="1">
+						<svg class="icon icon--languages"><use xlink:href="#languages"></use></svg>
+						<span>IT</span>
+						<svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
+					</button>
+					<div class="dropdown" *if="dropdownId == 1">
+						<div class="category">Languages</div>
+						<ul class="nav--dropdown">
+							<li><a href="#">Italiano</a></li>
+							<li><a href="#">English</a></li>
+							<li><a href="#">Deutsch</a></li>
+						</ul>
+					</div>
+				</div>
+				<button type="button" class="btn--club" (click)="toggleMenu('club')"><span>Club Tiemme</span></button>
+			</li>
+		</ul>
+	</div>
+</header>

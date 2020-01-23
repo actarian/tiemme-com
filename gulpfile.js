@@ -6,7 +6,7 @@ const {
 	compile,
 	serve,
 	watch
-} = require('gulpfile-config');
+} = require('./gulpfile/gulpfile-config');
 
 exports.build = build;
 exports.bundle = bundle;

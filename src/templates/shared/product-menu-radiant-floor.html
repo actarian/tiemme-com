@@ -1,0 +1,81 @@
+<section class="section--product" product-menu>
+	<div class="container-fluid">
+		<ul class="nav--product">
+			<li>
+				<span (dropdown)="onDropdown($event)" dropdown-id="3001">
+					<svg class="icon icon--radiant"><use xlink:href="#radiant"></use></svg>
+					<span>Sistemi Radianti</span> <svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
+				</span>
+				<div class="dropdown dropdown--with-icons" *if="dropdownId == 3001">
+					<div class="category">Area</div>
+					<ul class="nav--dropdown">
+						<li>
+							<a href="/product-radiant.html">
+								<svg class="icon icon--valves"><use xlink:href="#valves"></use></svg>
+								<span>Componenti Idraulici</span>
+							</a>
+						</li>
+						<li>
+							<a href="/product-radiant.html">
+								<svg class="icon icon--taps"><use xlink:href="#taps"></use></svg>
+								<span>Rubinetti</span>
+							</a>
+						</li>
+						<li>
+							<a href="/product-radiant.html">
+								<svg class="icon icon--radiant"><use xlink:href="#radiant"></use></svg>
+								<span>Sistemi Radianti</span>
+							</a>
+						</li>
+						<li>
+							<a href="/product-radiant.html">
+								<svg class="icon icon--thermo"><use xlink:href="#thermo"></use></svg>
+								<span>Centrale Termica</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</li>
+			<li>
+				<span (dropdown)="onDropdown($event)" dropdown-id="3002">
+					<span>Sistemi radianti a pavimento</span> <svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
+				</span>
+				<div class="dropdown" *if="dropdownId == 3002">
+					<div class="category">Catalogo</div>
+					<ul class="nav--dropdown">
+						<li><a href="/product-radiant-floor.html">Sistemi radianti a pavimento</a></li>
+						<li><a href="/product-radiant-floor.html">Sistemi radianti a parete e soffitto</a></li>
+						<li><a href="/product-radiant-floor.html">Collettori di distribuzione e gruppi di miscelazione</a></li>
+						<li><a href="/product-radiant-floor.html">Trattamento aria</a></li>
+						<li><a href="/product-radiant-floor.html">Componenti</a></li>
+					</ul>
+				</div>
+			</li>
+			<li>
+				<span class="empty" (dropdown)="onDropdown($event)" dropdown-id="3003">
+					<span>Soluzioni</span> <svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
+				</span>
+				<div class="dropdown" *if="dropdownId == 3003">
+					<div class="category">Soluzioni</div>
+					<ul class="nav--dropdown">
+						<li><a href="/product-radiant-floor-graphite.html">Soluzione NEW CLASSIC GRAPHITE</a></li>
+						<li><a href="/product-radiant-floor-graphite.html">Soluzione TECHNO GRAPHITE</a></li>
+						<li><a href="/product-radiant-floor-graphite.html">Soluzione CLIP GRAPHITE</a></li>
+						<li><a href="/product-radiant-floor-graphite.html">Soluzione CLIP SUPER</a></li>
+						<li><a href="/product-radiant-floor-graphite.html">Soluzione SUGHERO</a></li>
+						<li><a href="/product-radiant-floor-graphite.html">Soluzione SILENTO</a></li>
+						<li><a href="/product-radiant-floor-graphite.html">Soluzione LOW BLACK</a></li>
+						<li><a href="/product-radiant-floor-graphite.html">Soluzione DRY</a></li>
+						<li><a href="/product-radiant-floor-graphite.html">Soluzione TIEMME SLIM</a></li>
+						<li><a href="/product-radiant-floor-graphite.html">Soluzione STRONG RAIL</a></li>
+						<li><a href="/product-radiant-floor-graphite.html">Soluzione STRONG NET</a></li>
+						<li><a href="/product-radiant-floor-graphite.html">Accessori</a></li>
+					</ul>
+				</div>
+			</li>
+			<li class="group--search">
+				<svg class="icon icon--search"><use xlink:href="#search"></use></svg> <input class="form--control" placeholder="cerca un prodotto..." />
+			</li>
+		</ul>
+	</div>
+</section>

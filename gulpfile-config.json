@@ -2,6 +2,10 @@
 	"targets": {
 		"browser": {
 			"compile": [{
+				"input": "src/*.html",
+				"output": "docs/",
+				"minify": true
+			}, {
 				"input": "src/css/main.scss",
 				"output": "docs/css/main.css",
 				"minify": true

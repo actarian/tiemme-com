@@ -468,34 +468,6 @@
     inputs: ['src']
   };
 
-  var SWIPER_DEFAULT_OPTIONS = {
-    slidesPerView: 'auto',
-    spaceBetween: 0,
-    centeredSlides: true,
-    loop: false,
-    loopAdditionalSlides: 100,
-    speed: 600,
-    autoplay: {
-      delay: 5000
-    },
-    keyboardControl: true,
-    mousewheelControl: false,
-    onSlideClick: function onSlideClick(swiper) {// angular.element(swiper.clickedSlide).scope().clicked(angular.element(swiper.clickedSlide).scope().$index);
-    },
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true
-    },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev'
-    },
-    keyboard: {
-      enabled: true,
-      onlyInViewport: true
-    }
-  };
-
   var SwiperDirective =
   /*#__PURE__*/
   function (_Component) {
@@ -508,7 +480,25 @@
     var _proto = SwiperDirective.prototype;
 
     _proto.onInit = function onInit() {
-      this.options = SWIPER_DEFAULT_OPTIONS;
+      this.options = {
+        slidesPerView: 'auto',
+        spaceBetween: 0,
+        centeredSlides: true,
+        speed: 600,
+        autoplay: {
+          delay: 5000
+        },
+        keyboardControl: true,
+        mousewheelControl: false,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true
+        },
+        keyboard: {
+          enabled: true,
+          onlyInViewport: true
+        }
+      };
       this.init_();
     };
 
@@ -535,6 +525,8 @@
     _proto.init_ = function init_() {
       var _this = this;
 
+      this.events$ = new rxjs.Subject();
+
       if (this.enabled) {
         var _getContext = rxcomp.getContext(this),
             node = _getContext.node;
@@ -548,6 +540,8 @@
         on.slideChange = function () {
           var swiper = _this.swiper;
           _this.index = swiper.activeIndex;
+
+          _this.events$.next(_this.index);
 
           _this.pushChanges();
         };
@@ -632,35 +626,41 @@
     inputs: ['consumer']
   };
 
-  var SWIPER_SLIDES_OPTIONS = {
-    slidesPerView: 1,
-    spaceBetween: 0,
-    centeredSlides: true,
-    loop: false,
-    loopAdditionalSlides: 100,
-    speed: 600,
+  var SwiperListingDirective =
+  /*#__PURE__*/
+  function (_SwiperDirective) {
+    _inheritsLoose(SwiperListingDirective, _SwiperDirective);
 
-    /*
-    autoplay: {
-    	delay: 5000,
-    },
-    */
-    keyboardControl: true,
-    mousewheelControl: false,
-    onSlideClick: function onSlideClick(swiper) {// angular.element(swiper.clickedSlide).scope().clicked(angular.element(swiper.clickedSlide).scope().$index);
-    },
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true
-    },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev'
-    },
-    keyboard: {
-      enabled: true,
-      onlyInViewport: true
+    function SwiperListingDirective() {
+      return _SwiperDirective.apply(this, arguments) || this;
     }
+
+    var _proto = SwiperListingDirective.prototype;
+
+    _proto.onInit = function onInit() {
+      this.options = {
+        slidesPerView: 'auto',
+        spaceBetween: 30,
+        speed: 600,
+        keyboardControl: true,
+        mousewheelControl: false,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true
+        },
+        keyboard: {
+          enabled: true,
+          onlyInViewport: true
+        }
+      };
+      this.init_();
+      console.log('SwiperListingDirective.onInit');
+    };
+
+    return SwiperListingDirective;
+  }(SwiperDirective);
+  SwiperListingDirective.meta = {
+    selector: '[swiper-listing]'
   };
 
   var SwiperSlidesDirective =
@@ -675,7 +675,36 @@
     var _proto = SwiperSlidesDirective.prototype;
 
     _proto.onInit = function onInit() {
-      this.options = SWIPER_SLIDES_OPTIONS;
+      this.options = {
+        slidesPerView: 3,
+        spaceBetween: 0,
+        centeredSlides: true,
+        loop: false,
+        loopAdditionalSlides: 100,
+        speed: 600,
+
+        /*
+        autoplay: {
+            delay: 5000,
+        },
+        */
+        keyboardControl: true,
+        mousewheelControl: false,
+        onSlideClick: function onSlideClick(swiper) {// angular.element(swiper.clickedSlide).scope().clicked(angular.element(swiper.clickedSlide).scope().$index);
+        },
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        },
+        keyboard: {
+          enabled: true,
+          onlyInViewport: true
+        }
+      };
       this.init_();
     };
 
@@ -683,6 +712,177 @@
   }(SwiperDirective);
   SwiperSlidesDirective.meta = {
     selector: '[swiper-slides]'
+  };
+
+  function push_(event) {
+    var dataLayer = window.dataLayer || [];
+    dataLayer.push(event);
+    console.log('GtmService.dataLayer', event);
+  }
+
+  var GtmService =
+  /*#__PURE__*/
+  function () {
+    function GtmService() {}
+
+    GtmService.push = function push(event) {
+      return push_(event);
+    };
+
+    return GtmService;
+  }();
+
+  var VideoComponent =
+  /*#__PURE__*/
+  function (_Component) {
+    _inheritsLoose(VideoComponent, _Component);
+
+    function VideoComponent() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = VideoComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      var _this = this;
+
+      this.item = {};
+
+      var _getContext = rxcomp.getContext(this),
+          node = _getContext.node,
+          parentInstance = _getContext.parentInstance;
+
+      this.video = node.querySelector('video');
+      this.progress = node.querySelector('.icon--play-progress path');
+
+      if (parentInstance instanceof SwiperDirective) {
+        console.log(parentInstance);
+        parentInstance.events$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (event) {
+          return _this.pause();
+        });
+      }
+
+      this.addListeners();
+    };
+
+    _proto.onDestroy = function onDestroy() {
+      this.removeListeners();
+    };
+
+    _proto.addListeners = function addListeners() {
+      var video = this.video;
+
+      if (video) {
+        this.onPlay = this.onPlay.bind(this);
+        this.onPause = this.onPause.bind(this);
+        this.onEnded = this.onEnded.bind(this);
+        this.onTimeUpdate = this.onTimeUpdate.bind(this);
+        video.addEventListener('play', this.onPlay);
+        video.addEventListener('pause', this.onPause);
+        video.addEventListener('ended', this.onEnded);
+        video.addEventListener('timeupdate', this.onTimeUpdate);
+      }
+    };
+
+    _proto.removeListeners = function removeListeners() {
+      var video = this.video;
+
+      if (video) {
+        video.removeEventListener('play', this.onPlay);
+        video.removeEventListener('pause', this.onPause);
+        video.removeEventListener('ended', this.onEnded);
+        video.removeEventListener('timeupdate', this.onTimeUpdate);
+      }
+    };
+
+    _proto.togglePlay = function togglePlay() {
+      console.log('VideoComponent.togglePlay');
+      var video = this.video;
+
+      if (video) {
+        if (video.paused) {
+          this.play();
+        } else {
+          this.pause();
+        }
+      }
+    };
+
+    _proto.play = function play() {
+      var video = this.video;
+      video.muted = false;
+      video.play();
+    };
+
+    _proto.pause = function pause() {
+      var video = this.video;
+      video.muted = true;
+      video.pause();
+    };
+
+    _proto.onPlay = function onPlay() {
+      this.playing = true;
+      GtmService.push({
+        event: 'video play',
+        video_name: this.video.src
+      });
+    };
+
+    _proto.onPause = function onPause() {
+      this.playing = false;
+    };
+
+    _proto.onEnded = function onEnded() {
+      this.playing = false;
+    };
+
+    _proto.onTimeUpdate = function onTimeUpdate() {
+      this.progress.style.strokeDashoffset = this.video.currentTime / this.video.duration;
+    };
+
+    _createClass(VideoComponent, [{
+      key: "playing",
+      get: function get() {
+        return this.playing_;
+      },
+      set: function set(playing) {
+        if (this.playing_ !== playing) {
+          this.playing_ = playing;
+          this.pushChanges();
+        }
+      }
+    }]);
+
+    return VideoComponent;
+  }(rxcomp.Component);
+  VideoComponent.meta = {
+    selector: '[video]',
+    inputs: ['item']
+    /*
+    template: `
+    <div class="media">
+    	<transclude></transclude>
+    </div>
+    <div class="overlay" (click)="togglePlay($event)"></div>
+    <div class="btn--play" [class]="{ playing: playing }">
+    	<svg class="icon icon--play-progress-background"><use xlink:href="#play-progress"></use></svg>
+    	<svg class="icon icon--play-progress" viewBox="0 0 196 196">
+    		<path xmlns="http://www.w3.org/2000/svg" stroke-width="2px" stroke-dasharray="1" stroke-dashoffset="1" pathLength="1" stroke-linecap="square" d="M195.5,98c0,53.8-43.7,97.5-97.5,97.5S0.5,151.8,0.5,98S44.2,0.5,98,0.5S195.5,44.2,195.5,98z"/>
+    	</svg>
+    	<svg class="icon icon--play" *if="!playing"><use xlink:href="#play"></use></svg>
+    	<svg class="icon icon--play" *if="playing"><use xlink:href="#pause"></use></svg>
+    </div><div class="btn--pinterest" (click)="onPin()" *if="onPin">
+    <svg class="icon icon--pinterest"><use xlink:href="#pinterest"></use></svg>
+    </div>
+    <div class="btn--wishlist" [class]="{ active: wishlistActive, activated: wishlistActivated, deactivated: wishlistDeactivated }" (click)="onClickWishlist($event)">
+    	<svg class="icon icon--wishlist" *if="!wishlistActive"><use xlink:href="#wishlist"></use></svg>
+    	<svg class="icon icon--wishlist" *if="wishlistActive"><use xlink:href="#wishlist-added"></use></svg>
+    </div>
+    <div class="btn--zoom" (click)="onClickZoom($event)">
+    	<svg class="icon icon--zoom"><use xlink:href="#zoom"></use></svg>
+    </div>`
+    */
+
   };
 
   var AppModule =
@@ -698,7 +898,7 @@
   }(rxcomp.Module);
   AppModule.meta = {
     imports: [rxcomp.CoreModule],
-    declarations: [AppearDirective, DropdownDirective, HeaderComponent, LazyDirective, ProductMenuComponent, SpritesComponent, SrcDirective, SwiperDirective, SwiperSlidesDirective],
+    declarations: [AppearDirective, DropdownDirective, HeaderComponent, LazyDirective, ProductMenuComponent, SpritesComponent, SrcDirective, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, VideoComponent],
     bootstrap: AppComponent
   };
 

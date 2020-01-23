@@ -17,7 +17,6 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: flex-end;
-		align-items: center;
 		padding-bottom: 150px;
 	}
 
@@ -58,14 +57,24 @@
 
 %section--hero-title {
 
+	.category {
+		font-family: $font-secondary;
+		font-size: 20px;
+		line-height: 1.2;
+		font-weight: $font-medium;
+		margin-bottom: 15px;
+		color: $foreground-negative;
+		text-transform: uppercase;
+	}
+
 	.title {
+		font-family: $font-secondary;
 		font-size: 70px;
 		line-height: 40px;
 		font-weight: $font-medium;
 		margin-bottom: 15px;
 		color: $foreground-negative;
 		text-transform: uppercase;
-		font-family: $font-secondary;
 
 		small {
 			font-size: 50px;
@@ -77,19 +86,20 @@
 		line-height: 31px;
 		font-weight: $font-light;
 		color: $foreground-negative;
+		max-width: 960px;
 	}
 
 	@media print {
+
+		.category {
+			color: $foreground;
+		}
 
 		.title {
 			color: $foreground;
 		}
 
 		.abstract {
-			color: $foreground;
-		}
-
-		.category {
 			color: $foreground;
 		}
 
