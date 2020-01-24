@@ -126,6 +126,7 @@
 
 %swiper-slides {
 	@extend %swiper;
+	overflow: visible;
 
 	.swiper-slide {
 		.inner {
@@ -184,7 +185,6 @@
 
 	[swiper-listing] {
 		@extend %swiper-slides;
-		overflow: visible;
 
 		.swiper-slide {
 			width: 33%;

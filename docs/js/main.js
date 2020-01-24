@@ -26,6 +26,55 @@
     return Constructor;
   }
 
+  function _defineProperty(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+
+    return obj;
+  }
+
+  function ownKeys(object, enumerableOnly) {
+    var keys = Object.keys(object);
+
+    if (Object.getOwnPropertySymbols) {
+      var symbols = Object.getOwnPropertySymbols(object);
+      if (enumerableOnly) symbols = symbols.filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      });
+      keys.push.apply(keys, symbols);
+    }
+
+    return keys;
+  }
+
+  function _objectSpread2(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i] != null ? arguments[i] : {};
+
+      if (i % 2) {
+        ownKeys(Object(source), true).forEach(function (key) {
+          _defineProperty(target, key, source[key]);
+        });
+      } else if (Object.getOwnPropertyDescriptors) {
+        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+      } else {
+        ownKeys(Object(source)).forEach(function (key) {
+          Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+        });
+      }
+    }
+
+    return target;
+  }
+
   function _inheritsLoose(subClass, superClass) {
     subClass.prototype = Object.create(superClass.prototype);
     subClass.prototype.constructor = subClass;
@@ -531,7 +580,7 @@
         var _getContext = rxcomp.getContext(this),
             node = _getContext.node;
 
-        TweenMax.set(node, {
+        gsap.set(node, {
           opacity: 0
         });
         this.index = 0;
@@ -581,7 +630,7 @@
             on.init = function () {
               var _this2 = this;
 
-              TweenMax.to(node, 0.4, {
+              gsap.to(node, 0.4, {
                 opacity: 1,
                 ease: Power2.easeOut
               });
@@ -595,7 +644,7 @@
             on.init.swiperDirectiveInit = true;
           }
 
-          TweenMax.set(node, {
+          gsap.set(node, {
             opacity: 1
           });
           swiper = new Swiper(node, this.options);
@@ -885,6 +934,117 @@
 
   };
 
+  var ZoomableDirective =
+  /*#__PURE__*/
+  function (_Directive) {
+    _inheritsLoose(ZoomableDirective, _Directive);
+
+    function ZoomableDirective() {
+      return _Directive.apply(this, arguments) || this;
+    }
+
+    var _proto = ZoomableDirective.prototype;
+
+    _proto.onInit = function onInit() {
+      var _this = this;
+
+      var _getContext = rxcomp.getContext(this),
+          node = _getContext.node;
+
+      var target = node.getAttribute('zoomable') !== '' ? node.querySelectorAll(node.getAttribute('zoomable')) : node;
+      rxjs.fromEvent(target, 'click').pipe(operators.map(function ($event) {
+        return _this.zoom = !_this.zoom;
+      }), operators.takeUntil(this.unsubscribe$)).subscribe(function (zoom) {
+        return console.log('ZoomableDirective', zoom);
+      });
+    };
+
+    _proto.zoomIn = function zoomIn() {
+      var _getContext2 = rxcomp.getContext(this),
+          node = _getContext2.node;
+
+      this.rect = node.getBoundingClientRect();
+      this.parentNode = node.parentNode;
+      document.querySelector('body').appendChild(node);
+      gsap.set(node, {
+        left: this.rect.left,
+        top: this.rect.top,
+        width: this.rect.width,
+        height: this.rect.height,
+        position: 'fixed'
+      });
+      node.classList.add('zoom');
+      gsap.set(node, {
+        position: 'fixed'
+      });
+      var to = {
+        left: 0,
+        top: 0,
+        width: window.innerWidth,
+        height: window.innerHeight
+      };
+      gsap.to(node, _objectSpread2({}, to, {
+        duration: 0.7,
+        ease: Power3.easeInOut,
+        onComplete: function onComplete() {
+          node.classList.add('zoomed');
+        }
+      }));
+    };
+
+    _proto.zoomOut = function zoomOut() {
+      var _this2 = this;
+
+      var _getContext3 = rxcomp.getContext(this),
+          node = _getContext3.node;
+
+      node.classList.remove('zoomed');
+      var to = {
+        left: this.rect.left,
+        top: this.rect.top,
+        width: this.rect.width,
+        height: this.rect.height
+      };
+      gsap.to(node, _objectSpread2({}, to, {
+        duration: 0.7,
+        ease: Power3.easeInOut,
+        onComplete: function onComplete() {
+          _this2.parentNode.appendChild(node);
+
+          gsap.set(node, {
+            clearProps: 'all'
+          });
+          node.classList.remove('zoom');
+          _this2.parentNode = null;
+          _this2.rect = null;
+        }
+      }));
+    };
+
+    _createClass(ZoomableDirective, [{
+      key: "zoom",
+      get: function get() {
+        return this.zoom_;
+      },
+      set: function set(zoom) {
+        if (this.zoom_ !== zoom) {
+          this.zoom_ = zoom;
+
+          if (zoom) {
+            this.zoomIn();
+          } else {
+            this.zoomOut();
+          }
+        }
+      }
+    }]);
+
+    return ZoomableDirective;
+  }(rxcomp.Directive);
+  ZoomableDirective.meta = {
+    selector: '[zoomable]'
+  };
+
   var AppModule =
   /*#__PURE__*/
   function (_Module) {
@@ -898,7 +1058,7 @@
   }(rxcomp.Module);
   AppModule.meta = {
     imports: [rxcomp.CoreModule],
-    declarations: [AppearDirective, DropdownDirective, HeaderComponent, LazyDirective, ProductMenuComponent, SpritesComponent, SrcDirective, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, VideoComponent],
+    declarations: [AppearDirective, DropdownDirective, HeaderComponent, LazyDirective, ProductMenuComponent, SpritesComponent, SrcDirective, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, VideoComponent, ZoomableDirective],
     bootstrap: AppComponent
   };
 

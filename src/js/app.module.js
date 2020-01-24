@@ -11,6 +11,7 @@ import SwiperListingDirective from './swiper/swiper-listing.directive';
 import SwiperSlidesDirective from './swiper/swiper-slides.directive';
 import SwiperDirective from './swiper/swiper.directive';
 import VideoComponent from './video/video.component';
+import ZoomableDirective from './zoomable/zoomable.directive';
 
 export default class AppModule extends Module {}
 
@@ -30,6 +31,7 @@ AppModule.meta = {
 		SwiperListingDirective,
 		SwiperSlidesDirective,
 		VideoComponent,
+		ZoomableDirective,
 	],
 	bootstrap: AppComponent,
 };

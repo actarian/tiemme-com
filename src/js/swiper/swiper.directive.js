@@ -54,7 +54,7 @@ export default class SwiperDirective extends Component {
 		this.events$ = new Subject();
 		if (this.enabled) {
 			const { node } = getContext(this);
-			TweenMax.set(node, { opacity: 0 });
+			gsap.set(node, { opacity: 0 });
 			this.index = 0;
 			const on = this.options.on || {};
 			on.slideChange = () => {
@@ -93,7 +93,7 @@ export default class SwiperDirective extends Component {
 				const callback = on.init;
 				if (!on.init || !on.init.swiperDirectiveInit) {
 					on.init = function() {
-						TweenMax.to(node, 0.4, {
+						gsap.to(node, 0.4, {
 							opacity: 1,
 							ease: Power2.easeOut,
 						});
@@ -105,7 +105,7 @@ export default class SwiperDirective extends Component {
 					};
 					on.init.swiperDirectiveInit = true;
 				}
-				TweenMax.set(node, { opacity: 1 });
+				gsap.set(node, { opacity: 1 });
 				swiper = new Swiper(node, this.options);
 				this.swiper = swiper;
 				this.swiper._opening = true;

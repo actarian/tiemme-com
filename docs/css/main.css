@@ -324,7 +324,7 @@ button,
     .container {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .container {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -337,7 +337,7 @@ button,
   @media (min-width: 1440px) {
     .container {
       max-width: calc(100vw - 160px); } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .container {
       max-width: 1600px; } }
 
@@ -359,7 +359,7 @@ button,
     .container-fluid {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .container-fluid {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -372,9 +372,9 @@ button,
   @media (min-width: 1440px) {
     .container-fluid {
       max-width: calc(100vw - 160px); } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .container-fluid {
-      max-width: 2000px; } }
+      max-width: 1800px; } }
 
 .row {
   display: -webkit-box;
@@ -397,7 +397,7 @@ button,
     .row {
       margin-right: -20px;
       margin-left: -20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .row {
       margin-right: -20px;
       margin-left: -20px; } }
@@ -434,7 +434,7 @@ button,
     .col-1 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-1 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -456,7 +456,7 @@ button,
     .col-2 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-2 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -478,7 +478,7 @@ button,
     .col-3 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-3 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -500,7 +500,7 @@ button,
     .col-4 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-4 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -522,7 +522,7 @@ button,
     .col-5 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-5 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -544,7 +544,7 @@ button,
     .col-6 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-6 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -566,7 +566,7 @@ button,
     .col-7 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-7 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -588,7 +588,7 @@ button,
     .col-8 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-8 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -610,7 +610,7 @@ button,
     .col-9 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-9 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -632,7 +632,7 @@ button,
     .col-10 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-10 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -654,7 +654,7 @@ button,
     .col-11 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-11 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -676,7 +676,7 @@ button,
     .col-12 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-12 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -702,7 +702,7 @@ button,
     .col-auto {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col,
     .col-auto {
       padding-right: 20px;
@@ -920,7 +920,7 @@ button,
     .col-sm-1 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-sm-1 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -942,7 +942,7 @@ button,
     .col-sm-2 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-sm-2 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -964,7 +964,7 @@ button,
     .col-sm-3 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-sm-3 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -986,7 +986,7 @@ button,
     .col-sm-4 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-sm-4 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -1008,7 +1008,7 @@ button,
     .col-sm-5 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-sm-5 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -1030,7 +1030,7 @@ button,
     .col-sm-6 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-sm-6 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -1052,7 +1052,7 @@ button,
     .col-sm-7 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-sm-7 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -1074,7 +1074,7 @@ button,
     .col-sm-8 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-sm-8 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -1096,7 +1096,7 @@ button,
     .col-sm-9 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-sm-9 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -1118,7 +1118,7 @@ button,
     .col-sm-10 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-sm-10 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -1140,7 +1140,7 @@ button,
     .col-sm-11 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-sm-11 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -1162,7 +1162,7 @@ button,
     .col-sm-12 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-sm-12 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -1188,7 +1188,7 @@ button,
     .col-sm-auto {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-sm,
     .col-sm-auto {
       padding-right: 20px;
@@ -1370,7 +1370,7 @@ button,
     .col-md-1 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-md-1 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -1392,7 +1392,7 @@ button,
     .col-md-2 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-md-2 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -1414,7 +1414,7 @@ button,
     .col-md-3 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-md-3 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -1436,7 +1436,7 @@ button,
     .col-md-4 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-md-4 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -1458,7 +1458,7 @@ button,
     .col-md-5 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-md-5 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -1480,7 +1480,7 @@ button,
     .col-md-6 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-md-6 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -1502,7 +1502,7 @@ button,
     .col-md-7 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-md-7 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -1524,7 +1524,7 @@ button,
     .col-md-8 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-md-8 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -1546,7 +1546,7 @@ button,
     .col-md-9 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-md-9 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -1568,7 +1568,7 @@ button,
     .col-md-10 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-md-10 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -1590,7 +1590,7 @@ button,
     .col-md-11 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-md-11 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -1612,7 +1612,7 @@ button,
     .col-md-12 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-md-12 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -1638,7 +1638,7 @@ button,
     .col-md-auto {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-md,
     .col-md-auto {
       padding-right: 20px;
@@ -1820,7 +1820,7 @@ button,
     .col-lg-1 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-lg-1 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -1842,7 +1842,7 @@ button,
     .col-lg-2 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-lg-2 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -1864,7 +1864,7 @@ button,
     .col-lg-3 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-lg-3 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -1886,7 +1886,7 @@ button,
     .col-lg-4 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-lg-4 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -1908,7 +1908,7 @@ button,
     .col-lg-5 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-lg-5 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -1930,7 +1930,7 @@ button,
     .col-lg-6 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-lg-6 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -1952,7 +1952,7 @@ button,
     .col-lg-7 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-lg-7 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -1974,7 +1974,7 @@ button,
     .col-lg-8 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-lg-8 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -1996,7 +1996,7 @@ button,
     .col-lg-9 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-lg-9 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -2018,7 +2018,7 @@ button,
     .col-lg-10 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-lg-10 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -2040,7 +2040,7 @@ button,
     .col-lg-11 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-lg-11 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -2062,7 +2062,7 @@ button,
     .col-lg-12 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-lg-12 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -2088,7 +2088,7 @@ button,
     .col-lg-auto {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-lg,
     .col-lg-auto {
       padding-right: 20px;
@@ -2270,7 +2270,7 @@ button,
     .col-xl-1 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-xl-1 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -2292,7 +2292,7 @@ button,
     .col-xl-2 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-xl-2 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -2314,7 +2314,7 @@ button,
     .col-xl-3 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-xl-3 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -2336,7 +2336,7 @@ button,
     .col-xl-4 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-xl-4 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -2358,7 +2358,7 @@ button,
     .col-xl-5 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-xl-5 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -2380,7 +2380,7 @@ button,
     .col-xl-6 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-xl-6 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -2402,7 +2402,7 @@ button,
     .col-xl-7 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-xl-7 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -2424,7 +2424,7 @@ button,
     .col-xl-8 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-xl-8 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -2446,7 +2446,7 @@ button,
     .col-xl-9 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-xl-9 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -2468,7 +2468,7 @@ button,
     .col-xl-10 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-xl-10 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -2490,7 +2490,7 @@ button,
     .col-xl-11 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-xl-11 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -2512,7 +2512,7 @@ button,
     .col-xl-12 {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-xl-12 {
       padding-right: 20px;
       padding-left: 20px; } }
@@ -2538,13 +2538,13 @@ button,
     .col-xl-auto {
       padding-right: 20px;
       padding-left: 20px; } }
-  @media (min-width: 1830px) {
+  @media (min-width: 1920px) {
     .col-xl,
     .col-xl-auto {
       padding-right: 20px;
       padding-left: 20px; } }
 
-@media (min-width: 1830px) {
+@media (min-width: 1920px) {
   .col-xl {
     -ms-flex-preferred-size: 0;
         flex-basis: 0;
@@ -2848,6 +2848,10 @@ button,
 .icon--bullet {
   width: 18px;
   height: 18px; }
+
+.icon--expand {
+  width: 29px;
+  height: 30px; }
 
 @media screen {
   [appear]:not(.print) {
@@ -3726,41 +3730,37 @@ ul {
     .section--hero .swiper-container-horizontal > [swiper] .swiper-pagination-bullets {
       bottom: 85px; } }
 
-.section--slides [swiper-slides] .swiper-slide .inner, .section--listing [swiper-listing] .swiper-slide .inner {
-  display: none;
-  position: relative;
-  width: 300%;
-  left: -100%;
-  -webkit-transition: all 700ms 0ms cubic-bezier(0.32, 0, 0.29, 0.99);
-  transition: all 700ms 0ms cubic-bezier(0.32, 0, 0.29, 0.99); }
-
-.section--slides [swiper-slides] .swiper-slide-active .inner, .section--listing [swiper-listing] .swiper-slide-active .inner {
-  display: block;
-  -webkit-transform: scale(1);
-          transform: scale(1); }
-
-.section--slides [swiper-slides] .swiper-slide-prev .inner, .section--listing [swiper-listing] .swiper-slide-prev .inner {
-  display: block;
-  -webkit-transform: scale(0.75);
-          transform: scale(0.75); }
-
-.section--slides [swiper-slides] .swiper-slide-next .inner, .section--listing [swiper-listing] .swiper-slide-next .inner {
-  display: block;
-  -webkit-transform: scale(0.75);
-          transform: scale(0.75); }
-
-.section--slides [swiper-slides] .swiper-slide-active, .section--listing [swiper-listing] .swiper-slide-active {
-  z-index: 1; }
+.section--slides [swiper-slides], .section--listing [swiper-listing] {
+  overflow: visible; }
+  .section--slides [swiper-slides] .swiper-slide .inner, .section--listing [swiper-listing] .swiper-slide .inner {
+    display: none;
+    position: relative;
+    width: 300%;
+    left: -100%;
+    -webkit-transition: all 700ms 0ms cubic-bezier(0.32, 0, 0.29, 0.99);
+    transition: all 700ms 0ms cubic-bezier(0.32, 0, 0.29, 0.99); }
+  .section--slides [swiper-slides] .swiper-slide-active .inner, .section--listing [swiper-listing] .swiper-slide-active .inner {
+    display: block;
+    -webkit-transform: scale(1);
+            transform: scale(1); }
+  .section--slides [swiper-slides] .swiper-slide-prev .inner, .section--listing [swiper-listing] .swiper-slide-prev .inner {
+    display: block;
+    -webkit-transform: scale(0.75);
+            transform: scale(0.75); }
+  .section--slides [swiper-slides] .swiper-slide-next .inner, .section--listing [swiper-listing] .swiper-slide-next .inner {
+    display: block;
+    -webkit-transform: scale(0.75);
+            transform: scale(0.75); }
+  .section--slides [swiper-slides] .swiper-slide-active, .section--listing [swiper-listing] .swiper-slide-active {
+    z-index: 1; }
 
 .section--slides {
   padding: 60px 0; }
   .section--slides__title {
     margin-bottom: 30px; }
 
-.section--listing [swiper-listing] {
-  overflow: visible; }
-  .section--listing [swiper-listing] .swiper-slide {
-    width: 33%; }
+.section--listing [swiper-listing] .swiper-slide {
+  width: 33%; }
 
 .btn--play {
   display: block;
@@ -3897,6 +3897,16 @@ ul {
 			// filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2619255a', endColorstr='#f219255a',GradientType=0 );
 		}
 	}
+	*/
+  /*
+	.swiper-slide-active & {
+
+		.content {
+			&>.abstract {
+				max-height: 150px;
+			}
+		}
+	}
 	*/ }
   .card--slide .picture {
     position: relative;
@@ -3922,7 +3932,9 @@ ul {
     width: 100%;
     height: 100%;
     background: -webkit-gradient(linear, left top, left bottom, from(rgba(25, 37, 90, 0.15)), to(rgba(25, 37, 90, 0.95)));
-    background: linear-gradient(to bottom, rgba(25, 37, 90, 0.15) 0%, rgba(25, 37, 90, 0.95) 100%); }
+    background: linear-gradient(to bottom, rgba(25, 37, 90, 0.15) 0%, rgba(25, 37, 90, 0.95) 100%);
+    -webkit-transform: translateZ(0);
+            transform: translateZ(0); }
   .card--slide .content {
     position: absolute;
     bottom: 0;
@@ -3945,15 +3957,36 @@ ul {
       font-weight: 300;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-height: 0;
-      -webkit-transition: all 700ms 0ms cubic-bezier(0.32, 0, 0.29, 0.99);
-      transition: all 700ms 0ms cubic-bezier(0.32, 0, 0.29, 0.99); }
+      max-height: 0; }
     .card--slide .content p {
       margin: 0; }
     .card--slide .content p + p {
       margin-top: 10px; }
-  .swiper-slide-active .card--slide .content > .abstract {
-    max-height: 150px; }
+  .card--slide .icon--expand {
+    fill: #ffffff;
+    -webkit-transition: -webkit-transform 350ms 700ms cubic-bezier(0.32, 0, 0.29, 0.99);
+    transition: -webkit-transform 350ms 700ms cubic-bezier(0.32, 0, 0.29, 0.99);
+    transition: transform 350ms 700ms cubic-bezier(0.32, 0, 0.29, 0.99);
+    transition: transform 350ms 700ms cubic-bezier(0.32, 0, 0.29, 0.99), -webkit-transform 350ms 700ms cubic-bezier(0.32, 0, 0.29, 0.99); }
+  .card--slide .title .icon--expand {
+    margin-left: 10px; }
+  .card--slide[zoomable] {
+    cursor: pointer; }
+    .card--slide[zoomable] > .icon--expand {
+      position: absolute;
+      top: 20px;
+      right: 20px; }
+    .card--slide[zoomable].zoom {
+      z-index: 10000; }
+      .card--slide[zoomable].zoom .icon--expand {
+        -webkit-transform: rotate(180deg);
+                transform: rotate(180deg); }
+      .card--slide[zoomable].zoom .picture {
+        height: 100%; }
+    .card--slide[zoomable].zoomed .content > .abstract {
+      -webkit-transition: all 700ms 150ms cubic-bezier(0.32, 0, 0.29, 0.99);
+      transition: all 700ms 150ms cubic-bezier(0.32, 0, 0.29, 0.99);
+      max-height: 50vh; }
 
 .card--product {
   position: relative;
@@ -4098,7 +4131,7 @@ ul {
   .hidden-md-up {
     display: none !important; } }
 
-@media (max-width: 1829.98px) {
+@media (max-width: 1919.98px) {
   .hidden-lg-down {
     display: none !important; } }
 
@@ -4109,7 +4142,7 @@ ul {
 .hidden-xl-down {
   display: none !important; }
 
-@media (min-width: 1830px) {
+@media (min-width: 1920px) {
   .hidden-xl-up {
     display: none !important; } }
 
