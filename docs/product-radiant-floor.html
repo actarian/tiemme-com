@@ -16,9 +16,9 @@
 	<meta name="msapplication-TileColor" content="#212121">
 	<meta name="theme-color" content="#ffffff">
 	<link href="https://fonts.googleapis.com/css?family=Barlow+Condensed:500|Hind+Madurai:300,400,600&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="css/vendors.css" />
-	<link rel="stylesheet" href="css/main.css" />
-	<link rel="shortcut icon" type="image/png" href="img/favicon.ico" />
+	<link rel="stylesheet" href="/css/vendors.css" />
+	<link rel="stylesheet" href="/css/main.css" />
+	<link rel="shortcut icon" type="image/png" href="/tiemme-com/img/favicon.ico" />
 </head>
 
 <!-- end head.html-->
@@ -152,10 +152,10 @@
 			</ul>
 			<!-- menu liv 2 -->
 			<ul class="nav--menu" *if="dropdownId == 1000">
-				<li><a href="/product-radiant.html">Componenti Idraulici</a></li>
-				<li><a href="/product-radiant.html">Rubinetti</a></li>
-				<li><a href="/product-radiant.html">Sistemi radianti</a></li>
-				<li><a href="/product-radiant.html">Centrale Termica</a></li>
+				<li><a href="/tiemme-com/product-radiant.html">Componenti Idraulici</a></li>
+				<li><a href="/tiemme-com/product-radiant.html">Rubinetti</a></li>
+				<li><a href="/tiemme-com/product-radiant.html">Sistemi radianti</a></li>
+				<li><a href="/tiemme-com/product-radiant.html">Centrale Termica</a></li>
 			</ul>
 			<ul class="nav--menu" *if="dropdownId == 1003">
 				<li><a href="#">News</a></li>
@@ -171,7 +171,7 @@
 				<button type="button" class="btn--menu" [class]="{ active: menu == 'main' }" (click)="toggleMenu('main')"><span></span><span></span><span></span></button>
 			</li>
 			<li class="center">
-				<a href="/" class="brand"><img src="img/svg/logo.svg" title="Tiemme" /></a>
+				<a href="/tiemme-com/" class="brand"><img src="/tiemme-com/img/svg/logo.svg" title="Tiemme" /></a>
 			</li>
 			<li class="right">
 				<div class="group--language">
@@ -200,7 +200,7 @@
 <!-- start main -->
 <section class="section--hero">
 	<div class="background">
-		<img lazy="/img/products/radiant-floor/hero.jpg" />
+		<img lazy="/tiemme-com/img/products/radiant-floor/hero.jpg" />
 	</div>
 	<div class="container">
 		<div class="row">
@@ -226,25 +226,25 @@
 					<div class="category">Area</div>
 					<ul class="nav--dropdown">
 						<li>
-							<a href="/product-radiant.html">
+							<a href="/tiemme-com/product-radiant.html">
 								<svg class="icon icon--valves"><use xlink:href="#valves"></use></svg>
 								<span>Componenti Idraulici</span>
 							</a>
 						</li>
 						<li>
-							<a href="/product-radiant.html">
+							<a href="/tiemme-com/product-radiant.html">
 								<svg class="icon icon--taps"><use xlink:href="#taps"></use></svg>
 								<span>Rubinetti</span>
 							</a>
 						</li>
 						<li>
-							<a href="/product-radiant.html">
+							<a href="/tiemme-com/product-radiant.html">
 								<svg class="icon icon--radiant"><use xlink:href="#radiant"></use></svg>
 								<span>Sistemi Radianti</span>
 							</a>
 						</li>
 						<li>
-							<a href="/product-radiant.html">
+							<a href="/tiemme-com/product-radiant.html">
 								<svg class="icon icon--thermo"><use xlink:href="#thermo"></use></svg>
 								<span>Centrale Termica</span>
 							</a>
@@ -259,11 +259,11 @@
 				<div class="dropdown" *if="dropdownId == 3002">
 					<div class="category">Catalogo</div>
 					<ul class="nav--dropdown">
-						<li><a href="/product-radiant-floor.html">Sistemi radianti a pavimento</a></li>
-						<li><a href="/product-radiant-floor.html">Sistemi radianti a parete e soffitto</a></li>
-						<li><a href="/product-radiant-floor.html">Collettori di distribuzione e gruppi di miscelazione</a></li>
-						<li><a href="/product-radiant-floor.html">Trattamento aria</a></li>
-						<li><a href="/product-radiant-floor.html">Componenti</a></li>
+						<li><a href="/tiemme-com/product-radiant-floor.html">Sistemi radianti a pavimento</a></li>
+						<li><a href="/tiemme-com/product-radiant-floor.html">Sistemi radianti a parete e soffitto</a></li>
+						<li><a href="/tiemme-com/product-radiant-floor.html">Collettori di distribuzione e gruppi di miscelazione</a></li>
+						<li><a href="/tiemme-com/product-radiant-floor.html">Trattamento aria</a></li>
+						<li><a href="/tiemme-com/product-radiant-floor.html">Componenti</a></li>
 					</ul>
 				</div>
 			</li>
@@ -274,18 +274,18 @@
 				<div class="dropdown" *if="dropdownId == 3003">
 					<div class="category">Soluzioni</div>
 					<ul class="nav--dropdown">
-						<li><a href="/product-radiant-floor-graphite.html">Soluzione NEW CLASSIC GRAPHITE</a></li>
-						<li><a href="/product-radiant-floor-graphite.html">Soluzione TECHNO GRAPHITE</a></li>
-						<li><a href="/product-radiant-floor-graphite.html">Soluzione CLIP GRAPHITE</a></li>
-						<li><a href="/product-radiant-floor-graphite.html">Soluzione CLIP SUPER</a></li>
-						<li><a href="/product-radiant-floor-graphite.html">Soluzione SUGHERO</a></li>
-						<li><a href="/product-radiant-floor-graphite.html">Soluzione SILENTO</a></li>
-						<li><a href="/product-radiant-floor-graphite.html">Soluzione LOW BLACK</a></li>
-						<li><a href="/product-radiant-floor-graphite.html">Soluzione DRY</a></li>
-						<li><a href="/product-radiant-floor-graphite.html">Soluzione TIEMME SLIM</a></li>
-						<li><a href="/product-radiant-floor-graphite.html">Soluzione STRONG RAIL</a></li>
-						<li><a href="/product-radiant-floor-graphite.html">Soluzione STRONG NET</a></li>
-						<li><a href="/product-radiant-floor-graphite.html">Accessori</a></li>
+						<li><a href="/tiemme-com/product-radiant-floor-graphite.html">Soluzione NEW CLASSIC GRAPHITE</a></li>
+						<li><a href="/tiemme-com/product-radiant-floor-graphite.html">Soluzione TECHNO GRAPHITE</a></li>
+						<li><a href="/tiemme-com/product-radiant-floor-graphite.html">Soluzione CLIP GRAPHITE</a></li>
+						<li><a href="/tiemme-com/product-radiant-floor-graphite.html">Soluzione CLIP SUPER</a></li>
+						<li><a href="/tiemme-com/product-radiant-floor-graphite.html">Soluzione SUGHERO</a></li>
+						<li><a href="/tiemme-com/product-radiant-floor-graphite.html">Soluzione SILENTO</a></li>
+						<li><a href="/tiemme-com/product-radiant-floor-graphite.html">Soluzione LOW BLACK</a></li>
+						<li><a href="/tiemme-com/product-radiant-floor-graphite.html">Soluzione DRY</a></li>
+						<li><a href="/tiemme-com/product-radiant-floor-graphite.html">Soluzione TIEMME SLIM</a></li>
+						<li><a href="/tiemme-com/product-radiant-floor-graphite.html">Soluzione STRONG RAIL</a></li>
+						<li><a href="/tiemme-com/product-radiant-floor-graphite.html">Soluzione STRONG NET</a></li>
+						<li><a href="/tiemme-com/product-radiant-floor-graphite.html">Accessori</a></li>
 					</ul>
 				</div>
 			</li>
@@ -307,97 +307,97 @@
 		<div class="swiper-container" swiper-listing>
 			<div class="swiper-wrapper">
 				<div class="swiper-slide">
-					<a href="/product-radiant-floor-graphite.html" class="card--product">
+					<a href="/tiemme-com/product-radiant-floor-graphite.html" class="card--product">
 						<div class="picture picture--product">
-							<img lazy="/img/products/radiant-floor/product-01.jpg" />
+							<img lazy="/tiemme-com/img/products/radiant-floor/product-01.jpg" />
 							<div class="category">Soluzione NEW CLASSIC GRAPHITE</div>
 						</div>
 					</a>
 				</div>
 				<div class="swiper-slide">
-					<a href="/product-radiant-floor-graphite.html" class="card--product">
+					<a href="/tiemme-com/product-radiant-floor-graphite.html" class="card--product">
 						<div class="picture picture--product">
-							<img lazy="/img/products/radiant-floor/product-01.jpg" />
+							<img lazy="/tiemme-com/img/products/radiant-floor/product-01.jpg" />
 							<div class="category">Soluzione TECHNO GRAPHITE</div>
 						</div>
 					</a>
 				</div>
 				<div class="swiper-slide">
-					<a href="/product-radiant-floor-graphite.html" class="card--product">
+					<a href="/tiemme-com/product-radiant-floor-graphite.html" class="card--product">
 						<div class="picture picture--product">
-							<img lazy="/img/products/radiant-floor/product-01.jpg" />
+							<img lazy="/tiemme-com/img/products/radiant-floor/product-01.jpg" />
 							<div class="category">Soluzione CLIP GRAPHITE</div>
 						</div>
 					</a>
 				</div>
 				<div class="swiper-slide">
-					<a href="/product-radiant-floor-graphite.html" class="card--product">
+					<a href="/tiemme-com/product-radiant-floor-graphite.html" class="card--product">
 						<div class="picture picture--product">
-							<img lazy="/img/products/radiant-floor/product-01.jpg" />
+							<img lazy="/tiemme-com/img/products/radiant-floor/product-01.jpg" />
 							<div class="category">Soluzione CLIP SUPER</div>
 						</div>
 					</a>
 				</div>
 				<div class="swiper-slide">
-					<a href="/product-radiant-floor-graphite.html" class="card--product">
+					<a href="/tiemme-com/product-radiant-floor-graphite.html" class="card--product">
 						<div class="picture picture--product">
-							<img lazy="/img/products/radiant-floor/product-01.jpg" />
+							<img lazy="/tiemme-com/img/products/radiant-floor/product-01.jpg" />
 							<div class="category">Soluzione SUGHERO</div>
 						</div>
 					</a>
 				</div>
 				<div class="swiper-slide">
-					<a href="/product-radiant-floor-graphite.html" class="card--product">
+					<a href="/tiemme-com/product-radiant-floor-graphite.html" class="card--product">
 						<div class="picture picture--product">
-							<img lazy="/img/products/radiant-floor/product-01.jpg" />
+							<img lazy="/tiemme-com/img/products/radiant-floor/product-01.jpg" />
 							<div class="category">Soluzione SILENTO</div>
 						</div>
 					</a>
 				</div>
 				<div class="swiper-slide">
-					<a href="/product-radiant-floor-graphite.html" class="card--product">
+					<a href="/tiemme-com/product-radiant-floor-graphite.html" class="card--product">
 						<div class="picture picture--product">
-							<img lazy="/img/products/radiant-floor/product-01.jpg" />
+							<img lazy="/tiemme-com/img/products/radiant-floor/product-01.jpg" />
 							<div class="category">Soluzione LOW BLACK</div>
 						</div>
 					</a>
 				</div>
 				<div class="swiper-slide">
-					<a href="/product-radiant-floor-graphite.html" class="card--product">
+					<a href="/tiemme-com/product-radiant-floor-graphite.html" class="card--product">
 						<div class="picture picture--product">
-							<img lazy="/img/products/radiant-floor/product-01.jpg" />
+							<img lazy="/tiemme-com/img/products/radiant-floor/product-01.jpg" />
 							<div class="category">Soluzione DRY</div>
 						</div>
 					</a>
 				</div>
 				<div class="swiper-slide">
-					<a href="/product-radiant-floor-graphite.html" class="card--product">
+					<a href="/tiemme-com/product-radiant-floor-graphite.html" class="card--product">
 						<div class="picture picture--product">
-							<img lazy="/img/products/radiant-floor/product-01.jpg" />
+							<img lazy="/tiemme-com/img/products/radiant-floor/product-01.jpg" />
 							<div class="category">Soluzione TIEMME SLIM</div>
 						</div>
 					</a>
 				</div>
 				<div class="swiper-slide">
-					<a href="/product-radiant-floor-graphite.html" class="card--product">
+					<a href="/tiemme-com/product-radiant-floor-graphite.html" class="card--product">
 						<div class="picture picture--product">
-							<img lazy="/img/products/radiant-floor/product-01.jpg" />
+							<img lazy="/tiemme-com/img/products/radiant-floor/product-01.jpg" />
 							<div class="category">Soluzione STRONG RAIL</div>
 						</div>
 					</a>
 				</div>
 				<div class="swiper-slide">
-					<a href="/product-radiant-floor-graphite.html" class="card--product">
+					<a href="/tiemme-com/product-radiant-floor-graphite.html" class="card--product">
 						<div class="picture picture--product">
-							<img lazy="/img/products/radiant-floor/product-01.jpg" />
+							<img lazy="/tiemme-com/img/products/radiant-floor/product-01.jpg" />
 							<div class="category">Soluzione STRONG NET</div>
 						</div>
 					</a>
 				</div>
 				<div class="swiper-slide">
-					<a href="/product-radiant-floor-graphite.html" class="card--product">
+					<a href="/tiemme-com/product-radiant-floor-graphite.html" class="card--product">
 						<div class="picture picture--product">
-							<img lazy="/img/products/radiant-floor/product-01.jpg" />
+							<img lazy="/tiemme-com/img/products/radiant-floor/product-01.jpg" />
 							<div class="category">Accessori</div>
 						</div>
 					</a>
@@ -421,8 +421,8 @@
 					<div class="container">
 						<div class="card--slide" video [item]="{'coId':9285,'id':'d01305c9-daa9-49a4-865d-7686d23bb428','typeName':'Video','name':'Title'}">
 							<div class="picture picture--video" [class]="{ playing: playing }">
-								<video oncanplay="this.muted = true;" playsinline muted loop poster="/img/video/video-01.jpg">
-									<source src="/img/video/video-01.mp4">
+								<video oncanplay="this.muted = true;" playsinline muted loop poster="/tiemme-com/img/video/video-01.jpg">
+									<source src="/tiemme-com/img/video/video-01.mp4">
 								</video>
 								<div class="overlay" (click)="togglePlay($event)"></div>
 								<div class="btn--play">
@@ -446,8 +446,8 @@
 					<div class="container">
 						<div class="card--slide">
 							<div class="picture picture--video" video [item]="{'coId':9285,'id':'d01305c9-daa9-49a4-865d-7686d23bb428','typeName':'Video','name':'Title'}">
-								<video oncanplay="this.muted = true;" playsinline muted loop poster="/img/video/video-02.jpg">
-									<source src="/img/video/video-02.mp4">
+								<video oncanplay="this.muted = true;" playsinline muted loop poster="/tiemme-com/img/video/video-02.jpg">
+									<source src="/tiemme-com/img/video/video-02.mp4">
 								</video>
 								<div class="overlay" (click)="togglePlay($event)"></div>
 								<div class="btn--play" [class]="{ playing: playing }">
@@ -471,8 +471,8 @@
 					<div class="container">
 						<div class="card--slide">
 							<div class="picture picture--video" video [item]="{'coId':9285,'id':'d01305c9-daa9-49a4-865d-7686d23bb428','typeName':'Video','name':'Title'}">
-								<video oncanplay="this.muted = true;" playsinline muted loop poster="/img/video/video-03.jpg">
-									<source src="/img/video/video-03.mp4">
+								<video oncanplay="this.muted = true;" playsinline muted loop poster="/tiemme-com/img/video/video-03.jpg">
+									<source src="/tiemme-com/img/video/video-03.mp4">
 								</video>
 								<div class="overlay" (click)="togglePlay($event)"></div>
 								<div class="btn--play" [class]="{ playing: playing }">
@@ -505,7 +505,7 @@
 		<div class="row">
 			<div class="col-md-6">
 				<div class="picture picture--technician">
-					<img lazy="/img/technician/technician.png" />
+					<img lazy="/tiemme-com/img/technician/technician.png" />
 				</div>
 			</div>
 			<div class="col-md-6">
@@ -534,7 +534,7 @@
 		<div class="listing--news">
 			<a href="#" class="card--news" appear>
 				<div class="picture picture--news">
-					<img lazy="/img/news/news-01.jpg" />
+					<img lazy="/tiemme-com/img/news/news-01.jpg" />
 					<div class="date">Ott 2019</div>
 				</div>
 				<div class="content">
@@ -547,7 +547,7 @@
 			</a>
 			<a href="#" class="card--news" appear>
 				<div class="picture picture--news">
-					<img lazy="/img/news/news-02.jpg" />
+					<img lazy="/tiemme-com/img/news/news-02.jpg" />
 					<div class="date">Feb 2019</div>
 				</div>
 				<div class="content">
@@ -574,7 +574,7 @@
 		<div class="container-fluid">
 			<div class="nav--colophon">
 				<div class="group--colophon">
-					<a href="/" class="btn--brand">© Tiemme Raccorderie S.p.A.</a>
+					<a href="/tiemme-com/" class="btn--brand">© Tiemme Raccorderie S.p.A.</a>
 					<div><span>Via Cavallera, 6/A - (loc. Barco) - 25045 - Castegnato (BS) - Italia</span><span>Tel. +39 030 21.42.211 - Fax: +39 030 21.42.206</span> <a href="mailto:info@tiemme.com" class="btn--link">info@tiemme.com</a></div>
 					<div><span>P.Iva / CF: 02852520176 - Cap. Sociale: € 5.200.000,00 i.v.</span> <span>Registro imprese: 02852520176 - Rea: BS-298978</span></div>
 				</div>
@@ -646,8 +646,8 @@
 	</div>
 <!-- start scripts.html-->
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es5%2CArray.prototype.find%2CObject.assign"></script>
-<script src="js/vendors.js"></script>
-<script src="js/main.js"></script>
+<script src="/js/vendors.js"></script>
+<script src="/js/main.js"></script>
 
 <!-- end scripts.html-->
 </body>
