@@ -1,8 +1,7 @@
-const connect = require('gulp-connect');
 const { parallel, series } = require('gulp');
-const log = require('./logger');
 const { compileScss_, compileJs_, compileTs_, compileHtml_, compileWatcher_ } = require('./compile');
 const { bundleCss_, bundleJs_, bundleResource_, bundleWatcher_ } = require('./bundle');
+const { serve_ } = require('./serve');
 const { getConfig, configWatcher_ } = require('./config');
 
 let config = getConfig();
@@ -62,77 +61,7 @@ function watchTask(done) {
 
 // SERVE
 function serveTask(done) {
-	if (config.server) {
-		const options = Object.assign({
-			root: './docs',
-			port: 8001,
-			host: 'localhost',
-			name: 'Development',
-			https: false,
-			path: '/',
-			fallback: 'index.html',
-			livereload: true,
-		}, config.server || {});
-		connect.server(options, function() {
-			this.server.on('close', done);
-		});
-	} else {
-		done();
-	}
-}
-
-function serveTask_local_web_server(done) {
-	if (config.server) {
-
-		const options = Object.assign({
-			directory: './docs',
-			port: 8001,
-			host: 'localhost',
-			name: 'Development',
-			https: false,
-			path: '/',
-			fallback: 'index.html',
-			livereload: true,
-			open: true,
-		}, config.server || {});
-
-		if (options.path !== '/') {
-			options.rewrite = [{
-				from: options.path + '*',
-				to: options.https ? 'https' : 'http' + '://' + options.host + '/$1',
-			}];
-		}
-
-		log(options.rewrite);
-
-		/*
-		this.port = 8000
-		this.hostname = '0.0.0.0'
-	    this.maxConnections = null | 1
-	    this.keepAliveTimeout = 5000
-	    this.configFile = 'lws.config.js'
-	    this.https = false
-	    this.http2 = false
-	    this.key = null
-	    this.cert = null
-	    this.pfx = null
-		this.ciphers = null
-	    this.secureProtocol = null
-	    this.stack = null
-	    this.moduleDir = ['.']
-	    this.modulePrefix = 'lws-'
-	    this.view = null
-		*/
-		try {
-			console.log(lws);
-			const ws = lws.create(options);
-			log(`Server started on port ${options.port}.`);
-		} catch (ex) {
-			log.error('Webserve could not start', ex.message);
-		}
-	} else {
-		done();
-	}
+	return serve_(config, done);
 }
 
 // UTILS

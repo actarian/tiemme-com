@@ -56,8 +56,9 @@
 	"tfs": false,
 	"server": {
 		"root": "./docs",
-		"path": "/app/",
+		"path": "/tiemme-com/",
 		"host": "localhost",
-		"port": 41999
+		"port": 41999,
+		"log": false
 	}
 }
