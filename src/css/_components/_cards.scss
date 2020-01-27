@@ -163,6 +163,24 @@
 		}
 	}
 
+	.col-md-4>& {
+		.picture {
+			&>.category {
+				bottom: auto;
+				top: 0;
+			}
+		}
+	}
+
+	.title {
+		font-family: $font-secondary;
+		font-size: 22px;
+		line-height: 30px;
+		font-weight: $font-medium;
+		text-transform: uppercase;
+		margin-bottom: 20px;
+	}
+
 	.abstract {
 		font-size: 16px;
 		line-height: 21px;

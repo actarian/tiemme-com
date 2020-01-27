@@ -48,8 +48,26 @@
 	margin-bottom: 20px;
 }
 
+.flex--row {
+	@include media-breakpoint-up(md) {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: flex-start;
+
+		&.flex__item {
+			flex: 1 1 20%;
+		}
+
+		&>.flex__item+.flex__item {
+			margin-left: 15px;
+		}
+	}
+}
+
 .nav--footer {
 	@extend %nav-vertical;
+	margin-bottom: 15px;
 
 	&>li {
 
@@ -57,14 +75,18 @@
 		&>span {
 			display: block;
 			font-size: 14px;
-			line-height: 2;
+			line-height: 1;
+			padding: 4px;
+			margin-left: -4px;
+			margin-bottom: 5px;
+
 			color: $foreground;
 			cursor: pointer;
 
 			&:hover,
 			&.active {
-				background: $background-tertiary;
-				color: $foreground;
+				background: $foreground;
+				color: $foreground-negative;
 			}
 		}
 	}
@@ -92,6 +114,11 @@
 .nav--footer-horizontal {
 	@extend %nav;
 
+	.icon--websolute {
+		margin-left: 10px;
+		fill: $foreground;
+	}
+
 	&>li {
 
 		&>a,
@@ -100,21 +127,25 @@
 			align-items: center;
 			font-size: 14px;
 			line-height: 2;
+			padding: 0 4px;
+			margin-left: 30px;
 			color: $foreground;
 			cursor: pointer;
-			margin-left: 30px;
+		}
 
-			&:hover,
-			&.active {
-				background: rgba(0, 0, 0, 0.2);
-				color: $foreground;
+		&:hover,
+		&.active {
+
+			&>a,
+			&>span {
+				background: $foreground;
+				color: $foreground-negative;
+			}
+
+			.icon--websolute {
+				fill: $foreground-negative;
 			}
 		}
-	}
-
-	.icon--websolute {
-		margin-left: 10px;
-		fill: $foreground;
 	}
 
 }

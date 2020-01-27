@@ -81,3 +81,22 @@
 		object-fit: cover;
 	}
 }
+
+@mixin aspect-flex($w: 4, $h: 3) {
+	position: relative;
+	width: 100%;
+	padding-top: 100% / $w * $h;
+	overflow: hidden;
+
+    & > .inner {
+        position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}

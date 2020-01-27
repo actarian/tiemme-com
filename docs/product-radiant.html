@@ -121,6 +121,10 @@
 	<symbol id="expand" viewBox="0 0 29 30">
 		<path d="M26 16.3V5.9L2.2 29.7.1 27.6 24 3.3H13v-3h16v16h-3z" fill-rule="evenodd" clip-rule="evenodd"></path>
 	</symbol>
+	<symbol id="download" viewBox="0 0 9 13">
+		<path d="M8.5 7.9c-.3-.4-.8-.4-1.2-.1l-.1.1-2 2V1.2c0-.2-.1-.4-.2-.6-.2-.3-.7-.3-1 0-.2.2-.3.4-.3.6v8.6l-2-2c-.2-.1-.4-.2-.7-.2-.2 0-.4.1-.6.3-.1.2-.1.4-.1.6 0 .2.1.4.2.5l3.4 3.4c.2.2.4.2.6.2.2 0 .4-.1.6-.2L8.4 9c.2-.1.2-.3.3-.6 0-.1-.1-.4-.2-.5z" fill-rule="evenodd"
+		clip-rule="evenodd"></path>
+	</symbol>
 </svg>
 
 <!-- end svg.html-->
@@ -137,31 +141,51 @@
 				<li>
 					<a href="#">Azienda</a>
 				</li>
-				<li (dropdown)="onDropdown($event)" dropdown-id="1000" dropdown-target="span">
+				<li (dropdown)="onDropdown($event)" dropdown-id="1001" dropdown-target="span">
 					<span>Prodotti <svg class="icon icon--caret-right"><use xlink:href="#caret-right"></use></svg></span>
 				</li>
-				<li>
-					<a href="#">Media</a>
+				<li (dropdown)="onDropdown($event)" dropdown-id="1002" dropdown-target="span">
+					<span>Media <svg class="icon icon--caret-right"><use xlink:href="#caret-right"></use></svg></span>
 				</li>
 				<li (dropdown)="onDropdown($event)" dropdown-id="1003" dropdown-target="span">
 					<span>Comunicazione <svg class="icon icon--caret-right"><use xlink:href="#caret-right"></use></svg></span>
 				</li>
-				<li>
-					<a href="#">Contatti</a>
+				<li (dropdown)="onDropdown($event)" dropdown-id="1004" dropdown-target="span">
+					<span>Servizi <svg class="icon icon--caret-right"><use xlink:href="#caret-right"></use></svg></span>
+				</li>
+				<li (dropdown)="onDropdown($event)" dropdown-id="1005" dropdown-target="span">
+					<span>Contatti <svg class="icon icon--caret-right"><use xlink:href="#caret-right"></use></svg></span>
 				</li>
 			</ul>
 			<!-- menu liv 2 -->
-			<ul class="nav--menu" *if="dropdownId == 1000">
+			<ul class="nav--menu" *if="dropdownId == 1001">
 				<li><a href="/tiemme-com/product-radiant.html">Componenti Idraulici</a></li>
-				<li><a href="/tiemme-com/product-radiant.html">Rubinetti</a></li>
-				<li><a href="/tiemme-com/product-radiant.html">Sistemi radianti</a></li>
 				<li><a href="/tiemme-com/product-radiant.html">Centrale Termica</a></li>
+				<li><a href="/tiemme-com/product-radiant.html">Sistemi radianti</a></li>
+				<li><a href="/tiemme-com/product-radiant.html">Rubinetti</a></li>
+			</ul>
+			<ul class="nav--menu" *if="dropdownId == 1002">
+				<li><a href="#">Corporate</a></li>
+				<li><a href="#">Cataloghi</a></li>
+				<li><a href="#">Cataloghi Tecnici</a></li>
+				<li><a href="#">Brochure di Prodotto</a></li>
 			</ul>
 			<ul class="nav--menu" *if="dropdownId == 1003">
 				<li><a href="#">News</a></li>
 				<li><a href="#">Eventi e Fiere</a></li>
-				<li><a href="#">Il Tecnico Risponde</a></li>
 				<li><a href="#">Realizzazioni</a></li>
+			</ul>
+			<ul class="nav--menu" *if="dropdownId == 1004">
+				<li><a href="#">Bim</a></li>
+				<li><a href="#">Experience</a></li>
+				<li><a href="#">Tiemme Lab</a></li>
+				<li><a href="#">Garanzia ZERO10</a></li>
+			</ul>
+			<ul class="nav--menu" *if="dropdownId == 1005">
+				<li><a href="#">Contattaci</a></li>
+				<li><a href="#">Filiali</a></li>
+				<li><a href="#">Cerca un agente</a></li>
+				<li><a href="#">Lavora con noi</a></li>
 			</ul>
 		</div>
 		<!-- club -->
@@ -180,7 +204,7 @@
 						<span>IT</span>
 						<svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
 					</button>
-					<div class="dropdown" *if="dropdownId == 1">
+					<div class="dropdown" [class]="{ dropped: dropdownId == 1 }">
 						<div class="category">Languages</div>
 						<ul class="nav--dropdown">
 							<li><a href="#">Italiano</a></li>
@@ -221,7 +245,7 @@
 					<svg class="icon icon--radiant"><use xlink:href="#radiant"></use></svg>
 					<span>Sistemi Radianti</span> <svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
 				</span>
-				<div class="dropdown dropdown--with-icons" *if="dropdownId == 3001">
+				<div class="dropdown dropdown--with-icons" [class]="{ dropped: dropdownId == 3001 }">
 					<div class="category">Area</div>
 					<ul class="nav--dropdown">
 						<li>
@@ -232,8 +256,8 @@
 						</li>
 						<li>
 							<a href="/tiemme-com/product-radiant.html">
-								<svg class="icon icon--taps"><use xlink:href="#taps"></use></svg>
-								<span>Rubinetti</span>
+								<svg class="icon icon--thermo"><use xlink:href="#thermo"></use></svg>
+								<span>Centrale Termica</span>
 							</a>
 						</li>
 						<li>
@@ -244,8 +268,8 @@
 						</li>
 						<li>
 							<a href="/tiemme-com/product-radiant.html">
-								<svg class="icon icon--thermo"><use xlink:href="#thermo"></use></svg>
-								<span>Centrale Termica</span>
+								<svg class="icon icon--taps"><use xlink:href="#taps"></use></svg>
+								<span>Rubinetti</span>
 							</a>
 						</li>
 					</ul>
@@ -255,7 +279,7 @@
 				<span class="empty" (dropdown)="onDropdown($event)" dropdown-id="3002">
 					<span>Catalogo</span> <svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
 				</span>
-				<div class="dropdown" *if="dropdownId == 3002">
+				<div class="dropdown" [class]="{ dropped: dropdownId == 3002 }">
 					<div class="category">Catalogo</div>
 					<ul class="nav--dropdown">
 						<li><a href="/tiemme-com/product-radiant-floor.html">Sistemi radianti a pavimento</a></li>
@@ -421,7 +445,7 @@
 
 <!-- end slides.html-->
 <!-- start listing-product-radiant.html-->
-<section class="section--listing">
+<section class="section--listing background--gradient">
 	<div class="container">
 		<div class="section--slides__title">Catalogo Sistemi Radianti</div>
 		<div class="swiper-container" swiper-listing>
@@ -474,7 +498,7 @@
 
 <!-- end listing-product-radiant.html-->
 <!-- start technician.html-->
-<section class="section--technician">
+<section class="section--technician background--gradient">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-6">
@@ -567,38 +591,50 @@
 		</div>
 	</div>
 	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-3">
+		<div class="flex--row">
+			<div class="flex__item">
 				<b>Prodotti</b>
 				<ul class="nav--footer">
-					<li><a href="#">Componenti Idraulici</a></li>
-					<li><a href="#">Rubinetti</a></li>
-					<li><a href="#">Sistemi radianti</a></li>
-					<li><a href="#">Centrale Termica</a></li>
+					<li><a href="/tiemme-com/product-radiant.html">Componenti Idraulici</a></li>
+					<li><a href="/tiemme-com/product-radiant.html">Centrale Termica</a></li>
+					<li><a href="/tiemme-com/product-radiant.html">Sistemi radianti</a></li>
+					<li><a href="/tiemme-com/product-radiant.html">Rubinetti</a></li>
 				</ul>
 			</div>
-			<div class="col-md-3">
+			<div class="flex__item">
 				<b>Media</b>
 				<ul class="nav--footer">
-					<li><a href="#">Brochure</a></li>
+					<li><a href="#">Corporate</a></li>
 					<li><a href="#">Cataloghi</a></li>
-					<li><a href="#">Video</a></li>
-					<li><a href="#">Gallery realizzazioni</a></li>
+					<li><a href="#">Cataloghi Tecnici</a></li>
+					<li><a href="#">Brochure di Prodotto</a></li>
 				</ul>
 			</div>
-			<div class="col-md-3">
+			<div class="flex__item">
 				<b>Comunicazione</b>
 				<ul class="nav--footer">
 					<li><a href="#">News</a></li>
 					<li><a href="#">Eventi e Fiere</a></li>
-					<li><a href="#">Il Tecnico Risponde</a></li>
 					<li><a href="#">Realizzazioni</a></li>
 				</ul>
 			</div>
-			<div class="col-md-3">
+			<div class="flex__item">
+				<b>Servizi</b>
+				<ul class="nav--footer">
+					<li><a href="#">Bim</a></li>
+					<li><a href="#">Experience</a></li>
+					<li><a href="#">Tiemme Lab</a></li>
+					<li><a href="#">Garanzia ZERO10</a></li>
+				</ul>
+			</div>
+			<div class="flex__item">
+				<b>&nbsp;</b>
 				<ul class="nav--footer">
 					<li><a href="#">Azienda</a></li>
-					<li><a href="#">Contatti</a></li>
+					<li><a href="#">Contattaci</a></li>
+					<li><a href="#">Filiali</a></li>
+					<li><a href="#">Cerca un agente</a></li>
+					<li><a href="#">Lavora con noi</a></li>
 				</ul>
 			</div>
 		</div>
@@ -606,9 +642,9 @@
 			<div>Italia / italiano</div>
 			<div>
 				<ul class="nav--footer-horizontal">
-					<li><a href="#">Sitemap</a></li>
-					<li><a href="#">Privacy</a></li>
-					<li><a href="#">Note Legali</a></li>
+					<li><a href="#"><span>Sitemap</span></a></li>
+					<li><a href="#"><span>Privacy</span></a></li>
+					<li><a href="#"><span>Note Legali</span></a></li>
 					<li><a href="#"><span>Websolute</span> <svg class="icon icon--websolute"><use xlink:href="#websolute"></use></svg></a></li>
 				</ul>
 			</div>

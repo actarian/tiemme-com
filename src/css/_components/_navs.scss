@@ -14,6 +14,11 @@ ul {
 	z-index: 1;
 	transition: ease-in-out 350ms;
 	transition-property: background-color, color, border, opacity;
+
+	svg {
+		transition: ease-in-out 350ms;
+		transition-property: fill, opacity;
+	}
 }
 
 %nav-reset {
@@ -394,6 +399,7 @@ ul {
 }
 
 .dropdown {
+	display: none;
 	position: absolute;
 	max-height: 350px;
 	top: -22px;
@@ -403,6 +409,10 @@ ul {
 
 	background: white;
 	box-shadow: 0 20px 20px -5px rgba(black, 0.2);
+
+	&.dropped {
+		display: block;
+	}
 
 	@include scrollbar();
 

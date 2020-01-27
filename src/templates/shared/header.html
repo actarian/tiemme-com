@@ -8,31 +8,51 @@
 				<li>
 					<a href="#">Azienda</a>
 				</li>
-				<li (dropdown)="onDropdown($event)" dropdown-id="1000" dropdown-target="span">
+				<li (dropdown)="onDropdown($event)" dropdown-id="1001" dropdown-target="span">
 					<span>Prodotti <svg class="icon icon--caret-right"><use xlink:href="#caret-right"></use></svg></span>
 				</li>
-				<li>
-					<a href="#">Media</a>
+				<li (dropdown)="onDropdown($event)" dropdown-id="1002" dropdown-target="span">
+					<span>Media <svg class="icon icon--caret-right"><use xlink:href="#caret-right"></use></svg></span>
 				</li>
 				<li (dropdown)="onDropdown($event)" dropdown-id="1003" dropdown-target="span">
 					<span>Comunicazione <svg class="icon icon--caret-right"><use xlink:href="#caret-right"></use></svg></span>
 				</li>
-				<li>
-					<a href="#">Contatti</a>
+				<li (dropdown)="onDropdown($event)" dropdown-id="1004" dropdown-target="span">
+					<span>Servizi <svg class="icon icon--caret-right"><use xlink:href="#caret-right"></use></svg></span>
+				</li>
+				<li (dropdown)="onDropdown($event)" dropdown-id="1005" dropdown-target="span">
+					<span>Contatti <svg class="icon icon--caret-right"><use xlink:href="#caret-right"></use></svg></span>
 				</li>
 			</ul>
 			<!-- menu liv 2 -->
-			<ul class="nav--menu" *if="dropdownId == 1000">
+			<ul class="nav--menu" *if="dropdownId == 1001">
 				<li><a href="/tiemme-com/product-radiant.html">Componenti Idraulici</a></li>
-				<li><a href="/tiemme-com/product-radiant.html">Rubinetti</a></li>
-				<li><a href="/tiemme-com/product-radiant.html">Sistemi radianti</a></li>
 				<li><a href="/tiemme-com/product-radiant.html">Centrale Termica</a></li>
+				<li><a href="/tiemme-com/product-radiant.html">Sistemi radianti</a></li>
+				<li><a href="/tiemme-com/product-radiant.html">Rubinetti</a></li>
+			</ul>
+			<ul class="nav--menu" *if="dropdownId == 1002">
+				<li><a href="#">Corporate</a></li>
+				<li><a href="#">Cataloghi</a></li>
+				<li><a href="#">Cataloghi Tecnici</a></li>
+				<li><a href="#">Brochure di Prodotto</a></li>
 			</ul>
 			<ul class="nav--menu" *if="dropdownId == 1003">
 				<li><a href="#">News</a></li>
 				<li><a href="#">Eventi e Fiere</a></li>
-				<li><a href="#">Il Tecnico Risponde</a></li>
 				<li><a href="#">Realizzazioni</a></li>
+			</ul>
+			<ul class="nav--menu" *if="dropdownId == 1004">
+				<li><a href="#">Bim</a></li>
+				<li><a href="#">Experience</a></li>
+				<li><a href="#">Tiemme Lab</a></li>
+				<li><a href="#">Garanzia ZERO10</a></li>
+			</ul>
+			<ul class="nav--menu" *if="dropdownId == 1005">
+				<li><a href="#">Contattaci</a></li>
+				<li><a href="#">Filiali</a></li>
+				<li><a href="#">Cerca un agente</a></li>
+				<li><a href="#">Lavora con noi</a></li>
 			</ul>
 		</div>
 		<!-- club -->
@@ -51,7 +71,7 @@
 						<span>IT</span>
 						<svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
 					</button>
-					<div class="dropdown" *if="dropdownId == 1">
+					<div class="dropdown" [class]="{ dropped: dropdownId == 1 }">
 						<div class="category">Languages</div>
 						<ul class="nav--dropdown">
 							<li><a href="#">Italiano</a></li>

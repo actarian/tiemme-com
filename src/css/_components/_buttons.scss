@@ -74,6 +74,44 @@ button,
 	}
 }
 
+.btn--download,
+.btn--cta {
+	display: inline-flex;
+	align-items: center;
+	color: $foreground;
+	font-weight: $font-medium;
+	opacity: 0.5;
+	transition: all ease-in-out 350ms;
+
+	.icon--download {
+		margin-right: 8px;
+		fill: $foreground;
+	}
+}
+
+.btn--cta {
+	display: block;
+	background: $background-secondary;
+	font-weight: $font-medium;
+	font-family: $font-secondary;
+	text-transform: uppercase;
+	padding: 5px 10px;
+	opacity: 1;
+
+	.icon--download {
+		transition: fill ease-in-out 350ms;
+	}
+
+	&:hover {
+		background: $foreground;
+		color: $foreground-negative;
+
+		.icon--download {
+			fill: $foreground-negative;
+		}
+	}
+}
+
 .btn--category {
 	@extend %btn;
 	display: inline-block;
