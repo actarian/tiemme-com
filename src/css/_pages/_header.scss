@@ -10,7 +10,7 @@
 	position: relative;
 	display: flex;
 	justify-content: space-between;
-	align-items: flex-start;
+	align-items: center;
 	margin-top: 28px;
 
 	.left {
@@ -77,6 +77,24 @@
 			margin-top: 0;
 			transform: translateX(-50%) translateY(-50%) rotateZ(45deg) scale(0.8);
 		}
+	}
+
+	@include media-breakpoint-down(lg) {
+		width: 54px;
+		height: 35px;
+
+		&>span {
+			width: 34px;
+		}
+
+		&>span:nth-child(1) {
+			margin-top: -7px;
+		}
+
+		&>span:nth-child(3) {
+			margin-top: 7px;
+		}
+
 	}
 }
 
