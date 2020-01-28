@@ -179,6 +179,12 @@
 	[swiper-slides] {
 		@extend %swiper-slides;
 	}
+
+	@include media-breakpoint-down(xs) {
+		.container {
+			padding: 0;
+		}
+	}
 }
 
 .section--listing {
@@ -186,8 +192,22 @@
 	[swiper-listing] {
 		@extend %swiper-slides;
 
-		.swiper-slide {
-			width: 33%;
+		@include media-breakpoint-up(lg) {
+			.swiper-slide {
+				width: calc(33% - 20px);
+			}
+		}
+
+		@include media-breakpoint-down(md) {
+			.swiper-slide {
+				width: calc(50% - 15px);
+			}
+		}
+
+		@include media-breakpoint-down(xs) {
+			.swiper-slide {
+				width: 100%;
+			}
 		}
 	}
 }
