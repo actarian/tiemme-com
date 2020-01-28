@@ -22,7 +22,8 @@
 		transition: opacity ease-in-out 350ms;
 	}
 
-	.icon--play {
+	.icon--play,
+	.icon--pause {
 		display: block;
 		position: absolute;
 		top: 50%;
@@ -34,8 +35,20 @@
 		margin-top: -14px;
 	}
 
+	.icon--pause {
+		display: none;
+	}
+
 	.playing & {
 		opacity: 0;
+
+		.icon--play {
+			display: none;
+		}
+
+		.icon--pause {
+			display: block;
+		}
 
 		.icon--play-progress {
 			opacity: 1;
@@ -67,7 +80,8 @@
 			height: 100px;
 		}
 
-		.icon--play {
+		.icon--play,
+		.icon--pause {
 			width: 20px;
 			height: 20px;
 			margin-left: -9px;
@@ -82,40 +96,52 @@
 
 }
 
-[video] {
+[video],
+[youtube] {
 	cursor: pointer;
 
-	video {
+	video,
+	.video {
 		transition: all 700ms 0ms cubic-bezier(0.320, 0.000, 0.290, 0.990);
 	}
 
 	.overlay {
-		/*
+		@include aspect-clip(16, 9);
 		display: block;
 		position: absolute;
 		top: 0;
 		left: 0;
 		width: 100%;
 		height: 100%;
-		background: rgba(0, 0, 0, 0.15);
-		opacity: 0;
-		transition: all 700ms 0ms cubic-bezier(0.320, 0.000, 0.290, 0.990) ;
-*/
-		display: block;
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background: linear-gradient(to bottom, rgba(0, 0, 0, 0.0) 0%, rgba(0, 0, 0, 0.75) 100%);
-		opacity: 1;
-		transition: all 700ms 0ms cubic-bezier(0.320, 0.000, 0.290, 0.990);
-		// filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2619255a', endColorstr='#f219255a',GradientType=0 );
+
+		img {
+			opacity: 1;
+			transition: all 700ms 0ms cubic-bezier(0.320, 0.000, 0.290, 0.990);
+		}
+
+		&:after {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: linear-gradient(to bottom, rgba(0, 0, 0, 0.0) 0%, rgba(0, 0, 0, 0.75) 100%);
+			// filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2619255a', endColorstr='#f219255a',GradientType=0 );
+			opacity: 1;
+			transition: all 700ms 0ms cubic-bezier(0.320, 0.000, 0.290, 0.990);
+		}
 	}
 
 	.playing {
 		.overlay {
-			opacity: 0;
+			img {
+				opacity: 0;
+			}
+
+			&:after {
+				opacity: 0;
+			}
 		}
 	}
 
@@ -125,10 +151,18 @@
 		}
 
 		.overlay {
-			opacity: 0.5;
+			&:after {
+				opacity: 0.5;
+			}
 		}
 
 		.playing {
+			.overlay {
+				&:after {
+					opacity: 0.5;
+				}
+			}
+
 			.btn--play {
 				opacity: 1;
 			}

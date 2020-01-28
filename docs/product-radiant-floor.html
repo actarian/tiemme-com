@@ -440,6 +440,32 @@
 			<div class="section--slides__title">Guide di installazione</div>
 		</div>
 		<div class="swiper-wrapper">
+
+			<div class="swiper-slide">
+				<div class="inner">
+					<div class="container">
+						<div class="card--slide" youtube="Oqoi7OB9pxw">
+							<div class="picture picture--video" [class]="{ playing: playing }">
+								<div class="video"></div>
+								<div class="overlay" (click)="togglePlay($event)">
+									<img [src]="cover" />
+								</div>
+								<div class="btn--play">
+									<svg class="icon icon--play-progress-background"><use xlink:href="#play-progress"></use></svg>
+									<svg class="icon icon--play-progress" viewBox="0 0 196 196">
+										<path xmlns="http://www.w3.org/2000/svg" stroke-width="2px" stroke-dasharray="1" stroke-dashoffset="1" pathLength="1" stroke-linecap="square" d="M195.5,98c0,53.8-43.7,97.5-97.5,97.5S0.5,151.8,0.5,98S44.2,0.5,98,0.5S195.5,44.2,195.5,98z"/>
+									</svg>
+									<svg class="icon icon--play"><use xlink:href="#play"></use></svg>
+									<svg class="icon icon--pause"><use xlink:href="#pause"></use></svg>
+								</div>
+							</div>
+							<div class="content">
+								<div class="title"><b>CLIP</b> Sistemi Radianti a Pavimento</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 			<div class="swiper-slide">
 				<div class="inner">
 					<div class="container">
@@ -454,8 +480,8 @@
 									<svg class="icon icon--play-progress" viewBox="0 0 196 196">
 										<path xmlns="http://www.w3.org/2000/svg" stroke-width="2px" stroke-dasharray="1" stroke-dashoffset="1" pathLength="1" stroke-linecap="square" d="M195.5,98c0,53.8-43.7,97.5-97.5,97.5S0.5,151.8,0.5,98S44.2,0.5,98,0.5S195.5,44.2,195.5,98z"/>
 									</svg>
-									<svg class="icon icon--play" *if="!playing"><use xlink:href="#play"></use></svg>
-									<svg class="icon icon--play" *if="playing"><use xlink:href="#pause"></use></svg>
+									<svg class="icon icon--play"><use xlink:href="#play"></use></svg>
+									<svg class="icon icon--pause"><use xlink:href="#pause"></use></svg>
 								</div>
 							</div>
 							<div class="content">
@@ -479,8 +505,8 @@
 									<svg class="icon icon--play-progress" viewBox="0 0 196 196">
 										<path xmlns="http://www.w3.org/2000/svg" stroke-width="2px" stroke-dasharray="1" stroke-dashoffset="1" pathLength="1" stroke-linecap="square" d="M195.5,98c0,53.8-43.7,97.5-97.5,97.5S0.5,151.8,0.5,98S44.2,0.5,98,0.5S195.5,44.2,195.5,98z"/>
 									</svg>
-									<svg class="icon icon--play" *if="!playing"><use xlink:href="#play"></use></svg>
-									<svg class="icon icon--play" *if="playing"><use xlink:href="#pause"></use></svg>
+									<svg class="icon icon--play"><use xlink:href="#play"></use></svg>
+									<svg class="icon icon--pause"><use xlink:href="#pause"></use></svg>
 								</div>
 							</div>
 							<div class="content">
@@ -504,8 +530,8 @@
 									<svg class="icon icon--play-progress" viewBox="0 0 196 196">
 										<path xmlns="http://www.w3.org/2000/svg" stroke-width="2px" stroke-dasharray="1" stroke-dashoffset="1" pathLength="1" stroke-linecap="square" d="M195.5,98c0,53.8-43.7,97.5-97.5,97.5S0.5,151.8,0.5,98S44.2,0.5,98,0.5S195.5,44.2,195.5,98z"/>
 									</svg>
-									<svg class="icon icon--play" *if="!playing"><use xlink:href="#play"></use></svg>
-									<svg class="icon icon--play" *if="playing"><use xlink:href="#pause"></use></svg>
+									<svg class="icon icon--play"><use xlink:href="#play"></use></svg>
+									<svg class="icon icon--pause"><use xlink:href="#pause"></use></svg>
 								</div>
 							</div>
 							<div class="content">

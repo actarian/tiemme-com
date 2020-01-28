@@ -5,6 +5,10 @@
 		@include aspect-clip(1152, 600);
 	}
 
+	.picture--video {
+		@include aspect-clip(16, 9);
+	}
+
 	.picture--slide {
 		&:after {
 			content: '';

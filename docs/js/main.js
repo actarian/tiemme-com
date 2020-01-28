@@ -805,7 +805,6 @@
       this.progress = node.querySelector('.icon--play-progress path');
 
       if (parentInstance instanceof SwiperDirective) {
-        console.log(parentInstance);
         parentInstance.events$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (event) {
           return _this.pause();
         });
@@ -934,6 +933,203 @@
 
   };
 
+  var YoutubeComponent =
+  /*#__PURE__*/
+  function (_Component) {
+    _inheritsLoose(YoutubeComponent, _Component);
+
+    function YoutubeComponent() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = YoutubeComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      var _this = this;
+
+      this.item = {};
+
+      var _getContext = rxcomp.getContext(this),
+          node = _getContext.node,
+          parentInstance = _getContext.parentInstance;
+
+      this.progress = node.querySelector(".icon--play-progress path");
+      this.onPlayerReady = this.onPlayerReady.bind(this);
+      this.onPlayerStateChange = this.onPlayerStateChange.bind(this);
+      this.onPlayerError = this.onPlayerError.bind(this);
+      this.id$ = new rxjs.Subject().pipe(operators.distinctUntilChanged());
+      this.player$().pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (player) {
+        console.log("YoutubeComponent.player$", player);
+      });
+      this.interval$().pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function () {});
+
+      if (parentInstance instanceof SwiperDirective) {
+        parentInstance.events$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (event) {
+          return _this.pause();
+        });
+      } // this.addListeners();
+
+    };
+
+    _proto.onChanges = function onChanges(changes) {
+      var id = this.youtube; // console.log("YoutubeComponent.onChanges", id);
+
+      this.id$.next(id);
+    };
+
+    _proto.player$ = function player$(youtube) {
+      var _this2 = this;
+
+      var _getContext2 = rxcomp.getContext(this),
+          node = _getContext2.node;
+
+      var video = node.querySelector(".video");
+      return this.id$.pipe(operators.switchMap(function (id) {
+        // console.log("YoutubeComponent.videoId", id);
+        return YoutubeComponent.once$().pipe(operators.map(function (youtube) {
+          // console.log("YoutubeComponent.once$", youtube);
+          _this2.destroyPlayer();
+
+          _this2.player = new youtube.Player(video, {
+            width: node.offsetWidth,
+            height: node.offsetHeight,
+            videoId: id,
+            playerVars: {
+              autoplay: 0,
+              controls: 0,
+              disablekb: 1,
+              enablejsapi: 1,
+              fs: 0,
+              loop: 1,
+              modestbranding: 1,
+              playsinline: 1,
+              rel: 0,
+              showinfo: 0,
+              iv_load_policy: 3,
+              listType: "user_uploads",
+              origin: "https://log6i.csb.app/"
+            },
+            events: {
+              onReady: _this2.onPlayerReady,
+              onStateChange: _this2.onPlayerStateChange,
+              onPlayerError: _this2.onPlayerError
+            }
+          });
+          return _this2.player;
+        }));
+      }));
+    };
+
+    _proto.onPlayerReady = function onPlayerReady(event) {
+      // console.log("YoutubeComponent.onPlayerReady", event);
+      event.target.mute(); // event.target.playVideo();
+    };
+
+    _proto.onPlayerStateChange = function onPlayerStateChange(event) {
+      // console.log("YoutubeComponent.onPlayerStateChange", event.data);
+      if (event.data === 1) {
+        this.playing = true;
+      } else {
+        this.playing = false;
+      }
+    };
+
+    _proto.onPlayerError = function onPlayerError(event) {
+      console.log("YoutubeComponent.onPlayerError", event);
+    };
+
+    _proto.destroyPlayer = function destroyPlayer() {
+      if (this.player) {
+        this.player.destroy();
+      }
+    };
+
+    _proto.onDestroy = function onDestroy() {
+      this.destroyPlayer();
+    };
+
+    _proto.interval$ = function interval$() {
+      var _this3 = this;
+
+      return rxjs.interval(500).pipe(operators.filter(function () {
+        return _this3.playing && _this3.player;
+      }), operators.tap(function () {
+        _this3.progress.style.strokeDashoffset = _this3.player.getCurrentTime() / _this3.player.getDuration();
+      }));
+    };
+
+    _proto.togglePlay = function togglePlay() {
+      // console.log("VideoComponent.togglePlay");
+      if (this.playing) {
+        this.pause();
+      } else {
+        this.play();
+      }
+    };
+
+    _proto.play = function play() {
+      if (!this.player) {
+        return;
+      }
+
+      this.player.playVideo();
+    };
+
+    _proto.pause = function pause() {
+      if (!this.player) {
+        return;
+      }
+
+      this.player.stopVideo();
+    };
+
+    YoutubeComponent.once$ = function once$() {
+      if (this.youtube$) {
+        return this.youtube$;
+      } else {
+        this.youtube$ = new rxjs.BehaviorSubject(null).pipe(operators.filter(function (youtube) {
+          return youtube !== null;
+        }));
+        window.onYouTubeIframeAPIReady = this.onYouTubeIframeAPIReady_.bind(this);
+        var script = document.createElement("script");
+        var scripts = document.querySelectorAll("script");
+        var last = scripts[scripts.length - 1];
+        last.parentNode.insertBefore(script, last);
+        script.src = "//www.youtube.com/iframe_api";
+        return this.youtube$;
+      }
+    };
+
+    YoutubeComponent.onYouTubeIframeAPIReady_ = function onYouTubeIframeAPIReady_() {
+      // console.log("onYouTubeIframeAPIReady");
+      this.youtube$.next(window.YT);
+    };
+
+    _createClass(YoutubeComponent, [{
+      key: "playing",
+      get: function get() {
+        return this.playing_;
+      },
+      set: function set(playing) {
+        if (this.playing_ !== playing) {
+          this.playing_ = playing;
+          this.pushChanges();
+        }
+      }
+    }, {
+      key: "cover",
+      get: function get() {
+        return this.youtube ? "//i.ytimg.com/vi/" + this.youtube + "/maxresdefault.jpg" : "";
+      }
+    }]);
+
+    return YoutubeComponent;
+  }(rxcomp.Component);
+  YoutubeComponent.meta = {
+    selector: "[youtube], [[youtube]]",
+    inputs: ["youtube"]
+  };
+
   var ZoomableDirective =
   /*#__PURE__*/
   function (_Directive) {
@@ -1058,7 +1254,7 @@
   }(rxcomp.Module);
   AppModule.meta = {
     imports: [rxcomp.CoreModule],
-    declarations: [AppearDirective, DropdownDirective, HeaderComponent, LazyDirective, ProductMenuComponent, SpritesComponent, SrcDirective, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, VideoComponent, ZoomableDirective],
+    declarations: [AppearDirective, DropdownDirective, HeaderComponent, LazyDirective, ProductMenuComponent, SpritesComponent, SrcDirective, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, VideoComponent, ZoomableDirective, YoutubeComponent],
     bootstrap: AppComponent
   };
 

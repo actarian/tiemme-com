@@ -53,7 +53,9 @@
 	&>img,
 	&>svg,
 	&>video,
-	&>canvas {
+	&>canvas,
+	&>.video,
+	&>iframe {
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -88,15 +90,15 @@
 	padding-top: 100% / $w * $h;
 	overflow: hidden;
 
-    & > .inner {
-        position: absolute;
+	&>.inner {
+		position: absolute;
 		top: 0;
 		left: 0;
 		width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
 }

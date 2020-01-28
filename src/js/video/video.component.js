@@ -22,7 +22,6 @@ export default class VideoComponent extends Component {
 		this.video = node.querySelector('video');
 		this.progress = node.querySelector('.icon--play-progress path');
 		if (parentInstance instanceof SwiperDirective) {
-			console.log(parentInstance);
 			parentInstance.events$.pipe(
 				takeUntil(this.unsubscribe$)
 			).subscribe(event => this.pause());
