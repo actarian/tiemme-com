@@ -19,7 +19,7 @@ export default class AppComponent extends Component {
 	}
 
 	onDropdown(dropdown) {
-		console.log('AppComponent', dropdown);
+		console.log('AppComponent.onDropdown', dropdown);
 	}
 
 	// onView() { const context = getContext(this); }

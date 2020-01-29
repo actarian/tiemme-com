@@ -75,7 +75,8 @@ button,
 }
 
 .btn--download,
-.btn--cta {
+.btn--cta,
+.btn--submit {
 	display: inline-flex;
 	align-items: center;
 	color: $foreground;
@@ -89,7 +90,8 @@ button,
 	}
 }
 
-.btn--cta {
+.btn--cta,
+.btn--submit {
 	display: block;
 	background: $background-secondary;
 	font-weight: $font-medium;

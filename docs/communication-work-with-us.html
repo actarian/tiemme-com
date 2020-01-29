@@ -125,9 +125,6 @@
 		<path d="M8.5 7.9c-.3-.4-.8-.4-1.2-.1l-.1.1-2 2V1.2c0-.2-.1-.4-.2-.6-.2-.3-.7-.3-1 0-.2.2-.3.4-.3.6v8.6l-2-2c-.2-.1-.4-.2-.7-.2-.2 0-.4.1-.6.3-.1.2-.1.4-.1.6 0 .2.1.4.2.5l3.4 3.4c.2.2.4.2.6.2.2 0 .4-.1.6-.2L8.4 9c.2-.1.2-.3.3-.6 0-.1-.1-.4-.2-.5z" fill-rule="evenodd"
 		clip-rule="evenodd"></path>
 	</symbol>
-	<symbol id="upload" viewBox="0 0 24 24">
-		<path d="M10 9H4l8-9 8 9h-6v11h-4V9zm11 11v2H3v-2H1v4h22v-4h-2z"></path>
-	</symbol>
 </svg>
 
 <!-- end svg.html-->
@@ -188,7 +185,7 @@
 				<li><a href="#">Contattaci</a></li>
 				<li><a href="#">Filiali</a></li>
 				<li><a href="#">Cerca un agente</a></li>
-				<li><a href="/tiemme-com/contacts-work-with-us.html">Lavora con noi</a></li>
+				<li><a href="#">Lavora con noi</a></li>
 			</ul>
 		</div>
 		<!-- club -->
@@ -226,66 +223,72 @@
 
 <!-- start main -->
 <section class="section--hero">
-	<div class="swiper-container" swiper>
-		<div class="swiper-wrapper">
-			<div class="swiper-slide">
-				<div class="background">
-					<img lazy="/tiemme-com/img/index/hero.jpg" />
-				</div>
-				<div class="container">
-					<div class="row">
-						<div class="col-md-10">
-							<div class="title">Sistemi radianti <small>Il benessere che ti avvolge</small></div>
-							<div class="abstract">I sistemi a pannello radiante rappresentano una scelta ottimale per riscaldare e raffrescare ambientigarantendo un elevato Comfort ed un notevole Risparmio Energetico ed Economico.</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="swiper-slide">
-				<div class="background">
-					<img lazy="/tiemme-com/img/index/hero-02.jpg" />
-				</div>
-				<div class="container">
-					<div class="row">
-						<div class="col-md-10">
-							<div class="title">Sistemi radianti <small>Il benessere che ti avvolge</small></div>
-							<div class="abstract">I sistemi a pannello radiante rappresentano una scelta ottimale per riscaldare e raffrescare ambientigarantendo un elevato Comfort ed un notevole Risparmio Energetico ed Economico.</div>
-						</div>
-					</div>
-				</div>
+	<div class="background">
+		<img lazy="/tiemme-com/img/products/radiant/hero.jpg" />
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-10">
+				<div class="title">Sistemi radianti <small>Il benessere che ti avvolge</small></div>
+				<div class="abstract">I sistemi a pannello radiante rappresentano una scelta ottimale per riscaldare e raffrescare ambientigarantendo un elevato Comfort ed un notevole Risparmio Energetico ed Economico.</div>
 			</div>
 		</div>
-		<div class="swiper-pagination swiper-pagination-white"></div>
 	</div>
 </section>
 
-<!-- start product-menu.html-->
+<!-- start product-menu-radiant.html-->
 <section class="section--product" product-menu>
 	<div class="container-fluid">
-		<ul class="nav--product nav--product--primary">
+		<ul class="nav--product">
 			<li>
-				<a href="/tiemme-com/product-radiant.html">
-					<svg class="icon icon--valves"><use xlink:href="#valves"></use></svg>
-					<span>Componenti Idraulici</span>
-				</a>
-			</li>
-			<li>
-				<a href="/tiemme-com/product-radiant.html">
-					<svg class="icon icon--thermo"><use xlink:href="#thermo"></use></svg>
-					<span>Centrale Termica</span>
-				</a>
-			</li>
-			<li>
-				<a href="/tiemme-com/product-radiant.html">
+				<span (dropdown)="onDropdown($event)" dropdown-id="3001">
 					<svg class="icon icon--radiant"><use xlink:href="#radiant"></use></svg>
-					<span>Sistemi Radianti</span>
-				</a>
+					<span>Sistemi Radianti</span> <svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
+				</span>
+				<div class="dropdown dropdown--with-icons" [class]="{ dropped: dropdownId == 3001 }">
+					<div class="category">Area</div>
+					<ul class="nav--dropdown">
+						<li>
+							<a href="/tiemme-com/product-radiant.html">
+								<svg class="icon icon--valves"><use xlink:href="#valves"></use></svg>
+								<span>Componenti Idraulici</span>
+							</a>
+						</li>
+						<li>
+							<a href="/tiemme-com/product-radiant.html">
+								<svg class="icon icon--thermo"><use xlink:href="#thermo"></use></svg>
+								<span>Centrale Termica</span>
+							</a>
+						</li>
+						<li>
+							<a href="/tiemme-com/product-radiant.html">
+								<svg class="icon icon--radiant"><use xlink:href="#radiant"></use></svg>
+								<span>Sistemi Radianti</span>
+							</a>
+						</li>
+						<li>
+							<a href="/tiemme-com/product-radiant.html">
+								<svg class="icon icon--taps"><use xlink:href="#taps"></use></svg>
+								<span>Rubinetti</span>
+							</a>
+						</li>
+					</ul>
+				</div>
 			</li>
 			<li>
-				<a href="/tiemme-com/product-radiant.html">
-					<svg class="icon icon--taps"><use xlink:href="#taps"></use></svg>
-					<span>Rubinetti</span>
-				</a>
+				<span class="empty" (dropdown)="onDropdown($event)" dropdown-id="3002">
+					<span>Catalogo</span> <svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
+				</span>
+				<div class="dropdown" [class]="{ dropped: dropdownId == 3002 }">
+					<div class="category">Catalogo</div>
+					<ul class="nav--dropdown">
+						<li><a href="/tiemme-com/product-radiant-floor.html">Sistemi radianti a pavimento</a></li>
+						<li><a href="/tiemme-com/product-radiant-floor.html">Sistemi radianti a parete e soffitto</a></li>
+						<li><a href="/tiemme-com/product-radiant-floor.html">Collettori di distribuzione e gruppi di miscelazione</a></li>
+						<li><a href="/tiemme-com/product-radiant-floor.html">Trattamento aria</a></li>
+						<li><a href="/tiemme-com/product-radiant-floor.html">Componenti</a></li>
+					</ul>
+				</div>
 			</li>
 			<li class="group--search">
 				<svg class="icon icon--search"><use xlink:href="#search"></use></svg> <input class="form--control" placeholder="cerca un prodotto..." />
@@ -294,14 +297,237 @@
 	</div>
 </section>
 
-<!-- end product-menu.html-->
+<!-- end product-menu-radiant.html-->
 
 <section class="section--intro">
 	<div class="container">
-		<div class="title"><span>NEWS</span></div>
+		<div class="title"><span>Cos'è il Radiante?</span></div>
 	</div>
 </section>
 
+<!-- start slides.html-->
+<section class="section--slides">
+	<div class="swiper-container" swiper-slides>
+		<div class="container">
+			<ul class="nav--slides">
+				<li [class]="{ active: index == 0 }" (click)="slideToIndex(0)"><span><svg class="icon icon--bullet"><use xlink:href="#bullet"></use></svg> Il benessere che ti avvolge</span></li>
+				<li [class]="{ active: index == 1 }" (click)="slideToIndex(1)"><span><svg class="icon icon--bullet"><use xlink:href="#bullet"></use></svg> Edifici NZEB e impianti a bassa inerzia termica</span></li>
+				<li [class]="{ active: index == 2 }" (click)="slideToIndex(2)"><span><svg class="icon icon--bullet"><use xlink:href="#bullet"></use></svg> L'idea del Benessere</span></li>
+				<li [class]="{ active: index == 3 }" (click)="slideToIndex(3)"><span><svg class="icon icon--bullet"><use xlink:href="#bullet"></use></svg> Quali sono i vantaggi?</span></li>
+				<li [class]="{ active: index == 4 }" (click)="slideToIndex(4)"><span><svg class="icon icon--bullet"><use xlink:href="#bullet"></use></svg> Il risparmio energetico</span></li>
+				<li [class]="{ active: index == 5 }" (click)="slideToIndex(5)"><span><svg class="icon icon--bullet"><use xlink:href="#bullet"></use></svg> Un sistema "quattro stagioni"</span></li>
+			</ul>
+			<div class="section--slides__title">Guida di settore</div>
+		</div>
+		<div class="swiper-wrapper">
+			<div class="swiper-slide">
+				<div class="inner">
+					<div class="container">
+						<div class="card--slide" zoomable>
+							<div class="picture picture--slide">
+								<img lazy="/tiemme-com/img/products/radiant/slide-01.jpg" />
+							</div>
+							<svg class="icon icon--expand"><use xlink:href="#expand"></use></svg>
+							<div class="content">
+								<div class="title"><b>Il benessere che ti avvolge</b></div>
+								<div class="abstract">
+									<p>I sistemi a pannello radiante rappresentano una scelta ottimale per riscaldare e raffrescare ambienti garantendo un elevato COMFORT ed un notevole RISPARMIO ENERGETICO e quindi ECONOMICO.</p>
+									<p>Tiemme offre una vasta gamma di sistemi radianti, tutti convenienti ed affidabili. Il loro impiego spazia dalle nuove abitazioni alle ristrutturazioni o agli edifici del terziario, con applicazioni a pavimento, a parete oppure a soffitto.</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="swiper-slide">
+				<div class="inner">
+					<div class="container">
+						<div class="card--slide" zoomable>
+							<div class="picture picture--slide">
+								<img lazy="/tiemme-com/img/products/radiant/slide-02.jpg" />
+							</div>
+							<svg class="icon icon--expand"><use xlink:href="#expand"></use></svg>
+							<div class="content">
+								<div class="title"><b>Edifici NZEB</b> e Impianti a bassa inerzia termica</div>
+								<div class="abstract">Per effetto delle direttive Europee “EPBD” tutti gli edifici di nuova costruzione a partire dal 31 dicembre 2020 dovranno essere ad energia quasi zero; per gli edifici pubblici il termine è anticipato al 31 dicembre 2018. Cosa significa progettare un edificio NZEB? Quali sono le normative e le soluzioni migliori per avere edifici sempre più performanti in termini sia di struttura che di impiantistica e regolazione?</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="swiper-slide">
+				<div class="inner">
+					<div class="container">
+						<div class="card--slide" zoomable>
+							<div class="picture picture--slide">
+								<img lazy="/tiemme-com/img/products/radiant/slide-03.jpg" />
+							</div>
+							<svg class="icon icon--expand"><use xlink:href="#expand"></use></svg>
+							<div class="content">
+								<div class="title"><b>L'idea del Benessere</b></div>
+								<div class="abstract">Scegliere un sistema radiante significa scegliere il BENESSERE. I primi impianti radianti realizzati negli anni ’60 e ’70 furono visti come un esempio di impianto all’avanguardia in quanto permettevano di eliminare i radiatori dalla vista e di conseguenza restituivano una maggiore libertà nell’arredamento. I tubi, allora metallici, venivano alimentati direttamente da caldaie a gasolio quindi a temperature elevate. L’assenza di tecnologie moderne non permise a questa soluzione impiantistica di fare il “boom”. Il motivo oggi è semplice da spiegare: alimentando l’impianto con acqua a temperature elevate, la temperatura superficiale del pavimento si alzava a tal punto da provocare problemi di circolazione e gonfiori di gambe, sensazioni di caldo eccessivo ed eccessiva secchezza dell’aria con conseguenti problemi respiratori. Oggi questi problemi sono stati risolti. Il moderno impianto radiante è servito da moderni sistemi di generazione di acqua calda come le caldaie a condensazione o le pompe di calore, in grado di fornire acqua a bassa temperatura (35°C - 40°C). Questo, unito alla vasta superficie scambiante (la cui temperatura superficiale è compresa tra i 29°C e i 35°C), permette di coprire il fabbisogno termico richiesto dall’abitazione aumentandone pure il COMFORT. A maggior tutela dell’utente, l’intero sistema è regolato dalla normativa UNI EN-1264.</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="swiper-slide">
+				<div class="inner">
+					<div class="container">
+						<div class="card--slide" zoomable>
+							<div class="picture picture--slide">
+								<img lazy="/tiemme-com/img/products/radiant/slide-04.jpg" />
+							</div>
+							<svg class="icon icon--expand"><use xlink:href="#expand"></use></svg>
+							<div class="content">
+								<div class="title"><b>Quali sono i vantaggi?</b></div>
+								<div class="abstract">
+									Le ragioni del successo degli impianti radianti sono trasversali:
+									<ul>
+										<li>Ripartizione del calore in modo uniforme</li>
+										<li>Basse temperature di gestione</li>
+										<li>Alto livello di comfort e valori di umidità ideali</li>
+										<li>Diffusione per irraggiamento e non per convezione quindi assenza di movimenti d’aria calda e limitatissima movimentazione di polvere</li>
+										<li>Impatto estetico nullo</li>
+										<li>Temperatura costante fino a 2 metri dal pavimento</li>
+										<li>Possibilità di raffrescare col medesimo impianto e la sola aggiunta di un deumidificatore</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="swiper-slide">
+				<div class="inner">
+					<div class="container">
+						<div class="card--slide" zoomable>
+							<div class="picture picture--slide">
+								<img lazy="/tiemme-com/img/products/radiant/slide-05.jpg" />
+							</div>
+							<svg class="icon icon--expand"><use xlink:href="#expand"></use></svg>
+							<div class="content">
+								<div class="title"><b>Il risparmio energetico</b></div>
+								<div class="abstract">
+									A parità di temperatura ambiente, un impianto radiante permette di ottenere risparmi energetici nell’ordine del 15 ÷ 20% rispetto ad un impianto tradizionale.
+									I motivi di questo considerevole risparmio sono dovuti principalmente a:
+									<ul>
+										<li>Ampia superficie radiante</li>
+										<li>Bassa temperatura del fluido</li>
+										<li>Minore scambio termico del pannello con le parti fredde</li>
+									</ul>
+									Il risultato è garantito anche in ambienti con altezza interna elevata (capannoni, centri commerciali, chiese, ecc.) in quanto un sistema radiante, a differenza dei sistemi tradizionali, mantiene la temperatura dell’ambiente desiderata solo ad altezza uomo.
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="swiper-slide">
+				<div class="inner">
+					<div class="container">
+						<div class="card--slide" zoomable>
+							<div class="picture picture--slide">
+								<img lazy="/tiemme-com/img/products/radiant/slide-06.jpg" />
+							</div>
+							<svg class="icon icon--expand"><use xlink:href="#expand"></use></svg>
+							<div class="content">
+								<div class="title"><b>Un sistema</b> "quattro stagioni"</div>
+								<div class="abstract">
+									<p>Col medesimo impianto radiante potremo riscaldare e raffrescare, basterà la sola aggiunta di una macchina per la deumidificazione dell’aria: COMFORT garantito in tutte le stagioni.</p>
+									<p>Abbinando il sistema radainte ad un sistema evoluto di termoregolazione TIEMME, il CLIMAV 6000, le prestazioni dell'impianto sono sempre sotto controllo.</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="swiper-button-prev swiper-button-white"></div>
+		<div class="swiper-button-next swiper-button-white"></div>
+		<div class="swiper-pagination swiper-pagination-white"></div>
+	</div>
+</section>
+
+<!-- end slides.html-->
+<!-- start listing-product-radiant.html-->
+<section class="section--listing background--gradient">
+	<div class="container">
+		<div class="section--slides__title">Catalogo Sistemi Radianti</div>
+		<div class="swiper-container" swiper-listing>
+			<div class="swiper-wrapper">
+				<div class="swiper-slide">
+					<a href="/tiemme-com/product-radiant-floor.html" class="card--product">
+						<div class="picture picture--product">
+							<img lazy="/tiemme-com/img/products/radiant/product-01.jpg" />
+							<div class="category">Sistemi radianti a pavimento</div>
+						</div>
+					</a>
+				</div>
+				<div class="swiper-slide">
+					<a href="/tiemme-com/product-radiant-floor.html" class="card--product">
+						<div class="picture picture--product">
+							<img lazy="/tiemme-com/img/products/radiant/product-01.jpg" />
+							<div class="category">Sistemi radianti a parete e soffitto</div>
+						</div>
+					</a>
+				</div>
+				<div class="swiper-slide">
+					<a href="/tiemme-com/product-radiant-floor.html" class="card--product">
+						<div class="picture picture--product">
+							<img lazy="/tiemme-com/img/products/radiant/product-01.jpg" />
+							<div class="category">Collettori di distribuzione e gruppi di miscelazione</div>
+						</div>
+					</a>
+				</div>
+				<div class="swiper-slide">
+					<a href="/tiemme-com/product-radiant-floor.html" class="card--product">
+						<div class="picture picture--product">
+							<img lazy="/tiemme-com/img/products/radiant/product-01.jpg" />
+							<div class="category">Trattamento aria</div>
+						</div>
+					</a>
+				</div>
+				<div class="swiper-slide">
+					<a href="/tiemme-com/product-radiant-floor.html" class="card--product">
+						<div class="picture picture--product">
+							<img lazy="/tiemme-com/img/products/radiant/product-01.jpg" />
+							<div class="category">Componenti</div>
+						</div>
+					</a>
+				</div>
+			</div>
+			<div class="swiper-pagination swiper-pagination-white"></div>
+		</div>
+	</div>
+</section>
+
+<!-- end listing-product-radiant.html-->
+<!-- start technician.html-->
+<section class="section--technician background--gradient">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="picture picture--technician">
+					<img lazy="/tiemme-com/img/technician/technician.png" />
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="category"><svg class="icon icon--bullet"><use xlink:href="#bullet"></use></svg> Il Tecnico Risponde</div>
+				<div class="title">“Come fare il Calcolo dispersioni di un impianto a pavimento perville a schiera a due piani?„</div>
+				<div class="abstract">
+					<p>Nella progettazione di un impianto di riscaldamento a pavimento oltre a stabilire la potenza termica radiante volta all’ambiente abitativo, si deve considerare anche la quantità di calore che viene dispersa verso il piano inferiore.</p>
+					<p>Una delle prove che il tecnico dell’impresa deve effettuare per valutare l’efficienza del pannello radiante è quello di misurare la temperatura sul soffitto che deve essere di circa -3°C rispetto alla temperatura ambiente...</p>
+				</div>
+				<div class="group--cta">
+					<button type="button" class="btn--link"><span>leggi di più</span></button>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- end technician.html-->
 <!-- start news.html-->
 <section class="section--news">
 	<div class="container">
@@ -414,7 +640,7 @@
 					<li><a href="#">Contattaci</a></li>
 					<li><a href="#">Filiali</a></li>
 					<li><a href="#">Cerca un agente</a></li>
-					<li><a href="/tiemme-com/contacts-work-with-us.html">Lavora con noi</a></li>
+					<li><a href="#">Lavora con noi</a></li>
 				</ul>
 			</div>
 		</div>

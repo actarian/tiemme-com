@@ -120,6 +120,23 @@
 	}
 }
 
+.section--hero-secondary {
+	@extend %section--hero;
+	@extend %section--hero-title;
+
+	.container {
+		padding-bottom: 90px;
+	}
+
+	@include media-breakpoint-up(md) {
+		height: 560px;
+	}
+
+	@include media-breakpoint-down(sm) {
+		height: 60vh;
+	}
+}
+
 .scroll__indicator {
 	position: absolute;
 	left: 50%;

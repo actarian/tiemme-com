@@ -5,10 +5,10 @@
  */
 
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('rxcomp'), require('rxjs/operators'), require('rxjs')) :
-  typeof define === 'function' && define.amd ? define('main', ['rxcomp', 'rxjs/operators', 'rxjs'], factory) :
-  (global = global || self, factory(global.rxcomp, global.rxjs.operators, global.rxjs));
-}(this, (function (rxcomp, operators, rxjs) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('rxcomp'), require('rxcomp-form'), require('rxjs/operators'), require('rxjs')) :
+  typeof define === 'function' && define.amd ? define('main', ['rxcomp', 'rxcomp-form', 'rxjs/operators', 'rxjs'], factory) :
+  (global = global || self, factory(global.rxcomp, global['rxcomp-form'], global.rxjs.operators, global.rxjs));
+}(this, (function (rxcomp, rxcompForm, operators, rxjs) { 'use strict';
 
   function _defineProperties(target, props) {
     for (var i = 0; i < props.length; i++) {
@@ -236,7 +236,7 @@
     };
 
     _proto.onDropdown = function onDropdown(dropdown) {
-      console.log('AppComponent', dropdown);
+      console.log('AppComponent.onDropdown', dropdown);
     } // onView() { const context = getContext(this); }
     // onChanges() {}
     // onDestroy() {}
@@ -321,6 +321,390 @@
   }(rxcomp.Directive);
   AppearDirective.meta = {
     selector: '[appear]'
+  };
+
+  var ClickOutsideDirective =
+  /*#__PURE__*/
+  function (_Directive) {
+    _inheritsLoose(ClickOutsideDirective, _Directive);
+
+    function ClickOutsideDirective() {
+      return _Directive.apply(this, arguments) || this;
+    }
+
+    var _proto = ClickOutsideDirective.prototype;
+
+    _proto.onInit = function onInit() {
+      var _this = this;
+
+      this.initialFocus = false;
+
+      var _getContext = rxcomp.getContext(this),
+          module = _getContext.module,
+          node = _getContext.node,
+          parentInstance = _getContext.parentInstance,
+          selector = _getContext.selector;
+
+      var event$ = this.event$ = rxjs.fromEvent(document, 'click').pipe(operators.filter(function (event) {
+        var target = event.target; // console.log('ClickOutsideDirective.onClick', this.element.nativeElement, target, this.element.nativeElement.contains(target));
+        // const documentContained: boolean = Boolean(document.compareDocumentPosition(target) & Node.DOCUMENT_POSITION_CONTAINED_BY);
+        // console.log(target, documentContained);
+
+        var clickedInside = node.contains(target) || !document.contains(target);
+
+        if (!clickedInside) {
+          if (_this.initialFocus) {
+            _this.initialFocus = false;
+            return true;
+          }
+        } else {
+          _this.initialFocus = true;
+        }
+      }), operators.shareReplay(1));
+      var expression = node.getAttribute("(clickOutside)");
+
+      if (expression) {
+        var outputFunction = module.makeFunction(expression, ['$event']);
+        event$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (event) {
+          module.resolve(outputFunction, parentInstance, event);
+        });
+      } else {
+        parentInstance.clickOutside$ = event$;
+      }
+    };
+
+    return ClickOutsideDirective;
+  }(rxcomp.Directive);
+  ClickOutsideDirective.meta = {
+    selector: "[(clickOutside)]"
+  };
+
+  var FormAttributes = ['untouched', 'touched', 'pristine', 'dirty', 'pending', 'enabled', 'disabled', 'valid', 'invalid', 'submitted'];
+
+  var ControlComponent =
+  /*#__PURE__*/
+  function (_Component) {
+    _inheritsLoose(ControlComponent, _Component);
+
+    function ControlComponent() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = ControlComponent.prototype;
+
+    _proto.onChanges = function onChanges() {
+      var _getContext = rxcomp.getContext(this),
+          node = _getContext.node;
+
+      var control = this.control;
+      console.log(control);
+      FormAttributes.forEach(function (x) {
+        if (control[x]) {
+          node.classList.add(x);
+        } else {
+          node.classList.remove(x);
+        }
+
+        if (control.errors.required) {
+          node.classList.add('required');
+        } else {
+          node.classList.remove('required');
+        }
+      });
+    };
+
+    return ControlComponent;
+  }(rxcomp.Component);
+  ControlComponent.meta = {
+    selector: '[control]',
+    inputs: ['control', 'label']
+  };
+
+  var ControlCheckboxComponent =
+  /*#__PURE__*/
+  function (_ControlComponent) {
+    _inheritsLoose(ControlCheckboxComponent, _ControlComponent);
+
+    function ControlCheckboxComponent() {
+      return _ControlComponent.apply(this, arguments) || this;
+    }
+
+    var _proto = ControlCheckboxComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      this.label = 'label';
+    };
+
+    return ControlCheckboxComponent;
+  }(ControlComponent);
+  ControlCheckboxComponent.meta = {
+    selector: '[control-checkbox]',
+    inputs: ['control', 'label'],
+    template:
+    /* html */
+    "\n\t\t<div class=\"group--form--checkbox\">\n\t\t\t<label><input type=\"checkbox\" class=\"control--checkbox\" [formControl]=\"control\" [value]=\"true\"/><span [innerHTML]=\"label\"></span></label>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
+  };
+
+  var ControlCustomSelectComponent =
+  /*#__PURE__*/
+  function (_ControlComponent) {
+    _inheritsLoose(ControlCustomSelectComponent, _ControlComponent);
+
+    function ControlCustomSelectComponent() {
+      return _ControlComponent.apply(this, arguments) || this;
+    }
+
+    var _proto = ControlCustomSelectComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      this.label = 'label';
+      this.labels = window.labels || {};
+      this.dropped = false;
+    };
+
+    _proto.setOption = function setOption(item) {
+      this.control.value = item.id;
+    };
+
+    _proto.onDropdown = function onDropdown(event) {
+      console.log('ControlCustomSelectComponent.onDropdown', event);
+    };
+
+    _proto.getValue = function getValue() {
+      return this.control.value || this.labels.select;
+    };
+
+    _proto.onClick = function onClick(event) {
+      console.log('ControlCustomSelectComponent.onClick', event);
+      this.dropped = true;
+      this.pushChanges();
+    };
+
+    _proto.onClickOutside = function onClickOutside(event) {
+      console.log('ControlCustomSelectComponent.onClickOutside', event);
+      this.dropped = false;
+      this.pushChanges();
+    };
+
+    return ControlCustomSelectComponent;
+  }(ControlComponent);
+  ControlCustomSelectComponent.meta = {
+    selector: '[control-custom-select]',
+    inputs: ['control', 'label'],
+    template:
+    /* html */
+    "\n\t\t<div class=\"group--form--select\" (click)=\"onClick($event)\" (clickOutside)=\"onClickOutside($event)\">\n\t\t\t<label [innerHTML]=\"label\"></label>\n\t\t\t<span class=\"control--select\" [innerHTML]=\"getValue()\"></span>\n\t\t\t<svg class=\"icon icon--caret-down\"><use xlink:href=\"#caret-down\"></use></svg>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t\t<div class=\"dropdown\" [class]=\"{ dropped: dropped }\">\n\t\t\t<div class=\"category\" [innerHTML]=\"label\"></div>\n\t\t\t<ul class=\"nav--dropdown\">\n\t\t\t\t<li *for=\"let item of control.options\" (click)=\"setOption(item)\"><span [innerHTML]=\"item.name\"></span></li>\n\t\t\t</ul>\n\t\t</div>\n\t"
+  };
+
+  var ControlEmailComponent =
+  /*#__PURE__*/
+  function (_ControlComponent) {
+    _inheritsLoose(ControlEmailComponent, _ControlComponent);
+
+    function ControlEmailComponent() {
+      return _ControlComponent.apply(this, arguments) || this;
+    }
+
+    var _proto = ControlEmailComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      this.label = 'label';
+    };
+
+    return ControlEmailComponent;
+  }(ControlComponent);
+  ControlEmailComponent.meta = {
+    selector: '[control-email]',
+    inputs: ['control', 'label'],
+    template:
+    /* html */
+    "\n\t\t<div class=\"group--form\">\n\t\t\t<label [innerHTML]=\"label\"></label>\n\t\t\t<input type=\"text\" class=\"control--text\" [formControl]=\"control\" [placeholder]=\"label\" required email />\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
+  };
+
+  var ControlFileComponent =
+  /*#__PURE__*/
+  function (_ControlComponent) {
+    _inheritsLoose(ControlFileComponent, _ControlComponent);
+
+    function ControlFileComponent() {
+      return _ControlComponent.apply(this, arguments) || this;
+    }
+
+    var _proto = ControlFileComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      this.label = 'label';
+      this.labels = window.labels || {};
+      this.required = false;
+      this.onReaderComplete = this.onReaderComplete.bind(this);
+    };
+
+    _proto.onInputDidChange = function onInputDidChange(event) {
+      var input = event.target;
+      var file = input.files[0];
+      this.file = {
+        name: file.name,
+        lastModified: file.lastModified,
+        lastModifiedDate: file.lastModifiedDate,
+        size: file.size,
+        type: file.type
+      };
+      var reader = new FileReader();
+      reader.addEventListener('load', this.onReaderComplete);
+      reader.readAsDataURL(file); // reader.readAsArrayBuffer() // Starts reading the contents of the specified Blob, once finished, the result attribute contains an ArrayBuffer representing the file's data.
+      // reader.readAsBinaryString() // Starts reading the contents of the specified Blob, once finished, the result attribute contains the raw binary data from the file as a string.
+      // reader.readAsDataURL() // Starts reading the contents of the specified Blob, once finished, the result attribute contains a data: URL representing the file's data.
+      // reader.readAsText() // Starts reading the contents of the specified Blob, once finished, the result attribute contains the contents of the file as a text string. An optional encoding name can be specified.
+    };
+
+    _proto.onReaderComplete = function onReaderComplete(event) {
+      var content = event.target.result;
+      this.file.content = content;
+      this.control.value = this.file;
+      console.log('ControlFileComponent.onReaderComplete', this.file); // image/*,
+    };
+
+    return ControlFileComponent;
+  }(ControlComponent);
+  ControlFileComponent.meta = {
+    selector: '[control-file]',
+    inputs: ['control', 'label'],
+    template:
+    /* html */
+    "\n\t\t<div class=\"group--form--file\">\n\t\t\t<label for=\"file\" [innerHTML]=\"label\"></label>\n\t\t\t<span class=\"control--select\" [innerHTML]=\"labels.select_file\"></span>\n\t\t\t<svg class=\"icon icon--upload\"><use xlink:href=\"#upload\"></use></svg>\n\t\t\t<input name=\"file\" type=\"file\" accept=\".pdf,.doc,.docx,*.txt\" class=\"control--file\" (change)=\"onInputDidChange($event)\" />\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
+  };
+
+  var ControlSelectComponent =
+  /*#__PURE__*/
+  function (_ControlComponent) {
+    _inheritsLoose(ControlSelectComponent, _ControlComponent);
+
+    function ControlSelectComponent() {
+      return _ControlComponent.apply(this, arguments) || this;
+    }
+
+    var _proto = ControlSelectComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      this.label = 'label';
+      this.labels = window.labels || {};
+    };
+
+    return ControlSelectComponent;
+  }(ControlComponent);
+  ControlSelectComponent.meta = {
+    selector: '[control-select]',
+    inputs: ['control', 'label'],
+    template:
+    /* html */
+    "\n\t\t<div class=\"group--form--select\">\n\t\t\t<label [innerHTML]=\"label\"></label>\n\t\t\t<select class=\"control--select\" [formControl]=\"control\" required>\n\t\t\t\t<option value=\"\">{{labels.select}}</option>\n\t\t\t\t<option [value]=\"item.id\" *for=\"let item of control.options\" [innerHTML]=\"item.name\"></option>\n\t\t\t</select>\n\t\t\t<svg class=\"icon icon--caret-down\"><use xlink:href=\"#caret-down\"></use></svg>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
+  };
+
+  var ControlTextComponent =
+  /*#__PURE__*/
+  function (_ControlComponent) {
+    _inheritsLoose(ControlTextComponent, _ControlComponent);
+
+    function ControlTextComponent() {
+      return _ControlComponent.apply(this, arguments) || this;
+    }
+
+    var _proto = ControlTextComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      this.label = 'label';
+      this.required = false;
+    };
+
+    return ControlTextComponent;
+  }(ControlComponent);
+  ControlTextComponent.meta = {
+    selector: '[control-text]',
+    inputs: ['control', 'label'],
+    template:
+    /* html */
+    "\n\t\t<div class=\"group--form\">\n\t\t\t<label [innerHTML]=\"label\"></label>\n\t\t\t<input type=\"text\" class=\"control--text\" [formControl]=\"control\" [placeholder]=\"label\" />\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
+  };
+
+  var ControlTextareaComponent =
+  /*#__PURE__*/
+  function (_ControlComponent) {
+    _inheritsLoose(ControlTextareaComponent, _ControlComponent);
+
+    function ControlTextareaComponent() {
+      return _ControlComponent.apply(this, arguments) || this;
+    }
+
+    var _proto = ControlTextareaComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      this.label = 'label';
+      this.required = false;
+    };
+
+    return ControlTextareaComponent;
+  }(ControlComponent);
+  ControlTextareaComponent.meta = {
+    selector: '[control-textarea]',
+    inputs: ['control', 'label'],
+    template:
+    /* html */
+    "\n\t\t<div class=\"group--form--textarea\">\n\t\t\t<label [innerHTML]=\"label\"></label>\n\t\t\t<textarea class=\"control--text\" [formControl]=\"control\" [innerHTML]=\"label\" rows=\"4\"></textarea>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
+  };
+
+  var ErrorsComponent =
+  /*#__PURE__*/
+  function (_ControlComponent) {
+    _inheritsLoose(ErrorsComponent, _ControlComponent);
+
+    function ErrorsComponent() {
+      return _ControlComponent.apply(this, arguments) || this;
+    }
+
+    var _proto = ErrorsComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      this.labels = window.labels || {};
+    };
+
+    _proto.getLabel = function getLabel(key, value) {
+      var label = this.labels["error_" + key];
+      return label;
+    };
+
+    return ErrorsComponent;
+  }(ControlComponent);
+  ErrorsComponent.meta = {
+    selector: 'errors-component',
+    inputs: ['control'],
+    template:
+    /* html */
+    "\n\t<div class=\"inner\" [style]=\"{ display: control.invalid && control.touched ? 'block' : 'none' }\">\n\t\t<div class=\"error\" *for=\"let [key, value] of control.errors\">\n\t\t\t<span [innerHTML]=\"getLabel(key, value)\"></span>\n\t\t\t<!-- <span class=\"key\" [innerHTML]=\"key\"></span> <span class=\"value\" [innerHTML]=\"value | json\"></span> -->\n\t\t</div>\n\t</div>\n\t"
+  };
+
+  var ValueDirective =
+  /*#__PURE__*/
+  function (_Directive) {
+    _inheritsLoose(ValueDirective, _Directive);
+
+    function ValueDirective() {
+      return _Directive.apply(this, arguments) || this;
+    }
+
+    var _proto = ValueDirective.prototype;
+
+    _proto.onChanges = function onChanges(changes) {
+      var _getContext = rxcomp.getContext(this),
+          node = _getContext.node;
+
+      node.setAttribute('value', this.value);
+    };
+
+    return ValueDirective;
+  }(rxcomp.Directive);
+  ValueDirective.meta = {
+    selector: '[[value]]',
+    inputs: ['value']
   };
 
   var HeaderComponent =
@@ -933,6 +1317,97 @@
 
   };
 
+  var WorkWithUsComponent =
+  /*#__PURE__*/
+  function (_Component) {
+    _inheritsLoose(WorkWithUsComponent, _Component);
+
+    function WorkWithUsComponent() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = WorkWithUsComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      var _this = this;
+
+      var data = window.data || {
+        interests: [],
+        contactReasons: [],
+        contactTypes: [],
+        countries: [],
+        provinces: []
+      }; // console.log('WorkWithUsComponent.countries', data.countries);
+
+      /*
+      const countries = new FormControl(null, Validators.RequiredValidator());
+      countries.options = data.countries;
+      */
+
+      var form = new rxcompForm.FormGroup({
+        firstName: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        lastName: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        email: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator(), rxcompForm.Validators.EmailValidator()]),
+        telephone: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        experience: null,
+        company: new rxcompForm.FormControl(null),
+        interests: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        introduction: new rxcompForm.FormControl(null),
+        privacy: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        curricula: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator())
+        /*
+        country: new FormControl(null, Validators.RequiredValidator()),
+        province: null,
+        */
+
+      });
+      var controls = form.controls;
+      controls.interests.options = data.interests;
+      this.controls = controls;
+      /*
+      controls.country.options = data.countries;
+      controls.province.options = [];
+      */
+
+      /*
+      form.patch({
+      	firstName: 'Jhon',
+      	lastName: 'Appleseed',
+      	email: 'jhonappleseed@gmail.com',
+      	country: 'en-US'
+      });
+      */
+
+      form.changes$.pipe(operators.tap(function (changes) {
+        console.log('WorkWithUsComponent.form.changes$', changes, form.valid);
+        /*
+        const provinces = data.provinces.filter(province => {
+        	return String(province.idstato) === String(changes.country);
+        });
+        form.get('province').options = provinces;
+        console.log(provinces);
+        */
+      })).subscribe(function (changes) {
+        _this.pushChanges();
+      });
+      this.form = form;
+    };
+
+    _proto.onSubmit = function onSubmit() {
+      this.form.touched = true;
+
+      if (this.form.valid) {
+        console.log('WorkWithUsComponent.onSubmit', this.form.value);
+        this.form.submitted = true; // this.form.reset();
+      }
+    };
+
+    return WorkWithUsComponent;
+  }(rxcomp.Component);
+  WorkWithUsComponent.meta = {
+    selector: '[work-with-us]'
+  };
+
   var YoutubeComponent =
   /*#__PURE__*/
   function (_Component) {
@@ -1253,8 +1728,8 @@
     return AppModule;
   }(rxcomp.Module);
   AppModule.meta = {
-    imports: [rxcomp.CoreModule],
-    declarations: [AppearDirective, DropdownDirective, HeaderComponent, LazyDirective, ProductMenuComponent, SpritesComponent, SrcDirective, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, VideoComponent, ZoomableDirective, YoutubeComponent],
+    imports: [rxcomp.CoreModule, rxcompForm.FormModule],
+    declarations: [AppearDirective, ClickOutsideDirective, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, ErrorsComponent, HeaderComponent, LazyDirective, ProductMenuComponent, SpritesComponent, SrcDirective, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, ValueDirective, VideoComponent, WorkWithUsComponent, YoutubeComponent, ZoomableDirective],
     bootstrap: AppComponent
   };
 
