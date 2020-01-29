@@ -12,11 +12,11 @@ import ControlSelectComponent from './forms/control-select.component';
 import ControlTextComponent from './forms/control-text.component';
 import ControlTextareaComponent from './forms/control-textarea.component';
 import ErrorsComponent from './forms/errors.component';
-import ValueDirective from './forms/value.directive';
+// import ValueDirective from './forms/value.directive';
 import HeaderComponent from './header/header.component';
 import LazyDirective from './lazy/lazy.directive';
 import ProductMenuComponent from './product-menu/product-menu.component';
-import SpritesComponent from './sprites/sprites.component';
+// import SpritesComponent from './sprites/sprites.component';
 import SrcDirective from './src/src.directive';
 import SwiperListingDirective from './swiper/swiper-listing.directive';
 import SwiperSlidesDirective from './swiper/swiper-slides.directive';
@@ -48,12 +48,12 @@ AppModule.meta = {
 		HeaderComponent,
 		LazyDirective,
 		ProductMenuComponent,
-		SpritesComponent,
+		// SpritesComponent,
 		SrcDirective,
 		SwiperDirective,
 		SwiperListingDirective,
 		SwiperSlidesDirective,
-		ValueDirective,
+		// ValueDirective,
 		VideoComponent,
 		WorkWithUsComponent,
 		YoutubeComponent,

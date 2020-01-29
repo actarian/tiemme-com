@@ -19,7 +19,7 @@ export default class WorkWithUsComponent extends Component {
 			company: new FormControl(null),
 			interests: new FormControl(null, Validators.RequiredValidator()),
 			introduction: new FormControl(null),
-			privacy: new FormControl(null, Validators.RequiredValidator()),
+			privacy: new FormControl(null, Validators.RequiredTrueValidator()),
 			curricula: new FormControl(null, Validators.RequiredValidator()),
 		});
 

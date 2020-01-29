@@ -3550,7 +3550,7 @@ ul {
       -webkit-box-pack: justify;
           -ms-flex-pack: justify;
               justify-content: space-between;
-      padding: 0 20px 0 40px;
+      padding: 0 40px 0 40px;
       height: 68px;
       line-height: 68px;
       font-size: 24px;
@@ -3583,6 +3583,7 @@ ul {
         width: 8px;
         height: 5px;
         margin-left: 10px;
+        margin-right: -20px;
         fill: #ffffff;
         -webkit-transition: ease-in-out 350ms;
         transition: ease-in-out 350ms;
@@ -3668,6 +3669,15 @@ ul {
     -webkit-box-flex: 1;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto; }
+  .nav--product.fixed {
+    margin-top: 150px;
+    position: fixed;
+    max-width: 1517px;
+    z-index: 100;
+    top: 10px;
+    margin: 0;
+    -webkit-box-shadow: 0 20px 20px -10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 20px -10px rgba(0, 0, 0, 0.3); }
 
 .nav--select {
   -webkit-box-orient: vertical;
@@ -5213,6 +5223,11 @@ img {
 .section--text-picture {
   position: relative;
   padding-bottom: 80px; }
+  .section--text-picture .abstract {
+    padding-bottom: 40px; }
+    .section--text-picture .abstract p {
+      margin: 0;
+      padding-bottom: 15px; }
   .section--text-picture .picture--product {
     -webkit-box-shadow: 0 20px 20px -5px rgba(0, 0, 0, 0.2);
             box-shadow: 0 20px 20px -5px rgba(0, 0, 0, 0.2); }
@@ -5222,7 +5237,7 @@ img {
             align-items: center; }
   .section--text-picture:not(.section--intro) {
     margin-top: -80px; }
-    .section--text-picture:not(.section--intro) .abstract {
+    .section--text-picture:not(.section--intro) > .container > .row > div:first-child {
       padding-top: 160px; }
 
 .section--dimensions {
@@ -5465,6 +5480,33 @@ img {
     margin-bottom: 30px; }
   .section--technician .group--cta {
     margin-bottom: 80px; }
+
+.group--address {
+  margin-bottom: 40px; }
+  .group--address .name {
+    margin-bottom: 5px;
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    text-transform: uppercase; }
+  .group--address .address {
+    margin-bottom: 20px; }
+  .group--address .info {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    font-size: 16px;
+    padding: 10px 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.2); }
+    .group--address .info > span:first-child {
+      -webkit-box-flex: 0;
+          -ms-flex: 0 0 60px;
+              flex: 0 0 60px; }
+    .group--address .info .btn--link {
+      margin-left: 10px; }
 
 .section--form {
   padding: 80px 0; }

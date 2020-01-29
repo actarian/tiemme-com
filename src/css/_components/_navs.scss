@@ -140,7 +140,7 @@ ul {
 		&>span {
 			justify-content: space-between;
 
-			padding: 0 20px 0 40px;
+			padding: 0 40px 0 40px;
 			height: 68px;
 			line-height: 68px;
 			font-size: 24px;
@@ -172,6 +172,7 @@ ul {
 				width: 8px;
 				height: 5px;
 				margin-left: 10px;
+				margin-right: -20px;
 				fill: $foreground-negative;
 				transition: ease-in-out 350ms;
 				transition-property: fill;
@@ -252,6 +253,16 @@ ul {
 		&>li {
 			flex: 1 1 auto;
 		}
+	}
+
+	&.fixed {
+		margin-top: 150px;
+		position: fixed;
+		max-width: 1517px;
+		z-index: 100;
+		top: 10px;
+		margin: 0;
+		box-shadow: 0 20px 20px -10px rgba(0, 0, 0, 0.3);
 	}
 }
 
