@@ -524,9 +524,10 @@ form {
 errors-component {
   display: block; }
   errors-component .inner {
-    margin-top: -30px;
+    margin-top: -10px;
     margin-bottom: 10px;
-    padding: 10px 10px;
+    padding: 7px 7px;
+    font-size: 14px;
     background: #dc1216;
     color: #ffffff; }
 
