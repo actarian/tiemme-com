@@ -295,7 +295,7 @@ button,
 .btn--wishlist .icon--wishlist + span {
   margin-left: 10px; }
 
-.group--form label, .group--form--textarea label, .group--form--select label, .group--form--checkbox label, .group--form--file label, errors-component .inner {
+.group--form label, .group--form--textarea label, .group--form--select label, .group--form--checkbox label, .group--form--file label, errors-component .inner, .required .required__badge {
   display: block;
   -webkit-box-flex: 0;
       -ms-flex: 0 0 100%;
@@ -449,7 +449,7 @@ form {
   .group--form--select input {
     pointer-events: none; }
   .group--form--select .icon--caret-down {
-    margin: 5px 10px 0 0;
+    margin: 5px 15px 0 0;
     fill: #16255b;
     pointer-events: none; }
 
@@ -505,7 +505,7 @@ form {
   margin-top: 13px;
   cursor: pointer; }
   .group--form--file .icon--upload {
-    margin: 0 5px;
+    margin: 0 7px 0 0;
     fill: #16255b;
     pointer-events: none; }
 
@@ -605,6 +605,21 @@ errors-component {
 
 .btn--submit {
   font-size: 30px; }
+
+.required__badge {
+  display: none; }
+
+.required {
+  position: relative; }
+  .required .required__badge {
+    display: block;
+    position: absolute;
+    font-size: 11px;
+    right: 0px;
+    top: 10px; }
+  .required.group--form--select .required__badge, .required.group--form--file .required__badge {
+    top: 8px;
+    right: 10px; }
 
 .container {
   width: 100%;

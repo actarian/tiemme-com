@@ -218,18 +218,8 @@
     _proto.onInit = function onInit() {
       var _this = this;
 
-      var context = rxcomp.getContext(this);
-      console.log('context', context);
-      this.items = new Array(100).fill(true).map(function (x, i) {
-        var id = i + 1;
-        var title = "Title " + id;
-        var image = "https://source.unsplash.com/random/700x700?sig=" + id;
-        return {
-          id: id,
-          title: title,
-          image: image
-        };
-      });
+      // const context = getContext(this);
+      // console.log('context', context);
       DropdownDirective.dropdown$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (dropdown) {
         return _this.dropdownId = dropdown;
       });
@@ -379,7 +369,7 @@
     selector: "[(clickOutside)]"
   };
 
-  var FormAttributes = ['untouched', 'touched', 'pristine', 'dirty', 'pending', 'enabled', 'disabled', 'valid', 'invalid', 'submitted'];
+  // export const FormAttributes = ['untouched', 'touched', 'pristine', 'dirty', 'pending', 'enabled', 'disabled', 'valid', 'invalid', 'submitted'];
 
   var ControlComponent =
   /*#__PURE__*/
@@ -393,31 +383,29 @@
     var _proto = ControlComponent.prototype;
 
     _proto.onChanges = function onChanges() {
-      var _getContext = rxcomp.getContext(this),
-          node = _getContext.node;
-
-      var control = this.control;
-      console.log(control);
-      FormAttributes.forEach(function (x) {
-        if (control[x]) {
-          node.classList.add(x);
-        } else {
-          node.classList.remove(x);
-        }
-
-        if (control.errors.required) {
-          node.classList.add('required');
-        } else {
-          node.classList.remove('required');
-        }
+      /*
+      const { node } = getContext(this);
+      const control = this.control;
+      FormAttributes.forEach(x => {
+      	if (control[x]) {
+      		node.classList.add(x);
+      	} else {
+      		node.classList.remove(x);
+      	}
+      	if (control.errors.required) {
+      		node.classList.add('required');
+      	} else {
+      		node.classList.remove('required');
+      	}
       });
+      */
     };
 
     return ControlComponent;
   }(rxcomp.Component);
   ControlComponent.meta = {
     selector: '[control]',
-    inputs: ['control', 'label']
+    inputs: ['control']
   };
 
   var ControlCheckboxComponent =
@@ -442,7 +430,7 @@
     inputs: ['control', 'label'],
     template:
     /* html */
-    "\n\t\t<div class=\"group--form--checkbox\">\n\t\t\t<label><input type=\"checkbox\" class=\"control--checkbox\" [formControl]=\"control\" [value]=\"true\"/><span [innerHTML]=\"label\"></span></label>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
+    "\n\t\t<div class=\"group--form--checkbox\" [class]=\"{ required: control.validators.length }\">\n\t\t\t<label><input type=\"checkbox\" class=\"control--checkbox\" [formControl]=\"control\" [value]=\"true\"/><span [innerHTML]=\"label\"></span></label>\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
   };
 
   var ControlCustomSelectComponent =
@@ -493,7 +481,7 @@
     inputs: ['control', 'label'],
     template:
     /* html */
-    "\n\t\t<div class=\"group--form--select\" (click)=\"onClick($event)\" (clickOutside)=\"onClickOutside($event)\">\n\t\t\t<label [innerHTML]=\"label\"></label>\n\t\t\t<span class=\"control--select\" [innerHTML]=\"getValue()\"></span>\n\t\t\t<svg class=\"icon icon--caret-down\"><use xlink:href=\"#caret-down\"></use></svg>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t\t<div class=\"dropdown\" [class]=\"{ dropped: dropped }\">\n\t\t\t<div class=\"category\" [innerHTML]=\"label\"></div>\n\t\t\t<ul class=\"nav--dropdown\">\n\t\t\t\t<li *for=\"let item of control.options\" (click)=\"setOption(item)\"><span [innerHTML]=\"item.name\"></span></li>\n\t\t\t</ul>\n\t\t</div>\n\t"
+    "\n\t\t<div class=\"group--form--select\" [class]=\"{ required: control.validators.length }\" (click)=\"onClick($event)\" (clickOutside)=\"onClickOutside($event)\">\n\t\t\t<label [innerHTML]=\"label\"></label>\n\t\t\t<span class=\"control--select\" [innerHTML]=\"getValue()\"></span>\n\t\t\t<svg class=\"icon icon--caret-down\"><use xlink:href=\"#caret-down\"></use></svg>\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t\t<div class=\"dropdown\" [class]=\"{ dropped: dropped }\">\n\t\t\t<div class=\"category\" [innerHTML]=\"label\"></div>\n\t\t\t<ul class=\"nav--dropdown\">\n\t\t\t\t<li *for=\"let item of control.options\" (click)=\"setOption(item)\"><span [innerHTML]=\"item.name\"></span></li>\n\t\t\t</ul>\n\t\t</div>\n\t"
   };
 
   var ControlEmailComponent =
@@ -518,7 +506,7 @@
     inputs: ['control', 'label'],
     template:
     /* html */
-    "\n\t\t<div class=\"group--form\">\n\t\t\t<label [innerHTML]=\"label\"></label>\n\t\t\t<input type=\"text\" class=\"control--text\" [formControl]=\"control\" [placeholder]=\"label\" required email />\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
+    "\n\t\t<div class=\"group--form\" [class]=\"{ required: control.validators.length }\">\n\t\t\t<label [innerHTML]=\"label\"></label>\n\t\t\t<input type=\"text\" class=\"control--text\" [formControl]=\"control\" [placeholder]=\"label\" required email />\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
   };
 
   var ControlFileComponent =
@@ -571,7 +559,7 @@
     inputs: ['control', 'label'],
     template:
     /* html */
-    "\n\t\t<div class=\"group--form--file\">\n\t\t\t<label for=\"file\" [innerHTML]=\"label\"></label>\n\t\t\t<span class=\"control--select\" [innerHTML]=\"labels.select_file\"></span>\n\t\t\t<svg class=\"icon icon--upload\"><use xlink:href=\"#upload\"></use></svg>\n\t\t\t<input name=\"file\" type=\"file\" accept=\".pdf,.doc,.docx,*.txt\" class=\"control--file\" (change)=\"onInputDidChange($event)\" />\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
+    "\n\t\t<div class=\"group--form--file\" [class]=\"{ required: control.validators.length }\">\n\t\t\t<label for=\"file\" [innerHTML]=\"label\"></label>\n\t\t\t<span class=\"control--select\" [innerHTML]=\"labels.select_file\"></span>\n\t\t\t<svg class=\"icon icon--upload\"><use xlink:href=\"#upload\"></use></svg>\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t\t<input name=\"file\" type=\"file\" accept=\".pdf,.doc,.docx,*.txt\" class=\"control--file\" (change)=\"onInputDidChange($event)\" />\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
   };
 
   var ControlSelectComponent =
@@ -597,7 +585,7 @@
     inputs: ['control', 'label'],
     template:
     /* html */
-    "\n\t\t<div class=\"group--form--select\">\n\t\t\t<label [innerHTML]=\"label\"></label>\n\t\t\t<select class=\"control--select\" [formControl]=\"control\" required>\n\t\t\t\t<option value=\"\">{{labels.select}}</option>\n\t\t\t\t<option [value]=\"item.id\" *for=\"let item of control.options\" [innerHTML]=\"item.name\"></option>\n\t\t\t</select>\n\t\t\t<svg class=\"icon icon--caret-down\"><use xlink:href=\"#caret-down\"></use></svg>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
+    "\n\t\t<div class=\"group--form--select\" [class]=\"{ required: control.validators.length }\">\n\t\t\t<label [innerHTML]=\"label\"></label>\n\t\t\t<select class=\"control--select\" [formControl]=\"control\" required>\n\t\t\t\t<option value=\"\">{{labels.select}}</option>\n\t\t\t\t<option [value]=\"item.id\" *for=\"let item of control.options\" [innerHTML]=\"item.name\"></option>\n\t\t\t</select>\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t\t<svg class=\"icon icon--caret-down\"><use xlink:href=\"#caret-down\"></use></svg>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
   };
 
   var ControlTextComponent =
@@ -623,7 +611,7 @@
     inputs: ['control', 'label'],
     template:
     /* html */
-    "\n\t\t<div class=\"group--form\">\n\t\t\t<label [innerHTML]=\"label\"></label>\n\t\t\t<input type=\"text\" class=\"control--text\" [formControl]=\"control\" [placeholder]=\"label\" />\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
+    "\n\t\t<div class=\"group--form\" [class]=\"{ required: control.validators.length }\">\n\t\t\t<label [innerHTML]=\"label\"></label>\n\t\t\t<input type=\"text\" class=\"control--text\" [formControl]=\"control\" [placeholder]=\"label\" />\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
   };
 
   var ControlTextareaComponent =
@@ -649,7 +637,7 @@
     inputs: ['control', 'label'],
     template:
     /* html */
-    "\n\t\t<div class=\"group--form--textarea\">\n\t\t\t<label [innerHTML]=\"label\"></label>\n\t\t\t<textarea class=\"control--text\" [formControl]=\"control\" [innerHTML]=\"label\" rows=\"4\"></textarea>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
+    "\n\t\t<div class=\"group--form--textarea\" [class]=\"{ required: control.validators.length }\">\n\t\t\t<label [innerHTML]=\"label\"></label>\n\t\t\t<textarea class=\"control--text\" [formControl]=\"control\" [innerHTML]=\"label\" rows=\"4\"></textarea>\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
   };
 
   var ErrorsComponent =
@@ -1332,18 +1320,8 @@
       var _this = this;
 
       var data = window.data || {
-        interests: [],
-        contactReasons: [],
-        contactTypes: [],
-        countries: [],
-        provinces: []
-      }; // console.log('WorkWithUsComponent.countries', data.countries);
-
-      /*
-      const countries = new FormControl(null, Validators.RequiredValidator());
-      countries.options = data.countries;
-      */
-
+        interests: []
+      };
       var form = new rxcompForm.FormGroup({
         firstName: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
         lastName: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
@@ -1355,38 +1333,12 @@
         introduction: new rxcompForm.FormControl(null),
         privacy: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
         curricula: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator())
-        /*
-        country: new FormControl(null, Validators.RequiredValidator()),
-        province: null,
-        */
-
       });
       var controls = form.controls;
       controls.interests.options = data.interests;
       this.controls = controls;
-      /*
-      controls.country.options = data.countries;
-      controls.province.options = [];
-      */
-
-      /*
-      form.patch({
-      	firstName: 'Jhon',
-      	lastName: 'Appleseed',
-      	email: 'jhonappleseed@gmail.com',
-      	country: 'en-US'
-      });
-      */
-
       form.changes$.pipe(operators.tap(function (changes) {
         console.log('WorkWithUsComponent.form.changes$', changes, form.valid);
-        /*
-        const provinces = data.provinces.filter(province => {
-        	return String(province.idstato) === String(changes.country);
-        });
-        form.get('province').options = provinces;
-        console.log(provinces);
-        */
       })).subscribe(function (changes) {
         _this.pushChanges();
       });

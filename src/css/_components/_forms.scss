@@ -170,7 +170,7 @@ form {
 	}
 
 	.icon--caret-down {
-		margin: 5px 10px 0 0;
+		margin: 5px 15px 0 0;
 		fill: $pristine;
 		pointer-events: none;
 	}
@@ -244,7 +244,7 @@ form {
 	cursor: pointer;
 
 	.icon--upload {
-		margin: 0 5px;
+		margin: 0 7px 0 0;
 		fill: $pristine;
 		pointer-events: none;
 	}
@@ -348,4 +348,29 @@ errors-component {
 
 .btn--submit {
 	font-size: 30px;
+}
+
+.required__badge {
+	display: none;
+}
+
+.required {
+	position: relative;
+
+	.required__badge {
+		@extend %label;
+		display: block;
+		position: absolute;
+		font-size: 11px;
+		right: 0px;
+		top: 10px;
+	}
+
+	&.group--form--select,
+	&.group--form--file {
+		.required__badge {
+			top: 8px;
+			right: 10px;
+		}
+	}
 }

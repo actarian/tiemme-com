@@ -38,10 +38,11 @@ ControlCustomSelectComponent.meta = {
 	selector: '[control-custom-select]',
 	inputs: ['control', 'label'],
 	template: /* html */ `
-		<div class="group--form--select" (click)="onClick($event)" (clickOutside)="onClickOutside($event)">
+		<div class="group--form--select" [class]="{ required: control.validators.length }" (click)="onClick($event)" (clickOutside)="onClickOutside($event)">
 			<label [innerHTML]="label"></label>
 			<span class="control--select" [innerHTML]="getValue()"></span>
 			<svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
+			<span class="required__badge">required</span>
 		</div>
 		<errors-component [control]="control"></errors-component>
 		<div class="dropdown" [class]="{ dropped: dropped }">

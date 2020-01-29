@@ -1,18 +1,12 @@
-import { Component, getContext } from 'rxcomp';
+import { Component } from 'rxcomp';
 import { takeUntil } from 'rxjs/operators';
 import DropdownDirective from './dropdown/dropdown.directive';
 
 export default class AppComponent extends Component {
 
 	onInit() {
-		const context = getContext(this);
-		console.log('context', context);
-		this.items = new Array(100).fill(true).map((x, i) => {
-			const id = i + 1;
-			const title = `Title ${id}`;
-			const image = `https://source.unsplash.com/random/700x700?sig=${id}`;
-			return { id, title, image };
-		});
+		// const context = getContext(this);
+		// console.log('context', context);
 		DropdownDirective.dropdown$.pipe(
 			takeUntil(this.unsubscribe$)
 		).subscribe(dropdown => this.dropdownId = dropdown);
