@@ -26,3 +26,30 @@ body {
 [for] {
 	display: none;
 }
+
+.app {
+	position: relative;
+}
+
+.hidden {
+	display: none;
+}
+
+.sticky--menu {
+	position: absolute;
+	top: 180px;
+	width: 100%;
+	bottom: 0;
+
+	.section--product {
+		position: sticky;
+		top: 0;
+		width: 100%;
+		z-index: 900;
+
+		.nav--product {
+			margin-top: 0;
+			box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.2);
+		}
+	}
+}

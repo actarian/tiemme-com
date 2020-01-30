@@ -82,6 +82,28 @@ body {
 [for] {
   display: none; }
 
+.app {
+  position: relative; }
+
+.hidden {
+  display: none; }
+
+.sticky--menu {
+  position: absolute;
+  top: 180px;
+  width: 100%;
+  bottom: 0; }
+  .sticky--menu .section--product {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 900; }
+    .sticky--menu .section--product .nav--product {
+      margin-top: 0;
+      -webkit-box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.2);
+              box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.2); }
+
 body {
   font-family: "Hind Madurai", sans-serif;
   font-weight: 300;
