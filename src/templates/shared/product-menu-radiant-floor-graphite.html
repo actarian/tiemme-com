@@ -2,11 +2,11 @@
 	<div class="container-fluid">
 		<ul class="nav--product">
 			<li>
-				<span (dropdown)="onDropdown($event)" dropdown-id="3001">
+				<span (click)="onClick(3001)" (clickOutside)="onClickOutside(3001)">
 					<svg class="icon icon--radiant"><use xlink:href="#radiant"></use></svg>
 					<span>Sistemi Radianti</span> <svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
 				</span>
-				<div class="dropdown dropdown--with-icons" [class]="{ dropped: dropdownId == 3001 }">
+				<div class="dropdown dropdown--with-icons" [class]="{ dropped: isActive(3001) }">
 					<div class="category">Area</div>
 					<ul class="nav--dropdown">
 						<li>
@@ -37,10 +37,10 @@
 				</div>
 			</li>
 			<li>
-				<span (dropdown)="onDropdown($event)" dropdown-id="3002">
+				<span (click)="onClick(3002)" (clickOutside)="onClickOutside(3002)">
 					<span>Sistemi radianti a pavimento</span> <svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
 				</span>
-				<div class="dropdown" [class]="{ dropped: dropdownId == 3002 }">
+				<div class="dropdown" [class]="{ dropped: isActive(3002) }">
 					<div class="category">Catalogo</div>
 					<ul class="nav--dropdown">
 						<li><a href="/tiemme-com/product-radiant-floor.html">Sistemi radianti a pavimento</a></li>
@@ -52,10 +52,10 @@
 				</div>
 			</li>
 			<li>
-				<span (dropdown)="onDropdown($event)" dropdown-id="3003">
+				<span (click)="onClick(3003)" (clickOutside)="onClickOutside(3003)">
 					<span>Soluzione NEW CLASSIC GRAPHITE</span> <svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
 				</span>
-				<div class="dropdown" [class]="{ dropped: dropdownId == 3003 }">
+				<div class="dropdown" [class]="{ dropped: isActive(3003) }">
 					<div class="category">Soluzioni</div>
 					<ul class="nav--dropdown">
 						<li><a href="/tiemme-com/product-radiant-floor-graphite.html">Soluzione NEW CLASSIC GRAPHITE</a></li>
@@ -74,7 +74,7 @@
 				</div>
 			</li>
 			<li class="group--search">
-				<svg class="icon icon--search"><use xlink:href="#search"></use></svg> <input class="form--control" placeholder="cerca un prodotto..." />
+				<svg class="icon icon--search"><use xlink:href="#search"></use></svg> <input class="form--control" placeholder="cerca..." />
 			</li>
 		</ul>
 	</div>

@@ -220,8 +220,8 @@
 
       // const context = getContext(this);
       // console.log('context', context);
-      DropdownDirective.dropdown$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (dropdown) {
-        return _this.dropdownId = dropdown;
+      DropdownDirective.dropdown$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (dropdownId) {
+        return _this.dropdownId = dropdownId;
       });
     };
 
@@ -454,22 +454,31 @@
       this.control.value = item.id;
     };
 
-    _proto.onDropdown = function onDropdown(event) {
-      console.log('ControlCustomSelectComponent.onDropdown', event);
+    _proto.onDropdown = function onDropdown(event) {// console.log('ControlCustomSelectComponent.onDropdown', event);
     };
 
-    _proto.getValue = function getValue() {
-      return this.control.value || this.labels.select;
+    _proto.getLabel = function getLabel() {
+      var value = this.control.value;
+      var items = this.control.options || [];
+      var item = items.find(function (x) {
+        return x.id === value || x.name === value;
+      });
+
+      if (item) {
+        return item.name;
+      } else {
+        return this.labels.select;
+      }
     };
 
     _proto.onClick = function onClick(event) {
-      console.log('ControlCustomSelectComponent.onClick', event);
+      // console.log('ControlCustomSelectComponent.onClick', event);
       this.dropped = true;
       this.pushChanges();
     };
 
     _proto.onClickOutside = function onClickOutside(event) {
-      console.log('ControlCustomSelectComponent.onClickOutside', event);
+      // console.log('ControlCustomSelectComponent.onClickOutside', event);
       this.dropped = false;
       this.pushChanges();
     };
@@ -481,7 +490,7 @@
     inputs: ['control', 'label'],
     template:
     /* html */
-    "\n\t\t<div class=\"group--form--select\" [class]=\"{ required: control.validators.length }\" (click)=\"onClick($event)\" (clickOutside)=\"onClickOutside($event)\">\n\t\t\t<label [innerHTML]=\"label\"></label>\n\t\t\t<span class=\"control--select\" [innerHTML]=\"getValue()\"></span>\n\t\t\t<svg class=\"icon icon--caret-down\"><use xlink:href=\"#caret-down\"></use></svg>\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t\t<div class=\"dropdown\" [class]=\"{ dropped: dropped }\">\n\t\t\t<div class=\"category\" [innerHTML]=\"label\"></div>\n\t\t\t<ul class=\"nav--dropdown\">\n\t\t\t\t<li *for=\"let item of control.options\" (click)=\"setOption(item)\"><span [innerHTML]=\"item.name\"></span></li>\n\t\t\t</ul>\n\t\t</div>\n\t"
+    "\n\t\t<div class=\"group--form--select\" [class]=\"{ required: control.validators.length }\" (click)=\"onClick($event)\" (clickOutside)=\"onClickOutside($event)\">\n\t\t\t<label [innerHTML]=\"label\"></label>\n\t\t\t<span class=\"control--select\" [innerHTML]=\"getLabel()\"></span>\n\t\t\t<svg class=\"icon icon--caret-down\"><use xlink:href=\"#caret-down\"></use></svg>\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t\t<div class=\"dropdown\" [class]=\"{ dropped: dropped }\">\n\t\t\t<div class=\"category\" [innerHTML]=\"label\"></div>\n\t\t\t<ul class=\"nav--dropdown\">\n\t\t\t\t<li *for=\"let item of control.options\" (click)=\"setOption(item)\"><span [innerHTML]=\"item.name\"></span></li>\n\t\t\t</ul>\n\t\t</div>\n\t"
   };
 
   var ControlEmailComponent =
@@ -800,19 +809,189 @@
     var _proto = ProductMenuComponent.prototype;
 
     _proto.onInit = function onInit() {
-      this.dropdownId = null; // console.log('ProductMenuComponent', this.dropdownId);
+      this.id = null;
+      /*
+      DropdownDirective.dropdown$.pipe(
+      	takeUntil(this.unsubscribe$)
+      ).subscribe(id => {
+      	this.id = id;
+      	// console.log('ProductMenuComponent', this.id);
+      });
+      */
+    }
+    /*
+    onDropdown(event) {
+    	// console.log('ProductMenuComponent.onDropdown', event);
+    	this.id = event;
+    	this.pushChanges();
+    }
+    */
+    ;
+
+    _proto.onClick = function onClick(id) {
+      // console.log('ProductMenuComponent.onClick', id);
+      if (this.id !== id) {
+        this.id = id;
+        this.pushChanges();
+      }
     };
 
-    _proto.onDropdown = function onDropdown($event) {
-      // console.log('ProductMenuComponent.onDropdown', $event);
-      this.dropdownId = $event;
-      this.pushChanges();
+    _proto.onClickOutside = function onClickOutside(id) {
+      // console.log('ProductMenuComponent.onClickOutside', id);
+      if (this.id === id) {
+        this.id = null;
+        this.pushChanges();
+      }
+    };
+
+    _proto.isActive = function isActive(id) {
+      // console.log('ProductMenuComponent.isActive', id);
+      return this.id === id;
     };
 
     return ProductMenuComponent;
   }(rxcomp.Component);
   ProductMenuComponent.meta = {
     selector: '[product-menu]'
+  };
+
+  var HttpService =
+  /*#__PURE__*/
+  function () {
+    function HttpService() {}
+
+    HttpService.http$ = function http$(method, url, data) {
+      var methods = ['POST', 'PUT', 'PATCH'];
+      return rxjs.from(fetch(url, {
+        method: method,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: methods.indexOf(method) !== -1 ? JSON.stringify(data) : undefined
+      }).then(function (response) {
+        return response.json();
+      }).catch(function (error) {
+        return console.log('postData$', error);
+      }));
+    };
+
+    HttpService.get$ = function get$(url, data) {
+      var query = this.query(data);
+      return this.http$('GET', "" + url + query);
+    };
+
+    HttpService.delete$ = function delete$(url) {
+      return this.http$('DELETE', url);
+    };
+
+    HttpService.post$ = function post$(url, data) {
+      return this.http$('POST', url, data);
+    };
+
+    HttpService.put$ = function put$(url, data) {
+      return this.http$('PUT', url, data);
+    };
+
+    HttpService.patch$ = function patch$(url, data) {
+      return this.http$('PATCH', url, data);
+    };
+
+    HttpService.query = function query(data) {
+      return ''; // todo
+    };
+
+    return HttpService;
+  }();
+
+  /*
+  Mail
+  La mail di recap presenterà i dati inseriti dall’utente e come oggetto “Richiesta Informazioni commerciali”
+
+  Generazione Mail
+  •	Romania > tiemmesystems@tiemme.com
+  •	Spagna > tiemmesistemas@tiemme.com
+  •	Grecia > customerservice.gr@tiemme.com
+  •	Albania, Kosovo, Serbia, Montenegro, Bulgaria > infobalkans@tiemme.com
+  •	Tutti gli altri > info@tiemme.com
+  */
+
+  var RequestInfoCommercialComponent =
+  /*#__PURE__*/
+  function (_Component) {
+    _inheritsLoose(RequestInfoCommercialComponent, _Component);
+
+    function RequestInfoCommercialComponent() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = RequestInfoCommercialComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      var _this = this;
+
+      this.http = HttpService;
+      var data = window.data || {
+        roles: [],
+        interests: [],
+        countries: [],
+        provinces: []
+      };
+      var form = new rxcompForm.FormGroup({
+        firstName: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        lastName: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        email: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator(), rxcompForm.Validators.EmailValidator()]),
+        company: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        role: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        interests: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        country: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        province: null,
+        message: null,
+        privacy: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredTrueValidator()),
+        newsletter: null,
+        scope: 'www.website.com'
+      });
+      var controls = form.controls;
+      controls.role.options = data.roles;
+      controls.interests.options = data.interests;
+      controls.country.options = data.countries;
+      controls.province.options = [];
+      this.controls = controls;
+      form.changes$.pipe(takeUntil(this.unsubscribe$)).subscribe(function (changes) {
+        // console.log('RequestInfoCommercialComponent.form.changes$', changes, form.valid);
+        var provinces = data.provinces.filter(function (province) {
+          return String(province.idstato) === String(changes.country);
+        });
+        controls.province.options = provinces;
+
+        _this.pushChanges();
+      }); // change to if(true) for testing
+
+      this.form = form;
+    };
+
+    _proto.onSubmit = function onSubmit() {
+      var _this2 = this;
+
+      var valid = Object.keys(this.form.errors).length === 0; // console.log('RequestInfoCommercialComponent.onSubmit', 'form.valid', valid);
+
+      if (valid) {
+        // console.log('RequestInfoCommercialComponent.onSubmit', this.form.value);
+        this.form.submitted = true;
+        this.http.post$('https://www.websolute.it', this.form.value).subscribe(function (response) {
+          console.log('RequestInfoCommercialComponent.onSubmit', response);
+
+          _this2.form.reset();
+        });
+      } else {
+        this.form.touched = true;
+      }
+    };
+
+    return RequestInfoCommercialComponent;
+  }(rxcomp.Component);
+  RequestInfoCommercialComponent.meta = {
+    selector: '[request-info-commercial]'
   };
 
   var SrcDirective =
@@ -1270,6 +1449,7 @@
     _proto.onInit = function onInit() {
       var _this = this;
 
+      this.http = HttpService;
       var data = window.data || {
         interests: []
       };
@@ -1288,20 +1468,29 @@
       var controls = form.controls;
       controls.interests.options = data.interests;
       this.controls = controls;
-      form.changes$.pipe(operators.tap(function (changes) {
-        console.log('WorkWithUsComponent.form.changes$', changes, form.valid);
-      })).subscribe(function (changes) {
+      form.changes$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (changes) {
+        // console.log('WorkWithUsComponent.form.changes$', changes, form.valid);
         _this.pushChanges();
-      });
+      }); // change to if(true) for testing
+
       this.form = form;
     };
 
     _proto.onSubmit = function onSubmit() {
-      this.form.touched = true;
+      var _this2 = this;
 
-      if (this.form.valid) {
-        console.log('WorkWithUsComponent.onSubmit', this.form.value);
-        this.form.submitted = true; // this.form.reset();
+      var valid = Object.keys(this.form.errors).length === 0; // console.log('WorkWithUsComponent.onSubmit', 'form.valid', valid);
+
+      if (valid) {
+        // console.log('WorkWithUsComponent.onSubmit', this.form.value);
+        this.form.submitted = true;
+        this.http.post$('https://www.websolute.it', this.form.value).subscribe(function (response) {
+          console.log('WorkWithUsComponent.onSubmit', response);
+
+          _this2.form.reset();
+        });
+      } else {
+        this.form.touched = true;
       }
     };
 
@@ -1632,7 +1821,7 @@
   }(rxcomp.Module);
   AppModule.meta = {
     imports: [rxcomp.CoreModule, rxcompForm.FormModule],
-    declarations: [AppearDirective, ClickOutsideDirective, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, ErrorsComponent, HeaderComponent, LazyDirective, ProductMenuComponent, // SpritesComponent,
+    declarations: [AppearDirective, ClickOutsideDirective, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, ErrorsComponent, HeaderComponent, LazyDirective, ProductMenuComponent, RequestInfoCommercialComponent, // SpritesComponent,
     SrcDirective, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, // ValueDirective,
     VideoComponent, WorkWithUsComponent, YoutubeComponent, ZoomableDirective],
     bootstrap: AppComponent

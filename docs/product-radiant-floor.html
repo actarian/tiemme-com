@@ -16,8 +16,8 @@
 	<meta name="msapplication-TileColor" content="#212121">
 	<meta name="theme-color" content="#ffffff">
 	<link href="https://fonts.googleapis.com/css?family=Barlow+Condensed:500|Hind+Madurai:300,400,600&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="/tiemme-com/css/vendors.css" />
-	<link rel="stylesheet" href="/tiemme-com/css/main.css" />
+	<link rel="stylesheet" href="/tiemme-com/css/vendors.min.css" />
+	<link rel="stylesheet" href="/tiemme-com/css/main.min.css" />
 	<link rel="shortcut icon" type="image/png" href="/tiemme-com/img/favicon.ico" />
 </head>
 
@@ -245,11 +245,11 @@
 	<div class="container-fluid">
 		<ul class="nav--product">
 			<li>
-				<span (dropdown)="onDropdown($event)" dropdown-id="3001">
+				<span (click)="onClick(3001)" (clickOutside)="onClickOutside(3001)">
 					<svg class="icon icon--radiant"><use xlink:href="#radiant"></use></svg>
 					<span>Sistemi Radianti</span> <svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
 				</span>
-				<div class="dropdown dropdown--with-icons" [class]="{ dropped: dropdownId == 3001 }">
+				<div class="dropdown dropdown--with-icons" [class]="{ dropped: isActive(3001) }">
 					<div class="category">Area</div>
 					<ul class="nav--dropdown">
 						<li>
@@ -280,10 +280,10 @@
 				</div>
 			</li>
 			<li>
-				<span (dropdown)="onDropdown($event)" dropdown-id="3002">
+				<span (click)="onClick(3002)" (clickOutside)="onClickOutside(3002)">
 					<span>Sistemi radianti a pavimento</span> <svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
 				</span>
-				<div class="dropdown" [class]="{ dropped: dropdownId == 3002 }">
+				<div class="dropdown" [class]="{ dropped: isActive(3002) }">
 					<div class="category">Catalogo</div>
 					<ul class="nav--dropdown">
 						<li><a href="/tiemme-com/product-radiant-floor.html">Sistemi radianti a pavimento</a></li>
@@ -295,10 +295,10 @@
 				</div>
 			</li>
 			<li>
-				<span class="empty" (dropdown)="onDropdown($event)" dropdown-id="3003">
+				<span class="empty" (click)="onClick(3003)" (clickOutside)="onClickOutside(3003)">
 					<span>Soluzioni</span> <svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
 				</span>
-				<div class="dropdown" [class]="{ dropped: dropdownId == 3003 }">
+				<div class="dropdown" [class]="{ dropped: isActive(3003) }">
 					<div class="category">Soluzioni</div>
 					<ul class="nav--dropdown">
 						<li><a href="/tiemme-com/product-radiant-floor-graphite.html">Soluzione NEW CLASSIC GRAPHITE</a></li>
@@ -317,7 +317,7 @@
 				</div>
 			</li>
 			<li class="group--search">
-				<svg class="icon icon--search"><use xlink:href="#search"></use></svg> <input class="form--control" placeholder="cerca un prodotto..." />
+				<svg class="icon icon--search"><use xlink:href="#search"></use></svg> <input class="form--control" placeholder="cerca..." />
 			</li>
 		</ul>
 	</div>
@@ -710,7 +710,7 @@
 <!-- end footer.html-->
 	</div>
 <!-- start scripts.html-->
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es5%2CArray.prototype.find%2CObject.assign"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es5%2CArray.prototype.find%2Cfetch%2CObject.assign"></script>
 <script src="/tiemme-com/js/vendors.min.js"></script>
 <script src="/tiemme-com/js/main.min.js"></script>
 

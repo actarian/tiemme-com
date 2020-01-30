@@ -16,6 +16,7 @@ import ErrorsComponent from './forms/errors.component';
 import HeaderComponent from './header/header.component';
 import LazyDirective from './lazy/lazy.directive';
 import ProductMenuComponent from './product-menu/product-menu.component';
+import RequestInfoCommercialComponent from './request-info-commercial/request-info-commercial.component';
 // import SpritesComponent from './sprites/sprites.component';
 import SrcDirective from './src/src.directive';
 import SwiperListingDirective from './swiper/swiper-listing.directive';
@@ -48,6 +49,7 @@ AppModule.meta = {
 		HeaderComponent,
 		LazyDirective,
 		ProductMenuComponent,
+		RequestInfoCommercialComponent,
 		// SpritesComponent,
 		SrcDirective,
 		SwiperDirective,

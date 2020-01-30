@@ -13,21 +13,28 @@ export default class ControlCustomSelectComponent extends ControlComponent {
 	}
 
 	onDropdown(event) {
-		console.log('ControlCustomSelectComponent.onDropdown', event);
+		// console.log('ControlCustomSelectComponent.onDropdown', event);
 	}
 
-	getValue() {
-		return this.control.value || this.labels.select;
+	getLabel() {
+		const value = this.control.value;
+		const items = this.control.options || [];
+		const item = items.find(x => x.id === value || x.name === value);
+		if (item) {
+			return item.name;
+		} else {
+			return this.labels.select;
+		}
 	}
 
 	onClick(event) {
-		console.log('ControlCustomSelectComponent.onClick', event);
+		// console.log('ControlCustomSelectComponent.onClick', event);
 		this.dropped = true;
 		this.pushChanges();
 	}
 
 	onClickOutside(event) {
-		console.log('ControlCustomSelectComponent.onClickOutside', event);
+		// console.log('ControlCustomSelectComponent.onClickOutside', event);
 		this.dropped = false;
 		this.pushChanges();
 	}
@@ -40,7 +47,7 @@ ControlCustomSelectComponent.meta = {
 	template: /* html */ `
 		<div class="group--form--select" [class]="{ required: control.validators.length }" (click)="onClick($event)" (clickOutside)="onClickOutside($event)">
 			<label [innerHTML]="label"></label>
-			<span class="control--select" [innerHTML]="getValue()"></span>
+			<span class="control--select" [innerHTML]="getLabel()"></span>
 			<svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
 			<span class="required__badge">required</span>
 		</div>

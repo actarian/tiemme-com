@@ -9,7 +9,7 @@ export default class AppComponent extends Component {
 		// console.log('context', context);
 		DropdownDirective.dropdown$.pipe(
 			takeUntil(this.unsubscribe$)
-		).subscribe(dropdown => this.dropdownId = dropdown);
+		).subscribe(dropdownId => this.dropdownId = dropdownId);
 	}
 
 	onDropdown(dropdown) {
