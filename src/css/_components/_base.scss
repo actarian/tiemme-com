@@ -37,13 +37,13 @@ body {
 
 .sticky--menu {
 	position: absolute;
-	top: 180px;
+	top: 160px;
 	width: 100%;
 	bottom: 0;
 
 	.section--product {
 		position: sticky;
-		top: 0;
+		top: 15px;
 		width: 100%;
 		z-index: 900;
 

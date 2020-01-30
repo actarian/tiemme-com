@@ -90,13 +90,13 @@ body {
 
 .sticky--menu {
   position: absolute;
-  top: 180px;
+  top: 160px;
   width: 100%;
   bottom: 0; }
   .sticky--menu .section--product {
     position: -webkit-sticky;
     position: sticky;
-    top: 0;
+    top: 15px;
     width: 100%;
     z-index: 900; }
     .sticky--menu .section--product .nav--product {
