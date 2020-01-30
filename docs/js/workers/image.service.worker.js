@@ -9,13 +9,36 @@
 	factory();
 }((function () { 'use strict';
 
-	self.addEventListener('message', function (event) {
-	  // console.log(event);
-	  var src = event.data;
-	  var response = fetch(src).then(function (response) {
+	var controllers = {};
+	self.addEventListener("message", function (event) {
+	  var id = event.data.id;
+	  var src = event.data.src;
+
+	  if (id && !src) {
+	    var controller = controllers[id];
+
+	    if (controller) {
+	      controller.abort();
+	    }
+
+	    return;
+	  }
+
+	  var options;
+
+	  if (self.AbortController) {
+	    var _controller = new AbortController();
+
+	    options = {
+	      signal: _controller.signal
+	    };
+	    controllers[id] = _controller;
+	  }
+
+	  var response = fetch(src, options).then(function (response) {
 	    return response.blob();
 	  }).then(function (blob) {
-	    // Send the image data to the UI thread!
+	    delete controllers[id];
 	    self.postMessage({
 	      src: src,
 	      blob: blob
@@ -23,15 +46,17 @@
 	  });
 	});
 	/*
-	self.addEventListener('message', async (event) => {
-		console.log(event);
+	self.addEventListener('message', function(event) {
+		// console.log(event);
 		const src = event.data;
-		const response = await fetch(src);
-		const blob = await response.blob();
-		// Send the image data to the UI thread!
-		self.postMessage({
-			src: src,
-			blob: blob,
+		const response = fetch(src).then(function(response) {
+			return response.blob();
+		}).then(function(blob) {
+			// Send the image data to the UI thread!
+			self.postMessage({
+				src: src,
+				blob: blob,
+			});
 		});
 	});
 	*/

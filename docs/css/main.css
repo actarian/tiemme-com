@@ -4313,24 +4313,20 @@ ul {
   [youtube]:hover .playing .btn--play {
     opacity: 1; }
 
-/*
 [lazy] {
-	display: inline-block;
-	min-width: 1px;
-	min-height: 1px;
+  display: inline-block;
+  min-width: 1px;
+  min-height: 1px; }
+  @media screen {
+    [lazy] {
+      visibility: hidden;
+      opacity: 0;
+      -webkit-transition: opacity ease-in-out 350ms;
+      transition: opacity ease-in-out 350ms; }
+      [lazy].lazyed {
+        visibility: visible;
+        opacity: 1; } }
 
-	@media screen {
-		visibility: hidden;
-		opacity: 0;
-		transition: opacity ease-in-out 350ms;
-
-		&.lazyed {
-			visibility: visible;
-			opacity: 1;
-		}
-	}
-}
-*/
 .card--slide {
   position: relative;
   /*

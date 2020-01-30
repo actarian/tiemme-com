@@ -62,7 +62,7 @@ export default class WorkWithUsComponent extends Component {
 		if (valid) {
 			// console.log('WorkWithUsComponent.onSubmit', this.form.value);
 			this.form.submitted = true;
-			this.http.post$('https://www.websolute.it', this.form.value)
+			this.http.post$('/WS/wsUsers.asmx/Contact', this.form.value)
 				.subscribe(response => {
 					console.log('WorkWithUsComponent.onSubmit', response);
 					this.form.reset();

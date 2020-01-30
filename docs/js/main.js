@@ -738,6 +738,11 @@
     selector: 'header'
   };
 
+  var STATIC = window.location.port === '41999' || window.location.host === 'actarian.github.io';
+
+  var PATH = STATIC ? './' : '/Client/docs/';
+  var UID = 0;
+
   var ImageService =
   /*#__PURE__*/
   function () {
@@ -745,32 +750,73 @@
 
     ImageService.worker = function worker() {
       if (!this.worker_) {
-        this.worker_ = new Worker('./js/workers/image.service.worker.js');
+        this.worker_ = new Worker(PATH + "js/workers/image.service.worker.js");
       }
 
       return this.worker_;
     };
 
     ImageService.load$ = function load$(src) {
-      if ('Worker' in window) {
-        var worker = this.worker();
-        worker.postMessage(src);
-        return rxjs.fromEvent(worker, 'message').pipe( // tap(event => console.log(src, event.data.src)),
-        operators.filter(function (event) {
-          return event.data.src === src;
-        }), operators.map(function (event) {
-          var url = URL.createObjectURL(event.data.blob); // URL.revokeObjectURL(url);
-
-          return url;
-        }), operators.first(), operators.finalize(function (url) {
-          URL.revokeObjectURL(url);
-        }));
-      } else {
+      if (!('Worker' in window) || src.indexOf('blob:') === 0) {
         return rxjs.of(src);
       }
+
+      var id = ++UID;
+      var worker = this.worker();
+      worker.postMessage({
+        src: src,
+        id: id
+      });
+      return rxjs.fromEvent(worker, 'message').pipe(operators.filter(function (event) {
+        return event.data.src === src;
+      }), operators.map(function (event) {
+        var url = URL.createObjectURL(event.data.blob);
+        return url;
+      }), operators.first(), operators.finalize(function (url) {
+        worker.postMessage({
+          id: id
+        });
+        URL.revokeObjectURL(url);
+      }));
     };
 
     return ImageService;
+  }();
+
+  var LazyCache =
+  /*#__PURE__*/
+  function () {
+    function LazyCache() {}
+
+    LazyCache.get = function get(src) {
+      return this.cache[src];
+    };
+
+    LazyCache.set = function set(src, blob) {
+      this.cache[src] = blob;
+      var keys = Object.keys(this.cache);
+
+      if (keys.length > 100) {
+        this.remove(keys[0]);
+      }
+    };
+
+    LazyCache.remove = function remove(src) {
+      delete this.cache[src];
+    };
+
+    _createClass(LazyCache, null, [{
+      key: "cache",
+      get: function get() {
+        if (!this.cache_) {
+          this.cache_ = {};
+        }
+
+        return this.cache_;
+      }
+    }]);
+
+    return LazyCache;
   }();
 
   var LazyDirective =
@@ -784,37 +830,46 @@
 
     var _proto = LazyDirective.prototype;
 
-    /*
-    onInit() {
-    	const { node } = getContext(this);
-    	console.log('LazyDirective.onInit', node);
-    	node.classList.add('init');
-    }
-    */
-    _proto.onChanges = function onChanges() {
+    _proto.onInit = function onInit() {
       var _this = this;
 
-      if (!this.lazyed) {
-        this.lazyed = true;
+      var _getContext = rxcomp.getContext(this),
+          node = _getContext.node;
 
-        var _getContext = rxcomp.getContext(this),
-            node = _getContext.node;
+      this.input$ = new rxjs.Subject().pipe(operators.distinctUntilChanged(), operators.switchMap(function (input) {
+        var src = LazyCache.get(input);
 
-        IntersectionService.intersection$(node).pipe(operators.takeUntil(this.unsubscribe$), operators.first(), // tap(() => console.log('LazyDirective.intersection', node)),
-        operators.switchMap(function () {
-          return ImageService.load$(_this.lazy);
-        })).subscribe(function (src) {
-          // console.log('src', src);
-          node.setAttribute('src', src);
-          node.classList.add('lazyed');
-        });
-      }
+        if (src) {
+          return rxjs.of(src);
+        }
+
+        node.classList.remove('lazyed');
+        return _this.lazy$(input);
+      }), operators.takeUntil(this.unsubscribe$));
+      this.input$.subscribe(function (src) {
+        LazyCache.set(_this.lazy, src);
+        node.setAttribute('src', src);
+        node.classList.add('lazyed');
+      });
+    };
+
+    _proto.onChanges = function onChanges() {
+      this.input$.next(this.lazy);
+    };
+
+    _proto.lazy$ = function lazy$(input) {
+      var _getContext2 = rxcomp.getContext(this),
+          node = _getContext2.node;
+
+      return IntersectionService.intersection$(node).pipe(operators.takeUntil(this.unsubscribe$), operators.first(), operators.switchMap(function () {
+        return ImageService.load$(input);
+      }));
     };
 
     return LazyDirective;
   }(rxcomp.Directive);
   LazyDirective.meta = {
-    selector: '[[lazy]],[lazy]',
+    selector: '[lazy],[[lazy]]',
     inputs: ['lazy']
   };
 
@@ -966,7 +1021,7 @@
       if (valid) {
         // console.log('RequestInfoCommercialComponent.onSubmit', this.form.value);
         this.form.submitted = true;
-        this.http.post$('https://www.websolute.it', this.form.value).subscribe(function (response) {
+        this.http.post$('/WS/wsUsers.asmx/Contact', this.form.value).subscribe(function (response) {
           console.log('RequestInfoCommercialComponent.onSubmit', response);
 
           _this2.form.reset();
@@ -1472,7 +1527,7 @@
       if (valid) {
         // console.log('WorkWithUsComponent.onSubmit', this.form.value);
         this.form.submitted = true;
-        this.http.post$('https://www.websolute.it', this.form.value).subscribe(function (response) {
+        this.http.post$('/WS/wsUsers.asmx/Contact', this.form.value).subscribe(function (response) {
           console.log('WorkWithUsComponent.onSubmit', response);
 
           _this2.form.reset();
