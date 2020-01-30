@@ -93,13 +93,13 @@ body {
   top: 160px;
   width: 100%;
   bottom: 0; }
-  .sticky--menu .section--product {
+  .sticky--menu .section--menu {
     position: -webkit-sticky;
     position: sticky;
     top: 15px;
     width: 100%;
     z-index: 900; }
-    .sticky--menu .section--product .nav--product {
+    .sticky--menu .section--menu .nav--menu {
       margin-top: 0;
       -webkit-box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.2);
               box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.2); }
@@ -3436,12 +3436,12 @@ ul {
   margin: 30px 0;
   padding: 0 0 0 20px; }
 
-.nav--product > li > a, .nav--footer-horizontal > li > a,
-.nav--product > li > span,
-.nav--footer-horizontal > li > span, .nav--menu > li > a, .nav--footer > li > a,
+.nav--menu > li > a, .nav--footer-horizontal > li > a,
 .nav--menu > li > span,
+.nav--footer-horizontal > li > span, .nav--header > li > a, .nav--footer > li > a,
+.nav--header > li > span,
 .nav--footer > li > span, .section--slides .nav--slides > li > a,
-.section--slides .nav--slides > li > span, .nav--product > li.group--search, .nav--dropdown > li > a,
+.section--slides .nav--slides > li > span, .nav--menu > li.group--search, .nav--dropdown > li > a,
 .nav--dropdown > li > span {
   position: relative;
   display: -webkit-box;
@@ -3459,27 +3459,27 @@ ul {
   transition: ease-in-out 350ms;
   -webkit-transition-property: background-color, color, border, opacity;
   transition-property: background-color, color, border, opacity; }
-  .nav--product > li > a svg, .nav--footer-horizontal > li > a svg, .nav--product > li > span svg, .nav--footer-horizontal > li > span svg, .nav--menu > li > a svg, .nav--footer > li > a svg, .nav--menu > li > span svg, .nav--footer > li > span svg, .section--slides .nav--slides > li > a svg, .section--slides .nav--slides > li > span svg, .nav--product > li.group--search svg, .nav--dropdown > li > a svg, .nav--dropdown > li > span svg {
+  .nav--menu > li > a svg, .nav--footer-horizontal > li > a svg, .nav--menu > li > span svg, .nav--footer-horizontal > li > span svg, .nav--header > li > a svg, .nav--footer > li > a svg, .nav--header > li > span svg, .nav--footer > li > span svg, .section--slides .nav--slides > li > a svg, .section--slides .nav--slides > li > span svg, .nav--menu > li.group--search svg, .nav--dropdown > li > a svg, .nav--dropdown > li > span svg {
     -webkit-transition: ease-in-out 350ms;
     transition: ease-in-out 350ms;
     -webkit-transition-property: fill, opacity;
     transition-property: fill, opacity; }
 
-.nav--product, .nav--footer-horizontal, .nav--menu, .nav--footer, .section--slides .nav--slides, .nav--dropdown, .nav--header {
+.nav--menu, .nav--footer-horizontal, .nav--header, .nav--footer, .section--slides .nav--slides, .nav--dropdown {
   list-style: none;
   padding: 0;
   margin: 0; }
 
-.nav--product, .nav--footer-horizontal {
+.nav--menu, .nav--footer-horizontal {
   width: 100%; }
-  .nav--product > li, .nav--footer-horizontal > li {
+  .nav--menu > li, .nav--footer-horizontal > li {
     position: relative;
     display: block;
     -webkit-box-flex: 1;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto; }
   @media (min-width: 1024px) {
-    .nav--product, .nav--footer-horizontal {
+    .nav--menu, .nav--footer-horizontal {
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex;
@@ -3487,10 +3487,10 @@ ul {
           -ms-flex-pack: start;
               justify-content: flex-start; } }
   @media (max-width: 1023.98px) {
-    .nav--product, .nav--footer-horizontal {
+    .nav--menu, .nav--footer-horizontal {
       display: block; } }
 
-.nav--menu > li, .nav--footer > li {
+.nav--header > li, .nav--footer > li {
   position: relative;
   display: block;
   -webkit-box-flex: 1;
@@ -3498,7 +3498,7 @@ ul {
           flex: 1 1 auto; }
 
 @media (min-width: 1024px) {
-  .nav--menu, .nav--footer {
+  .nav--header, .nav--footer {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -3514,7 +3514,7 @@ ul {
             align-items: center; } }
 
 @media (max-width: 1023.98px) {
-  .nav--menu, .nav--footer {
+  .nav--header, .nav--footer {
     display: block; } }
 
 .section--slides .nav--slides {
@@ -3560,15 +3560,15 @@ ul {
     .section--slides .nav--slides {
       display: block; } }
 
-.nav--product {
+.nav--menu {
   margin-top: 150px; }
-  .nav--product > li {
+  .nav--menu > li {
     position: relative;
     -webkit-box-flex: 0;
         -ms-flex: 0 1 auto;
             flex: 0 1 auto; }
-    .nav--product > li > a,
-    .nav--product > li > span {
+    .nav--menu > li > a,
+    .nav--menu > li > span {
       -webkit-box-pack: justify;
           -ms-flex-pack: justify;
               justify-content: space-between;
@@ -3584,13 +3584,13 @@ ul {
       text-overflow: ellipsis;
       background: #16255b;
       color: #ffffff; }
-      .nav--product > li > a span,
-      .nav--product > li > span span {
+      .nav--menu > li > a span,
+      .nav--menu > li > span span {
         -webkit-box-flex: 1;
             -ms-flex: 1 1 auto;
                 flex: 1 1 auto; }
-      .nav--product > li > a .icon:first-child,
-      .nav--product > li > span .icon:first-child {
+      .nav--menu > li > a .icon:first-child,
+      .nav--menu > li > span .icon:first-child {
         margin-left: -30px;
         margin-right: 10px;
         width: 40px;
@@ -3600,8 +3600,8 @@ ul {
         transition: ease-in-out 350ms;
         -webkit-transition-property: fill;
         transition-property: fill; }
-      .nav--product > li > a .icon--caret-down,
-      .nav--product > li > span .icon--caret-down {
+      .nav--menu > li > a .icon--caret-down,
+      .nav--menu > li > span .icon--caret-down {
         width: 8px;
         height: 5px;
         margin-left: 10px;
@@ -3611,31 +3611,31 @@ ul {
         transition: ease-in-out 350ms;
         -webkit-transition-property: fill;
         transition-property: fill; }
-      .nav--product > li > a:hover, .nav--product > li > a.active,
-      .nav--product > li > span:hover,
-      .nav--product > li > span.active {
+      .nav--menu > li > a:hover, .nav--menu > li > a.active,
+      .nav--menu > li > span:hover,
+      .nav--menu > li > span.active {
         background: #ffffff;
         color: #16255b; }
-        .nav--product > li > a:hover .icon, .nav--product > li > a.active .icon,
-        .nav--product > li > span:hover .icon,
-        .nav--product > li > span.active .icon {
+        .nav--menu > li > a:hover .icon, .nav--menu > li > a.active .icon,
+        .nav--menu > li > span:hover .icon,
+        .nav--menu > li > span.active .icon {
           fill: #16255b; }
-      .nav--product > li > a.empty span,
-      .nav--product > li > a.empty .icon,
-      .nav--product > li > span.empty span,
-      .nav--product > li > span.empty .icon {
+      .nav--menu > li > a.empty span,
+      .nav--menu > li > a.empty .icon,
+      .nav--menu > li > span.empty span,
+      .nav--menu > li > span.empty .icon {
         opacity: 0.5; }
-    .nav--product > li.group--search {
+    .nav--menu > li.group--search {
       -webkit-box-flex: 1;
           -ms-flex: 1 1 auto;
               flex: 1 1 auto;
       margin-left: 5px;
       background: rgba(22, 37, 91, 0.6); }
-      .nav--product > li.group--search .icon {
+      .nav--menu > li.group--search .icon {
         fill: rgba(255, 255, 255, 0.5);
         margin-left: 15px;
         margin-right: 10px; }
-      .nav--product > li.group--search .form--control {
+      .nav--menu > li.group--search .form--control {
         -webkit-box-flex: 1;
             -ms-flex: 1 1 auto;
                 flex: 1 1 auto;
@@ -3653,32 +3653,32 @@ ul {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis; }
-        .nav--product > li.group--search .form--control::-webkit-input-placeholder {
+        .nav--menu > li.group--search .form--control::-webkit-input-placeholder {
           font-size: 19px;
           font-weight: 500;
           font-family: "Hind Madurai", sans-serif;
           color: rgba(255, 255, 255, 0.5); }
-        .nav--product > li.group--search .form--control::-moz-placeholder {
+        .nav--menu > li.group--search .form--control::-moz-placeholder {
           font-size: 19px;
           font-weight: 500;
           font-family: "Hind Madurai", sans-serif;
           color: rgba(255, 255, 255, 0.5); }
-        .nav--product > li.group--search .form--control:-ms-input-placeholder {
+        .nav--menu > li.group--search .form--control:-ms-input-placeholder {
           font-size: 19px;
           font-weight: 500;
           font-family: "Hind Madurai", sans-serif;
           color: rgba(255, 255, 255, 0.5); }
-        .nav--product > li.group--search .form--control::-ms-input-placeholder {
+        .nav--menu > li.group--search .form--control::-ms-input-placeholder {
           font-size: 19px;
           font-weight: 500;
           font-family: "Hind Madurai", sans-serif;
           color: rgba(255, 255, 255, 0.5); }
-        .nav--product > li.group--search .form--control::placeholder {
+        .nav--menu > li.group--search .form--control::placeholder {
           font-size: 19px;
           font-weight: 500;
           font-family: "Hind Madurai", sans-serif;
           color: rgba(255, 255, 255, 0.5); }
-  .nav--product > li + li:not(.group--search):after {
+  .nav--menu > li + li:not(.group--search):after {
     content: '';
     display: block;
     position: absolute;
@@ -3687,11 +3687,11 @@ ul {
     top: 0;
     z-index: 1;
     background: rgba(255, 255, 255, 0.15); }
-  .nav--product.nav--product--primary > li {
+  .nav--menu.nav--menu--primary > li {
     -webkit-box-flex: 1;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto; }
-  .nav--product.fixed {
+  .nav--menu.fixed {
     margin-top: 150px;
     position: fixed;
     max-width: 1517px;
@@ -4629,7 +4629,7 @@ ul {
   width: 100%;
   top: 0; }
 
-.nav--header {
+.flex--header {
   position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -4641,7 +4641,7 @@ ul {
       -ms-flex-align: center;
           align-items: center;
   margin-top: 28px; }
-  .nav--header .left {
+  .flex--header .left {
     -webkit-box-flex: 1;
         -ms-flex: 1 1 33%;
             flex: 1 1 33%;
@@ -4654,7 +4654,7 @@ ul {
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center; }
-  .nav--header .center {
+  .flex--header .center {
     min-width: 360px;
     -webkit-box-flex: 1;
         -ms-flex: 1 1 360px;
@@ -4668,7 +4668,7 @@ ul {
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center; }
-  .nav--header .right {
+  .flex--header .right {
     -webkit-box-flex: 1;
         -ms-flex: 1 1 33%;
             flex: 1 1 33%;
@@ -4809,14 +4809,14 @@ ul {
   to {
     opacity: 1; } }
 
-.nav--menu {
+.nav--header {
   border-top: 1px solid rgba(22, 37, 91, 0.2); }
-  .nav--menu > li {
+  .nav--header > li {
     -webkit-box-flex: 0;
         -ms-flex: 0 1 auto;
             flex: 0 1 auto; }
-    .nav--menu > li > a,
-    .nav--menu > li > span {
+    .nav--header > li > a,
+    .nav--header > li > span {
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex;
@@ -4846,8 +4846,8 @@ ul {
               animation-duration: 400ms;
       -webkit-animation-fill-mode: forwards;
               animation-fill-mode: forwards; }
-      .nav--menu > li > a .icon,
-      .nav--menu > li > span .icon {
+      .nav--header > li > a .icon,
+      .nav--header > li > span .icon {
         position: absolute;
         right: 20px;
         top: 50%;
@@ -4860,81 +4860,81 @@ ul {
         transition: ease-in-out 350ms;
         -webkit-transition-property: fill, opacity;
         transition-property: fill, opacity; }
-      .nav--menu > li > a:hover, .nav--menu > li > a.active, .nav--menu > li > a.dropped,
-      .nav--menu > li > span:hover,
-      .nav--menu > li > span.active,
-      .nav--menu > li > span.dropped {
+      .nav--header > li > a:hover, .nav--header > li > a.active, .nav--header > li > a.dropped,
+      .nav--header > li > span:hover,
+      .nav--header > li > span.active,
+      .nav--header > li > span.dropped {
         background: #b9bdcd;
         color: #16255b;
         padding: 10px 40px 10px 20px; }
-        .nav--menu > li > a:hover .icon, .nav--menu > li > a.active .icon, .nav--menu > li > a.dropped .icon,
-        .nav--menu > li > span:hover .icon,
-        .nav--menu > li > span.active .icon,
-        .nav--menu > li > span.dropped .icon {
+        .nav--header > li > a:hover .icon, .nav--header > li > a.active .icon, .nav--header > li > a.dropped .icon,
+        .nav--header > li > span:hover .icon,
+        .nav--header > li > span.active .icon,
+        .nav--header > li > span.dropped .icon {
           opacity: 1; }
-  .nav--menu:first-child {
+  .nav--header:first-child {
     border-top: none;
     border-bottom: 1px solid rgba(22, 37, 91, 0.2); }
   @media (min-width: 1024px) {
-    .nav--menu {
+    .nav--header {
       width: 480px;
       min-height: 540px; } }
-  .nav--menu li:nth-of-type(1) > a,
-  .nav--menu li:nth-of-type(1) > span {
+  .nav--header li:nth-of-type(1) > a,
+  .nav--header li:nth-of-type(1) > span {
     -webkit-animation-delay: 40ms;
             animation-delay: 40ms;
     -webkit-animation-duration: 350ms;
             animation-duration: 350ms; }
-  .nav--menu li:nth-of-type(2) > a,
-  .nav--menu li:nth-of-type(2) > span {
+  .nav--header li:nth-of-type(2) > a,
+  .nav--header li:nth-of-type(2) > span {
     -webkit-animation-delay: 80ms;
             animation-delay: 80ms;
     -webkit-animation-duration: 350ms;
             animation-duration: 350ms; }
-  .nav--menu li:nth-of-type(3) > a,
-  .nav--menu li:nth-of-type(3) > span {
+  .nav--header li:nth-of-type(3) > a,
+  .nav--header li:nth-of-type(3) > span {
     -webkit-animation-delay: 120ms;
             animation-delay: 120ms;
     -webkit-animation-duration: 350ms;
             animation-duration: 350ms; }
-  .nav--menu li:nth-of-type(4) > a,
-  .nav--menu li:nth-of-type(4) > span {
+  .nav--header li:nth-of-type(4) > a,
+  .nav--header li:nth-of-type(4) > span {
     -webkit-animation-delay: 160ms;
             animation-delay: 160ms;
     -webkit-animation-duration: 350ms;
             animation-duration: 350ms; }
-  .nav--menu li:nth-of-type(5) > a,
-  .nav--menu li:nth-of-type(5) > span {
+  .nav--header li:nth-of-type(5) > a,
+  .nav--header li:nth-of-type(5) > span {
     -webkit-animation-delay: 200ms;
             animation-delay: 200ms;
     -webkit-animation-duration: 350ms;
             animation-duration: 350ms; }
-  .nav--menu li:nth-of-type(6) > a,
-  .nav--menu li:nth-of-type(6) > span {
+  .nav--header li:nth-of-type(6) > a,
+  .nav--header li:nth-of-type(6) > span {
     -webkit-animation-delay: 240ms;
             animation-delay: 240ms;
     -webkit-animation-duration: 350ms;
             animation-duration: 350ms; }
-  .nav--menu li:nth-of-type(7) > a,
-  .nav--menu li:nth-of-type(7) > span {
+  .nav--header li:nth-of-type(7) > a,
+  .nav--header li:nth-of-type(7) > span {
     -webkit-animation-delay: 280ms;
             animation-delay: 280ms;
     -webkit-animation-duration: 350ms;
             animation-duration: 350ms; }
-  .nav--menu li:nth-of-type(8) > a,
-  .nav--menu li:nth-of-type(8) > span {
+  .nav--header li:nth-of-type(8) > a,
+  .nav--header li:nth-of-type(8) > span {
     -webkit-animation-delay: 320ms;
             animation-delay: 320ms;
     -webkit-animation-duration: 350ms;
             animation-duration: 350ms; }
-  .nav--menu li:nth-of-type(9) > a,
-  .nav--menu li:nth-of-type(9) > span {
+  .nav--header li:nth-of-type(9) > a,
+  .nav--header li:nth-of-type(9) > span {
     -webkit-animation-delay: 360ms;
             animation-delay: 360ms;
     -webkit-animation-duration: 350ms;
             animation-duration: 350ms; }
-  .nav--menu li:nth-of-type(10) > a,
-  .nav--menu li:nth-of-type(10) > span {
+  .nav--header li:nth-of-type(10) > a,
+  .nav--header li:nth-of-type(10) > span {
     -webkit-animation-delay: 400ms;
             animation-delay: 400ms;
     -webkit-animation-duration: 350ms;
@@ -5197,7 +5197,7 @@ img {
           align-items: center;
   margin-bottom: 45px; }
 
-.section--product {
+.section--menu {
   position: absolute;
   top: 0;
   width: 100%; }

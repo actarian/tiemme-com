@@ -128,7 +128,7 @@ ul {
 	}
 }
 
-.nav--product {
+.nav--menu {
 	@extend %nav;
 	margin-top: 150px;
 
@@ -249,7 +249,7 @@ ul {
 		}
 	}
 
-	&.nav--product--primary {
+	&.nav--menu--primary {
 		&>li {
 			flex: 1 1 auto;
 		}

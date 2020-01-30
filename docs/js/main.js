@@ -81,123 +81,6 @@
     subClass.__proto__ = superClass;
   }
 
-  var DROPDOWN_ID = 1000000;
-
-  var DropdownDirective =
-  /*#__PURE__*/
-  function (_Component) {
-    _inheritsLoose(DropdownDirective, _Component);
-
-    function DropdownDirective() {
-      return _Component.apply(this, arguments) || this;
-    }
-
-    var _proto = DropdownDirective.prototype;
-
-    _proto.onInit = function onInit() {
-      var _this = this;
-
-      var _getContext = rxcomp.getContext(this),
-          node = _getContext.node;
-
-      var trigger = node.getAttribute('dropdown-trigger');
-      this.trigger = trigger ? node.querySelector(trigger) : node;
-      this.opened = null;
-      this.onClick = this.onClick.bind(this);
-      this.onDocumentClick = this.onDocumentClick.bind(this);
-      this.openDropdown = this.openDropdown.bind(this);
-      this.closeDropdown = this.closeDropdown.bind(this);
-      this.addListeners();
-      DropdownDirective.dropdown$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (id) {
-        // console.log('DropdownDirective', id, this['dropdown-item']);
-        if (_this.id === id) {
-          node.classList.add('dropped');
-        } else {
-          node.classList.remove('dropped');
-        }
-      });
-    };
-
-    _proto.onClick = function onClick(event) {
-      var _getContext2 = rxcomp.getContext(this),
-          node = _getContext2.node;
-
-      if (this.opened === null) {
-        this.openDropdown();
-      } else if (this.trigger !== node) {
-        this.closeDropdown();
-      }
-    };
-
-    _proto.onDocumentClick = function onDocumentClick(event) {
-      var _getContext3 = rxcomp.getContext(this),
-          node = _getContext3.node;
-
-      var clickedInside = node === event.target || node.contains(event.target);
-
-      if (!clickedInside) {
-        this.closeDropdown();
-      }
-    };
-
-    _proto.openDropdown = function openDropdown() {
-      if (this.opened === null) {
-        this.opened = true;
-        this.addDocumentListeners();
-        DropdownDirective.dropdown$.next(this.id);
-        this.dropped.next(this.id);
-      }
-    };
-
-    _proto.closeDropdown = function closeDropdown() {
-      if (this.opened !== null) {
-        this.removeDocumentListeners();
-        this.opened = null;
-
-        if (DropdownDirective.dropdown$.getValue() === this.id) {
-          DropdownDirective.dropdown$.next(null);
-          this.dropped.next(null);
-        }
-      }
-    };
-
-    _proto.addListeners = function addListeners() {
-      this.trigger.addEventListener('click', this.onClick);
-    };
-
-    _proto.addDocumentListeners = function addDocumentListeners() {
-      document.addEventListener('click', this.onDocumentClick);
-    };
-
-    _proto.removeListeners = function removeListeners() {
-      this.trigger.removeEventListener('click', this.onClick);
-    };
-
-    _proto.removeDocumentListeners = function removeDocumentListeners() {
-      document.removeEventListener('click', this.onDocumentClick);
-    };
-
-    _proto.onDestroy = function onDestroy() {
-      this.removeListeners();
-      this.removeDocumentListeners();
-    };
-
-    _createClass(DropdownDirective, [{
-      key: "id",
-      get: function get() {
-        return this.dropdown || this.id_ || (this.id_ = DROPDOWN_ID++);
-      }
-    }]);
-
-    return DropdownDirective;
-  }(rxcomp.Component);
-  DropdownDirective.meta = {
-    selector: '[dropdown]',
-    inputs: ['dropdown', 'dropdown-trigger'],
-    outputs: ['dropped']
-  };
-  DropdownDirective.dropdown$ = new rxjs.BehaviorSubject(null);
-
   var AppComponent =
   /*#__PURE__*/
   function (_Component) {
@@ -209,18 +92,12 @@
 
     var _proto = AppComponent.prototype;
 
-    _proto.onInit = function onInit() {
-      var _this = this;
-
-      // const context = getContext(this);
+    _proto.onInit = function onInit() {// const context = getContext(this);
       // console.log('context', context);
-      DropdownDirective.dropdown$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (dropdownId) {
-        return _this.dropdownId = dropdownId;
-      });
     };
 
-    _proto.onDropped = function onDropped(dropdown) {
-      console.log('AppComponent.onDropped', dropdown);
+    _proto.onDropped = function onDropped(id) {
+      console.log('AppComponent.onDropped', id);
     } // onView() { const context = getContext(this); }
     // onChanges() {}
     // onDestroy() {}
@@ -363,6 +240,123 @@
     selector: "[(clickOutside)]"
   };
 
+  var DROPDOWN_ID = 1000000;
+
+  var DropdownDirective =
+  /*#__PURE__*/
+  function (_Component) {
+    _inheritsLoose(DropdownDirective, _Component);
+
+    function DropdownDirective() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = DropdownDirective.prototype;
+
+    _proto.onInit = function onInit() {
+      var _this = this;
+
+      var _getContext = rxcomp.getContext(this),
+          node = _getContext.node;
+
+      var trigger = node.getAttribute('dropdown-trigger');
+      this.trigger = trigger ? node.querySelector(trigger) : node;
+      this.opened = null;
+      this.onClick = this.onClick.bind(this);
+      this.onDocumentClick = this.onDocumentClick.bind(this);
+      this.openDropdown = this.openDropdown.bind(this);
+      this.closeDropdown = this.closeDropdown.bind(this);
+      this.addListeners();
+      DropdownDirective.dropdown$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (id) {
+        // console.log('DropdownDirective', id, this['dropdown-item']);
+        if (_this.id === id) {
+          node.classList.add('dropped');
+        } else {
+          node.classList.remove('dropped');
+        }
+      });
+    };
+
+    _proto.onClick = function onClick(event) {
+      var _getContext2 = rxcomp.getContext(this),
+          node = _getContext2.node;
+
+      if (this.opened === null) {
+        this.openDropdown();
+      } else if (this.trigger !== node) {
+        this.closeDropdown();
+      }
+    };
+
+    _proto.onDocumentClick = function onDocumentClick(event) {
+      var _getContext3 = rxcomp.getContext(this),
+          node = _getContext3.node;
+
+      var clickedInside = node === event.target || node.contains(event.target);
+
+      if (!clickedInside) {
+        this.closeDropdown();
+      }
+    };
+
+    _proto.openDropdown = function openDropdown() {
+      if (this.opened === null) {
+        this.opened = true;
+        this.addDocumentListeners();
+        DropdownDirective.dropdown$.next(this.id);
+        this.dropped.next(this.id);
+      }
+    };
+
+    _proto.closeDropdown = function closeDropdown() {
+      if (this.opened !== null) {
+        this.removeDocumentListeners();
+        this.opened = null;
+
+        if (DropdownDirective.dropdown$.getValue() === this.id) {
+          DropdownDirective.dropdown$.next(null);
+          this.dropped.next(null);
+        }
+      }
+    };
+
+    _proto.addListeners = function addListeners() {
+      this.trigger.addEventListener('click', this.onClick);
+    };
+
+    _proto.addDocumentListeners = function addDocumentListeners() {
+      document.addEventListener('click', this.onDocumentClick);
+    };
+
+    _proto.removeListeners = function removeListeners() {
+      this.trigger.removeEventListener('click', this.onClick);
+    };
+
+    _proto.removeDocumentListeners = function removeDocumentListeners() {
+      document.removeEventListener('click', this.onDocumentClick);
+    };
+
+    _proto.onDestroy = function onDestroy() {
+      this.removeListeners();
+      this.removeDocumentListeners();
+    };
+
+    _createClass(DropdownDirective, [{
+      key: "id",
+      get: function get() {
+        return this.dropdown || this.id_ || (this.id_ = DROPDOWN_ID++);
+      }
+    }]);
+
+    return DropdownDirective;
+  }(rxcomp.Component);
+  DropdownDirective.meta = {
+    selector: '[dropdown]',
+    inputs: ['dropdown', 'dropdown-trigger'],
+    outputs: ['dropped']
+  };
+  DropdownDirective.dropdown$ = new rxjs.BehaviorSubject(null);
+
   var DropdownItemDirective =
   /*#__PURE__*/
   function (_Component) {
@@ -381,15 +375,13 @@
           node = _getContext.node;
 
       DropdownDirective.dropdown$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (id) {
-        console.log('DropdownItemDirective', id, _this['dropdown-item']);
-
+        // console.log('DropdownItemDirective', id, this['dropdown-item']);
         if (_this.id === id) {
           node.classList.add('dropped');
         } else {
           node.classList.remove('dropped');
         }
       });
-      console.log('DropdownItemDirective');
     };
 
     _createClass(DropdownItemDirective, [{
@@ -491,7 +483,7 @@
       this.control.value = item.id;
     };
 
-    _proto.onDropped = function onDropped(event) {// console.log('ControlCustomSelectComponent.onDropped', event);
+    _proto.onDropped = function onDropped(id) {// console.log('ControlCustomSelectComponent.onDropped', id);
     };
 
     _proto.getLabel = function getLabel() {
@@ -729,12 +721,6 @@
 
     _proto.onInit = function onInit() {
       this.menu = null;
-      this.dropdownId = null;
-      /*
-      DropdownDirective.dropdown$.pipe(
-      	takeUntil(this.unsubscribe$)
-      ).subscribe(dropdown => this.dropdownId = dropdown);
-      */
     };
 
     _proto.toggleMenu = function toggleMenu($event) {
@@ -742,10 +728,8 @@
       this.pushChanges();
     };
 
-    _proto.onDropped = function onDropped($event) {
-      // console.log('HeaderComponent.onDropped', $event);
-      this.dropdownId = $event;
-      this.pushChanges();
+    _proto.onDropped = function onDropped(id) {
+      console.log('HeaderComponent.onDropped', id);
     };
 
     return HeaderComponent;
@@ -834,62 +818,29 @@
     inputs: ['lazy']
   };
 
-  var ProductMenuComponent =
+  var MainMenuComponent =
   /*#__PURE__*/
   function (_Component) {
-    _inheritsLoose(ProductMenuComponent, _Component);
+    _inheritsLoose(MainMenuComponent, _Component);
 
-    function ProductMenuComponent() {
+    function MainMenuComponent() {
       return _Component.apply(this, arguments) || this;
     }
 
-    var _proto = ProductMenuComponent.prototype;
+    var _proto = MainMenuComponent.prototype;
 
-    _proto.onInit = function onInit() {
-      this.id = null;
-      /*
-      DropdownDirective.dropdown$.pipe(
-      	takeUntil(this.unsubscribe$)
-      ).subscribe(id => {
-      	this.id = id;
-      	// console.log('ProductMenuComponent', this.id);
-      });
-      */
-    }
+    _proto.onInit = function onInit() {}
     /*
-    onDropped(event) {
-    	// console.log('ProductMenuComponent.onDropped', event);
-    	this.id = event;
-    	this.pushChanges();
+    onDropped(id) {
+    	// console.log('MainMenuComponent.onDropped', id);
     }
     */
     ;
 
-    _proto.onClick = function onClick(id) {
-      // console.log('ProductMenuComponent.onClick', id);
-      if (this.id !== id) {
-        this.id = id;
-        this.pushChanges();
-      }
-    };
-
-    _proto.onClickOutside = function onClickOutside(id) {
-      // console.log('ProductMenuComponent.onClickOutside', id);
-      if (this.id === id) {
-        this.id = null;
-        this.pushChanges();
-      }
-    };
-
-    _proto.isActive = function isActive(id) {
-      // console.log('ProductMenuComponent.isActive', id);
-      return this.id === id;
-    };
-
-    return ProductMenuComponent;
+    return MainMenuComponent;
   }(rxcomp.Component);
-  ProductMenuComponent.meta = {
-    selector: '[product-menu]'
+  MainMenuComponent.meta = {
+    selector: '[main-menu]'
   };
 
   var HttpService =
@@ -1858,7 +1809,7 @@
   }(rxcomp.Module);
   AppModule.meta = {
     imports: [rxcomp.CoreModule, rxcompForm.FormModule],
-    declarations: [AppearDirective, ClickOutsideDirective, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, HeaderComponent, LazyDirective, ProductMenuComponent, RequestInfoCommercialComponent, // SpritesComponent,
+    declarations: [AppearDirective, ClickOutsideDirective, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, HeaderComponent, LazyDirective, MainMenuComponent, RequestInfoCommercialComponent, // SpritesComponent,
     SrcDirective, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, // ValueDirective,
     VideoComponent, WorkWithUsComponent, YoutubeComponent, ZoomableDirective],
     bootstrap: AppComponent

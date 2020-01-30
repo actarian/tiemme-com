@@ -12,8 +12,8 @@ export default class ControlCustomSelectComponent extends ControlComponent {
 		this.control.value = item.id;
 	}
 
-	onDropped(event) {
-		// console.log('ControlCustomSelectComponent.onDropped', event);
+	onDropped(id) {
+		// console.log('ControlCustomSelectComponent.onDropped', id);
 	}
 
 	getLabel() {

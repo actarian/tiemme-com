@@ -4,12 +4,6 @@ export default class HeaderComponent extends Component {
 
 	onInit() {
 		this.menu = null;
-		this.dropdownId = null;
-		/*
-		DropdownDirective.dropdown$.pipe(
-			takeUntil(this.unsubscribe$)
-		).subscribe(dropdown => this.dropdownId = dropdown);
-		*/
 	}
 
 	toggleMenu($event) {
@@ -17,11 +11,10 @@ export default class HeaderComponent extends Component {
 		this.pushChanges();
 	}
 
-	onDropped($event) {
-		// console.log('HeaderComponent.onDropped', $event);
-		this.dropdownId = $event;
-		this.pushChanges();
+	onDropped(id) {
+		console.log('HeaderComponent.onDropped', id);
 	}
+
 }
 
 HeaderComponent.meta = {

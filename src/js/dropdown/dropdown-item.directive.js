@@ -13,14 +13,13 @@ export default class DropdownItemDirective extends Component {
 		DropdownDirective.dropdown$.pipe(
 			takeUntil(this.unsubscribe$)
 		).subscribe(id => {
-			console.log('DropdownItemDirective', id, this['dropdown-item']);
+			// console.log('DropdownItemDirective', id, this['dropdown-item']);
 			if (this.id === id) {
 				node.classList.add('dropped');
 			} else {
 				node.classList.remove('dropped');
 			}
 		});
-		console.log('DropdownItemDirective');
 	}
 
 }
