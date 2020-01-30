@@ -17,8 +17,8 @@ export default class HeaderComponent extends Component {
 		this.pushChanges();
 	}
 
-	onDropdown($event) {
-		// console.log('HeaderComponent.onDropdown', $event);
+	onDropped($event) {
+		// console.log('HeaderComponent.onDropped', $event);
 		this.dropdownId = $event;
 		this.pushChanges();
 	}

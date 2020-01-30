@@ -98,34 +98,23 @@
       var _this = this;
 
       var _getContext = rxcomp.getContext(this),
-          node = _getContext.node; // const consumer = attributes.hasDropdownConsumer !== undefined ? scope.$eval(attributes.hasDropdownConsumer) : null;
+          node = _getContext.node;
 
-
-      var trigger = node.getAttribute('dropdown-target');
+      var trigger = node.getAttribute('dropdown-trigger');
       this.trigger = trigger ? node.querySelector(trigger) : node;
       this.opened = null;
-      var uid = node.getAttribute('dropdown-id');
-      this.uid = uid ? uid : DROPDOWN_ID++; // console.log(this.uid);
-
-      /*
-      scope.$on('onCloseDropdown', closeDropdown);
-      scope.$on('onNavigateOut', closeDropdown);
-      scope.$on('onNavigationTransitionIn', closeDropdown);
-      */
-
       this.onClick = this.onClick.bind(this);
       this.onDocumentClick = this.onDocumentClick.bind(this);
       this.openDropdown = this.openDropdown.bind(this);
       this.closeDropdown = this.closeDropdown.bind(this);
       this.addListeners();
-      DropdownDirective.dropdown$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (dropdown) {
-        if (_this.uid === dropdown) {
-          node.classList.add('opened');
+      DropdownDirective.dropdown$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (id) {
+        // console.log('DropdownDirective', id, this['dropdown-item']);
+        if (_this.id === id) {
+          node.classList.add('dropped');
         } else {
-          node.classList.remove('opened');
+          node.classList.remove('dropped');
         }
-
-        _this.pushChanges();
       });
     };
 
@@ -149,29 +138,26 @@
       if (!clickedInside) {
         this.closeDropdown();
       }
-    } // scope.$watch('hasDropdown', onShowHide);
-    ;
+    };
 
     _proto.openDropdown = function openDropdown() {
       if (this.opened === null) {
         this.opened = true;
         this.addDocumentListeners();
-        DropdownDirective.dropdown$.next(this.uid);
-        this.dropdown.next(this.uid);
+        DropdownDirective.dropdown$.next(this.id);
+        this.dropped.next(this.id);
       }
     };
 
     _proto.closeDropdown = function closeDropdown() {
       if (this.opened !== null) {
-        this.removeDocumentListeners(); // this.$timeout(() => {
-
+        this.removeDocumentListeners();
         this.opened = null;
 
-        if (DropdownDirective.dropdown$.getValue() === this.uid) {
+        if (DropdownDirective.dropdown$.getValue() === this.id) {
           DropdownDirective.dropdown$.next(null);
-          this.dropdown.next(null);
-        } // });
-
+          this.dropped.next(null);
+        }
       }
     };
 
@@ -196,11 +182,19 @@
       this.removeDocumentListeners();
     };
 
+    _createClass(DropdownDirective, [{
+      key: "id",
+      get: function get() {
+        return this.dropdown || this.id_ || (this.id_ = DROPDOWN_ID++);
+      }
+    }]);
+
     return DropdownDirective;
   }(rxcomp.Component);
   DropdownDirective.meta = {
-    selector: '[(dropdown)]',
-    outputs: ['dropdown']
+    selector: '[dropdown]',
+    inputs: ['dropdown', 'dropdown-trigger'],
+    outputs: ['dropped']
   };
   DropdownDirective.dropdown$ = new rxjs.BehaviorSubject(null);
 
@@ -225,8 +219,8 @@
       });
     };
 
-    _proto.onDropdown = function onDropdown(dropdown) {
-      console.log('AppComponent.onDropdown', dropdown);
+    _proto.onDropped = function onDropped(dropdown) {
+      console.log('AppComponent.onDropped', dropdown);
     } // onView() { const context = getContext(this); }
     // onChanges() {}
     // onDestroy() {}
@@ -369,6 +363,49 @@
     selector: "[(clickOutside)]"
   };
 
+  var DropdownItemDirective =
+  /*#__PURE__*/
+  function (_Component) {
+    _inheritsLoose(DropdownItemDirective, _Component);
+
+    function DropdownItemDirective() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = DropdownItemDirective.prototype;
+
+    _proto.onInit = function onInit() {
+      var _this = this;
+
+      var _getContext = rxcomp.getContext(this),
+          node = _getContext.node;
+
+      DropdownDirective.dropdown$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (id) {
+        console.log('DropdownItemDirective', id, _this['dropdown-item']);
+
+        if (_this.id === id) {
+          node.classList.add('dropped');
+        } else {
+          node.classList.remove('dropped');
+        }
+      });
+      console.log('DropdownItemDirective');
+    };
+
+    _createClass(DropdownItemDirective, [{
+      key: "id",
+      get: function get() {
+        return this['dropdown-item'];
+      }
+    }]);
+
+    return DropdownItemDirective;
+  }(rxcomp.Component);
+  DropdownItemDirective.meta = {
+    selector: '[dropdown-item], [[dropdown-item]]',
+    inputs: ['dropdown-item']
+  };
+
   // export const FormAttributes = ['untouched', 'touched', 'pristine', 'dirty', 'pending', 'enabled', 'disabled', 'valid', 'invalid', 'submitted'];
 
   var ControlComponent =
@@ -454,7 +491,7 @@
       this.control.value = item.id;
     };
 
-    _proto.onDropdown = function onDropdown(event) {// console.log('ControlCustomSelectComponent.onDropdown', event);
+    _proto.onDropped = function onDropped(event) {// console.log('ControlCustomSelectComponent.onDropped', event);
     };
 
     _proto.getLabel = function getLabel() {
@@ -705,8 +742,8 @@
       this.pushChanges();
     };
 
-    _proto.onDropdown = function onDropdown($event) {
-      // console.log('HeaderComponent.onDropdown', $event);
+    _proto.onDropped = function onDropped($event) {
+      // console.log('HeaderComponent.onDropped', $event);
       this.dropdownId = $event;
       this.pushChanges();
     };
@@ -820,8 +857,8 @@
       */
     }
     /*
-    onDropdown(event) {
-    	// console.log('ProductMenuComponent.onDropdown', event);
+    onDropped(event) {
+    	// console.log('ProductMenuComponent.onDropped', event);
     	this.id = event;
     	this.pushChanges();
     }
@@ -1821,7 +1858,7 @@
   }(rxcomp.Module);
   AppModule.meta = {
     imports: [rxcomp.CoreModule, rxcompForm.FormModule],
-    declarations: [AppearDirective, ClickOutsideDirective, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, ErrorsComponent, HeaderComponent, LazyDirective, ProductMenuComponent, RequestInfoCommercialComponent, // SpritesComponent,
+    declarations: [AppearDirective, ClickOutsideDirective, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, HeaderComponent, LazyDirective, ProductMenuComponent, RequestInfoCommercialComponent, // SpritesComponent,
     SrcDirective, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, // ValueDirective,
     VideoComponent, WorkWithUsComponent, YoutubeComponent, ZoomableDirective],
     bootstrap: AppComponent

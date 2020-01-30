@@ -6,20 +6,15 @@ let DROPDOWN_ID = 1000000;
 
 export default class DropdownDirective extends Component {
 
+	get id() {
+		return this.dropdown || this.id_ || (this.id_ = DROPDOWN_ID++);
+	}
+
 	onInit() {
 		const { node } = getContext(this);
-		// const consumer = attributes.hasDropdownConsumer !== undefined ? scope.$eval(attributes.hasDropdownConsumer) : null;
-		const trigger = node.getAttribute('dropdown-target');
+		const trigger = node.getAttribute('dropdown-trigger');
 		this.trigger = trigger ? node.querySelector(trigger) : node;
 		this.opened = null;
-		const uid = node.getAttribute('dropdown-id');
-		this.uid = uid ? uid : DROPDOWN_ID++;
-		// console.log(this.uid);
-		/*
-		scope.$on('onCloseDropdown', closeDropdown);
-		scope.$on('onNavigateOut', closeDropdown);
-		scope.$on('onNavigationTransitionIn', closeDropdown);
-		*/
 		this.onClick = this.onClick.bind(this);
 		this.onDocumentClick = this.onDocumentClick.bind(this);
 		this.openDropdown = this.openDropdown.bind(this);
@@ -27,13 +22,13 @@ export default class DropdownDirective extends Component {
 		this.addListeners();
 		DropdownDirective.dropdown$.pipe(
 			takeUntil(this.unsubscribe$)
-		).subscribe(dropdown => {
-			if (this.uid === dropdown) {
-				node.classList.add('opened');
+		).subscribe(id => {
+			// console.log('DropdownDirective', id, this['dropdown-item']);
+			if (this.id === id) {
+				node.classList.add('dropped');
 			} else {
-				node.classList.remove('opened');
+				node.classList.remove('dropped');
 			}
-			this.pushChanges();
 		});
 	}
 
@@ -54,27 +49,23 @@ export default class DropdownDirective extends Component {
 		}
 	}
 
-	// scope.$watch('hasDropdown', onShowHide);
-
 	openDropdown() {
 		if (this.opened === null) {
 			this.opened = true;
 			this.addDocumentListeners();
-			DropdownDirective.dropdown$.next(this.uid);
-			this.dropdown.next(this.uid);
+			DropdownDirective.dropdown$.next(this.id);
+			this.dropped.next(this.id);
 		}
 	}
 
 	closeDropdown() {
 		if (this.opened !== null) {
 			this.removeDocumentListeners();
-			// this.$timeout(() => {
 			this.opened = null;
-			if (DropdownDirective.dropdown$.getValue() === this.uid) {
+			if (DropdownDirective.dropdown$.getValue() === this.id) {
 				DropdownDirective.dropdown$.next(null);
-				this.dropdown.next(null);
+				this.dropped.next(null);
 			}
-			// });
 		}
 	}
 
@@ -102,8 +93,9 @@ export default class DropdownDirective extends Component {
 }
 
 DropdownDirective.meta = {
-	selector: '[(dropdown)]',
-	outputs: ['dropdown']
+	selector: '[dropdown]',
+	inputs: ['dropdown', 'dropdown-trigger'],
+	outputs: ['dropped']
 };
 
 DropdownDirective.dropdown$ = new BehaviorSubject(null);

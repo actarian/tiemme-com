@@ -12,8 +12,8 @@ export default class AppComponent extends Component {
 		).subscribe(dropdownId => this.dropdownId = dropdownId);
 	}
 
-	onDropdown(dropdown) {
-		console.log('AppComponent.onDropdown', dropdown);
+	onDropped(dropdown) {
+		console.log('AppComponent.onDropped', dropdown);
 	}
 
 	// onView() { const context = getContext(this); }

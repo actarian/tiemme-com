@@ -242,7 +242,8 @@
 			}
 
 			&:hover,
-			&.active {
+			&.active,
+			&.dropped {
 				background: $background-secondary;
 				color: $foreground;
 				padding: 10px 40px 10px 20px;

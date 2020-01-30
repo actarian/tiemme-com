@@ -3,6 +3,7 @@ import { FormModule } from 'rxcomp-form';
 import AppComponent from './app.component';
 import AppearDirective from './appear/appear.directive';
 import ClickOutsideDirective from './click-outside/click-outside.directive';
+import DropdownItemDirective from './dropdown/dropdown-item.directive';
 import DropdownDirective from './dropdown/dropdown.directive';
 import ControlCheckboxComponent from './forms/control-checkbox.component';
 import ControlCustomSelectComponent from './forms/control-custom-select.component';
@@ -45,6 +46,7 @@ AppModule.meta = {
 		ControlTextComponent,
 		ControlTextareaComponent,
 		DropdownDirective,
+		DropdownItemDirective,
 		ErrorsComponent,
 		HeaderComponent,
 		LazyDirective,

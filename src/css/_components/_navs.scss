@@ -398,14 +398,9 @@ ul {
 
 }
 
-[has-dropdown] {
-	user-select: none;
-	cursor: pointer;
-
-	&.opened {
-		.dropdown {
-			max-height: 520px;
-		}
+[dropdown-item] {
+	&:not(.dropped) {
+		display: none;
 	}
 }
 
@@ -445,26 +440,6 @@ ul {
 		}
 	}
 }
-
-/*
-.dropdown {
-	position: absolute;
-	width: 100%;
-	top: 0;
-	left: 0;
-	min-width: 240px;
-	background: $background;
-	z-index: 0;
-	box-shadow: 0 20px 30px -5px rgba(0, 0, 0, 0.15);
-	max-height: 0;
-	transition: all ease-in-out 350ms;
-	overflow: hidden;
-
-	.opened & {
-		max-height: 520px;
-	}
-}
-*/
 
 .nav--dropdown {
 	@extend %nav-reset;

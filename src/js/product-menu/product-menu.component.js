@@ -15,8 +15,8 @@ export default class ProductMenuComponent extends Component {
 	}
 
 	/*
-	onDropdown(event) {
-		// console.log('ProductMenuComponent.onDropdown', event);
+	onDropped(event) {
+		// console.log('ProductMenuComponent.onDropped', event);
 		this.id = event;
 		this.pushChanges();
 	}
