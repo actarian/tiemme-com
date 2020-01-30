@@ -119,6 +119,18 @@ $invalid: #dc1216;
 	}
 }
 
+form {
+
+	.group--cta {
+		display: flex;
+		justify-content: center;
+		margin-top: 30px;
+		padding: 20px 0;
+		border-bottom: 2px solid $pristine;
+	}
+
+}
+
 fieldset,
 form {
 	display: block;
@@ -337,14 +349,6 @@ errors-component {
 		}
 
 	}
-}
-
-.group--cta {
-	display: flex;
-	justify-content: center;
-	margin-top: 30px;
-	padding: 20px 0;
-	border-bottom: 2px solid $pristine;
 }
 
 .btn--submit {

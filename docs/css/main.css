@@ -420,6 +420,17 @@ button,
   .invalid.control--text:not(.pristine), .invalid.control--select:not(.pristine) {
     color: #dc1216; }
 
+form .group--cta {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-top: 30px;
+  padding: 20px 0;
+  border-bottom: 2px solid #16255b; }
+
 fieldset,
 form {
   display: block;
@@ -592,17 +603,6 @@ errors-component {
     [control-custom-select] .dropdown {
       top: -65px;
       left: 100%; } }
-
-.group--cta {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  margin-top: 30px;
-  padding: 20px 0;
-  border-bottom: 2px solid #16255b; }
 
 .btn--submit {
   font-size: 30px; }
