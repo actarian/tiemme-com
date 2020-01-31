@@ -119,20 +119,44 @@ $invalid: #dc1216;
 	}
 }
 
-form {
+.form {
+
+	.title {
+		@extend %subtitle;
+	}
 
 	.group--cta {
 		display: flex;
 		justify-content: center;
 		margin-top: 30px;
 		padding: 20px 0;
-		border-bottom: 2px solid $pristine;
+		border-bottom: 1px solid rgba(#16255b, 0.2);
+	}
+
+	.group--info {
+		text-align: center;
+		margin: 40px 0;
+	}
+
+	.btn--submit {
+		opacity: 0.5;
+	}
+
+	&.valid {
+		.btn--submit {
+			opacity: 1;
+		}
+	}
+
+	[control-custom-select] .dropdown {
+		top: 63px;
+		left: 0px;
 	}
 
 }
 
 fieldset,
-form {
+.form {
 	display: block;
 	margin: 0;
 	padding: 0;
@@ -349,10 +373,6 @@ errors-component {
 		}
 
 	}
-}
-
-.btn--submit {
-	font-size: 30px;
 }
 
 .required__badge {

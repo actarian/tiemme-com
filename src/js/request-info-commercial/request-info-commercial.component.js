@@ -58,24 +58,24 @@ export default class RequestInfoCommercialComponent extends Component {
 				return String(province.idstato) === String(changes.country);
 			});
 			controls.province.options = provinces;
+			console.log(this.form);
 			this.pushChanges();
 		});
 
-		// change to if(true) for testing
-		if (false) {
-			form.patch({
-				firstName: 'Jhon',
-				lastName: 'Appleseed',
-				email: 'jhonappleseed@gmail.com',
-				company: 'Websolute',
-				role: controls.role.options[0].id,
-				interests: controls.interests.options[0].id,
-				country: controls.country.options[0].id,
-				privacy: true,
-			});
-		}
-
 		this.form = form;
+	}
+
+	test() {
+		this.form.patch({
+			firstName: 'Jhon',
+			lastName: 'Appleseed',
+			email: 'jhonappleseed@gmail.com',
+			company: 'Websolute',
+			role: this.controls.role.options[0].id,
+			interests: this.controls.interests.options[0].id,
+			country: this.controls.country.options[0].id,
+			privacy: true,
+		});
 	}
 
 	onSubmit() {

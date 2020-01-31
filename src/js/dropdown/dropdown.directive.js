@@ -1,13 +1,13 @@
-import { Component, getContext } from "rxcomp";
+import { Directive, getContext } from "rxcomp";
 import { BehaviorSubject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 
 let DROPDOWN_ID = 1000000;
 
-export default class DropdownDirective extends Component {
+export default class DropdownDirective extends Directive {
 
 	get id() {
-		return this.dropdown || this.id_ || (this.id_ = DROPDOWN_ID++);
+		return this.dropdown || this.id_ || (this.id_ = DropdownDirective.nextId());
 	}
 
 	onInit() {
@@ -88,6 +88,10 @@ export default class DropdownDirective extends Component {
 	onDestroy() {
 		this.removeListeners();
 		this.removeDocumentListeners();
+	}
+
+	static nextId() {
+		return DROPDOWN_ID++;
 	}
 
 }

@@ -10,7 +10,7 @@ export default class WorkWithUsComponent extends Component {
 		this.http = HttpService;
 
 		const data = window.data || {
-			interests: []
+			departments: []
 		};
 
 		const form = new FormGroup({
@@ -20,14 +20,14 @@ export default class WorkWithUsComponent extends Component {
 			telephone: new FormControl(null, Validators.RequiredValidator()),
 			experience: null,
 			company: new FormControl(null),
-			interests: new FormControl(null, Validators.RequiredValidator()),
+			department: new FormControl(null, Validators.RequiredValidator()),
 			introduction: new FormControl(null),
 			privacy: new FormControl(null, Validators.RequiredTrueValidator()),
 			curricula: new FormControl(null, Validators.RequiredValidator()),
 		});
 
 		const controls = form.controls;
-		controls.interests.options = data.interests;
+		controls.department.options = data.departments;
 		this.controls = controls;
 
 		form.changes$.pipe(
@@ -37,23 +37,22 @@ export default class WorkWithUsComponent extends Component {
 			this.pushChanges();
 		});
 
-		// change to if(true) for testing
-		if (false) {
-			form.patch({
-				firstName: 'Jhon',
-				lastName: 'Appleseed',
-				email: 'jhonappleseed@gmail.com',
-				telephone: '00390721411112',
-				experience: false,
-				company: 'Websolute',
-				interests: controls.interests.options[0].id,
-				introduction: 'Hi!',
-				privacy: true,
-				curricula: {},
-			});
-		}
-
 		this.form = form;
+	}
+
+	test() {
+		this.form.patch({
+			firstName: 'Jhon',
+			lastName: 'Appleseed',
+			email: 'jhonappleseed@gmail.com',
+			telephone: '00390721411112',
+			experience: false,
+			company: 'Websolute',
+			department: this.controls.departments.options[0].id,
+			introduction: 'Hi!',
+			privacy: true,
+			curricula: {},
+		});
 	}
 
 	onSubmit() {

@@ -1,0 +1,41 @@
+.section--club {
+	width: 100%;
+
+	.title {
+		@extend %subtitle;
+	}
+
+	.left,
+	.right {
+		padding: 50px 35px;
+	}
+
+	.left {
+		max-height: calc(100vh - 400px);
+		overflow-x: hidden;
+		overflow-y: auto;
+		background: white;
+
+		@include scrollbar();
+	}
+
+	.group--advantage {
+		display: flex;
+		margin-bottom: 30px;
+
+		svg {
+			fill: $foreground;
+			width: 30px;
+			height: 30px;
+			margin-right: 36px;
+		}
+
+		.icon--tiemme-lab {
+			width: 36px;
+			height: 36px;
+			margin-right: 30px;
+		}
+
+	}
+
+}

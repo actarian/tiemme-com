@@ -56,7 +56,9 @@
 			</ul>
 		</div>
 		<!-- club -->
-		<div class="dropdown--menu" *if="menu == 'club'">club</div>
+		<div class="dropdown--menu" *if="menu == 'club'">
+			<!-- @@include ./club.html -->
+		</div>
 		<div class="flex--header">
 			<div class="left">
 				<button type="button" class="btn--menu" [class]="{ active: menu == 'main' }" (click)="toggleMenu('main')"><span></span><span></span><span></span></button>
@@ -80,7 +82,8 @@
 						</ul>
 					</div>
 				</div>
-				<button type="button" class="btn--club" (click)="toggleMenu('club')"><span>Club Tiemme</span></button>
+				<a href="/tiemme-com/club.html" class="btn--club" *if="user"><span><svg class="icon icon--user"><use xlink:href="#user"></use></svg> Club Tiemme</span></a>
+				<button type="button" class="btn--club" (click)="toggleMenu('club')" *if="!user"><span>Club Tiemme</span></button>
 			</div>
 		</div>
 	</div>
