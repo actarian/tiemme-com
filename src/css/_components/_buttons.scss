@@ -114,6 +114,10 @@ button,
 	}
 }
 
+.btn--submit {
+	font-size: 30px;
+}
+
 .btn--category {
 	@extend %btn;
 	display: inline-block;

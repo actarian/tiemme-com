@@ -3,12 +3,17 @@ import { FormModule } from 'rxcomp-form';
 import AppComponent from './app.component';
 import AppearDirective from './appear/appear.directive';
 import ClickOutsideDirective from './click-outside/click-outside.directive';
+import ClubForgotComponent from './club/club-forgot.component';
+import ClubSigninComponent from './club/club-signin.component';
+import ClubSignupComponent from './club/club-signup.component';
+import ClubComponent from './club/club.component';
 import DropdownItemDirective from './dropdown/dropdown-item.directive';
 import DropdownDirective from './dropdown/dropdown.directive';
 import ControlCheckboxComponent from './forms/control-checkbox.component';
 import ControlCustomSelectComponent from './forms/control-custom-select.component';
 import ControlEmailComponent from './forms/control-email.component';
 import ControlFileComponent from './forms/control-file.component';
+import ControlPasswordComponent from './forms/control-password.component';
 import ControlSelectComponent from './forms/control-select.component';
 import ControlTextComponent from './forms/control-text.component';
 import ControlTextareaComponent from './forms/control-textarea.component';
@@ -19,7 +24,6 @@ import LazyDirective from './lazy/lazy.directive';
 import MainMenuComponent from './main-menu/main-menu.component';
 import RequestInfoCommercialComponent from './request-info-commercial/request-info-commercial.component';
 // import SpritesComponent from './sprites/sprites.component';
-import SrcDirective from './src/src.directive';
 import SwiperListingDirective from './swiper/swiper-listing.directive';
 import SwiperSlidesDirective from './swiper/swiper-slides.directive';
 import SwiperDirective from './swiper/swiper.directive';
@@ -38,10 +42,15 @@ AppModule.meta = {
 	declarations: [
 		AppearDirective,
 		ClickOutsideDirective,
+		ClubComponent,
+		ClubForgotComponent,
+		ClubSigninComponent,
+		ClubSignupComponent,
 		ControlCheckboxComponent,
 		ControlCustomSelectComponent,
 		ControlEmailComponent,
 		ControlFileComponent,
+		ControlPasswordComponent,
 		ControlSelectComponent,
 		ControlTextComponent,
 		ControlTextareaComponent,
@@ -53,7 +62,6 @@ AppModule.meta = {
 		MainMenuComponent,
 		RequestInfoCommercialComponent,
 		// SpritesComponent,
-		SrcDirective,
 		SwiperDirective,
 		SwiperListingDirective,
 		SwiperSlidesDirective,

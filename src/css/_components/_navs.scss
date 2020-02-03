@@ -477,6 +477,11 @@ ul {
 				transition-property: fill;
 			}
 
+
+			&:hover,
+			&.active {
+				background: rgba(#16255b, 0.05);
+			}
 		}
 	}
 

@@ -61,26 +61,42 @@ strong {
 %category {
 	font-family: $font-secondary;
 	font-size: 26px;
-	line-height: 30px;
+	line-height: 1.15;
 	font-weight: $font-medium;
-    text-transform: uppercase;
-    
-    .icon {
-        margin-right: 5px;
-    }
+	text-transform: uppercase;
+
+	.icon {
+		margin-right: 5px;
+	}
 }
 
 %title {
 	font-family: $font-secondary;
 	font-size: 50px;
-	line-height: 44px;
+	line-height: 0.88;
 	font-weight: $font-medium;
-    text-transform: uppercase;
+	text-transform: uppercase;
+}
+
+%subtitle {
+	font-family: $font-secondary;
+	font-size: 40px;
+	line-height: 1.15;
+	font-weight: $font-medium;
+	text-transform: uppercase;
+
+	padding-bottom: 30px;
+	margin-bottom: 30px;
+	border-bottom: 2px solid rgba(#16255b, 0.2);
+
+	.icon {
+		margin-right: 5px;
+	}
 }
 
 %abstract {
 	font-family: $font-primary;
 	font-size: 18px;
-	line-height: 27px;
+	line-height: 1.5;
 	font-weight: $font-regular;
 }

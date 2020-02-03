@@ -1,0 +1,24 @@
+<div club-signin (signIn)="onSignIn($event)" (forgot)="onForgot($event)" (register)="onRegister($event)">
+	<div class="container">
+		<form class="form" [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">
+			<div class="title">Accedi per usare i servizi del club TIEMME</div>
+			<div class="fields">
+				<div control-text [control]="controls.username" label="Username"></div>
+				<div control-password [control]="controls.password" label="Password"></div>
+			</div>
+			<div class="group--cta">
+				<button type="submit" class="btn--submit">
+					<span *if="!form.submitted">Accedi</span>
+					<span *if="form.submitted">Inviato!</span>
+				</button>
+			</div>
+			<div class="group--info">
+				Non riesci ad accedere? <button type="button" class="btn--link" (click)="onForgot($event)"><span>Recupera Password</span></button>
+			</div>
+			<div class="group--form--results">
+				<code [innerHTML]="form.value | json"></code>
+				<button type="button" class="btn--link" (click)="test($event)"><span>test</span></button>
+			</div>
+		</form>
+	</div>
+</div>

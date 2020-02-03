@@ -156,7 +156,7 @@ strong {
 .section--slides__title, .group--title > .title, .section--technician .category {
   font-family: "Barlow Condensed", sans-serif;
   font-size: 26px;
-  line-height: 30px;
+  line-height: 1.15;
   font-weight: 500;
   text-transform: uppercase; }
   .section--slides__title .icon, .group--title > .title .icon, .section--technician .category .icon {
@@ -165,14 +165,26 @@ strong {
 .section--technician .title {
   font-family: "Barlow Condensed", sans-serif;
   font-size: 50px;
-  line-height: 44px;
+  line-height: 0.88;
   font-weight: 500;
   text-transform: uppercase; }
+
+.form .title, .section--club .title {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 40px;
+  line-height: 1.15;
+  font-weight: 500;
+  text-transform: uppercase;
+  padding-bottom: 30px;
+  margin-bottom: 30px;
+  border-bottom: 2px solid rgba(22, 37, 91, 0.2); }
+  .form .title .icon, .section--club .title .icon {
+    margin-right: 5px; }
 
 .section--technician .abstract {
   font-family: "Hind Madurai", sans-serif;
   font-size: 18px;
-  line-height: 27px;
+  line-height: 1.5;
   font-weight: 400; }
 
 a,
@@ -275,6 +287,9 @@ button,
     .btn--cta:hover .icon--download,
     .btn--submit:hover .icon--download {
       fill: #ffffff; }
+
+.btn--submit {
+  font-size: 30px; }
 
 .btn--category {
   display: inline-block; }
@@ -442,7 +457,7 @@ button,
   .invalid.control--text:not(.pristine), .invalid.control--select:not(.pristine) {
     color: #dc1216; }
 
-form .group--cta {
+.form .group--cta {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -451,10 +466,24 @@ form .group--cta {
           justify-content: center;
   margin-top: 30px;
   padding: 20px 0;
-  border-bottom: 2px solid #16255b; }
+  border-bottom: 1px solid rgba(22, 37, 91, 0.2); }
+
+.form .group--info {
+  text-align: center;
+  margin: 40px 0; }
+
+.form .btn--submit {
+  opacity: 0.5; }
+
+.form.valid .btn--submit {
+  opacity: 1; }
+
+.form [control-custom-select] .dropdown {
+  top: 63px;
+  left: 0px; }
 
 fieldset,
-form {
+.form {
   display: block;
   margin: 0;
   padding: 0;
@@ -625,9 +654,6 @@ errors-component {
     [control-custom-select] .dropdown {
       top: -65px;
       left: 100%; } }
-
-.btn--submit {
-  font-size: 30px; }
 
 .required__badge {
   display: none; }
@@ -3199,6 +3225,18 @@ errors-component {
   width: 24px;
   height: 24px; }
 
+.icon--insights {
+  width: 24px;
+  height: 24px; }
+
+.icon--guides {
+  width: 24px;
+  height: 24px; }
+
+.icon--user {
+  width: 24px;
+  height: 24px; }
+
 @media screen {
   [appear]:not(.print) {
     opacity: 0 !important;
@@ -3863,6 +3901,10 @@ ul {
         transition: ease-in-out 350ms;
         -webkit-transition-property: fill;
         transition-property: fill; }
+      .nav--dropdown > li > a:hover, .nav--dropdown > li > a.active,
+      .nav--dropdown > li > span:hover,
+      .nav--dropdown > li > span.active {
+        background: rgba(22, 37, 91, 0.05); }
   .nav--dropdown > li + li {
     border-top: 1px solid rgba(22, 37, 91, 0.15); }
   @media (min-width: 1024px) {
@@ -4926,14 +4968,24 @@ ul {
     text-transform: uppercase;
     -webkit-transition: all ease-in-out .2s;
     transition: all ease-in-out .2s; }
+  .btn--club .icon--user {
+    width: 20px;
+    height: 20px;
+    margin-right: 7px;
+    margin-left: -10px;
+    margin-bottom: -1px; }
   .btn--club span, .btn--club:active span, .btn--club:focus span, .btn--club:hover span, .btn--club:visited span {
     background: #dc1216;
     color: #ffffff;
     -webkit-transition: all ease-in-out .2s;
     transition: all ease-in-out .2s; }
+  .btn--club .icon--user, .btn--club:active .icon--user, .btn--club:focus .icon--user, .btn--club:hover .icon--user, .btn--club:visited .icon--user {
+    fill: #ffffff; }
   .section--negative .btn--club span, .section--negative .btn--club:active span, .section--negative .btn--club:focus span, .section--negative .btn--club:hover span, .section--negative .btn--club:visited span {
     background: #ffffff;
     color: #dc1216; }
+  .section--negative .btn--club .icon--user, .section--negative .btn--club:active .icon--user, .section--negative .btn--club:focus .icon--user, .section--negative .btn--club:hover .icon--user, .section--negative .btn--club:visited .icon--user {
+    fill: #dc1216; }
   @media (max-width: 767.98px) {
     .btn--club {
       display: block; } }
@@ -5122,6 +5174,50 @@ ul {
     opacity: 0; }
   to {
     opacity: 1; } }
+
+.section--club {
+  width: 100%; }
+  .section--club .left,
+  .section--club .right {
+    padding: 50px 35px; }
+  .section--club .left {
+    max-height: calc(100vh - 400px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: white; }
+    .section--club .left::-webkit-scrollbar {
+      width: 6px;
+      border-radius: 3px; }
+    .section--club .left::-webkit-scrollbar-button {
+      display: none; }
+    .section--club .left::-webkit-scrollbar-button:hover {
+      display: none; }
+    .section--club .left::-webkit-scrollbar-thumb {
+      background-color: rgba(22, 37, 91, 0.15);
+      -webkit-box-shadow: none;
+              box-shadow: none;
+      border-radius: 3px; }
+      .section--club .left::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(22, 37, 91, 0.15); }
+    .section--club .left::-webkit-scrollbar-track {
+      background-color: transparent;
+      border-radius: 3px; }
+      .section--club .left::-webkit-scrollbar-track:hover {
+        background-color: transparent; }
+  .section--club .group--advantage {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-bottom: 30px; }
+    .section--club .group--advantage svg {
+      fill: #16255b;
+      width: 30px;
+      height: 30px;
+      margin-right: 36px; }
+    .section--club .group--advantage .icon--tiemme-lab {
+      width: 36px;
+      height: 36px;
+      margin-right: 30px; }
 
 .section--footer {
   background: #b9bdcd;

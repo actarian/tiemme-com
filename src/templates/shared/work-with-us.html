@@ -1,35 +1,9 @@
-<script>
-	window.labels = {
-		'select': 'Seleziona',
-		'select_file': 'Seleziona un file...',
-		'error_required': 'Il campo è obbligatorio',
-		'error_email': 'Email non valida',
-	}
-
-	window.data = {
-		interests: [
-			{ id: "Acquisti", name: "Acquisti" },
-			{ id: "Amministrazione", name: "Amministrazione" },
-			{ id: "Controllo qualità", name: "Controllo qualità" },
-			{ id: "Customer service", name: "Customer service" },
-			{ id: "IT", name: "IT" },
-			{ id: "Logistica", name: "Logistica" },
-			{ id: "Marketing & crm", name: "Marketing & crm" },
-			{ id: "Pianificazione", name: "Pianificazione" },
-			{ id: "Produzione", name: "Produzione" },
-			{ id: "Risorse umane", name: "Risorse umane" },
-			{ id: "Ufficio R&D", name: "Ufficio R&D" },
-			{ id: "Ufficio tecnico", name: "Ufficio tecnico" },
-			{ id: "Ufficio vendite", name: "Ufficio vendite" },
-		]
-	}
-
-</script>
+<!-- @@include ./_json_data.html -->
 
 <section class="section--form background--tertiary" work-with-us>
 	<div class="container">
 		<div class="section--slides__title">Inviaci il tuo curriculum</div>
-		<form [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">
+		<form class="form" [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">
 			<div class="listing--form">
 				<div control-text [control]="controls.firstName" label="Nome"></div>
 				<div control-text [control]="controls.lastName" label="Cognome"></div>
@@ -37,7 +11,7 @@
 				<div control-text [control]="controls.telephone" label="Telefono"></div>
 				<div control-checkbox [control]="controls.experience" label="Esperienza di lavoro all\'estero"></div>
 				<div control-text [control]="controls.company" label="Dove"></div>
-				<div control-custom-select [control]="controls.interests" label="Area di interesse"></div>
+				<div control-custom-select [control]="controls.department" label="Area di interesse"></div>
 				<div control-textarea [control]="controls.introduction" label="Presentazione"></div>
 				<div control-checkbox [control]="controls.privacy" label="Consenso al trattamento del dato"></div>
 				<div control-file [control]="controls.curricula" label="CV Allegato"></div>
@@ -50,6 +24,7 @@
 			</div>
 			<div class="group--form--results">
 				<code [innerHTML]="form.value | json"></code>
+				<button type="button" class="btn--link" (click)="test($event)"><span>test</span></button>
 			</div>
 		</form>
 	</div>

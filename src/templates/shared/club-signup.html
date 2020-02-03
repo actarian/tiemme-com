@@ -1,25 +1,31 @@
 <!-- @@include ./_json_data.html -->
 
-<section class="section--form background--tertiary" request-info-commercial>
+<div club-signup (signUp)="onSignUp($event)" (login)="onLogin($event)">
 	<div class="container">
-		<div class="section--slides__title">Richiesta Informazioni</div>
 		<form class="form" [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">
-			<div class="listing--form">
+			<div class="title">Registrati per accedere ai servizi del club TIEMME</div>
+			<div class="fields">
 				<div control-text [control]="controls.firstName" label="Nome"></div>
 				<div control-text [control]="controls.lastName" label="Cognome"></div>
-				<div control-text [control]="controls.email" label="Email"></div>
 				<div control-text [control]="controls.company" label="Azienda"></div>
 				<div control-custom-select [control]="controls.role" label="Ruolo"></div>
-				<div control-custom-select [control]="controls.interests" label="Area di interesse"></div>
 				<div control-custom-select [control]="controls.country" label="Nazione"></div>
 				<div control-custom-select [control]="controls.province" label="Provincia" *if="controls.province.options.length"></div>
-				<div control-textarea [control]="controls.message" label="Messaggio"></div>
+				<div control-text [control]="controls.address" label="Indirizzo"></div>
+				<div control-text [control]="controls.zipCode" label="Cap"></div>
+				<div control-text [control]="controls.city" label="Città"></div>
+				<div control-text [control]="controls.telephone" label="Telefono"></div>
+				<div control-text [control]="controls.fax" label="Fax"></div>
+				<div control-text [control]="controls.email" label="Email"></div>
+				<div control-text [control]="controls.username" label="Username"></div>
+				<div control-password [control]="controls.password" label="Password"></div>
+				<div control-password [control]="controls.passwordConfirm" label="Conferma Password"></div>
 				<div control-checkbox [control]="controls.privacy" label="Consenso al trattamento del dato"></div>
 				<div control-checkbox [control]="controls.newsletter" label="Voglio iscrivermi alla newsletter TIEMME"></div>
 			</div>
 			<div class="group--cta">
 				<button type="submit" class="btn--submit">
-					<span *if="!form.submitted">Invia</span>
+					<span *if="!form.submitted">Registrati</span>
 					<span *if="form.submitted">Inviato!</span>
 				</button>
 			</div>
@@ -29,4 +35,4 @@
 			</div>
 		</form>
 	</div>
-</section>
+</div>

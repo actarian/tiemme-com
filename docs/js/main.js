@@ -240,15 +240,421 @@
     selector: "[(clickOutside)]"
   };
 
+  var HttpService =
+  /*#__PURE__*/
+  function () {
+    function HttpService() {}
+
+    HttpService.http$ = function http$(method, url, data) {
+      var methods = ['POST', 'PUT', 'PATCH'];
+      return rxjs.from(fetch(url, {
+        method: method,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: methods.indexOf(method) !== -1 ? JSON.stringify(data) : undefined
+      }).then(function (response) {
+        return response.json();
+      }).catch(function (error) {
+        return console.log('postData$', error);
+      }));
+    };
+
+    HttpService.get$ = function get$(url, data) {
+      var query = this.query(data);
+      return this.http$('GET', "" + url + query);
+    };
+
+    HttpService.delete$ = function delete$(url) {
+      return this.http$('DELETE', url);
+    };
+
+    HttpService.post$ = function post$(url, data) {
+      return this.http$('POST', url, data);
+    };
+
+    HttpService.put$ = function put$(url, data) {
+      return this.http$('PUT', url, data);
+    };
+
+    HttpService.patch$ = function patch$(url, data) {
+      return this.http$('PATCH', url, data);
+    };
+
+    HttpService.query = function query(data) {
+      return ''; // todo
+    };
+
+    return HttpService;
+  }();
+
+  var ClubForgotComponent =
+  /*#__PURE__*/
+  function (_Component) {
+    _inheritsLoose(ClubForgotComponent, _Component);
+
+    function ClubForgotComponent() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = ClubForgotComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      var _this = this;
+
+      this.http = HttpService;
+      var form = new rxcompForm.FormGroup({
+        email: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator(), rxcompForm.Validators.EmailValidator()])
+      });
+      var controls = form.controls;
+      this.controls = controls;
+      form.changes$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (changes) {
+        // console.log('ClubForgotComponent.form.changes$', changes, form.valid);
+        _this.pushChanges();
+      });
+      this.form = form;
+    };
+
+    _proto.test = function test() {
+      this.form.patch({
+        email: 'jhonappleseed@gmail.com'
+      });
+    };
+
+    _proto.onSubmit = function onSubmit() {
+      var _this2 = this;
+
+      var valid = Object.keys(this.form.errors).length === 0; // console.log('ClubForgotComponent.onSubmit', 'form.valid', valid);
+
+      if (valid) {
+        // console.log('ClubForgotComponent.onSubmit', this.form.value);
+        this.form.submitted = true;
+        this.http.post$('/WS/wsUsers.asmx/Login', this.form.value).subscribe(function (response) {
+          console.log('ClubForgotComponent.onSubmit', response);
+
+          _this2.sent.next(true); // this.form.reset();
+
+        });
+      } else {
+        this.form.touched = true;
+      }
+    };
+
+    _proto.onLogin = function onLogin() {
+      this.login.next();
+    };
+
+    _proto.onRegister = function onRegister() {
+      this.register.next();
+    };
+
+    return ClubForgotComponent;
+  }(rxcomp.Component);
+  ClubForgotComponent.meta = {
+    selector: '[club-forgot]',
+    outputs: ['sent', 'login', 'register']
+  };
+
+  var ClubSigninComponent =
+  /*#__PURE__*/
+  function (_Component) {
+    _inheritsLoose(ClubSigninComponent, _Component);
+
+    function ClubSigninComponent() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = ClubSigninComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      var _this = this;
+
+      this.http = HttpService;
+      var form = new rxcompForm.FormGroup({
+        username: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        password: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator())
+      });
+      var controls = form.controls;
+      this.controls = controls;
+      form.changes$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (changes) {
+        // console.log('ClubSigninComponent.form.changes$', changes, form.valid);
+        _this.pushChanges();
+      });
+      this.form = form;
+    };
+
+    _proto.test = function test() {
+      this.form.patch({
+        username: 'username',
+        password: 'password'
+      });
+    };
+
+    _proto.onSubmit = function onSubmit() {
+      var _this2 = this;
+
+      var valid = Object.keys(this.form.errors).length === 0; // console.log('ClubSigninComponent.onSubmit', 'form.valid', valid);
+
+      if (valid) {
+        // console.log('ClubSigninComponent.onSubmit', this.form.value);
+        this.form.submitted = true;
+        this.http.post$('/WS/wsUsers.asmx/Login', this.form.value).subscribe(function (response) {
+          console.log('ClubSigninComponent.onSubmit', response);
+
+          _this2.signIn.next(_this2.form.value); // change to response!!!
+          // this.form.reset();
+
+        });
+      } else {
+        this.form.touched = true;
+      }
+    };
+
+    _proto.onForgot = function onForgot() {
+      this.forgot.next();
+    };
+
+    _proto.onRegister = function onRegister() {
+      this.register.next();
+    };
+
+    return ClubSigninComponent;
+  }(rxcomp.Component);
+  ClubSigninComponent.meta = {
+    selector: '[club-signin]',
+    outputs: ['signIn', 'forgot', 'register']
+  };
+
+  var ClubSignupComponent =
+  /*#__PURE__*/
+  function (_Component) {
+    _inheritsLoose(ClubSignupComponent, _Component);
+
+    function ClubSignupComponent() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = ClubSignupComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      var _this = this;
+
+      this.http = HttpService;
+      var data = window.data || {
+        roles: [],
+        countries: [],
+        provinces: []
+      };
+      var form = new rxcompForm.FormGroup({
+        firstName: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        lastName: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        company: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        role: null,
+        country: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        province: new rxcompForm.FormControl(null, this.RequiredSelect('province')),
+        address: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        zipCode: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        city: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        telephone: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        fax: null,
+        email: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator(), rxcompForm.Validators.EmailValidator()]),
+        username: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator()]),
+        password: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator()]),
+        passwordConfirm: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator(), this.MatchValidator('password')]),
+        privacy: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredTrueValidator()),
+        newsletter: null
+      });
+      var controls = form.controls;
+      controls.role.options = data.roles;
+      controls.country.options = data.countries;
+      controls.province.options = [];
+      this.controls = controls;
+      form.changes$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (changes) {
+        // console.log('ClubSignupComponent.form.changes$', changes, form.valid);
+        var provinces = data.provinces.filter(function (province) {
+          return String(province.idstato) === String(changes.country);
+        });
+        controls.province.options = provinces;
+        console.log(_this.form);
+
+        _this.pushChanges();
+      });
+      this.form = form;
+    };
+
+    _proto.test = function test() {
+      this.form.patch({
+        firstName: 'Jhon',
+        lastName: 'Appleseed',
+        company: 'Websolute',
+        role: this.controls.role.options[0].id,
+        country: this.controls.country.options[0].id,
+        address: 'Strada della Campanara',
+        zipCode: '15',
+        city: 'Pesaro',
+        telephone: '00390721411112',
+        email: 'jhonappleseed@gmail.com',
+        username: 'username',
+        password: 'password',
+        passwordConfirm: 'password',
+        privacy: true
+      });
+    };
+
+    _proto.RequiredSelect = function RequiredSelect(fieldName) {
+      var _this2 = this;
+
+      return new rxcompForm.FormValidator(function (value) {
+        var field = _this2.form ? _this2.form.get(fieldName) : null;
+
+        if (!value || !field) {
+          return null;
+        }
+
+        return field.options.length > 0 && (value == null || value.length === 0) ? {
+          required: true
+        } : null;
+      });
+    };
+
+    _proto.MatchValidator = function MatchValidator(fieldName) {
+      var _this3 = this;
+
+      return new rxcompForm.FormValidator(function (value) {
+        var field = _this3.form ? _this3.form.get(fieldName) : null;
+
+        if (!value || !field) {
+          return null;
+        }
+
+        return value !== field.value ? {
+          match: {
+            value: value,
+            match: field.value
+          }
+        } : null;
+      });
+    };
+
+    _proto.onSubmit = function onSubmit() {
+      var _this4 = this;
+
+      var valid = Object.keys(this.form.errors).length === 0; // console.log('ClubSignupComponent.onSubmit', 'form.valid', valid);
+
+      if (valid) {
+        // console.log('ClubSignupComponent.onSubmit', this.form.value);
+        this.form.submitted = true;
+        this.http.post$('/WS/wsUsers.asmx/Register', this.form.value).subscribe(function (response) {
+          console.log('ClubSignupComponent.onSubmit', response);
+
+          _this4.signUp.next(_this4.form.value); // change to response!!!
+          // this.form.reset();
+
+        });
+      } else {
+        this.form.touched = true;
+      }
+    };
+
+    _proto.onLogin = function onLogin() {
+      this.login.next();
+    };
+
+    return ClubSignupComponent;
+  }(rxcomp.Component);
+  ClubSignupComponent.meta = {
+    selector: '[club-signup]',
+    outputs: ['signUp', 'login']
+  };
+
+  var UserService =
+  /*#__PURE__*/
+  function () {
+    function UserService() {}
+
+    UserService.setUser = function setUser(user) {
+      this.user$.next(user);
+    };
+
+    return UserService;
+  }();
+  UserService.user$ = new rxjs.BehaviorSubject(null);
+
+  var ClubComponent =
+  /*#__PURE__*/
+  function (_Component) {
+    _inheritsLoose(ClubComponent, _Component);
+
+    function ClubComponent() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = ClubComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      this.views = {
+        SIGN_IN: 1,
+        SIGN_UP: 2,
+        FORGOTTEN: 3
+      };
+      this.view = this.views.SIGN_IN;
+    };
+
+    _proto.onForgot = function onForgot(event) {
+      // console.log('ClubComponent.onForgot');
+      this.view = this.views.FORGOTTEN;
+      this.pushChanges();
+    };
+
+    _proto.onLogin = function onLogin(event) {
+      // console.log('ClubComponent.onLogin');
+      this.view = this.views.SIGN_IN;
+      this.pushChanges();
+    };
+
+    _proto.onRegister = function onRegister(event) {
+      // console.log('ClubComponent.onRegister');
+      this.view = this.views.SIGN_UP;
+      this.pushChanges();
+    };
+
+    _proto.onSignIn = function onSignIn(user) {
+      console.log('ClubComponent.onSignIn', user);
+      UserService.setUser(user);
+      window.location.href = this.club; // nav to profile
+    };
+
+    _proto.onSignUp = function onSignUp(user) {
+      console.log('ClubComponent.onSignUp', user);
+      UserService.setUser(user);
+      window.location.href = this.club; // nav to profile
+    };
+
+    _proto.onForgottenSent = function onForgottenSent(email) {
+      /*
+      console.log('ClubComponent.onForgottenSent', email);
+      this.view = this.views.SIGN_IN;
+      this.pushChanges();
+      */
+    };
+
+    return ClubComponent;
+  }(rxcomp.Component);
+  ClubComponent.meta = {
+    selector: '[club]',
+    inputs: ['club']
+  };
+
   var DROPDOWN_ID = 1000000;
 
   var DropdownDirective =
   /*#__PURE__*/
-  function (_Component) {
-    _inheritsLoose(DropdownDirective, _Component);
+  function (_Directive) {
+    _inheritsLoose(DropdownDirective, _Directive);
 
     function DropdownDirective() {
-      return _Component.apply(this, arguments) || this;
+      return _Directive.apply(this, arguments) || this;
     }
 
     var _proto = DropdownDirective.prototype;
@@ -341,15 +747,19 @@
       this.removeDocumentListeners();
     };
 
+    DropdownDirective.nextId = function nextId() {
+      return DROPDOWN_ID++;
+    };
+
     _createClass(DropdownDirective, [{
       key: "id",
       get: function get() {
-        return this.dropdown || this.id_ || (this.id_ = DROPDOWN_ID++);
+        return this.dropdown || this.id_ || (this.id_ = DropdownDirective.nextId());
       }
     }]);
 
     return DropdownDirective;
-  }(rxcomp.Component);
+  }(rxcomp.Directive);
   DropdownDirective.meta = {
     selector: '[dropdown]',
     inputs: ['dropdown', 'dropdown-trigger'],
@@ -359,11 +769,11 @@
 
   var DropdownItemDirective =
   /*#__PURE__*/
-  function (_Component) {
-    _inheritsLoose(DropdownItemDirective, _Component);
+  function (_Directive) {
+    _inheritsLoose(DropdownItemDirective, _Directive);
 
     function DropdownItemDirective() {
-      return _Component.apply(this, arguments) || this;
+      return _Directive.apply(this, arguments) || this;
     }
 
     var _proto = DropdownItemDirective.prototype;
@@ -392,7 +802,7 @@
     }]);
 
     return DropdownItemDirective;
-  }(rxcomp.Component);
+  }(rxcomp.Directive);
   DropdownItemDirective.meta = {
     selector: '[dropdown-item], [[dropdown-item]]',
     inputs: ['dropdown-item']
@@ -477,6 +887,47 @@
       this.label = 'label';
       this.labels = window.labels || {};
       this.dropped = false;
+      this.dropdownId = DropdownDirective.nextId();
+      this.keyboard$().pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (key) {// console.log(key);
+      });
+    };
+
+    _proto.keyboard$ = function keyboard$() {
+      var _this = this;
+
+      var r = /\w/;
+      return rxjs.fromEvent(document, 'keydown').pipe(operators.filter(function (event) {
+        return _this.dropped && event.key.match(r);
+      }), // tap(event => console.log(event)),
+      operators.map(function (event) {
+        return event.key.toLowerCase();
+      }), operators.tap(function (key) {
+        _this.scrollToKey(key);
+      }));
+    };
+
+    _proto.scrollToKey = function scrollToKey(key) {
+      var items = this.control.options || [];
+      var index = -1;
+
+      for (var i = 0; i < items.length; i++) {
+        var x = items[i];
+
+        if (x.name.toLowerCase().substr(0, 1) === key) {
+          index = i;
+          break;
+        }
+      }
+
+      if (index !== -1) {
+        var _getContext = rxcomp.getContext(this),
+            node = _getContext.node;
+
+        var dropdown = node.querySelector('.dropdown');
+        var navDropdown = node.querySelector('.nav--dropdown');
+        var item = navDropdown.children[index];
+        dropdown.scroll(0, item.offsetTop);
+      }
     };
 
     _proto.setOption = function setOption(item) {
@@ -500,17 +951,24 @@
       }
     };
 
-    _proto.onClick = function onClick(event) {
-      // console.log('ControlCustomSelectComponent.onClick', event);
-      this.dropped = true;
-      this.pushChanges();
-    };
+    _proto.onDropped = function onDropped($event) {
+      console.log($event);
+      this.dropped = $event === this.dropdownId;
+    }
+    /*
+    onClick(event) {
+    	const { node } = getContext(this);
+    	node.querySelector('.dropdown').classList.add('dropped');
+    }
+    */
 
-    _proto.onClickOutside = function onClickOutside(event) {
-      // console.log('ControlCustomSelectComponent.onClickOutside', event);
-      this.dropped = false;
-      this.pushChanges();
-    };
+    /*
+    onClickOutside(event) {
+    	const { node } = getContext(this);
+    	node.querySelector('.dropdown').classList.remove('dropped');
+    }
+    */
+    ;
 
     return ControlCustomSelectComponent;
   }(ControlComponent);
@@ -519,7 +977,11 @@
     inputs: ['control', 'label'],
     template:
     /* html */
-    "\n\t\t<div class=\"group--form--select\" [class]=\"{ required: control.validators.length }\" (click)=\"onClick($event)\" (clickOutside)=\"onClickOutside($event)\">\n\t\t\t<label [innerHTML]=\"label\"></label>\n\t\t\t<span class=\"control--select\" [innerHTML]=\"getLabel()\"></span>\n\t\t\t<svg class=\"icon icon--caret-down\"><use xlink:href=\"#caret-down\"></use></svg>\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t\t<div class=\"dropdown\" [class]=\"{ dropped: dropped }\">\n\t\t\t<div class=\"category\" [innerHTML]=\"label\"></div>\n\t\t\t<ul class=\"nav--dropdown\">\n\t\t\t\t<li *for=\"let item of control.options\" (click)=\"setOption(item)\"><span [innerHTML]=\"item.name\"></span></li>\n\t\t\t</ul>\n\t\t</div>\n\t"
+    "\n\t\t<div class=\"group--form--select\" [class]=\"{ required: control.validators.length }\" [dropdown]=\"dropdownId\" (dropped)=\"onDropped($event)\">\n\t\t\t<label [innerHTML]=\"label\"></label>\n\t\t\t<span class=\"control--select\" [innerHTML]=\"getLabel()\"></span>\n\t\t\t<svg class=\"icon icon--caret-down\"><use xlink:href=\"#caret-down\"></use></svg>\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t\t<div class=\"dropdown\" [dropdown-item]=\"dropdownId\">\n\t\t\t<div class=\"category\" [innerHTML]=\"label\"></div>\n\t\t\t<ul class=\"nav--dropdown\">\n\t\t\t\t<li *for=\"let item of control.options\" (click)=\"setOption(item)\"><span [innerHTML]=\"item.name\"></span></li>\n\t\t\t</ul>\n\t\t</div>\n\t"
+    /*  (click)="onClick($event)" (clickOutside)="onClickOutside($event)" */
+
+    /*  <!-- <div class="dropdown" [class]="{ dropped: dropped }"> --> */
+
   };
 
   var ControlEmailComponent =
@@ -598,6 +1060,32 @@
     template:
     /* html */
     "\n\t\t<div class=\"group--form--file\" [class]=\"{ required: control.validators.length }\">\n\t\t\t<label for=\"file\" [innerHTML]=\"label\"></label>\n\t\t\t<span class=\"control--select\" [innerHTML]=\"labels.select_file\"></span>\n\t\t\t<svg class=\"icon icon--upload\"><use xlink:href=\"#upload\"></use></svg>\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t\t<input name=\"file\" type=\"file\" accept=\".pdf,.doc,.docx,*.txt\" class=\"control--file\" (change)=\"onInputDidChange($event)\" />\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
+  };
+
+  var ControlPasswordComponent =
+  /*#__PURE__*/
+  function (_ControlComponent) {
+    _inheritsLoose(ControlPasswordComponent, _ControlComponent);
+
+    function ControlPasswordComponent() {
+      return _ControlComponent.apply(this, arguments) || this;
+    }
+
+    var _proto = ControlPasswordComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      this.label = 'label';
+      this.required = false;
+    };
+
+    return ControlPasswordComponent;
+  }(ControlComponent);
+  ControlPasswordComponent.meta = {
+    selector: '[control-password]',
+    inputs: ['control', 'label'],
+    template:
+    /* html */
+    "\n\t\t<div class=\"group--form\" [class]=\"{ required: control.validators.length }\">\n\t\t\t<label [innerHTML]=\"label\"></label>\n\t\t\t<input type=\"password\" class=\"control--text\" [formControl]=\"control\" [placeholder]=\"label\" />\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
   };
 
   var ControlSelectComponent =
@@ -720,7 +1208,14 @@
     var _proto = HeaderComponent.prototype;
 
     _proto.onInit = function onInit() {
+      var _this = this;
+
       this.menu = null;
+      UserService.user$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (user) {
+        _this.user = user;
+
+        _this.pushChanges();
+      });
     };
 
     _proto.toggleMenu = function toggleMenu($event) {
@@ -898,55 +1393,6 @@
     selector: '[main-menu]'
   };
 
-  var HttpService =
-  /*#__PURE__*/
-  function () {
-    function HttpService() {}
-
-    HttpService.http$ = function http$(method, url, data) {
-      var methods = ['POST', 'PUT', 'PATCH'];
-      return rxjs.from(fetch(url, {
-        method: method,
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: methods.indexOf(method) !== -1 ? JSON.stringify(data) : undefined
-      }).then(function (response) {
-        return response.json();
-      }).catch(function (error) {
-        return console.log('postData$', error);
-      }));
-    };
-
-    HttpService.get$ = function get$(url, data) {
-      var query = this.query(data);
-      return this.http$('GET', "" + url + query);
-    };
-
-    HttpService.delete$ = function delete$(url) {
-      return this.http$('DELETE', url);
-    };
-
-    HttpService.post$ = function post$(url, data) {
-      return this.http$('POST', url, data);
-    };
-
-    HttpService.put$ = function put$(url, data) {
-      return this.http$('PUT', url, data);
-    };
-
-    HttpService.patch$ = function patch$(url, data) {
-      return this.http$('PATCH', url, data);
-    };
-
-    HttpService.query = function query(data) {
-      return ''; // todo
-    };
-
-    return HttpService;
-  }();
-
   /*
   Mail
   La mail di recap presenterà i dati inseriti dall’utente e come oggetto “Richiesta Informazioni commerciali”
@@ -1000,17 +1446,33 @@
       controls.country.options = data.countries;
       controls.province.options = [];
       this.controls = controls;
-      form.changes$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (changes) {
-        // console.log('RequestInfoCommercialComponent.form.changes$', changes, form.valid);
+      controls.country.changes$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (value) {
         var provinces = data.provinces.filter(function (province) {
-          return String(province.idstato) === String(changes.country);
+          return String(province.idstato) === String(value);
         });
         controls.province.options = provinces;
+        controls.province.disabled = provinces.length === 0;
 
         _this.pushChanges();
-      }); // change to if(true) for testing
-
+      });
+      form.changes$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (changes) {
+        // console.log('RequestInfoCommercialComponent.form.changes$', changes, form.valid);
+        _this.pushChanges();
+      });
       this.form = form;
+    };
+
+    _proto.test = function test() {
+      this.form.patch({
+        firstName: 'Jhon',
+        lastName: 'Appleseed',
+        email: 'jhonappleseed@gmail.com',
+        company: 'Websolute',
+        role: this.controls.role.options[0].id,
+        interests: this.controls.interests.options[0].id,
+        country: this.controls.country.options[0].id,
+        privacy: true
+      });
     };
 
     _proto.onSubmit = function onSubmit() {
@@ -1035,31 +1497,6 @@
   }(rxcomp.Component);
   RequestInfoCommercialComponent.meta = {
     selector: '[request-info-commercial]'
-  };
-
-  var SrcDirective =
-  /*#__PURE__*/
-  function (_Component) {
-    _inheritsLoose(SrcDirective, _Component);
-
-    function SrcDirective() {
-      return _Component.apply(this, arguments) || this;
-    }
-
-    var _proto = SrcDirective.prototype;
-
-    _proto.onChanges = function onChanges(changes) {
-      var _getContext = rxcomp.getContext(this),
-          node = _getContext.node;
-
-      node.setAttribute('src', this.src);
-    };
-
-    return SrcDirective;
-  }(rxcomp.Component);
-  SrcDirective.meta = {
-    selector: '[[src]]',
-    inputs: ['src']
   };
 
   var SwiperDirective =
@@ -1494,7 +1931,7 @@
 
       this.http = HttpService;
       var data = window.data || {
-        interests: []
+        departments: []
       };
       var form = new rxcompForm.FormGroup({
         firstName: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
@@ -1503,20 +1940,34 @@
         telephone: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
         experience: null,
         company: new rxcompForm.FormControl(null),
-        interests: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        department: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
         introduction: new rxcompForm.FormControl(null),
         privacy: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredTrueValidator()),
         curricula: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator())
       });
       var controls = form.controls;
-      controls.interests.options = data.interests;
+      controls.department.options = data.departments;
       this.controls = controls;
       form.changes$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (changes) {
         // console.log('WorkWithUsComponent.form.changes$', changes, form.valid);
         _this.pushChanges();
-      }); // change to if(true) for testing
-
+      });
       this.form = form;
+    };
+
+    _proto.test = function test() {
+      this.form.patch({
+        firstName: 'Jhon',
+        lastName: 'Appleseed',
+        email: 'jhonappleseed@gmail.com',
+        telephone: '00390721411112',
+        experience: false,
+        company: 'Websolute',
+        department: this.controls.departments.options[0].id,
+        introduction: 'Hi!',
+        privacy: true,
+        curricula: {}
+      });
     };
 
     _proto.onSubmit = function onSubmit() {
@@ -1864,8 +2315,8 @@
   }(rxcomp.Module);
   AppModule.meta = {
     imports: [rxcomp.CoreModule, rxcompForm.FormModule],
-    declarations: [AppearDirective, ClickOutsideDirective, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, HeaderComponent, LazyDirective, MainMenuComponent, RequestInfoCommercialComponent, // SpritesComponent,
-    SrcDirective, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, // ValueDirective,
+    declarations: [AppearDirective, ClickOutsideDirective, ClubComponent, ClubForgotComponent, ClubSigninComponent, ClubSignupComponent, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlPasswordComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, HeaderComponent, LazyDirective, MainMenuComponent, RequestInfoCommercialComponent, // SpritesComponent,
+    SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, // ValueDirective,
     VideoComponent, WorkWithUsComponent, YoutubeComponent, ZoomableDirective],
     bootstrap: AppComponent
   };

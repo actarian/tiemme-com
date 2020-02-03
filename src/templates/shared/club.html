@@ -1,0 +1,50 @@
+<div class="section--club" club="/tiemme-com/club.html">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6 left">
+				<div *if="view == views.SIGN_IN">
+					<!-- @@include ./club-signin.html -->
+				</div>
+				<div *if="view == views.SIGN_UP">
+					<!-- @@include ./club-signup.html -->
+				</div>
+				<div *if="view == views.FORGOTTEN">
+					<!-- @@include ./club-forgot.html -->
+				</div>
+			</div>
+			<div class="col-lg-6 right">
+				<div class="container">
+					<div class="title">I Vantaggi del club TIEMME</div>
+					<div class="group--advantage">
+						<svg class="icon icon--tiemme-lab"><use xlink:href="#tiemme-lab"></use></svg>
+						<span>Accesso esclusivo al listino prezzie al centro formazione Tiemme LAB</span>
+					</div>
+					<div class="group--advantage">
+						<svg class="icon icon--guides"><use xlink:href="#guides"></use></svg>
+						<span>Ricevere guide di settore e consigli di professionisti</span>
+					</div>
+					<div class="group--advantage">
+						<svg class="icon icon--insights"><use xlink:href="#insights"></use></svg>
+						<span>Ricevere approfondimenti sui prodotti di tuo interesse</span>
+					</div>
+					<div *if="view != views.SIGN_UP">
+						<div class="title">Non fai ancora parte del club TIEMME?</div>
+						<div class="group--cta">
+							<button type="button" class="btn--submit" (click)="onRegister()">
+								<span>Registrati</span>
+							</button>
+						</div>
+					</div>
+					<div *if="view == views.SIGN_UP">
+						<div class="title">Fai già parte del club TIEMME?</div>
+						<div class="group--cta">
+							<button type="button" class="btn--submit" (click)="onLogin()">
+								<span>Accedi</span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
