@@ -3412,7 +3412,7 @@ errors-component {
 .section--hero .title, .section--hero-secondary .title {
   font-family: "Barlow Condensed", sans-serif;
   font-size: 70px;
-  line-height: 40px;
+  line-height: 60px;
   font-weight: 500;
   margin-bottom: 15px;
   color: #ffffff;
@@ -5857,30 +5857,32 @@ img {
 .section--form {
   padding: 80px 0; }
 
-.section--realizzazione {
+.section--dettaglio {
   padding: 80px 0; }
-  .section--realizzazione .intro-text {
+  .section--dettaglio .intro-text {
     font-size: 24px;
     font-weight: 500; }
-  .section--realizzazione .location .title {
-    text-transform: uppercase;
-    margin: 0; }
-  .section--realizzazione .location i {
-    padding-right: 10px; }
-  .section--realizzazione .share {
-    margin-top: 50px; }
-    .section--realizzazione .share .title {
+  .section--dettaglio .location {
+    margin-bottom: 50px; }
+    .section--dettaglio .location .title {
       text-transform: uppercase;
       margin: 0; }
-    .section--realizzazione .share ul {
-      list-style: none;
-      margin: 0;
-      padding: 0; }
-      .section--realizzazione .share ul li {
-        display: inline-block;
-        padding: 0 5px; }
-        .section--realizzazione .share ul li:first-child {
-          padding-left: 0; }
+    .section--dettaglio .location i {
+      padding-right: 10px; }
+  .section--dettaglio .share .title {
+    text-transform: uppercase;
+    margin: 0; }
+  .section--dettaglio .share ul {
+    list-style: none;
+    margin: 0;
+    padding: 0; }
+    .section--dettaglio .share ul li {
+      display: inline-block;
+      padding: 0 5px; }
+      .section--dettaglio .share ul li:first-child {
+        padding-left: 0; }
+  .section--dettaglio .link {
+    display: inline; }
 
 .section--prodotti-utilizzati {
   padding: 80px 0; }

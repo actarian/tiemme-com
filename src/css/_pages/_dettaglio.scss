@@ -1,4 +1,4 @@
-.section--realizzazione {
+.section--dettaglio {
 	padding: 80px 0;
 
 	.intro-text {
@@ -7,6 +7,7 @@
 	}
 
 	.location {
+		margin-bottom: 50px;
 
 		.title {
 			text-transform: uppercase;
@@ -20,8 +21,7 @@
 		}
 	}
 
-	.share {
-		margin-top: 50px;
+	.share {		
 
 		.title {
 			text-transform: uppercase;
@@ -42,6 +42,10 @@
 				}
 			}
 		}
+	}
+
+	.link {
+		display: inline;
 	}
 }
 
