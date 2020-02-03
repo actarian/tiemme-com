@@ -18,6 +18,7 @@ import ControlSelectComponent from './forms/control-select.component';
 import ControlTextComponent from './forms/control-text.component';
 import ControlTextareaComponent from './forms/control-textarea.component';
 import ErrorsComponent from './forms/errors.component';
+import TestComponent from './forms/test.component';
 // import ValueDirective from './forms/value.directive';
 import HeaderComponent from './header/header.component';
 import LazyDirective from './lazy/lazy.directive';
@@ -65,6 +66,7 @@ AppModule.meta = {
 		SwiperDirective,
 		SwiperListingDirective,
 		SwiperSlidesDirective,
+		TestComponent,
 		// ValueDirective,
 		VideoComponent,
 		WorkWithUsComponent,

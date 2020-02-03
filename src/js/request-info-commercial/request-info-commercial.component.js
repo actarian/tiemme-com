@@ -36,7 +36,7 @@ export default class RequestInfoCommercialComponent extends Component {
 			role: new FormControl(null, Validators.RequiredValidator()),
 			interests: new FormControl(null, Validators.RequiredValidator()),
 			country: new FormControl(null, Validators.RequiredValidator()),
-			province: null,
+			province: new FormControl(null, Validators.RequiredValidator()),
 			message: null,
 			privacy: new FormControl(null, Validators.RequiredTrueValidator()),
 			newsletter: null,
@@ -58,7 +58,7 @@ export default class RequestInfoCommercialComponent extends Component {
 				return String(province.idstato) === String(changes.country);
 			});
 			controls.province.options = provinces;
-			console.log(this.form);
+			controls.province.disabled = provinces.length === 0;
 			this.pushChanges();
 		});
 
@@ -78,10 +78,13 @@ export default class RequestInfoCommercialComponent extends Component {
 		});
 	}
 
+	reset() {
+		this.form.reset();
+	}
+
 	onSubmit() {
-		const valid = Object.keys(this.form.errors).length === 0;
 		// console.log('RequestInfoCommercialComponent.onSubmit', 'form.valid', valid);
-		if (valid) {
+		if (this.form.valid) {
 			// console.log('RequestInfoCommercialComponent.onSubmit', this.form.value);
 			this.form.submitted = true;
 			this.http.post$('/WS/wsUsers.asmx/Contact', this.form.value)

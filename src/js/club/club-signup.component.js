@@ -21,7 +21,7 @@ export default class ClubSignupComponent extends Component {
 			company: new FormControl(null, Validators.RequiredValidator()),
 			role: null,
 			country: new FormControl(null, Validators.RequiredValidator()),
-			province: new FormControl(null, this.RequiredSelect('province')),
+			province: new FormControl(null, Validators.RequiredValidator()),
 			address: new FormControl(null, Validators.RequiredValidator()),
 			zipCode: new FormControl(null, Validators.RequiredValidator()),
 			city: new FormControl(null, Validators.RequiredValidator()),
@@ -49,7 +49,7 @@ export default class ClubSignupComponent extends Component {
 				return String(province.idstato) === String(changes.country);
 			});
 			controls.province.options = provinces;
-			console.log(this.form);
+			controls.province.disabled = provinces.length === 0;
 			this.pushChanges();
 		});
 
@@ -75,16 +75,6 @@ export default class ClubSignupComponent extends Component {
 		});
 	}
 
-	RequiredSelect(fieldName) {
-		return new FormValidator((value) => {
-			const field = this.form ? this.form.get(fieldName) : null;
-			if (!value || !field) {
-				return null;
-			}
-			return field.options.length > 0 && (value == null || value.length === 0) ? { required: true } : null;
-		});
-	}
-
 	MatchValidator(fieldName) {
 		return new FormValidator((value) => {
 			const field = this.form ? this.form.get(fieldName) : null;
@@ -95,10 +85,13 @@ export default class ClubSignupComponent extends Component {
 		});
 	}
 
+	reset() {
+		this.form.reset();
+	}
+
 	onSubmit() {
-		const valid = Object.keys(this.form.errors).length === 0;
 		// console.log('ClubSignupComponent.onSubmit', 'form.valid', valid);
-		if (valid) {
+		if (this.form.valid) {
 			// console.log('ClubSignupComponent.onSubmit', this.form.value);
 			this.form.submitted = true;
 			this.http.post$('/WS/wsUsers.asmx/Register', this.form.value)

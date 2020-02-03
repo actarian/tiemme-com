@@ -22,10 +22,7 @@
 					<span *if="form.submitted">Inviato!</span>
 				</button>
 			</div>
-			<div class="group--form--results">
-				<code [innerHTML]="form.value | json"></code>
-				<button type="button" class="btn--link" (click)="test($event)"><span>test</span></button>
-			</div>
+			<test-component [form]="form" (test)="test($event)" (reset)="reset($event)"></test-component>
 		</form>
 	</div>
 </section>

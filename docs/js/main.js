@@ -322,12 +322,15 @@
       });
     };
 
+    _proto.reset = function reset() {
+      this.form.reset();
+    };
+
     _proto.onSubmit = function onSubmit() {
       var _this2 = this;
 
-      var valid = Object.keys(this.form.errors).length === 0; // console.log('ClubForgotComponent.onSubmit', 'form.valid', valid);
-
-      if (valid) {
+      // console.log('ClubForgotComponent.onSubmit', 'form.valid', valid);
+      if (this.form.valid) {
         // console.log('ClubForgotComponent.onSubmit', this.form.value);
         this.form.submitted = true;
         this.http.post$('/WS/wsUsers.asmx/Login', this.form.value).subscribe(function (response) {
@@ -391,12 +394,15 @@
       });
     };
 
+    _proto.reset = function reset() {
+      this.form.reset();
+    };
+
     _proto.onSubmit = function onSubmit() {
       var _this2 = this;
 
-      var valid = Object.keys(this.form.errors).length === 0; // console.log('ClubSigninComponent.onSubmit', 'form.valid', valid);
-
-      if (valid) {
+      // console.log('ClubSigninComponent.onSubmit', 'form.valid', valid);
+      if (this.form.valid) {
         // console.log('ClubSigninComponent.onSubmit', this.form.value);
         this.form.submitted = true;
         this.http.post$('/WS/wsUsers.asmx/Login', this.form.value).subscribe(function (response) {
@@ -452,7 +458,7 @@
         company: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
         role: null,
         country: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
-        province: new rxcompForm.FormControl(null, this.RequiredSelect('province')),
+        province: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
         address: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
         zipCode: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
         city: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
@@ -476,7 +482,7 @@
           return String(province.idstato) === String(changes.country);
         });
         controls.province.options = provinces;
-        console.log(_this.form);
+        controls.province.disabled = provinces.length === 0;
 
         _this.pushChanges();
       });
@@ -502,27 +508,11 @@
       });
     };
 
-    _proto.RequiredSelect = function RequiredSelect(fieldName) {
+    _proto.MatchValidator = function MatchValidator(fieldName) {
       var _this2 = this;
 
       return new rxcompForm.FormValidator(function (value) {
         var field = _this2.form ? _this2.form.get(fieldName) : null;
-
-        if (!value || !field) {
-          return null;
-        }
-
-        return field.options.length > 0 && (value == null || value.length === 0) ? {
-          required: true
-        } : null;
-      });
-    };
-
-    _proto.MatchValidator = function MatchValidator(fieldName) {
-      var _this3 = this;
-
-      return new rxcompForm.FormValidator(function (value) {
-        var field = _this3.form ? _this3.form.get(fieldName) : null;
 
         if (!value || !field) {
           return null;
@@ -537,18 +527,21 @@
       });
     };
 
+    _proto.reset = function reset() {
+      this.form.reset();
+    };
+
     _proto.onSubmit = function onSubmit() {
-      var _this4 = this;
+      var _this3 = this;
 
-      var valid = Object.keys(this.form.errors).length === 0; // console.log('ClubSignupComponent.onSubmit', 'form.valid', valid);
-
-      if (valid) {
+      // console.log('ClubSignupComponent.onSubmit', 'form.valid', valid);
+      if (this.form.valid) {
         // console.log('ClubSignupComponent.onSubmit', this.form.value);
         this.form.submitted = true;
         this.http.post$('/WS/wsUsers.asmx/Register', this.form.value).subscribe(function (response) {
           console.log('ClubSignupComponent.onSubmit', response);
 
-          _this4.signUp.next(_this4.form.value); // change to response!!!
+          _this3.signUp.next(_this3.form.value); // change to response!!!
           // this.form.reset();
 
         });
@@ -1196,6 +1189,49 @@
     "\n\t<div class=\"inner\" [style]=\"{ display: control.invalid && control.touched ? 'block' : 'none' }\">\n\t\t<div class=\"error\" *for=\"let [key, value] of control.errors\">\n\t\t\t<span [innerHTML]=\"getLabel(key, value)\"></span>\n\t\t\t<!-- <span class=\"key\" [innerHTML]=\"key\"></span> <span class=\"value\" [innerHTML]=\"value | json\"></span> -->\n\t\t</div>\n\t</div>\n\t"
   };
 
+  var STATIC = window.location.port === '41999' || window.location.host === 'actarian.github.io';
+  var DEVELOPMENT = window.location.host.indexOf('localhost') === 0;
+  var PRODUCTION = !DEVELOPMENT;
+  var ENV = {
+    STATIC: STATIC,
+    DEVELOPMENT: DEVELOPMENT,
+    PRODUCTION: PRODUCTION
+  };
+
+  var TestComponent =
+  /*#__PURE__*/
+  function (_Component) {
+    _inheritsLoose(TestComponent, _Component);
+
+    function TestComponent() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = TestComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      this.env = ENV;
+    };
+
+    _proto.onTest = function onTest(event) {
+      this.test.next(event);
+    };
+
+    _proto.onReset = function onReset(event) {
+      this.reset.next(event);
+    };
+
+    return TestComponent;
+  }(rxcomp.Component);
+  TestComponent.meta = {
+    selector: 'test-component',
+    inputs: ['form'],
+    outputs: ['test', 'reset'],
+    template:
+    /* html */
+    "\n\t<div class=\"group--form--results\" *if=\"env.DEVELOPMENT\">\n\t\t<code [innerHTML]=\"form.value | json\"></code>\n\t\t<button type=\"button\" class=\"btn--link\" (click)=\"onTest($event)\"><span>test</span></button>\n\t\t<button type=\"button\" class=\"btn--link\" (click)=\"onReset($event)\"><span>reset</span></button>\n\t</div>\n\t"
+  };
+
   var HeaderComponent =
   /*#__PURE__*/
   function (_Component) {
@@ -1232,8 +1268,6 @@
   HeaderComponent.meta = {
     selector: 'header'
   };
-
-  var STATIC = window.location.port === '41999' || window.location.host === 'actarian.github.io';
 
   var PATH = STATIC ? './' : '/Client/docs/';
   var UID = 0;
@@ -1434,7 +1468,7 @@
         role: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
         interests: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
         country: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
-        province: null,
+        province: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
         message: null,
         privacy: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredTrueValidator()),
         newsletter: null,
@@ -1446,17 +1480,14 @@
       controls.country.options = data.countries;
       controls.province.options = [];
       this.controls = controls;
-      controls.country.changes$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (value) {
+      form.changes$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (changes) {
+        // console.log('RequestInfoCommercialComponent.form.changes$', changes, form.valid);
         var provinces = data.provinces.filter(function (province) {
-          return String(province.idstato) === String(value);
+          return String(province.idstato) === String(changes.country);
         });
         controls.province.options = provinces;
         controls.province.disabled = provinces.length === 0;
 
-        _this.pushChanges();
-      });
-      form.changes$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (changes) {
-        // console.log('RequestInfoCommercialComponent.form.changes$', changes, form.valid);
         _this.pushChanges();
       });
       this.form = form;
@@ -1475,12 +1506,15 @@
       });
     };
 
+    _proto.reset = function reset() {
+      this.form.reset();
+    };
+
     _proto.onSubmit = function onSubmit() {
       var _this2 = this;
 
-      var valid = Object.keys(this.form.errors).length === 0; // console.log('RequestInfoCommercialComponent.onSubmit', 'form.valid', valid);
-
-      if (valid) {
+      // console.log('RequestInfoCommercialComponent.onSubmit', 'form.valid', valid);
+      if (this.form.valid) {
         // console.log('RequestInfoCommercialComponent.onSubmit', this.form.value);
         this.form.submitted = true;
         this.http.post$('/WS/wsUsers.asmx/Contact', this.form.value).subscribe(function (response) {
@@ -1970,12 +2004,15 @@
       });
     };
 
+    _proto.reset = function reset() {
+      this.form.reset();
+    };
+
     _proto.onSubmit = function onSubmit() {
       var _this2 = this;
 
-      var valid = Object.keys(this.form.errors).length === 0; // console.log('WorkWithUsComponent.onSubmit', 'form.valid', valid);
-
-      if (valid) {
+      // console.log('WorkWithUsComponent.onSubmit', 'form.valid', valid);
+      if (this.form.valid) {
         // console.log('WorkWithUsComponent.onSubmit', this.form.value);
         this.form.submitted = true;
         this.http.post$('/WS/wsUsers.asmx/Contact', this.form.value).subscribe(function (response) {
@@ -2316,7 +2353,7 @@
   AppModule.meta = {
     imports: [rxcomp.CoreModule, rxcompForm.FormModule],
     declarations: [AppearDirective, ClickOutsideDirective, ClubComponent, ClubForgotComponent, ClubSigninComponent, ClubSignupComponent, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlPasswordComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, HeaderComponent, LazyDirective, MainMenuComponent, RequestInfoCommercialComponent, // SpritesComponent,
-    SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, // ValueDirective,
+    SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, TestComponent, // ValueDirective,
     VideoComponent, WorkWithUsComponent, YoutubeComponent, ZoomableDirective],
     bootstrap: AppComponent
   };
