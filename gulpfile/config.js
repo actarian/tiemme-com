@@ -6,15 +6,6 @@ const { watch } = require('gulp');
 
 const log = require('./logger');
 
-try {
-	// Fallback for Windows backs out of node_modules folder to root of project.
-	process.env.PWD = process.env.PWD || path.resolve(process.cwd(), '../../../');
-	// Change working directory.
-	process.chdir(process.env.PWD);
-} catch (err) {
-	log.error(`chdir: ${err}`);
-}
-
 const path_ = './gulpfile-config.json';
 const options = getOptions();
 const target = options.target || 'browser';
