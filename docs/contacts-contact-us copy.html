@@ -128,15 +128,6 @@
 	<symbol id="upload" viewBox="0 0 24 24">
 		<path d="M10 9H4l8-9 8 9h-6v11h-4V9zm11 11v2H3v-2H1v4h22v-4h-2z"></path>
 	</symbol>
-	<symbol id="insights" viewBox="0 0 24 24">
-		<path d="M22 24H5a3 3 0 0 1-3-3V3a3 3 0 0 1 3-3h17v24zm-2-4H5.495c-1.375 0-1.375 2 0 2H20v-2zM17 5H7v3h10V5z" fill-rule="evenodd" clip-rule="evenodd" ></path>
-	</symbol>
-	<symbol id="guides" viewBox="0 0 24 24">
-		<path d="M20 9H3V3h17l3 3-3 3zm-6 10h-4v5h4v-5zm0-19h-4v2h4V0zM4 11h17v6H4l-3-3 3-3z"></path>
-	</symbol>
-	<symbol id="user" viewBox="0 0 24 24">
-		<path d="M20.822 18.096c-3.439-.794-6.64-1.49-5.09-4.418C20.452 4.766 16.983 0 12 0 6.918 0 3.536 4.949 8.268 13.678c1.597 2.945-1.725 3.641-5.09 4.418C.105 18.806-.01 20.332 0 23l.004 1h23.99l.004-.969c.012-2.688-.092-4.222-3.176-4.935z"></path>
-	</symbol>
 </svg>
 
 <!-- end svg.html-->
@@ -201,48 +192,132 @@
 			</ul>
 		</div>
 		<!-- club -->
-		<div class="dropdown--menu" *if="menu == 'club'">
-<!-- start club.html-->
-<div class="section--club" club="/tiemme-com/club.html">
+		<div class="dropdown--menu" *if="menu == 'club'">club</div>
+		<div class="flex--header">
+			<div class="left">
+				<button type="button" class="btn--menu" [class]="{ active: menu == 'main' }" (click)="toggleMenu('main')"><span></span><span></span><span></span></button>
+			</div>
+			<div class="center">
+				<a href="/tiemme-com/" class="brand"><img src="/tiemme-com/img/svg/logo.svg" title="Tiemme" /></a>
+			</div>
+			<div class="right">
+				<div class="group--language">
+					<button type="button" class="btn--languages" dropdown="1" (dropped)="onDropped($event)">
+						<svg class="icon icon--languages"><use xlink:href="#languages"></use></svg>
+						<span>IT</span>
+						<svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
+					</button>
+					<div class="dropdown" dropdown-item="1">
+						<div class="category">Languages</div>
+						<ul class="nav--dropdown">
+							<li><a href="#">Italiano</a></li>
+							<li><a href="#">English</a></li>
+							<li><a href="#">Deutsch</a></li>
+						</ul>
+					</div>
+				</div>
+				<button type="button" class="btn--club" (click)="toggleMenu('club')"><span>Club Tiemme</span></button>
+			</div>
+		</div>
+	</div>
+</header>
+
+<!-- end header.html-->
+
+<!-- start main -->
+<section class="section--hero-secondary">
+	<div class="background">
+		<img lazy="/tiemme-com/img/contacts/contact-us/hero.jpg" />
+	</div>
 	<div class="container">
 		<div class="row">
-			<div class="col-lg-6 left">
-				<div *if="view == views.SIGN_IN">
-<!-- start club-signin.html-->
-<div club-signin (signIn)="onSignIn($event)" (forgot)="onForgot($event)" (register)="onRegister($event)">
-	<div class="container">
-		<form class="form" [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">
-			<div class="title">Accedi per usare i servizi del club TIEMME</div>
-			<div class="fields">
-				<div control-text [control]="controls.username" label="Username"></div>
-				<div control-password [control]="controls.password" label="Password"></div>
+			<div class="col-md-10">
+				<div class="category">Contatti</div>
+				<div class="title">Headquarter</div>
 			</div>
-			<div class="group--cta">
-				<button type="submit" class="btn--submit">
-					<span *if="!form.submitted">Accedi</span>
-					<span *if="form.submitted">Inviato!</span>
-				</button>
-			</div>
-			<div class="group--info">
-				Non riesci ad accedere? <button type="button" class="btn--link" (click)="onForgot($event)"><span>Recupera Password</span></button>
-			</div>
-			<test-component [form]="form" (test)="test($event)" (reset)="reset($event)"></test-component>
-		</form>
+		</div>
 	</div>
+</section>
+
+<!-- start contacts-menu.html-->
+<div class="sticky--menu">
+	<section class="section--menu">
+		<div class="container-fluid">
+			<ul class="nav--menu nav--menu--primary">
+				<li>
+					<a href="/tiemme-com/contacts-contact-us.html" class="active">
+						<span>Contattaci</span>
+					</a>
+				</li>
+				<li>
+					<a href="/tiemme-com/contacts-work-with-us.html" class="">
+						<span>Filiali</span>
+					</a>
+				</li>
+				<li>
+					<a href="/tiemme-com/contacts-work-with-us.html" class="">
+						<span>Cerca un agente</span>
+					</a>
+				</li>
+				<li>
+					<a href="/tiemme-com/contacts-work-with-us.html" class="">
+						<span>Lavora con noi</span>
+					</a>
+				</li>
+				<li class="group--search">
+					<svg class="icon icon--search"><use xlink:href="#search"></use></svg> <input class="form--control" placeholder="cerca..." />
+				</li>
+			</ul>
+		</div>
+	</section>
 </div>
 
-<!-- end club-signin.html-->
+<!-- end contacts-menu.html-->
+
+<section class="section--text-picture">
+	<!--
+	<svg class="icon icon--radiant icon--background"><use xlink:href="#radiant"></use></svg>
+	-->
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="group--address">
+					<div class="name">Tiemme Raccorderie Spa</div>
+					<div class="address">Via Cavallera, 6/A (loc. Barco) - 25045 Castegnato (BS) - Italia</div>
+					<div class="info"><span>Tel.</span> <a href="tel:00390302142211" class="btn--link"><span>+39 030 21.42.211</span></a></div>
+					<div class="info"><span>Fax.</span> <a href="tel:00390302142206" class="btn--link"><span>+39 030 21.42.206</span></a></div>
+					<div class="info"><span>Email</span> <a href="mailto:info@tiemme.com" class="btn--link"><span>info@tiemme.com</span></a></div>
 				</div>
-				<div *if="view == views.SIGN_UP">
-<!-- start club-signup.html-->
-<!-- start _json_data.html-->
+
+				<div class="group--address">
+					<div class="name">Customer Service</div>
+					<div class="info"><span>Fax.</span> <a href="tel:00390302142254" class="btn--link"><span>+39 030 21.42.254</span></a></div>
+					<div class="info"><span>Email</span> <a href="mailto:customerservice@tiemme.com" class="btn--link"><span>customerservice@tiemme.com</span></a></div>
+				</div>
+
+				<div class="group--address">
+					<div class="name">Ufficio Acquisti</div>
+					<div class="info"><span>Fax.</span> <a href="tel:00390302142229" class="btn--link"><span>+39 030 21.42.229</span></a></div>
+					<div class="info"><span>Email</span> <a href="mailto:acquisti@tiemme.com" class="btn--link"><span>acquisti@tiemme.com</span></a></div>
+				</div>
+
+			</div>
+			<div class="col-md-8 offset-md-2 col-lg-5 offset-lg-1">
+				<div class="picture picture--product">
+					<iframe src="https://www.google.com/maps/embed?pb=!1m17!1m11!1m3!1d26830.500563102778!2d10.127993343321194!3d45.54958472944363!2m2!1f0!2f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47817115262a75ab%3A0xe145bd0bd9c997e7!2sTIEMME+RACCORDERIE+S.P.A.!5e1!3m2!1sit!2sus!4v1397898975387" width="100%" height="600" frameborder="0" style="border:0"></iframe>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- start request-info-commercial.html-->
 <script>
 	window.labels = {
 		'select': 'Seleziona',
 		'select_file': 'Seleziona un file...',
 		'error_required': 'Il campo è obbligatorio',
 		'error_email': 'Email non valida',
-		'error_match': 'I campi non corrispondono',
 	}
 
 	window.data = {
@@ -259,27 +334,24 @@
 			{ id: "Progettista / Termotecnico", name: "Progettista / Termotecnico" },
 			{ id: "Responsabile Filiale", name: "Responsabile Filiale" },
 		],
-		departments: [
-			{ id: "Acquisti", name: "Acquisti" },
-			{ id: "Amministrazione", name: "Amministrazione" },
-			{ id: "Controllo qualità", name: "Controllo qualità" },
-			{ id: "Customer service", name: "Customer service" },
-			{ id: "IT", name: "IT" },
-			{ id: "Logistica", name: "Logistica" },
-			{ id: "Marketing & crm", name: "Marketing & crm" },
-			{ id: "Pianificazione", name: "Pianificazione" },
-			{ id: "Produzione", name: "Produzione" },
-			{ id: "Risorse umane", name: "Risorse umane" },
-			{ id: "Ufficio R&D", name: "Ufficio R&D" },
-			{ id: "Ufficio tecnico", name: "Ufficio tecnico" },
-			{ id: "Ufficio vendite", name: "Ufficio vendite" },
-		],
 		interests: [
 			{ id: "Componenti Idraulici", name: "Componenti Idraulici" },
 			{ id: "Centrale Termica", name: "Centrale Termica" },
 			{ id: "Sistemi Radianti", name: "Sistemi Radianti" },
 			{ id: "Rubinetti", name: "Rubinetti" },
 		],
+		contactReasons: [
+			{ id: 240, name: "Richieste Commerciali", idstato: 0, key: "Sales enquiries" },
+			{ id: 301, name: "Richieste press", idstato: 0, key: "Press enquires" },
+			{ id: 241, name: "Supporto Tecnico", idstato: 0, key: "Technical support" }],
+		contactTypes: [
+			{ id: 242, name: "Architetto", idstato: 0, key: "Architect" },
+			{ id: 243, name: "Contract", idstato: 0, key: "Contract" },
+			{ id: 244, name: "Interior Designer", idstato: 0, key: "Interior Designer" },
+			{ id: 245, name: "Press Stampa", idstato: 0, key: "Press Stampa" },
+			{ id: 246, name: "Privato", idstato: 0, key: "Private" },
+			{ id: 247, name: "Rivenditore", idstato: 0, key: "Dealer" },
+			{ id: 248, name: "Altro", idstato: 0, key: "Other" }],
 		countries: [
 			{ id: 1, name: "Afghanistan", idstato: 0 },
 			{ id: 2, name: "Albania", idstato: 0 },
@@ -423,102 +495,102 @@
 			{ id: 231, name: "Venezuela", idstato: 0 },
 			{ id: 234, name: "Yemen", idstato: 0 }],
 		provinces: [
-			{ id: 1, name: "Ain", idstato: 67 },
-			{ id: 2, name: "Aisne", idstato: 67 },
-			{ id: 3, name: "Allier", idstato: 67 },
-			{ id: 4, name: "Alpes-de-Haute-Provence", idstato: 67 },
-			{ id: 5, name: "Alpes-Maritimes", idstato: 67 },
-			{ id: 6, name: "Ardennes", idstato: 67 },
-			{ id: 7, name: "Ardèche", idstato: 67 },
-			{ id: 8, name: "Ariège", idstato: 67 },
-			{ id: 9, name: "Aube", idstato: 67 },
-			{ id: 10, name: "Aude", idstato: 67 },
-			{ id: 11, name: "Aveyron", idstato: 67 },
-			{ id: 12, name: "Bas-Rhin", idstato: 67 },
-			{ id: 13, name: "Bouches-du-Rhône", idstato: 67 },
-			{ id: 14, name: "Calvados", idstato: 67 },
-			{ id: 15, name: "Cantal", idstato: 67 },
-			{ id: 16, name: "Charente", idstato: 67 },
-			{ id: 17, name: "Charente-Maritime", idstato: 67 },
-			{ id: 18, name: "Cher", idstato: 67 },
-			{ id: 19, name: "Corrèze", idstato: 67 },
-			{ id: 20, name: "Corse-du-Sud", idstato: 67 },
-			{ id: 21, name: "Creuse", idstato: 67 },
-			{ id: 22, name: "Côte-d'Or", idstato: 67 },
-			{ id: 23, name: "Côtes-d'Armor", idstato: 67 },
-			{ id: 24, name: "Deux-Sèvres", idstato: 67 },
-			{ id: 25, name: "Dordogne", idstato: 67 },
-			{ id: 26, name: "Doubs", idstato: 67 },
-			{ id: 27, name: "Drôme", idstato: 67 },
-			{ id: 28, name: "Essonne", idstato: 67 },
-			{ id: 29, name: "Eure", idstato: 67 },
-			{ id: 30, name: "Eure-et-Loir", idstato: 67 },
-			{ id: 31, name: "Finistère", idstato: 67 },
-			{ id: 32, name: "Gard", idstato: 67 },
-			{ id: 33, name: "Gers", idstato: 67 },
-			{ id: 34, name: "Gironde", idstato: 67 },
-			{ id: 35, name: "Haut-Rhin", idstato: 67 },
-			{ id: 36, name: "Haute-Corse", idstato: 67 },
-			{ id: 37, name: "Haute-Garonne", idstato: 67 },
-			{ id: 38, name: "Haute-Loire", idstato: 67 },
-			{ id: 39, name: "Haute-Marne", idstato: 67 },
-			{ id: 40, name: "Haute-Savoie", idstato: 67 },
-			{ id: 41, name: "Haute-Saône", idstato: 67 },
-			{ id: 42, name: "Haute-Vienne", idstato: 67 },
-			{ id: 43, name: "Hautes-Alpes", idstato: 67 },
-			{ id: 44, name: "Hautes-Pyrénées", idstato: 67 },
-			{ id: 45, name: "Hauts-de-Seine", idstato: 67 },
-			{ id: 46, name: "Hérault", idstato: 67 },
-			{ id: 47, name: "Ille-et-Vilaine", idstato: 67 },
-			{ id: 48, name: "Indre", idstato: 67 },
-			{ id: 49, name: "Indre-et-Loire", idstato: 67 },
-			{ id: 50, name: "Isère", idstato: 67 },
-			{ id: 51, name: "Jura", idstato: 67 },
-			{ id: 52, name: "Landes", idstato: 67 },
-			{ id: 53, name: "Loir-et-Cher", idstato: 67 },
-			{ id: 54, name: "Loire", idstato: 67 },
-			{ id: 55, name: "Loire-Atlantique", idstato: 67 },
-			{ id: 56, name: "Loiret", idstato: 67 },
-			{ id: 57, name: "Lot", idstato: 67 },
-			{ id: 58, name: "Lot-et-Garonne", idstato: 67 },
-			{ id: 59, name: "Lozère", idstato: 67 },
-			{ id: 60, name: "Maine-et-Loire", idstato: 67 },
-			{ id: 61, name: "Manche", idstato: 67 },
-			{ id: 62, name: "Marne", idstato: 67 },
-			{ id: 63, name: "Mayenne", idstato: 67 },
-			{ id: 64, name: "Meurthe-et-Moselle", idstato: 67 },
-			{ id: 65, name: "Meuse", idstato: 67 },
-			{ id: 66, name: "Morbihan", idstato: 67 },
-			{ id: 67, name: "Moselle", idstato: 67 },
-			{ id: 68, name: "Nièvre", idstato: 67 },
-			{ id: 69, name: "Nord", idstato: 67 },
-			{ id: 70, name: "Oise", idstato: 67 },
-			{ id: 71, name: "Orne", idstato: 67 },
-			{ id: 72, name: "Paris", idstato: 67 },
-			{ id: 73, name: "Pas-de-Calais", idstato: 67 },
-			{ id: 74, name: "Puy-de-Dôme", idstato: 67 },
-			{ id: 75, name: "Pyrénées-Atlantiques", idstato: 67 },
-			{ id: 76, name: "Pyrénées-Orientales", idstato: 67 },
-			{ id: 77, name: "Rhône", idstato: 67 },
-			{ id: 78, name: "Sarthe", idstato: 67 },
-			{ id: 79, name: "Savoie", idstato: 67 },
-			{ id: 80, name: "Saône-et-Loire", idstato: 67 },
-			{ id: 81, name: "Seine-et-Marne", idstato: 67 },
-			{ id: 82, name: "Seine-Maritime", idstato: 67 },
-			{ id: 83, name: "Seine-Saint-Denis", idstato: 67 },
-			{ id: 84, name: "Somme", idstato: 67 },
-			{ id: 85, name: "Tarn", idstato: 67 },
-			{ id: 86, name: "Tarn-et-Garonne", idstato: 67 },
-			{ id: 87, name: "Territoire de Belfort", idstato: 67 },
-			{ id: 88, name: "Val-d'Oise", idstato: 67 },
-			{ id: 89, name: "Val-de-Marne", idstato: 67 },
-			{ id: 90, name: "Var", idstato: 67 },
-			{ id: 91, name: "Vaucluse", idstato: 67 },
-			{ id: 92, name: "Vendée", idstato: 67 },
-			{ id: 93, name: "Vienne", idstato: 67 },
-			{ id: 94, name: "Vosges", idstato: 67 },
-			{ id: 95, name: "Yonne", idstato: 67 },
-			{ id: 96, name: "Yvelines", idstato: 67 },
+			{ id: 1, name: "FR-01 | Ain", idstato: 67 },
+			{ id: 2, name: "FR-02 | Aisne", idstato: 67 },
+			{ id: 3, name: "FR-03 | Allier", idstato: 67 },
+			{ id: 4, name: "FR-04 | Alpes-de-Haute-Provence", idstato: 67 },
+			{ id: 5, name: "FR-06 | Alpes-Maritimes", idstato: 67 },
+			{ id: 6, name: "FR-08 | Ardennes", idstato: 67 },
+			{ id: 7, name: "FR-07 | Ardèche", idstato: 67 },
+			{ id: 8, name: "FR-09 | Ariège", idstato: 67 },
+			{ id: 9, name: "FR-10 | Aube", idstato: 67 },
+			{ id: 10, name: "FR-11 | Aude", idstato: 67 },
+			{ id: 11, name: "FR-12 | Aveyron", idstato: 67 },
+			{ id: 12, name: "FR-67 | Bas-Rhin", idstato: 67 },
+			{ id: 13, name: "FR-13 | Bouches-du-Rhône", idstato: 67 },
+			{ id: 14, name: "FR-14 | Calvados", idstato: 67 },
+			{ id: 15, name: "FR-15 | Cantal", idstato: 67 },
+			{ id: 16, name: "FR-16 | Charente", idstato: 67 },
+			{ id: 17, name: "FR-17 | Charente-Maritime", idstato: 67 },
+			{ id: 18, name: "FR-18 | Cher", idstato: 67 },
+			{ id: 19, name: "FR-19 | Corrèze", idstato: 67 },
+			{ id: 20, name: "FR-2A | Corse-du-Sud", idstato: 67 },
+			{ id: 21, name: "FR-23 | Creuse", idstato: 67 },
+			{ id: 22, name: "FR-21 | Côte-d'Or", idstato: 67 },
+			{ id: 23, name: "FR-22 | Côtes-d'Armor", idstato: 67 },
+			{ id: 24, name: "FR-79 | Deux-Sèvres", idstato: 67 },
+			{ id: 25, name: "FR-24 | Dordogne", idstato: 67 },
+			{ id: 26, name: "FR-25 | Doubs", idstato: 67 },
+			{ id: 27, name: "FR-26 | Drôme", idstato: 67 },
+			{ id: 28, name: "FR-91 | Essonne", idstato: 67 },
+			{ id: 29, name: "FR-27 | Eure", idstato: 67 },
+			{ id: 30, name: "FR-28 | Eure-et-Loir", idstato: 67 },
+			{ id: 31, name: "FR-29 | Finistère", idstato: 67 },
+			{ id: 32, name: "FR-30 | Gard", idstato: 67 },
+			{ id: 33, name: "FR-32 | Gers", idstato: 67 },
+			{ id: 34, name: "FR-33 | Gironde", idstato: 67 },
+			{ id: 35, name: "FR-68 | Haut-Rhin", idstato: 67 },
+			{ id: 36, name: "FR-2B | Haute-Corse", idstato: 67 },
+			{ id: 37, name: "FR-31 | Haute-Garonne", idstato: 67 },
+			{ id: 38, name: "FR-43 | Haute-Loire", idstato: 67 },
+			{ id: 39, name: "FR-52 | Haute-Marne", idstato: 67 },
+			{ id: 40, name: "FR-74 | Haute-Savoie", idstato: 67 },
+			{ id: 41, name: "FR-70 | Haute-Saône", idstato: 67 },
+			{ id: 42, name: "FR-87 | Haute-Vienne", idstato: 67 },
+			{ id: 43, name: "FR-05 | Hautes-Alpes", idstato: 67 },
+			{ id: 44, name: "FR-65 | Hautes-Pyrénées", idstato: 67 },
+			{ id: 45, name: "FR-92 | Hauts-de-Seine", idstato: 67 },
+			{ id: 46, name: "FR-34 | Hérault", idstato: 67 },
+			{ id: 47, name: "FR-35 | Ille-et-Vilaine", idstato: 67 },
+			{ id: 48, name: "FR-36 | Indre", idstato: 67 },
+			{ id: 49, name: "FR-37 | Indre-et-Loire", idstato: 67 },
+			{ id: 50, name: "FR-38 | Isère", idstato: 67 },
+			{ id: 51, name: "FR-39 | Jura", idstato: 67 },
+			{ id: 52, name: "FR-40 | Landes", idstato: 67 },
+			{ id: 53, name: "FR-41 | Loir-et-Cher", idstato: 67 },
+			{ id: 54, name: "FR-42 | Loire", idstato: 67 },
+			{ id: 55, name: "FR-44 | Loire-Atlantique", idstato: 67 },
+			{ id: 56, name: "FR-45 | Loiret", idstato: 67 },
+			{ id: 57, name: "FR-46 | Lot", idstato: 67 },
+			{ id: 58, name: "FR-47 | Lot-et-Garonne", idstato: 67 },
+			{ id: 59, name: "FR-48 | Lozère", idstato: 67 },
+			{ id: 60, name: "FR-49 | Maine-et-Loire", idstato: 67 },
+			{ id: 61, name: "FR-50 | Manche", idstato: 67 },
+			{ id: 62, name: "FR-51 | Marne", idstato: 67 },
+			{ id: 63, name: "FR-53 | Mayenne", idstato: 67 },
+			{ id: 64, name: "FR-54 | Meurthe-et-Moselle", idstato: 67 },
+			{ id: 65, name: "FR-55 | Meuse", idstato: 67 },
+			{ id: 66, name: "FR-56 | Morbihan", idstato: 67 },
+			{ id: 67, name: "FR-57 | Moselle", idstato: 67 },
+			{ id: 68, name: "FR-58 | Nièvre", idstato: 67 },
+			{ id: 69, name: "FR-59 | Nord", idstato: 67 },
+			{ id: 70, name: "FR-60 | Oise", idstato: 67 },
+			{ id: 71, name: "FR-61 | Orne", idstato: 67 },
+			{ id: 72, name: "FR-75 | Paris", idstato: 67 },
+			{ id: 73, name: "FR-62 | Pas-de-Calais", idstato: 67 },
+			{ id: 74, name: "FR-63 | Puy-de-Dôme", idstato: 67 },
+			{ id: 75, name: "FR-64 | Pyrénées-Atlantiques", idstato: 67 },
+			{ id: 76, name: "FR-66 | Pyrénées-Orientales", idstato: 67 },
+			{ id: 77, name: "FR-69 | Rhône", idstato: 67 },
+			{ id: 78, name: "FR-72 | Sarthe", idstato: 67 },
+			{ id: 79, name: "FR-73 | Savoie", idstato: 67 },
+			{ id: 80, name: "FR-71 | Saône-et-Loire", idstato: 67 },
+			{ id: 81, name: "FR-77 | Seine-et-Marne", idstato: 67 },
+			{ id: 82, name: "FR-76 | Seine-Maritime", idstato: 67 },
+			{ id: 83, name: "FR-93 | Seine-Saint-Denis", idstato: 67 },
+			{ id: 84, name: "FR-80 | Somme", idstato: 67 },
+			{ id: 85, name: "FR-81 | Tarn", idstato: 67 },
+			{ id: 86, name: "FR-82 | Tarn-et-Garonne", idstato: 67 },
+			{ id: 87, name: "FR-90 | Territoire de Belfort", idstato: 67 },
+			{ id: 88, name: "FR-95 | Val-d'Oise", idstato: 67 },
+			{ id: 89, name: "FR-94 | Val-de-Marne", idstato: 67 },
+			{ id: 90, name: "FR-83 | Var", idstato: 67 },
+			{ id: 91, name: "FR-84 | Vaucluse", idstato: 67 },
+			{ id: 92, name: "FR-85 | Vendée", idstato: 67 },
+			{ id: 93, name: "FR-86 | Vienne", idstato: 67 },
+			{ id: 94, name: "FR-88 | Vosges", idstato: 67 },
+			{ id: 95, name: "FR-89 | Yonne", idstato: 67 },
+			{ id: 96, name: "FR-78 | Yvelines", idstato: 67 },
 			{ id: 97, name: "Baden-Württemberg", idstato: 72 },
 			{ id: 98, name: "Bayern", idstato: 72 },
 			{ id: 99, name: "Berlin", idstato: 72 },
@@ -535,116 +607,116 @@
 			{ id: 110, name: "Sachsen-Anhalt", idstato: 72 },
 			{ id: 111, name: "Schleswig-Holstein", idstato: 72 },
 			{ id: 112, name: "Thüringen", idstato: 72 },
-			{ id: 113, name: "Agrigento", idstato: 114 },
-			{ id: 114, name: "Alessandria", idstato: 114 },
-			{ id: 115, name: "Ancona", idstato: 114 },
-			{ id: 116, name: "Aosta", idstato: 114 },
-			{ id: 117, name: "Arezzo", idstato: 114 },
-			{ id: 118, name: "Ascoli Piceno", idstato: 114 },
-			{ id: 119, name: "Asti", idstato: 114 },
-			{ id: 120, name: "Avellino", idstato: 114 },
-			{ id: 121, name: "Bari", idstato: 114 },
-			{ id: 122, name: "Barletta-Andria-Trani", idstato: 114 },
-			{ id: 123, name: "Belluno", idstato: 114 },
-			{ id: 124, name: "Benevento", idstato: 114 },
-			{ id: 125, name: "Bergamo", idstato: 114 },
-			{ id: 126, name: "Biella", idstato: 114 },
-			{ id: 127, name: "Bologna", idstato: 114 },
-			{ id: 128, name: "Bolzano", idstato: 114 },
-			{ id: 129, name: "Brescia", idstato: 114 },
-			{ id: 130, name: "Brindisi", idstato: 114 },
-			{ id: 131, name: "Cagliari", idstato: 114 },
-			{ id: 132, name: "Caltanissetta", idstato: 114 },
-			{ id: 133, name: "Campobasso", idstato: 114 },
-			{ id: 134, name: "Carbonia-Iglesias", idstato: 114 },
-			{ id: 135, name: "Caserta", idstato: 114 },
-			{ id: 136, name: "Catania", idstato: 114 },
-			{ id: 137, name: "Catanzaro", idstato: 114 },
-			{ id: 138, name: "Chieti", idstato: 114 },
-			{ id: 139, name: "Como", idstato: 114 },
-			{ id: 140, name: "Cosenza", idstato: 114 },
-			{ id: 141, name: "Cremona", idstato: 114 },
-			{ id: 142, name: "Crotone", idstato: 114 },
-			{ id: 143, name: "Cuneo", idstato: 114 },
-			{ id: 144, name: "Enna", idstato: 114 },
-			{ id: 145, name: "Fermo", idstato: 114 },
-			{ id: 146, name: "Ferrara", idstato: 114 },
-			{ id: 147, name: "Firenze", idstato: 114 },
-			{ id: 148, name: "Foggia", idstato: 114 },
-			{ id: 149, name: "Forli-Cesena", idstato: 114 },
-			{ id: 150, name: "Frosinone", idstato: 114 },
-			{ id: 151, name: "Genova", idstato: 114 },
-			{ id: 152, name: "Gorizia", idstato: 114 },
-			{ id: 153, name: "Grosseto", idstato: 114 },
-			{ id: 154, name: "Imperia", idstato: 114 },
-			{ id: 155, name: "Isernia", idstato: 114 },
-			{ id: 156, name: "L'Aquila", idstato: 114 },
-			{ id: 157, name: "La Spezia", idstato: 114 },
-			{ id: 158, name: "Latina", idstato: 114 },
-			{ id: 159, name: "Lecce", idstato: 114 },
-			{ id: 160, name: "Lecco", idstato: 114 },
-			{ id: 161, name: "Livorno", idstato: 114 },
-			{ id: 162, name: "Lodi", idstato: 114 },
-			{ id: 163, name: "Lucca", idstato: 114 },
-			{ id: 164, name: "Macerata", idstato: 114 },
-			{ id: 165, name: "Mantova", idstato: 114 },
-			{ id: 166, name: "Massa-Carrara", idstato: 114 },
-			{ id: 167, name: "Matera", idstato: 114 },
-			{ id: 168, name: "Medio Campidano", idstato: 114 },
-			{ id: 169, name: "Messina", idstato: 114 },
-			{ id: 170, name: "Milano", idstato: 114 },
-			{ id: 171, name: "Modena", idstato: 114 },
-			{ id: 172, name: "Monza e Brianza", idstato: 114 },
-			{ id: 173, name: "Napoli", idstato: 114 },
-			{ id: 174, name: "Novara", idstato: 114 },
-			{ id: 175, name: "Nuoro", idstato: 114 },
-			{ id: 176, name: "Ogliastra", idstato: 114 },
-			{ id: 177, name: "Olbia-Tempio", idstato: 114 },
-			{ id: 178, name: "Oristano", idstato: 114 },
-			{ id: 179, name: "Padova", idstato: 114 },
-			{ id: 180, name: "Palermo", idstato: 114 },
-			{ id: 181, name: "Parma", idstato: 114 },
-			{ id: 182, name: "Pavia", idstato: 114 },
-			{ id: 183, name: "Perugia", idstato: 114 },
-			{ id: 184, name: "Pesaro e Urbino", idstato: 114 },
-			{ id: 185, name: "Pescara", idstato: 114 },
-			{ id: 186, name: "Piacenza", idstato: 114 },
-			{ id: 187, name: "Pisa", idstato: 114 },
-			{ id: 188, name: "Pistoia", idstato: 114 },
-			{ id: 189, name: "Pordenone", idstato: 114 },
-			{ id: 190, name: "Potenza", idstato: 114 },
-			{ id: 191, name: "Prato", idstato: 114 },
-			{ id: 192, name: "Ragusa", idstato: 114 },
-			{ id: 193, name: "Ravenna", idstato: 114 },
-			{ id: 194, name: "Reggio Calabria", idstato: 114 },
-			{ id: 195, name: "Reggio Emilia", idstato: 114 },
-			{ id: 196, name: "Rieti", idstato: 114 },
-			{ id: 197, name: "Rimini", idstato: 114 },
-			{ id: 198, name: "Roma", idstato: 114 },
-			{ id: 199, name: "Rovigo", idstato: 114 },
-			{ id: 200, name: "Salerno", idstato: 114 },
-			{ id: 201, name: "Sassari", idstato: 114 },
-			{ id: 202, name: "Savona", idstato: 114 },
-			{ id: 203, name: "Siena", idstato: 114 },
-			{ id: 204, name: "Siracusa", idstato: 114 },
-			{ id: 205, name: "Sondrio", idstato: 114 },
-			{ id: 206, name: "Taranto", idstato: 114 },
-			{ id: 207, name: "Teramo", idstato: 114 },
-			{ id: 208, name: "Terni", idstato: 114 },
-			{ id: 209, name: "Torino", idstato: 114 },
-			{ id: 210, name: "Trapani", idstato: 114 },
-			{ id: 211, name: "Trento", idstato: 114 },
-			{ id: 212, name: "Treviso", idstato: 114 },
-			{ id: 213, name: "Trieste", idstato: 114 },
-			{ id: 214, name: "Udine", idstato: 114 },
-			{ id: 215, name: "Varese", idstato: 114 },
-			{ id: 216, name: "Venezia", idstato: 114 },
-			{ id: 217, name: "Verbano-Cusio-Ossola", idstato: 114 },
-			{ id: 218, name: "Vercelli", idstato: 114 },
-			{ id: 219, name: "Verona", idstato: 114 },
-			{ id: 220, name: "Vibo Valentia", idstato: 114 },
-			{ id: 221, name: "Vicenza", idstato: 114 },
-			{ id: 222, name: "Viterbo", idstato: 114 },
+			{ id: 113, name: "IT-AG | Agrigento", idstato: 114 },
+			{ id: 114, name: "IT-AL | Alessandria", idstato: 114 },
+			{ id: 115, name: "IT-AN | Ancona", idstato: 114 },
+			{ id: 116, name: "IT-AO | Aosta", idstato: 114 },
+			{ id: 117, name: "IT-AR | Arezzo", idstato: 114 },
+			{ id: 118, name: "IT-AP | Ascoli Piceno", idstato: 114 },
+			{ id: 119, name: "IT-AT | Asti", idstato: 114 },
+			{ id: 120, name: "IT-AV | Avellino", idstato: 114 },
+			{ id: 121, name: "IT-BA | Bari", idstato: 114 },
+			{ id: 122, name: "IT-BT | Barletta-Andria-Trani", idstato: 114 },
+			{ id: 123, name: "IT-BL | Belluno", idstato: 114 },
+			{ id: 124, name: "IT-BN | Benevento", idstato: 114 },
+			{ id: 125, name: "IT-BG | Bergamo", idstato: 114 },
+			{ id: 126, name: "IT-BI | Biella", idstato: 114 },
+			{ id: 127, name: "IT-BO | Bologna", idstato: 114 },
+			{ id: 128, name: "IT-BZ | Bolzano", idstato: 114 },
+			{ id: 129, name: "IT-BS | Brescia", idstato: 114 },
+			{ id: 130, name: "IT-BR | Brindisi", idstato: 114 },
+			{ id: 131, name: "IT-CA | Cagliari", idstato: 114 },
+			{ id: 132, name: "IT-CL | Caltanissetta", idstato: 114 },
+			{ id: 133, name: "IT-CB | Campobasso", idstato: 114 },
+			{ id: 134, name: "IT-CI | Carbonia-Iglesias", idstato: 114 },
+			{ id: 135, name: "IT-CE | Caserta", idstato: 114 },
+			{ id: 136, name: "IT-CT | Catania", idstato: 114 },
+			{ id: 137, name: "IT-CZ | Catanzaro", idstato: 114 },
+			{ id: 138, name: "IT-CH | Chieti", idstato: 114 },
+			{ id: 139, name: "IT-CO | Como", idstato: 114 },
+			{ id: 140, name: "IT-CS | Cosenza", idstato: 114 },
+			{ id: 141, name: "IT-CR | Cremona", idstato: 114 },
+			{ id: 142, name: "IT-KR | Crotone", idstato: 114 },
+			{ id: 143, name: "IT-CN | Cuneo", idstato: 114 },
+			{ id: 144, name: "IT-EN | Enna", idstato: 114 },
+			{ id: 145, name: "IT-FM | Fermo", idstato: 114 },
+			{ id: 146, name: "IT-FE | Ferrara", idstato: 114 },
+			{ id: 147, name: "IT-FI | Firenze", idstato: 114 },
+			{ id: 148, name: "IT-FG | Foggia", idstato: 114 },
+			{ id: 149, name: "IT-FC | Forli-Cesena", idstato: 114 },
+			{ id: 150, name: "IT-FR | Frosinone", idstato: 114 },
+			{ id: 151, name: "IT-GE | Genova", idstato: 114 },
+			{ id: 152, name: "IT-GO | Gorizia", idstato: 114 },
+			{ id: 153, name: "IT-GR | Grosseto", idstato: 114 },
+			{ id: 154, name: "IT-IM | Imperia", idstato: 114 },
+			{ id: 155, name: "IT-IS | Isernia", idstato: 114 },
+			{ id: 156, name: "IT-AQ | L'Aquila", idstato: 114 },
+			{ id: 157, name: "IT-SP | La Spezia", idstato: 114 },
+			{ id: 158, name: "IT-LT | Latina", idstato: 114 },
+			{ id: 159, name: "IT-LE | Lecce", idstato: 114 },
+			{ id: 160, name: "IT-LC | Lecco", idstato: 114 },
+			{ id: 161, name: "IT-LI | Livorno", idstato: 114 },
+			{ id: 162, name: "IT-LO | Lodi", idstato: 114 },
+			{ id: 163, name: "IT-LU | Lucca", idstato: 114 },
+			{ id: 164, name: "IT-MC | Macerata", idstato: 114 },
+			{ id: 165, name: "IT-MN | Mantova", idstato: 114 },
+			{ id: 166, name: "IT-MS | Massa-Carrara", idstato: 114 },
+			{ id: 167, name: "IT-MT | Matera", idstato: 114 },
+			{ id: 168, name: "IT-VS | Medio Campidano", idstato: 114 },
+			{ id: 169, name: "IT-ME | Messina", idstato: 114 },
+			{ id: 170, name: "IT-MI | Milano", idstato: 114 },
+			{ id: 171, name: "IT-MO | Modena", idstato: 114 },
+			{ id: 172, name: "IT-MB | Monza e Brianza", idstato: 114 },
+			{ id: 173, name: "IT-NA | Napoli", idstato: 114 },
+			{ id: 174, name: "IT-NO | Novara", idstato: 114 },
+			{ id: 175, name: "IT-NU | Nuoro", idstato: 114 },
+			{ id: 176, name: "IT-OG | Ogliastra", idstato: 114 },
+			{ id: 177, name: "IT-OT | Olbia-Tempio", idstato: 114 },
+			{ id: 178, name: "IT-OR | Oristano", idstato: 114 },
+			{ id: 179, name: "IT-PD | Padova", idstato: 114 },
+			{ id: 180, name: "IT-PA | Palermo", idstato: 114 },
+			{ id: 181, name: "IT-PR | Parma", idstato: 114 },
+			{ id: 182, name: "IT-PV | Pavia", idstato: 114 },
+			{ id: 183, name: "IT-PG | Perugia", idstato: 114 },
+			{ id: 184, name: "IT-PU | Pesaro e Urbino", idstato: 114 },
+			{ id: 185, name: "IT-PE | Pescara", idstato: 114 },
+			{ id: 186, name: "IT-PC | Piacenza", idstato: 114 },
+			{ id: 187, name: "IT-PI | Pisa", idstato: 114 },
+			{ id: 188, name: "IT-PT | Pistoia", idstato: 114 },
+			{ id: 189, name: "IT-PN | Pordenone", idstato: 114 },
+			{ id: 190, name: "IT-PZ | Potenza", idstato: 114 },
+			{ id: 191, name: "IT-PO | Prato", idstato: 114 },
+			{ id: 192, name: "IT-RG | Ragusa", idstato: 114 },
+			{ id: 193, name: "IT-RA | Ravenna", idstato: 114 },
+			{ id: 194, name: "IT-RC | Reggio Calabria", idstato: 114 },
+			{ id: 195, name: "IT-RE | Reggio Emilia", idstato: 114 },
+			{ id: 196, name: "IT-RI | Rieti", idstato: 114 },
+			{ id: 197, name: "IT-RN | Rimini", idstato: 114 },
+			{ id: 198, name: "IT-RM | Roma", idstato: 114 },
+			{ id: 199, name: "IT-RO | Rovigo", idstato: 114 },
+			{ id: 200, name: "IT-SA | Salerno", idstato: 114 },
+			{ id: 201, name: "IT-SS | Sassari", idstato: 114 },
+			{ id: 202, name: "IT-SV | Savona", idstato: 114 },
+			{ id: 203, name: "IT-SI | Siena", idstato: 114 },
+			{ id: 204, name: "IT-SR | Siracusa", idstato: 114 },
+			{ id: 205, name: "IT-SO | Sondrio", idstato: 114 },
+			{ id: 206, name: "IT-TA | Taranto", idstato: 114 },
+			{ id: 207, name: "IT-TE | Teramo", idstato: 114 },
+			{ id: 208, name: "IT-TR | Terni", idstato: 114 },
+			{ id: 209, name: "IT-TO | Torino", idstato: 114 },
+			{ id: 210, name: "IT-TP | Trapani", idstato: 114 },
+			{ id: 211, name: "IT-TN | Trento", idstato: 114 },
+			{ id: 212, name: "IT-TV | Treviso", idstato: 114 },
+			{ id: 213, name: "IT-TS | Trieste", idstato: 114 },
+			{ id: 214, name: "IT-UD | Udine", idstato: 114 },
+			{ id: 215, name: "IT-VA | Varese", idstato: 114 },
+			{ id: 216, name: "IT-VE | Venezia", idstato: 114 },
+			{ id: 217, name: "IT-VB | Verbano-Cusio-Ossola", idstato: 114 },
+			{ id: 218, name: "IT-VC | Vercelli", idstato: 114 },
+			{ id: 219, name: "IT-VR | Verona", idstato: 114 },
+			{ id: 220, name: "IT-VV | Vibo Valentia", idstato: 114 },
+			{ id: 221, name: "IT-VI | Vicenza", idstato: 114 },
+			{ id: 222, name: "IT-VT | Viterbo", idstato: 114 },
 			{ id: 223, name: "Adygeya, Respublika", idstato: 182 },
 			{ id: 224, name: "Altay, Respublika", idstato: 182 },
 			{ id: 225, name: "Altayskiy kray", idstato: 182 },
@@ -1011,556 +1083,37 @@
 
 </script>
 
-<!-- end _json_data.html-->
-
-<div club-signup (signUp)="onSignUp($event)" (login)="onLogin($event)">
+<section class="section--form background--tertiary" request-info-commercial>
 	<div class="container">
-		<form class="form" [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">
-			<div class="title">Registrati per accedere ai servizi del club TIEMME</div>
-			<div class="fields">
+		<div class="section--slides__title">Richiesta Informazioni</div>
+		<form [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">
+			<div class="listing--form">
 				<div control-text [control]="controls.firstName" label="Nome"></div>
 				<div control-text [control]="controls.lastName" label="Cognome"></div>
+				<div control-text [control]="controls.email" label="Email"></div>
 				<div control-text [control]="controls.company" label="Azienda"></div>
 				<div control-custom-select [control]="controls.role" label="Ruolo"></div>
+				<div control-custom-select [control]="controls.interests" label="Area di interesse"></div>
 				<div control-custom-select [control]="controls.country" label="Nazione"></div>
 				<div control-custom-select [control]="controls.province" label="Provincia" *if="controls.province.options.length"></div>
-				<div control-text [control]="controls.address" label="Indirizzo"></div>
-				<div control-text [control]="controls.zipCode" label="Cap"></div>
-				<div control-text [control]="controls.city" label="Città"></div>
-				<div control-text [control]="controls.telephone" label="Telefono"></div>
-				<div control-text [control]="controls.fax" label="Fax"></div>
-				<div control-text [control]="controls.email" label="Email"></div>
-				<div control-text [control]="controls.username" label="Username"></div>
-				<div control-password [control]="controls.password" label="Password"></div>
-				<div control-password [control]="controls.passwordConfirm" label="Conferma Password"></div>
+				<div control-textarea [control]="controls.message" label="Messaggio"></div>
 				<div control-checkbox [control]="controls.privacy" label="Consenso al trattamento del dato"></div>
 				<div control-checkbox [control]="controls.newsletter" label="Voglio iscrivermi alla newsletter TIEMME"></div>
 			</div>
 			<div class="group--cta">
 				<button type="submit" class="btn--submit">
-					<span *if="!form.submitted">Registrati</span>
+					<span *if="!form.submitted">Invia</span>
 					<span *if="form.submitted">Inviato!</span>
 				</button>
 			</div>
-			<test-component [form]="form" (test)="test($event)" (reset)="reset($event)"></test-component>
+			<div class="group--form--results">
+				<code [innerHTML]="form.value | json"></code>
+			</div>
 		</form>
 	</div>
-</div>
-
-<!-- end club-signup.html-->
-				</div>
-				<div *if="view == views.FORGOTTEN">
-<!-- start club-forgot.html-->
-<div club-forgot (sent)="onForgottenSent($event)" (login)="onLogin($event)">
-	<div class="container" *if="!form.submitted">
-		<form class="form" [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">
-			<div class="title">Recupera Password</div>
-			<div class="fields">
-				<div control-text [control]="controls.email" label="Email"></div>
-			</div>
-			<div class="group--cta">
-				<button type="submit" class="btn--submit">
-					<span>Invia</span>
-				</button>
-			</div>
-			<div class="group--info">
-				Ricordi la password? <button type="button" class="btn--link" (click)="onLogin($event)"><span>Accedi</span></button>
-			</div>
-			<test-component [form]="form" (test)="test($event)" (reset)="reset($event)"></test-component>
-		</form>
-	</div>
-	<div class="container" *if="form.submitted">
-		<div class="title">Password Inviata</div>
-		<div class="abstract">
-			Abbiamo inviato la password all'indirizzo email fornito.
-		</div>
-		<div class="group--info">
-			Torna al <button type="button" class="btn--link" (click)="onLogin($event)"><span>Login</span></button>
-		</div>
-	</div>
-</div>
-
-<!-- end club-forgot.html-->
-				</div>
-			</div>
-			<div class="col-lg-6 right">
-				<div class="container">
-					<div class="title">I Vantaggi del club TIEMME</div>
-					<div class="group--advantage">
-						<svg class="icon icon--tiemme-lab"><use xlink:href="#tiemme-lab"></use></svg>
-						<span>Accesso esclusivo al listino prezzie al centro formazione Tiemme LAB</span>
-					</div>
-					<div class="group--advantage">
-						<svg class="icon icon--guides"><use xlink:href="#guides"></use></svg>
-						<span>Ricevere guide di settore e consigli di professionisti</span>
-					</div>
-					<div class="group--advantage">
-						<svg class="icon icon--insights"><use xlink:href="#insights"></use></svg>
-						<span>Ricevere approfondimenti sui prodotti di tuo interesse</span>
-					</div>
-					<div *if="view != views.SIGN_UP">
-						<div class="title">Non fai ancora parte del club TIEMME?</div>
-						<div class="group--cta">
-							<button type="button" class="btn--submit" (click)="onRegister()">
-								<span>Registrati</span>
-							</button>
-						</div>
-					</div>
-					<div *if="view == views.SIGN_UP">
-						<div class="title">Fai già parte del club TIEMME?</div>
-						<div class="group--cta">
-							<button type="button" class="btn--submit" (click)="onLogin()">
-								<span>Accedi</span>
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-<!-- end club.html-->
-		</div>
-		<div class="flex--header">
-			<div class="left">
-				<button type="button" class="btn--menu" [class]="{ active: menu == 'main' }" (click)="toggleMenu('main')"><span></span><span></span><span></span></button>
-			</div>
-			<div class="center">
-				<a href="/tiemme-com/" class="brand"><img src="/tiemme-com/img/svg/logo.svg" title="Tiemme" /></a>
-			</div>
-			<div class="right">
-				<div class="group--language">
-					<button type="button" class="btn--languages" dropdown="1" (dropped)="onDropped($event)">
-						<svg class="icon icon--languages"><use xlink:href="#languages"></use></svg>
-						<span>IT</span>
-						<svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
-					</button>
-					<div class="dropdown" dropdown-item="1">
-						<div class="category">Languages</div>
-						<ul class="nav--dropdown">
-							<li><a href="#">Italiano</a></li>
-							<li><a href="#">English</a></li>
-							<li><a href="#">Deutsch</a></li>
-						</ul>
-					</div>
-				</div>
-				<a href="/tiemme-com/club.html" class="btn--club" *if="user"><span><svg class="icon icon--user"><use xlink:href="#user"></use></svg> Club Tiemme</span></a>
-				<button type="button" class="btn--club" (click)="toggleMenu('club')" *if="!user"><span>Club Tiemme</span></button>
-			</div>
-		</div>
-	</div>
-</header>
-
-<!-- end header.html-->
-
-<!-- start main -->
-<section class="section--hero">
-	<div class="background">
-		<img lazy="/tiemme-com/img/products/radiant-floor/hero.jpg" />
-	</div>
-	<div class="container">
-		<div class="row">
-			<div class="col-md-10">
-				<div class="category">Sistemi radianti</div>
-				<div class="title">Sistemi Radianti a Pavimento</div>
-				<div class="abstract">Ripartizione del calore in modo uniforme, basse temperature di gestionealto livello di comfort e valori di umidità ideali con un impatto estetico nullo.</div>
-			</div>
-		</div>
-	</div>
 </section>
 
-<!-- start product-menu-radiant-floor.html-->
-<div class="sticky--menu">
-	<section class="section--menu" main-menu>
-		<div class="container-fluid">
-			<ul class="nav--menu">
-				<li>
-					<span dropdown="3001">
-						<svg class="icon icon--radiant"><use xlink:href="#radiant"></use></svg>
-						<span>Sistemi Radianti</span> <svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
-					</span>
-					<div class="dropdown dropdown--with-icons" dropdown-item="3001">
-						<div class="category">Area</div>
-						<ul class="nav--dropdown">
-							<li>
-								<a href="/tiemme-com/product-radiant.html">
-									<svg class="icon icon--valves"><use xlink:href="#valves"></use></svg>
-									<span>Componenti Idraulici</span>
-								</a>
-							</li>
-							<li>
-								<a href="/tiemme-com/product-radiant.html">
-									<svg class="icon icon--thermo"><use xlink:href="#thermo"></use></svg>
-									<span>Centrale Termica</span>
-								</a>
-							</li>
-							<li>
-								<a href="/tiemme-com/product-radiant.html">
-									<svg class="icon icon--radiant"><use xlink:href="#radiant"></use></svg>
-									<span>Sistemi Radianti</span>
-								</a>
-							</li>
-							<li>
-								<a href="/tiemme-com/product-radiant.html">
-									<svg class="icon icon--taps"><use xlink:href="#taps"></use></svg>
-									<span>Rubinetti</span>
-								</a>
-							</li>
-						</ul>
-					</div>
-				</li>
-				<li>
-					<span dropdown="3002">
-						<span>Sistemi radianti a pavimento</span> <svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
-					</span>
-					<div class="dropdown" dropdown-item="3002">
-						<div class="category">Catalogo</div>
-						<ul class="nav--dropdown">
-							<li><a href="/tiemme-com/product-radiant-floor.html">Sistemi radianti a pavimento</a></li>
-							<li><a href="/tiemme-com/product-radiant-floor.html">Sistemi radianti a parete e soffitto</a></li>
-							<li><a href="/tiemme-com/product-radiant-floor.html">Collettori di distribuzione e gruppi di miscelazione</a></li>
-							<li><a href="/tiemme-com/product-radiant-floor.html">Trattamento aria</a></li>
-							<li><a href="/tiemme-com/product-radiant-floor.html">Componenti</a></li>
-						</ul>
-					</div>
-				</li>
-				<li>
-					<span class="empty" dropdown="3003">
-						<span>Soluzioni</span> <svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
-					</span>
-					<div class="dropdown" dropdown-item="3003">
-						<div class="category">Soluzioni</div>
-						<ul class="nav--dropdown">
-							<li><a href="/tiemme-com/product-radiant-floor-graphite.html">Soluzione NEW CLASSIC GRAPHITE</a></li>
-							<li><a href="/tiemme-com/product-radiant-floor-graphite.html">Soluzione TECHNO GRAPHITE</a></li>
-							<li><a href="/tiemme-com/product-radiant-floor-graphite.html">Soluzione CLIP GRAPHITE</a></li>
-							<li><a href="/tiemme-com/product-radiant-floor-graphite.html">Soluzione CLIP SUPER</a></li>
-							<li><a href="/tiemme-com/product-radiant-floor-graphite.html">Soluzione SUGHERO</a></li>
-							<li><a href="/tiemme-com/product-radiant-floor-graphite.html">Soluzione SILENTO</a></li>
-							<li><a href="/tiemme-com/product-radiant-floor-graphite.html">Soluzione LOW BLACK</a></li>
-							<li><a href="/tiemme-com/product-radiant-floor-graphite.html">Soluzione DRY</a></li>
-							<li><a href="/tiemme-com/product-radiant-floor-graphite.html">Soluzione TIEMME SLIM</a></li>
-							<li><a href="/tiemme-com/product-radiant-floor-graphite.html">Soluzione STRONG RAIL</a></li>
-							<li><a href="/tiemme-com/product-radiant-floor-graphite.html">Soluzione STRONG NET</a></li>
-							<li><a href="/tiemme-com/product-radiant-floor-graphite.html">Accessori</a></li>
-						</ul>
-					</div>
-				</li>
-				<li class="group--search">
-					<svg class="icon icon--search"><use xlink:href="#search"></use></svg> <input class="form--control" placeholder="cerca..." />
-				</li>
-			</ul>
-		</div>
-	</section>
-</div>
-
-<!-- end product-menu-radiant-floor.html-->
-
-<!-- start listing-product-radiant-floor.html-->
-<section class="section--listing section--intro background--gradient">
-	<div class="container">
-		<div class="title"><span>Catalogo Sistemi Radianti</span></div>
-	</div>
-	<div class="container">
-		<div class="swiper-container" swiper-listing>
-			<div class="swiper-wrapper">
-				<div class="swiper-slide">
-					<a href="/tiemme-com/product-radiant-floor-graphite.html" class="card--product">
-						<div class="picture picture--product">
-							<img lazy="/tiemme-com/img/products/radiant-floor/product-01.jpg" />
-							<div class="category">Soluzione NEW CLASSIC GRAPHITE</div>
-						</div>
-					</a>
-				</div>
-				<div class="swiper-slide">
-					<a href="/tiemme-com/product-radiant-floor-graphite.html" class="card--product">
-						<div class="picture picture--product">
-							<img lazy="/tiemme-com/img/products/radiant-floor/product-01.jpg" />
-							<div class="category">Soluzione TECHNO GRAPHITE</div>
-						</div>
-					</a>
-				</div>
-				<div class="swiper-slide">
-					<a href="/tiemme-com/product-radiant-floor-graphite.html" class="card--product">
-						<div class="picture picture--product">
-							<img lazy="/tiemme-com/img/products/radiant-floor/product-01.jpg" />
-							<div class="category">Soluzione CLIP GRAPHITE</div>
-						</div>
-					</a>
-				</div>
-				<div class="swiper-slide">
-					<a href="/tiemme-com/product-radiant-floor-graphite.html" class="card--product">
-						<div class="picture picture--product">
-							<img lazy="/tiemme-com/img/products/radiant-floor/product-01.jpg" />
-							<div class="category">Soluzione CLIP SUPER</div>
-						</div>
-					</a>
-				</div>
-				<div class="swiper-slide">
-					<a href="/tiemme-com/product-radiant-floor-graphite.html" class="card--product">
-						<div class="picture picture--product">
-							<img lazy="/tiemme-com/img/products/radiant-floor/product-01.jpg" />
-							<div class="category">Soluzione SUGHERO</div>
-						</div>
-					</a>
-				</div>
-				<div class="swiper-slide">
-					<a href="/tiemme-com/product-radiant-floor-graphite.html" class="card--product">
-						<div class="picture picture--product">
-							<img lazy="/tiemme-com/img/products/radiant-floor/product-01.jpg" />
-							<div class="category">Soluzione SILENTO</div>
-						</div>
-					</a>
-				</div>
-				<div class="swiper-slide">
-					<a href="/tiemme-com/product-radiant-floor-graphite.html" class="card--product">
-						<div class="picture picture--product">
-							<img lazy="/tiemme-com/img/products/radiant-floor/product-01.jpg" />
-							<div class="category">Soluzione LOW BLACK</div>
-						</div>
-					</a>
-				</div>
-				<div class="swiper-slide">
-					<a href="/tiemme-com/product-radiant-floor-graphite.html" class="card--product">
-						<div class="picture picture--product">
-							<img lazy="/tiemme-com/img/products/radiant-floor/product-01.jpg" />
-							<div class="category">Soluzione DRY</div>
-						</div>
-					</a>
-				</div>
-				<div class="swiper-slide">
-					<a href="/tiemme-com/product-radiant-floor-graphite.html" class="card--product">
-						<div class="picture picture--product">
-							<img lazy="/tiemme-com/img/products/radiant-floor/product-01.jpg" />
-							<div class="category">Soluzione TIEMME SLIM</div>
-						</div>
-					</a>
-				</div>
-				<div class="swiper-slide">
-					<a href="/tiemme-com/product-radiant-floor-graphite.html" class="card--product">
-						<div class="picture picture--product">
-							<img lazy="/tiemme-com/img/products/radiant-floor/product-01.jpg" />
-							<div class="category">Soluzione STRONG RAIL</div>
-						</div>
-					</a>
-				</div>
-				<div class="swiper-slide">
-					<a href="/tiemme-com/product-radiant-floor-graphite.html" class="card--product">
-						<div class="picture picture--product">
-							<img lazy="/tiemme-com/img/products/radiant-floor/product-01.jpg" />
-							<div class="category">Soluzione STRONG NET</div>
-						</div>
-					</a>
-				</div>
-				<div class="swiper-slide">
-					<a href="/tiemme-com/product-radiant-floor-graphite.html" class="card--product">
-						<div class="picture picture--product">
-							<img lazy="/tiemme-com/img/products/radiant-floor/product-01.jpg" />
-							<div class="category">Accessori</div>
-						</div>
-					</a>
-				</div>
-			</div>
-			<div class="swiper-pagination swiper-pagination-white"></div>
-		</div>
-	</div>
-</section>
-
-<!-- end listing-product-radiant-floor.html-->
-<!-- start videos.html-->
-<section class="section--slides">
-	<div class="swiper-container" swiper-slides>
-		<div class="container">
-			<div class="section--slides__title">Guide di installazione</div>
-		</div>
-		<div class="swiper-wrapper">
-
-			<div class="swiper-slide">
-				<div class="inner">
-					<div class="container">
-						<div class="card--slide" youtube="Oqoi7OB9pxw">
-							<div class="picture picture--video" [class]="{ playing: playing }">
-								<div class="video"></div>
-								<div class="overlay" (click)="togglePlay($event)">
-									<img [src]="cover" />
-								</div>
-								<div class="btn--play">
-									<svg class="icon icon--play-progress-background"><use xlink:href="#play-progress"></use></svg>
-									<svg class="icon icon--play-progress" viewBox="0 0 196 196">
-										<path xmlns="http://www.w3.org/2000/svg" stroke-width="2px" stroke-dasharray="1" stroke-dashoffset="1" pathLength="1" stroke-linecap="square" d="M195.5,98c0,53.8-43.7,97.5-97.5,97.5S0.5,151.8,0.5,98S44.2,0.5,98,0.5S195.5,44.2,195.5,98z"/>
-									</svg>
-									<svg class="icon icon--play"><use xlink:href="#play"></use></svg>
-									<svg class="icon icon--pause"><use xlink:href="#pause"></use></svg>
-								</div>
-							</div>
-							<div class="content">
-								<div class="title"><b>CLIP</b> Sistemi Radianti a Pavimento</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="swiper-slide">
-				<div class="inner">
-					<div class="container">
-						<div class="card--slide" video [item]="{'coId':9285,'id':'d01305c9-daa9-49a4-865d-7686d23bb428','typeName':'Video','name':'Title'}">
-							<div class="picture picture--video" [class]="{ playing: playing }">
-								<video oncanplay="this.muted = true;" playsinline muted loop poster="/tiemme-com/img/video/video-01.jpg">
-									<source src="/tiemme-com/img/video/video-01.mp4">
-								</video>
-								<div class="overlay" (click)="togglePlay($event)"></div>
-								<div class="btn--play">
-									<svg class="icon icon--play-progress-background"><use xlink:href="#play-progress"></use></svg>
-									<svg class="icon icon--play-progress" viewBox="0 0 196 196">
-										<path xmlns="http://www.w3.org/2000/svg" stroke-width="2px" stroke-dasharray="1" stroke-dashoffset="1" pathLength="1" stroke-linecap="square" d="M195.5,98c0,53.8-43.7,97.5-97.5,97.5S0.5,151.8,0.5,98S44.2,0.5,98,0.5S195.5,44.2,195.5,98z"/>
-									</svg>
-									<svg class="icon icon--play"><use xlink:href="#play"></use></svg>
-									<svg class="icon icon--pause"><use xlink:href="#pause"></use></svg>
-								</div>
-							</div>
-							<div class="content">
-								<div class="title"><b>CLIP</b> Sistemi Radianti a Pavimento</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="swiper-slide">
-				<div class="inner">
-					<div class="container">
-						<div class="card--slide">
-							<div class="picture picture--video" video [item]="{'coId':9285,'id':'d01305c9-daa9-49a4-865d-7686d23bb428','typeName':'Video','name':'Title'}">
-								<video oncanplay="this.muted = true;" playsinline muted loop poster="/tiemme-com/img/video/video-02.jpg">
-									<source src="/tiemme-com/img/video/video-02.mp4">
-								</video>
-								<div class="overlay" (click)="togglePlay($event)"></div>
-								<div class="btn--play" [class]="{ playing: playing }">
-									<svg class="icon icon--play-progress-background"><use xlink:href="#play-progress"></use></svg>
-									<svg class="icon icon--play-progress" viewBox="0 0 196 196">
-										<path xmlns="http://www.w3.org/2000/svg" stroke-width="2px" stroke-dasharray="1" stroke-dashoffset="1" pathLength="1" stroke-linecap="square" d="M195.5,98c0,53.8-43.7,97.5-97.5,97.5S0.5,151.8,0.5,98S44.2,0.5,98,0.5S195.5,44.2,195.5,98z"/>
-									</svg>
-									<svg class="icon icon--play"><use xlink:href="#play"></use></svg>
-									<svg class="icon icon--pause"><use xlink:href="#pause"></use></svg>
-								</div>
-							</div>
-							<div class="content">
-								<div class="title"><b>TECHNO</b> Sistemi Radianti a Pavimento</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="swiper-slide">
-				<div class="inner">
-					<div class="container">
-						<div class="card--slide">
-							<div class="picture picture--video" video [item]="{'coId':9285,'id':'d01305c9-daa9-49a4-865d-7686d23bb428','typeName':'Video','name':'Title'}">
-								<video oncanplay="this.muted = true;" playsinline muted loop poster="/tiemme-com/img/video/video-03.jpg">
-									<source src="/tiemme-com/img/video/video-03.mp4">
-								</video>
-								<div class="overlay" (click)="togglePlay($event)"></div>
-								<div class="btn--play" [class]="{ playing: playing }">
-									<svg class="icon icon--play-progress-background"><use xlink:href="#play-progress"></use></svg>
-									<svg class="icon icon--play-progress" viewBox="0 0 196 196">
-										<path xmlns="http://www.w3.org/2000/svg" stroke-width="2px" stroke-dasharray="1" stroke-dashoffset="1" pathLength="1" stroke-linecap="square" d="M195.5,98c0,53.8-43.7,97.5-97.5,97.5S0.5,151.8,0.5,98S44.2,0.5,98,0.5S195.5,44.2,195.5,98z"/>
-									</svg>
-									<svg class="icon icon--play"><use xlink:href="#play"></use></svg>
-									<svg class="icon icon--pause"><use xlink:href="#pause"></use></svg>
-								</div>
-							</div>
-							<div class="content">
-								<div class="title"><b>3895G</b> Gruppo di miscelazione per impianti radianti</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="swiper-button-prev swiper-button-white"></div>
-		<div class="swiper-button-next swiper-button-white"></div>
-		<div class="swiper-pagination swiper-pagination-white"></div>
-	</div>
-</section>
-
-<!-- end videos.html-->
-<!-- start technician.html-->
-<section class="section--technician background--gradient">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6">
-				<div class="picture picture--technician">
-					<img lazy="/tiemme-com/img/technician/technician.png" />
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="category"><svg class="icon icon--bullet"><use xlink:href="#bullet"></use></svg> Il Tecnico Risponde</div>
-				<div class="title">“Come fare il Calcolo dispersioni di un impianto a pavimento perville a schiera a due piani?„</div>
-				<div class="abstract">
-					<p>Nella progettazione di un impianto di riscaldamento a pavimento oltre a stabilire la potenza termica radiante volta all’ambiente abitativo, si deve considerare anche la quantità di calore che viene dispersa verso il piano inferiore.</p>
-					<p>Una delle prove che il tecnico dell’impresa deve effettuare per valutare l’efficienza del pannello radiante è quello di misurare la temperatura sul soffitto che deve essere di circa -3°C rispetto alla temperatura ambiente...</p>
-				</div>
-				<div class="group--cta">
-					<button type="button" class="btn--link"><span>leggi di più</span></button>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
-<!-- end technician.html-->
-<!-- start news.html-->
-<section class="section--news">
-	<div class="container">
-		<div class="group--title">
-			<div class="title">Ultime novità</div>
-			<a href="#" class="btn--category"><span>Tutte le news</span></a>
-		</div>
-		<div class="listing--news">
-			<a href="#" class="card--news" appear>
-				<div class="picture picture--news">
-					<img lazy="/tiemme-com/img/news/news-01.jpg" />
-					<div class="date">Ott 2019</div>
-				</div>
-				<div class="content">
-					<div class="title">Un nuovo progetto con il Pannello isolante new graphite per sistemi radianti a pavimento</div>
-					<div class="abstract">
-						<p>Brestak village, Varna area - Bulgaria. Il nostro nuovo progetto con TIEMME New Classic graphite system and Al-Cobrapress system.</p>
-						<button type="button" class="btn--link"><span>dettaglio</span></button>
-					</div>
-				</div>
-			</a>
-			<a href="#" class="card--news" appear>
-				<div class="picture picture--news">
-					<img lazy="/tiemme-com/img/news/news-02.jpg" />
-					<div class="date">Feb 2019</div>
-				</div>
-				<div class="content">
-					<div class="title">TIEMME al MCE 2019</div>
-					<div class="abstract">
-						<p>Brestak village, Varna area - Bulgaria. Il nostro nuovo progetto con TIEMME New Classic graphite system and Al-Cobrapress system.</p>
-						<button type="button" class="btn--link"><span>dettaglio</span></button>
-					</div>
-				</div>
-			</a>
-			<a href="#" class="card--news" appear>
-				<div class="picture picture--news">
-					<img lazy="/tiemme-com/img/news/news-01.jpg" />
-					<div class="date">Ott 2019</div>
-				</div>
-				<div class="content">
-					<div class="title">Un nuovo progetto con il Pannello isolante new graphite per sistemi radianti a pavimento</div>
-					<div class="abstract">
-						<p>Brestak village, Varna area - Bulgaria. Il nostro nuovo progetto con TIEMME New Classic graphite system and Al-Cobrapress system.</p>
-						<button type="button" class="btn--link"><span>dettaglio</span></button>
-					</div>
-				</div>
-			</a>
-		</div>
-	</div>
-</section>
-
-<!-- end news.html-->
+<!-- end request-info-commercial.html-->
 
 
 <!-- end main -->
@@ -1657,7 +1210,7 @@
 <!-- start scripts.html-->
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es5%2CArray.prototype.find%2Cfetch%2CObject.assign"></script>
 <script src="/tiemme-com/js/vendors.min.js"></script>
-<script src="/tiemme-com/js/main.js"></script>
+<script src="/tiemme-com/js/main.min.js"></script>
 
 <!-- end scripts.html-->
 </body>

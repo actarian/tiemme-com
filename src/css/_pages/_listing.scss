@@ -12,7 +12,7 @@
 
 		@include media-breakpoint-up(lg) {
 			.card--news {
-				@include as-col(5, 12, 20px);
+				@include as-col(4, 12, 20px);
 			}
 		}
 
@@ -24,6 +24,62 @@
 
 		@include media-breakpoint-down(xs) {
 			.card--news {
+				@include as-col(12, 12, 0px);
+			}
+		}
+	}
+}
+
+.section--eventi {
+	padding: 80px 0;
+
+	.listing--eventi {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+
+		@include media-breakpoint-up(lg) {
+			.card--evento {
+				@include as-col(4, 12, 20px);
+			}
+		}
+
+		@include media-breakpoint-down(md) {
+			.card--evento {
+				@include as-col(6, 12, 20px);
+			}
+		}
+
+		@include media-breakpoint-down(xs) {
+			.card--evento {
+				@include as-col(12, 12, 0px);
+			}
+		}
+	}
+}
+
+.section--realizzazioni {
+	padding: 80px 0;
+
+	.listing--realizzazioni {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+
+		@include media-breakpoint-up(lg) {
+			.card--realizzazione {
+				@include as-col(4, 12, 20px);
+			}
+		}
+
+		@include media-breakpoint-down(md) {
+			.card--realizzazione {
+				@include as-col(6, 12, 20px);
+			}
+		}
+
+		@include media-breakpoint-down(xs) {
+			.card--realizzazione {
 				@include as-col(12, 12, 0px);
 			}
 		}
