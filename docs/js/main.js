@@ -304,6 +304,7 @@
       var _this = this;
 
       this.http = HttpService;
+      this.submitted = false;
       var form = new rxcompForm.FormGroup({
         email: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator(), rxcompForm.Validators.EmailValidator()])
       });
@@ -336,8 +337,9 @@
         this.http.post$('/WS/wsUsers.asmx/Login', this.form.value).subscribe(function (response) {
           console.log('ClubForgotComponent.onSubmit', response);
 
-          _this2.sent.next(true); // this.form.reset();
+          _this2.sent.next(true);
 
+          _this2.submitted = true; // this.form.reset();
         });
       } else {
         this.form.touched = true;
@@ -1454,6 +1456,7 @@
       var _this = this;
 
       this.http = HttpService;
+      this.submitted = false;
       var data = window.data || {
         roles: [],
         interests: [],
@@ -1521,6 +1524,8 @@
           console.log('RequestInfoCommercialComponent.onSubmit', response);
 
           _this2.form.reset();
+
+          _this2.submitted = true;
         });
       } else {
         this.form.touched = true;
@@ -1964,6 +1969,7 @@
       var _this = this;
 
       this.http = HttpService;
+      this.submitted = false;
       var data = window.data || {
         departments: []
       };
@@ -2019,6 +2025,8 @@
           console.log('WorkWithUsComponent.onSubmit', response);
 
           _this2.form.reset();
+
+          _this2.submitted = true;
         });
       } else {
         this.form.touched = true;

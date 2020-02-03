@@ -8,6 +8,7 @@ export default class WorkWithUsComponent extends Component {
 	onInit() {
 
 		this.http = HttpService;
+		this.submitted = false;
 
 		const data = window.data || {
 			departments: []
@@ -68,6 +69,7 @@ export default class WorkWithUsComponent extends Component {
 				.subscribe(response => {
 					console.log('WorkWithUsComponent.onSubmit', response);
 					this.form.reset();
+					this.submitted = true;
 				})
 		} else {
 			this.form.touched = true;

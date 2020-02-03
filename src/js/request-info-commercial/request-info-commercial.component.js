@@ -20,6 +20,7 @@ export default class RequestInfoCommercialComponent extends Component {
 	onInit() {
 
 		this.http = HttpService;
+		this.submitted = false;
 
 		const data = window.data || {
 			roles: [],
@@ -91,6 +92,7 @@ export default class RequestInfoCommercialComponent extends Component {
 				.subscribe(response => {
 					console.log('RequestInfoCommercialComponent.onSubmit', response);
 					this.form.reset();
+					this.submitted = true;
 				})
 		} else {
 			this.form.touched = true;
