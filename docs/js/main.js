@@ -1489,7 +1489,7 @@
           return String(province.idstato) === String(changes.country);
         });
         controls.province.options = provinces;
-        console.log(_this.form);
+        controls.province.disabled = provinces.length === 0;
 
         _this.pushChanges();
       });
