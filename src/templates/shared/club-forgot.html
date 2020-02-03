@@ -1,5 +1,5 @@
 <div club-forgot (sent)="onForgottenSent($event)" (login)="onLogin($event)">
-	<div class="container" *if="!form.submitted">
+	<div class="container" *if="!submitted">
 		<form class="form" [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">
 			<div class="title">Recupera Password</div>
 			<div class="fields">
@@ -13,13 +13,10 @@
 			<div class="group--info">
 				Ricordi la password? <button type="button" class="btn--link" (click)="onLogin($event)"><span>Accedi</span></button>
 			</div>
-			<div class="group--form--results">
-				<code [innerHTML]="form.value | json"></code>
-				<button type="button" class="btn--link" (click)="test($event)"><span>test</span></button>
-			</div>
+			<test-component [form]="form" (test)="test($event)" (reset)="reset($event)"></test-component>
 		</form>
 	</div>
-	<div class="container" *if="form.submitted">
+	<div class="container" *if="submitted">
 		<div class="title">Password Inviata</div>
 		<div class="abstract">
 			Abbiamo inviato la password all'indirizzo email fornito.

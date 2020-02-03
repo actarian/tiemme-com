@@ -38,10 +38,13 @@ export default class ClubSigninComponent extends Component {
 		});
 	}
 
+	reset() {
+		this.form.reset();
+	}
+
 	onSubmit() {
-		const valid = Object.keys(this.form.errors).length === 0;
 		// console.log('ClubSigninComponent.onSubmit', 'form.valid', valid);
-		if (valid) {
+		if (this.form.valid) {
 			// console.log('ClubSigninComponent.onSubmit', this.form.value);
 			this.form.submitted = true;
 			this.http.post$('/WS/wsUsers.asmx/Login', this.form.value)

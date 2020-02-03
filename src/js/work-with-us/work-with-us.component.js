@@ -8,6 +8,7 @@ export default class WorkWithUsComponent extends Component {
 	onInit() {
 
 		this.http = HttpService;
+		this.submitted = false;
 
 		const data = window.data || {
 			departments: []
@@ -55,16 +56,20 @@ export default class WorkWithUsComponent extends Component {
 		});
 	}
 
+	reset() {
+		this.form.reset();
+	}
+
 	onSubmit() {
-		const valid = Object.keys(this.form.errors).length === 0;
 		// console.log('WorkWithUsComponent.onSubmit', 'form.valid', valid);
-		if (valid) {
+		if (this.form.valid) {
 			// console.log('WorkWithUsComponent.onSubmit', this.form.value);
 			this.form.submitted = true;
 			this.http.post$('/WS/wsUsers.asmx/Contact', this.form.value)
 				.subscribe(response => {
 					console.log('WorkWithUsComponent.onSubmit', response);
 					this.form.reset();
+					this.submitted = true;
 				})
 		} else {
 			this.form.touched = true;

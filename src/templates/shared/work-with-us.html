@@ -1,7 +1,7 @@
 <!-- @@include ./_json_data.html -->
 
 <section class="section--form background--tertiary" work-with-us>
-	<div class="container">
+	<div class="container" *if="!submitted">
 		<div class="section--slides__title">Inviaci il tuo curriculum</div>
 		<form class="form" [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">
 			<div class="listing--form">
@@ -22,10 +22,13 @@
 					<span *if="form.submitted">Inviato!</span>
 				</button>
 			</div>
-			<div class="group--form--results">
-				<code [innerHTML]="form.value | json"></code>
-				<button type="button" class="btn--link" (click)="test($event)"><span>test</span></button>
-			</div>
+			<test-component [form]="form" (test)="test($event)" (reset)="reset($event)"></test-component>
 		</form>
+	</div>
+	<div class="container" *if="submitted">
+		<div class="section--slides__title">Richiesta Inviata</div>
+		<div class="abstract">
+			Grazie per averci contattato. La tua richiesta è stata inviata correttamente.
+		</div>
 	</div>
 </section>

@@ -8,6 +8,7 @@ export default class ClubForgotComponent extends Component {
 	onInit() {
 
 		this.http = HttpService;
+		this.submitted = false;
 
 		const form = new FormGroup({
 			email: new FormControl(null, [Validators.RequiredValidator(), Validators.EmailValidator()]),
@@ -32,16 +33,20 @@ export default class ClubForgotComponent extends Component {
 		});
 	}
 
+	reset() {
+		this.form.reset();
+	}
+
 	onSubmit() {
-		const valid = Object.keys(this.form.errors).length === 0;
 		// console.log('ClubForgotComponent.onSubmit', 'form.valid', valid);
-		if (valid) {
+		if (this.form.valid) {
 			// console.log('ClubForgotComponent.onSubmit', this.form.value);
 			this.form.submitted = true;
 			this.http.post$('/WS/wsUsers.asmx/Login', this.form.value)
 				.subscribe(response => {
 					console.log('ClubForgotComponent.onSubmit', response);
 					this.sent.next(true);
+					this.submitted = true;
 					// this.form.reset();
 				})
 		} else {
