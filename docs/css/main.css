@@ -4447,6 +4447,9 @@ ul {
         font-size: 70px;
         line-height: 40px;
         font-weight: 500; }
+        @media (max-width: 767.98px) {
+          .card--slide .content > .title b {
+            font-size: 32px; } }
     .card--slide .content > .abstract {
       margin-top: 15px;
       font-size: 20px;
@@ -5466,13 +5469,24 @@ ul {
     -webkit-box-pack: justify;
         -ms-flex-pack: justify;
             justify-content: space-between; }
-    .section--products .listing--products .card--product {
-      max-width: 40.17857%;
-      -webkit-box-flex: 1;
-          -ms-flex: 1 1 40.17857%;
-              flex: 1 1 40.17857%;
-      margin-bottom: 80px;
-      z-index: 1; }
+    @media (min-width: 1440px) {
+      .section--products .listing--products .card--product {
+        -webkit-box-flex: 0;
+            -ms-flex: 0 0 calc(33.33333% - 20px);
+                flex: 0 0 calc(33.33333% - 20px);
+        max-width: 33.33333%; } }
+    @media (max-width: 1439.98px) {
+      .section--products .listing--products .card--product {
+        -webkit-box-flex: 0;
+            -ms-flex: 0 0 calc(50% - 20px);
+                flex: 0 0 calc(50% - 20px);
+        max-width: 50%; } }
+    @media (max-width: 767.98px) {
+      .section--products .listing--products .card--product {
+        -webkit-box-flex: 0;
+            -ms-flex: 0 0 calc(100% - 0px);
+                flex: 0 0 calc(100% - 0px);
+        max-width: 100%; } }
 
 img {
   display: block;
@@ -5842,3 +5856,37 @@ img {
 
 .section--form {
   padding: 80px 0; }
+
+.section--realizzazione {
+  padding: 80px 0; }
+  .section--realizzazione .intro-text {
+    font-size: 24px;
+    font-weight: 500; }
+  .section--realizzazione .location .title {
+    text-transform: uppercase;
+    margin: 0; }
+  .section--realizzazione .location i {
+    padding-right: 10px; }
+  .section--realizzazione .share {
+    margin-top: 50px; }
+    .section--realizzazione .share .title {
+      text-transform: uppercase;
+      margin: 0; }
+    .section--realizzazione .share ul {
+      list-style: none;
+      margin: 0;
+      padding: 0; }
+      .section--realizzazione .share ul li {
+        display: inline-block;
+        padding: 0 5px; }
+        .section--realizzazione .share ul li:first-child {
+          padding-left: 0; }
+
+.section--prodotti-utilizzati {
+  padding: 80px 0; }
+  .section--prodotti-utilizzati .group--title {
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center; }
+    .section--prodotti-utilizzati .group--title .title {
+      font-size: 50px; }

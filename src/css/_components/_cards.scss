@@ -55,6 +55,10 @@
 				font-size: 70px;
 				line-height: 40px;
 				font-weight: $font-medium;
+
+				@include media-breakpoint-down(xs) {
+					font-size: 32px;
+				}
 			}
 		}
 

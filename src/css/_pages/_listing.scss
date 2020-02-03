@@ -94,11 +94,22 @@
 		flex-wrap: wrap;
 		justify-content: space-between;
 
-		.card--product {
-			max-width: 40.17857%;
-			flex: 1 1 40.17857%;
-			margin-bottom: 80px;
-			z-index: 1;
+		@include media-breakpoint-up(lg) {
+			.card--product {
+				@include as-col(4, 12, 20px);
+			}
+		}
+
+		@include media-breakpoint-down(md) {
+			.card--product {
+				@include as-col(6, 12, 20px);
+			}
+		}
+
+		@include media-breakpoint-down(xs) {
+			.card--product {
+				@include as-col(12, 12, 0px);
+			}
 		}
 	}
 }
