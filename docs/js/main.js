@@ -81,6 +81,19 @@
     subClass.__proto__ = superClass;
   }
 
+  var UserService =
+  /*#__PURE__*/
+  function () {
+    function UserService() {}
+
+    UserService.setUser = function setUser(user) {
+      this.user$.next(user);
+    };
+
+    return UserService;
+  }();
+  UserService.user$ = new rxjs.BehaviorSubject(null);
+
   var AppComponent =
   /*#__PURE__*/
   function (_Component) {
@@ -92,8 +105,20 @@
 
     var _proto = AppComponent.prototype;
 
-    _proto.onInit = function onInit() {// const context = getContext(this);
-      // console.log('context', context);
+    _proto.onInit = function onInit() {
+      var _this = this;
+
+      var _getContext = rxcomp.getContext(this),
+          node = _getContext.node;
+
+      node.classList.remove('hidden'); // console.log('context', context);
+
+      UserService.user$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (user) {
+        console.log('AppComponent.user$', user);
+        _this.user = user;
+
+        _this.pushChanges();
+      });
     };
 
     _proto.onDropped = function onDropped(id) {
@@ -361,6 +386,269 @@
     outputs: ['sent', 'login', 'register']
   };
 
+  var ModalEvent = function ModalEvent(data) {
+    this.data = data;
+  };
+  var ModalResolveEvent =
+  /*#__PURE__*/
+  function (_ModalEvent) {
+    _inheritsLoose(ModalResolveEvent, _ModalEvent);
+
+    function ModalResolveEvent() {
+      return _ModalEvent.apply(this, arguments) || this;
+    }
+
+    return ModalResolveEvent;
+  }(ModalEvent);
+  var ModalRejectEvent =
+  /*#__PURE__*/
+  function (_ModalEvent2) {
+    _inheritsLoose(ModalRejectEvent, _ModalEvent2);
+
+    function ModalRejectEvent() {
+      return _ModalEvent2.apply(this, arguments) || this;
+    }
+
+    return ModalRejectEvent;
+  }(ModalEvent);
+
+  var ModalService =
+  /*#__PURE__*/
+  function () {
+    function ModalService() {}
+
+    ModalService.open$ = function open$(modal) {
+      var _this = this;
+
+      return this.getTemplate$(modal.src).pipe(operators.map(function (template) {
+        return {
+          node: _this.getNode(template),
+          data: modal.data,
+          modal: modal
+        };
+      }), operators.tap(function (node) {
+        return _this.modal$.next(node);
+      }), operators.switchMap(function (node) {
+        return _this.events$;
+      }));
+    };
+
+    ModalService.load$ = function load$(modal) {};
+
+    ModalService.getTemplate$ = function getTemplate$(url) {
+      return rxjs.from(fetch(url).then(function (response) {
+        return response.text();
+      }));
+    };
+
+    ModalService.getNode = function getNode(template) {
+      var div = document.createElement("div");
+      div.innerHTML = template;
+      var node = div.firstElementChild;
+      return node;
+    };
+
+    ModalService.reject = function reject(data) {
+      this.modal$.next(null);
+      this.events$.next(new ModalRejectEvent(data));
+    };
+
+    ModalService.resolve = function resolve(data) {
+      this.modal$.next(null);
+      this.events$.next(new ModalResolveEvent(data));
+    };
+
+    return ModalService;
+  }();
+  ModalService.modal$ = new rxjs.Subject();
+  ModalService.events$ = new rxjs.Subject();
+
+  var ModalOutletComponent =
+  /*#__PURE__*/
+  function (_Component) {
+    _inheritsLoose(ModalOutletComponent, _Component);
+
+    function ModalOutletComponent() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = ModalOutletComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      var _this = this;
+
+      var _getContext = rxcomp.getContext(this),
+          node = _getContext.node;
+
+      this.modalNode = node.querySelector('.modal-outlet__modal');
+      ModalService.modal$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (modal) {
+        _this.modal = modal;
+      });
+    };
+
+    _proto.onRegister = function onRegister(event) {
+      // console.log('ModalComponent.onRegister');
+      this.pushChanges();
+    };
+
+    _proto.onLogin = function onLogin(event) {
+      // console.log('ModalComponent.onLogin');
+      this.pushChanges();
+    };
+
+    _proto.reject = function reject(event) {
+      ModalService.reject();
+    };
+
+    _createClass(ModalOutletComponent, [{
+      key: "modal",
+      get: function get() {
+        return this.modal_;
+      },
+      set: function set(modal) {
+        // console.log('ModalOutletComponent set modal', modal, this);
+        var _getContext2 = rxcomp.getContext(this),
+            module = _getContext2.module;
+
+        if (this.modal_ && this.modal_.node) {
+          module.remove(this.modal_.node, this);
+          this.modalNode.removeChild(this.modal_.node);
+        }
+
+        if (modal && modal.node) {
+          this.modal_ = modal;
+          this.modalNode.appendChild(modal.node);
+          var instances = module.compile(modal.node);
+        }
+
+        this.modal_ = modal;
+        this.pushChanges();
+      }
+    }]);
+
+    return ModalOutletComponent;
+  }(rxcomp.Component);
+  ModalOutletComponent.meta = {
+    selector: '[modal-outlet]',
+    template:
+    /* html */
+    "\n\t<div class=\"modal-outlet__container\" [class]=\"{ active: modal }\">\n\t\t<div class=\"modal-outlet__background\" (click)=\"reject($event)\"></div>\n\t\t<div class=\"modal-outlet__modal\"></div>\n\t</div>\n\t"
+  };
+
+  var ClubComponent =
+  /*#__PURE__*/
+  function (_Component) {
+    _inheritsLoose(ClubComponent, _Component);
+
+    function ClubComponent() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = ClubComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      this.views = {
+        SIGN_IN: 1,
+        SIGN_UP: 2,
+        FORGOTTEN: 3
+      };
+      this.view = this.views.SIGN_IN;
+    };
+
+    _proto.onForgot = function onForgot(event) {
+      // console.log('ClubComponent.onForgot');
+      this.view = this.views.FORGOTTEN;
+      this.pushChanges();
+    };
+
+    _proto.onLogin = function onLogin(event) {
+      // console.log('ClubComponent.onLogin');
+      this.view = this.views.SIGN_IN;
+      this.pushChanges();
+    };
+
+    _proto.onRegister = function onRegister(event) {
+      // console.log('ClubComponent.onRegister');
+      this.view = this.views.SIGN_UP;
+      this.pushChanges();
+    };
+
+    _proto.onSignIn = function onSignIn(user) {
+      console.log('ClubComponent.onSignIn', user);
+      UserService.setUser(user);
+      window.location.href = this.club; // nav to profile
+    };
+
+    _proto.onSignUp = function onSignUp(user) {
+      console.log('ClubComponent.onSignUp', user);
+      UserService.setUser(user);
+      window.location.href = this.club; // nav to profile
+    };
+
+    _proto.onForgottenSent = function onForgottenSent(email) {
+      /*
+      console.log('ClubComponent.onForgottenSent', email);
+      this.view = this.views.SIGN_IN;
+      this.pushChanges();
+      */
+    };
+
+    return ClubComponent;
+  }(rxcomp.Component);
+  ClubComponent.meta = {
+    selector: '[club]',
+    inputs: ['club']
+  };
+
+  var ClubModalComponent =
+  /*#__PURE__*/
+  function (_ClubComponent) {
+    _inheritsLoose(ClubModalComponent, _ClubComponent);
+
+    function ClubModalComponent() {
+      return _ClubComponent.apply(this, arguments) || this;
+    }
+
+    var _proto = ClubModalComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      _ClubComponent.prototype.onInit.call(this);
+
+      var _getContext = rxcomp.getContext(this),
+          parentInstance = _getContext.parentInstance;
+
+      if (parentInstance instanceof ModalOutletComponent) {
+        var data = parentInstance.modal.data;
+        this.view = data.view; // console.log('ClubModalComponent.onInit', data);
+      }
+    };
+
+    _proto.onSignIn = function onSignIn(user) {
+      // console.log('ClubModalComponent.onSignIn', user);
+      ModalService.resolve(user);
+    };
+
+    _proto.onSignUp = function onSignUp(user) {
+      // console.log('ClubModalComponent.onSignUp', user);
+      ModalService.resolve(user);
+    }
+    /*
+    onDestroy() {
+    	console.log('ClubModalComponent.onDestroy');
+    }
+    */
+    ;
+
+    _proto.close = function close() {
+      ModalService.reject();
+    };
+
+    return ClubModalComponent;
+  }(ClubComponent);
+  ClubModalComponent.meta = {
+    selector: '[club-modal]'
+  };
+
   var ClubSigninComponent =
   /*#__PURE__*/
   function (_Component) {
@@ -406,8 +694,9 @@
       // console.log('ClubSigninComponent.onSubmit', 'form.valid', valid);
       if (this.form.valid) {
         // console.log('ClubSigninComponent.onSubmit', this.form.value);
-        this.form.submitted = true;
-        this.http.post$('/WS/wsUsers.asmx/Login', this.form.value).subscribe(function (response) {
+        this.form.submitted = true; // this.http.post$('/WS/wsUsers.asmx/Login', this.form.value)
+
+        rxjs.of(this.form.value).subscribe(function (response) {
           console.log('ClubSigninComponent.onSubmit', response);
 
           _this2.signIn.next(_this2.form.value); // change to response!!!
@@ -561,84 +850,6 @@
   ClubSignupComponent.meta = {
     selector: '[club-signup]',
     outputs: ['signUp', 'login']
-  };
-
-  var UserService =
-  /*#__PURE__*/
-  function () {
-    function UserService() {}
-
-    UserService.setUser = function setUser(user) {
-      this.user$.next(user);
-    };
-
-    return UserService;
-  }();
-  UserService.user$ = new rxjs.BehaviorSubject(null);
-
-  var ClubComponent =
-  /*#__PURE__*/
-  function (_Component) {
-    _inheritsLoose(ClubComponent, _Component);
-
-    function ClubComponent() {
-      return _Component.apply(this, arguments) || this;
-    }
-
-    var _proto = ClubComponent.prototype;
-
-    _proto.onInit = function onInit() {
-      this.views = {
-        SIGN_IN: 1,
-        SIGN_UP: 2,
-        FORGOTTEN: 3
-      };
-      this.view = this.views.SIGN_IN;
-    };
-
-    _proto.onForgot = function onForgot(event) {
-      // console.log('ClubComponent.onForgot');
-      this.view = this.views.FORGOTTEN;
-      this.pushChanges();
-    };
-
-    _proto.onLogin = function onLogin(event) {
-      // console.log('ClubComponent.onLogin');
-      this.view = this.views.SIGN_IN;
-      this.pushChanges();
-    };
-
-    _proto.onRegister = function onRegister(event) {
-      // console.log('ClubComponent.onRegister');
-      this.view = this.views.SIGN_UP;
-      this.pushChanges();
-    };
-
-    _proto.onSignIn = function onSignIn(user) {
-      console.log('ClubComponent.onSignIn', user);
-      UserService.setUser(user);
-      window.location.href = this.club; // nav to profile
-    };
-
-    _proto.onSignUp = function onSignUp(user) {
-      console.log('ClubComponent.onSignUp', user);
-      UserService.setUser(user);
-      window.location.href = this.club; // nav to profile
-    };
-
-    _proto.onForgottenSent = function onForgottenSent(email) {
-      /*
-      console.log('ClubComponent.onForgottenSent', email);
-      this.view = this.views.SIGN_IN;
-      this.pushChanges();
-      */
-    };
-
-    return ClubComponent;
-  }(rxcomp.Component);
-  ClubComponent.meta = {
-    selector: '[club]',
-    inputs: ['club']
   };
 
   var DROPDOWN_ID = 1000000;
@@ -864,7 +1075,7 @@
     inputs: ['control', 'label'],
     template:
     /* html */
-    "\n\t\t<div class=\"group--form--checkbox\" [class]=\"{ required: control.validators.length }\">\n\t\t\t<label><input type=\"checkbox\" class=\"control--checkbox\" [formControl]=\"control\" [value]=\"true\"/><span [innerHTML]=\"label\"></span></label>\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
+    "\n\t\t<div class=\"group--form--checkbox\" [class]=\"{ required: control.validators.length }\">\n\t\t\t<input type=\"checkbox\" class=\"control--checkbox\" [formControl]=\"control\" [value]=\"true\"/>\n\t\t\t<label><span [innerHTML]=\"label\"></span></label>\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
   };
 
   var ControlCustomSelectComponent =
@@ -1288,7 +1499,7 @@
     };
 
     ImageService.load$ = function load$(src) {
-      if (!('Worker' in window) || src.indexOf('blob:') === 0) {
+      if (!('Worker' in window) || this.isBlob(src) || this.isCors(src)) {
         return rxjs.of(src);
       }
 
@@ -1309,6 +1520,14 @@
         });
         URL.revokeObjectURL(url);
       }));
+    };
+
+    ImageService.isCors = function isCors(src) {
+      return src.indexOf('//') !== -1 && src.indexOf(window.location.host) === -1;
+    };
+
+    ImageService.isBlob = function isBlob(src) {
+      return src.indexOf('blob:') === 0;
     };
 
     return ImageService;
@@ -1427,6 +1646,438 @@
   }(rxcomp.Component);
   MainMenuComponent.meta = {
     selector: '[main-menu]'
+  };
+
+  var LocationService =
+  /*#__PURE__*/
+  function () {
+    function LocationService() {}
+
+    LocationService.get = function get(key) {
+      var params = new URLSearchParams(window.location.search); // console.log('LocationService.get', params);
+
+      return params.get(key);
+    };
+
+    LocationService.set = function set(keyOrValue, value) {
+      var params = new URLSearchParams(window.location.search);
+
+      if (typeof keyOrValue === 'string') {
+        params.set(keyOrValue, value);
+      } else {
+        params.set(keyOrValue, '');
+      }
+
+      this.replace(params); // console.log('LocationService.set', params, keyOrValue, value);
+    };
+
+    LocationService.replace = function replace(params) {
+      if (window.history && window.history.pushState) {
+        var title = document.title;
+        var url = window.location.href.split('?')[0] + "?" + params.toString();
+        window.history.pushState(params.toString(), title, url);
+      }
+    };
+
+    LocationService.deserialize = function deserialize(key) {
+      var encoded = this.get('params');
+      return this.decode(key, encoded);
+    };
+
+    LocationService.serialize = function serialize(keyOrValue, value) {
+      var params = this.deserialize();
+      var encoded = this.encode(keyOrValue, value, params);
+      this.set('params', encoded);
+    };
+
+    LocationService.decode = function decode(key, encoded) {
+      var decoded = null;
+
+      if (encoded) {
+        var json = window.atob(encoded);
+        decoded = JSON.parse(json);
+      }
+
+      if (key && decoded) {
+        decoded = decoded[key];
+      }
+
+      return decoded || null;
+    };
+
+    LocationService.encode = function encode(keyOrValue, value, params) {
+      params = params || {};
+      var encoded = null;
+
+      if (typeof keyOrValue === 'string') {
+        params[keyOrValue] = value;
+      } else {
+        params = keyOrValue;
+      }
+
+      var json = JSON.stringify(params);
+      encoded = window.btoa(json);
+      return encoded;
+    };
+
+    return LocationService;
+  }();
+
+  var FilterMode = {
+    EXACT: 'exact',
+    AND: 'and',
+    OR: 'or'
+  };
+
+  var FilterItem =
+  /*#__PURE__*/
+  function () {
+    function FilterItem(filter) {
+      this.change$ = new rxjs.BehaviorSubject();
+      this.mode = FilterMode.EXACT;
+      this.values = [];
+
+      if (filter) {
+        Object.assign(this, filter);
+      }
+    }
+
+    var _proto = FilterItem.prototype;
+
+    _proto.filter = function filter(item, value) {
+      return item.options.indexOf(value) !== -1;
+    };
+
+    _proto.match = function match(item) {
+      var _this = this;
+
+      var match;
+
+      if (this.mode === FilterMode.OR) {
+        match = false;
+        this.values.forEach(function (value) {
+          match = match || _this.filter(item, value);
+        });
+      } else {
+        match = true;
+        this.values.forEach(function (value) {
+          match = match && _this.filter(item, value);
+        });
+      }
+
+      return match;
+    };
+
+    _proto.getLabel = function getLabel() {
+      if (this.mode === FilterMode.EXACT) {
+        return this.placeholder || this.label;
+      } else {
+        return this.label;
+      }
+    };
+
+    _proto.has = function has(item) {
+      return this.values.indexOf(item.value) !== -1;
+    };
+
+    _proto.set = function set(item) {
+      var index = this.values.indexOf(item.value);
+
+      if (index === -1) {
+        this.values.push(item.value);
+      }
+
+      if (this.mode === FilterMode.EXACT) {
+        this.placeholder = item.label;
+      }
+
+      console.log('FilterItem.set', item);
+      this.change$.next(item.value);
+    };
+
+    _proto.remove = function remove(item) {
+      var index = this.values.indexOf(item.value);
+
+      if (index !== -1) {
+        this.values.splice(index, 1);
+      }
+
+      if (this.mode === FilterMode.EXACT) {
+        var first = this.options[0];
+        this.placeholder = first.label;
+      }
+
+      console.log('FilterItem.remove', item);
+      this.change$.next(item.value);
+    };
+
+    _proto.toggle = function toggle(item) {
+      if (this.mode === FilterMode.EXACT) {
+        this.values = [];
+      }
+
+      if (this.has(item)) {
+        this.remove(item);
+      } else {
+        this.set(item);
+      }
+    };
+
+    return FilterItem;
+  }();
+
+  var FilterService =
+  /*#__PURE__*/
+  function () {
+    function FilterService(options, initialParams, callback) {
+      var filters = {};
+
+      if (options) {
+        Object.keys(options).forEach(function (key) {
+          var filter = new FilterItem(options[key]);
+
+          if (typeof callback === 'function') {
+            callback(key, filter);
+          }
+
+          if (filter.mode === FilterMode.EXACT) {
+            filter.options.unshift({
+              label: filters[key].placeholder,
+              value: null
+            });
+          }
+
+          filters[key] = filter;
+        });
+      }
+
+      this.filters = filters;
+      this.deserialize(this.filters, initialParams);
+    }
+
+    var _proto = FilterService.prototype;
+
+    _proto.getParamsCount = function getParamsCount(params) {
+      if (params) {
+        var paramsCount = Object.keys(params).reduce(function (p, c, i) {
+          var values = params[c];
+          return p + (values ? values.length : 0);
+        }, 0);
+        return paramsCount;
+      } else {
+        return 0;
+      }
+    };
+
+    _proto.deserialize = function deserialize(filters, initialParams) {
+      var params;
+
+      if (initialParams && this.getParamsCount(initialParams)) {
+        params = initialParams;
+      }
+
+      var locationParams = LocationService.deserialize('filters');
+
+      if (locationParams && this.getParamsCount(locationParams)) {
+        params = locationParams;
+      }
+
+      if (params) {
+        Object.keys(filters).forEach(function (key) {
+          filters[key].values = params[key] || [];
+        });
+      }
+
+      return filters;
+    };
+
+    _proto.serialize = function serialize(filters) {
+      var params = {};
+      var any = false;
+      Object.keys(filters).forEach(function (x) {
+        var filter = filters[x];
+
+        if (filter.value !== null) {
+          params[x] = filter.values;
+          any = true;
+        }
+      });
+
+      if (!any) {
+        params = null;
+      } // console.log('ReferenceCtrl.serialize', params);
+
+
+      LocationService.serialize('filters', params);
+      return params;
+    };
+
+    _proto.items$ = function items$(items) {
+      var _this = this;
+
+      var filters = this.filters;
+      var changes = Object.keys(filters).map(function (key) {
+        return filters[key].change$;
+      });
+      return rxjs.merge.apply(void 0, changes).pipe( // tap(() => console.log(filters)),
+      operators.tap(function () {
+        return _this.serialize(filters);
+      }), operators.map(function () {
+        return _this.filterItems(items);
+      }));
+    };
+
+    _proto.filterItems = function filterItems(items, skipFilter) {
+      var _this2 = this;
+
+      var filters = Object.keys(this.filters).map(function (x) {
+        return _this2.filters[x];
+      }).filter(function (x) {
+        return x.value !== null;
+      });
+      items = items.filter(function (item) {
+        var has = true;
+        filters.forEach(function (filter) {
+          if (filter !== skipFilter) {
+            has = has && filter.match(item);
+          }
+        });
+        return has;
+      });
+      return items;
+    };
+
+    _proto.updateFilterStates = function updateFilterStates(filters, items) {
+      var _this3 = this;
+
+      Object.keys(filters).forEach(function (x) {
+        var filter = filters[x];
+
+        var _this3$filterItems = _this3.filterItems(items, filter),
+            filteredItems = _this3$filterItems.filteredItems;
+
+        filter.options.forEach(function (option) {
+          var has = false;
+
+          if (option.value) {
+            var i = 0;
+
+            while (i < filteredItems.length && !has) {
+              var item = filteredItems[i];
+              has = filter.filter(item, option.value);
+              i++;
+            }
+          } else {
+            has = true;
+          }
+
+          option.disabled = !has;
+        });
+      });
+    };
+
+    return FilterService;
+  }();
+
+  var MediaLibraryComponent =
+  /*#__PURE__*/
+  function (_Component) {
+    _inheritsLoose(MediaLibraryComponent, _Component);
+
+    function MediaLibraryComponent() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = MediaLibraryComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      var _this = this;
+
+      this.filteredItems = [];
+      var filters = window.filters || {};
+      var initialParams = window.params || {};
+      var filterService = new FilterService(filters, initialParams, function (key, filter) {
+        switch (key) {
+          default:
+            filter.filter = function (item, value) {
+              return item.features.indexOf(value) !== -1;
+            };
+
+        }
+      });
+      filterService.items$(window.medias || []).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (filteredItems) {
+        _this.filteredItems = filteredItems;
+
+        _this.pushChanges();
+        /*
+        setTimeout(() => {
+        	this.filteredItems = filteredItems;
+        	this.pushChanges();
+        }, 50);
+        */
+        // console.log('MediaLibraryComponent.filteredItems', filteredItems.length);
+
+      });
+      this.filterService = filterService;
+      this.filters = filterService.filters;
+    };
+
+    return MediaLibraryComponent;
+  }(rxcomp.Component);
+  MediaLibraryComponent.meta = {
+    selector: '[media-library]',
+    inputs: ['items', 'filters']
+  };
+
+  var src = STATIC ? '/tiemme-com/club-modal.html' : '/it/club-modal';
+
+  var RegisterOrLoginComponent =
+  /*#__PURE__*/
+  function (_Component) {
+    _inheritsLoose(RegisterOrLoginComponent, _Component);
+
+    function RegisterOrLoginComponent() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = RegisterOrLoginComponent.prototype;
+
+    _proto.onRegister = function onRegister(event) {
+      // console.log('RegisterOrLoginComponent.onRegister');
+      event.preventDefault();
+      ModalService.open$({
+        src: src,
+        data: {
+          view: 2
+        }
+      }).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (event) {
+        // console.log('RegisterOrLoginComponent.onRegister', event);
+        if (event instanceof ModalResolveEvent) {
+          UserService.setUser(event.data);
+        }
+      }); // this.pushChanges();
+    };
+
+    _proto.onLogin = function onLogin(event) {
+      // console.log('RegisterOrLoginComponent.onLogin');
+      event.preventDefault();
+      ModalService.open$({
+        src: src,
+        data: {
+          view: 1
+        }
+      }).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (event) {
+        // console.log('RegisterOrLoginComponent.onLogin', event);
+        if (event instanceof ModalResolveEvent) {
+          UserService.setUser(event.data);
+        }
+      }); // this.pushChanges();
+    };
+
+    return RegisterOrLoginComponent;
+  }(rxcomp.Component);
+  RegisterOrLoginComponent.meta = {
+    selector: '[register-or-login]'
   };
 
   /*
@@ -2360,8 +3011,7 @@
   }(rxcomp.Module);
   AppModule.meta = {
     imports: [rxcomp.CoreModule, rxcompForm.FormModule],
-    declarations: [AppearDirective, ClickOutsideDirective, ClubComponent, ClubForgotComponent, ClubSigninComponent, ClubSignupComponent, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlPasswordComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, HeaderComponent, LazyDirective, MainMenuComponent, RequestInfoCommercialComponent, // SpritesComponent,
-    SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, TestComponent, // ValueDirective,
+    declarations: [AppearDirective, ClickOutsideDirective, ClubComponent, ClubForgotComponent, ClubModalComponent, ClubSigninComponent, ClubSignupComponent, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlPasswordComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, HeaderComponent, LazyDirective, MainMenuComponent, MediaLibraryComponent, ModalOutletComponent, RequestInfoCommercialComponent, RegisterOrLoginComponent, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, TestComponent, // ValueDirective,
     VideoComponent, WorkWithUsComponent, YoutubeComponent, ZoomableDirective],
     bootstrap: AppComponent
   };

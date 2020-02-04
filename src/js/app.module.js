@@ -4,6 +4,7 @@ import AppComponent from './app.component';
 import AppearDirective from './appear/appear.directive';
 import ClickOutsideDirective from './click-outside/click-outside.directive';
 import ClubForgotComponent from './club/club-forgot.component';
+import ClubModalComponent from './club/club-modal.component';
 import ClubSigninComponent from './club/club-signin.component';
 import ClubSignupComponent from './club/club-signup.component';
 import ClubComponent from './club/club.component';
@@ -23,8 +24,10 @@ import TestComponent from './forms/test.component';
 import HeaderComponent from './header/header.component';
 import LazyDirective from './lazy/lazy.directive';
 import MainMenuComponent from './main-menu/main-menu.component';
+import MediaLibraryComponent from './media-library/media-library';
+import ModalOutletComponent from './modal/modal-outlet.component';
+import RegisterOrLoginComponent from './register-or-login/register-or-login.component';
 import RequestInfoCommercialComponent from './request-info-commercial/request-info-commercial.component';
-// import SpritesComponent from './sprites/sprites.component';
 import SwiperListingDirective from './swiper/swiper-listing.directive';
 import SwiperSlidesDirective from './swiper/swiper-slides.directive';
 import SwiperDirective from './swiper/swiper.directive';
@@ -45,6 +48,7 @@ AppModule.meta = {
 		ClickOutsideDirective,
 		ClubComponent,
 		ClubForgotComponent,
+		ClubModalComponent,
 		ClubSigninComponent,
 		ClubSignupComponent,
 		ControlCheckboxComponent,
@@ -61,8 +65,10 @@ AppModule.meta = {
 		HeaderComponent,
 		LazyDirective,
 		MainMenuComponent,
+		MediaLibraryComponent,
+		ModalOutletComponent,
 		RequestInfoCommercialComponent,
-		// SpritesComponent,
+		RegisterOrLoginComponent,
 		SwiperDirective,
 		SwiperListingDirective,
 		SwiperSlidesDirective,

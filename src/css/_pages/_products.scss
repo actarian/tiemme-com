@@ -203,8 +203,10 @@
 	justify-content: flex-end;
 	align-items: center;
 	padding: 40px 0;
+	font-size: 14px;
 
 	.btn--cta {
+		white-space: nowrap;
 		margin: 0 10px;
 
 		&:last-child {

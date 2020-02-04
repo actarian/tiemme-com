@@ -8,7 +8,7 @@ export default class HttpService {
 			method: method,
 			headers: {
 				'Accept': 'application/json',
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
 			},
 			body: methods.indexOf(method) !== -1 ? JSON.stringify(data) : undefined
 		}).then(response => {

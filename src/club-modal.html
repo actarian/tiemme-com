@@ -1,0 +1,30 @@
+<div class="club-modal" club-modal>
+	<div class="modal__header">
+		<button type="button" class="btn--cta" (click)="close()"><span>chiudi</span></button>
+	</div>
+	<div *if="view == views.SIGN_IN">
+		<!-- @@include ./templates/shared/club-signin.html -->
+	</div>
+	<div *if="view == views.SIGN_UP">
+		<!-- @@include ./templates/shared/club-signup.html -->
+	</div>
+	<div *if="view == views.FORGOTTEN">
+		<!-- @@include ./templates/shared/club-forgot.html -->
+	</div>
+	<div class="container text--center" *if="view != views.SIGN_UP">
+		<div class="title">Non fai ancora parte del club TIEMME?</div>
+		<div class="group--cta">
+			<button type="button" class="btn--submit" (click)="onRegister()">
+				<span>Registrati</span>
+			</button>
+		</div>
+	</div>
+	<div class="container text--center" *if="view == views.SIGN_UP">
+		<div class="title">Fai già parte del club TIEMME?</div>
+		<div class="group--cta">
+			<button type="button" class="btn--submit" (click)="onLogin()">
+				<span>Accedi</span>
+			</button>
+		</div>
+	</div>
+</div>

@@ -16,7 +16,7 @@ export default class ImageService {
 	}
 
 	static load$(src) {
-		if (!('Worker' in window) || src.indexOf('blob:') === 0) {
+		if (!('Worker' in window) || this.isBlob(src) || this.isCors(src)) {
 			return of(src);
 		}
 		const id = ++UID;
@@ -35,4 +35,13 @@ export default class ImageService {
 			})
 		);
 	}
+
+	static isCors(src) {
+		return src.indexOf('//') !== -1 && src.indexOf(window.location.host) === -1;
+	}
+
+	static isBlob(src) {
+		return src.indexOf('blob:') === 0;
+	}
+
 }

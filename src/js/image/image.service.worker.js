@@ -13,9 +13,12 @@ self.addEventListener("message", function(event) {
 	let options;
 	if (self.AbortController) {
 		const controller = new AbortController();
-		options = { signal: controller.signal };
+		options = {
+			signal: controller.signal,
+		};
 		controllers[id] = controller;
 	}
+
 	const response = fetch(src, options)
 		.then(function(response) {
 			return response.blob();

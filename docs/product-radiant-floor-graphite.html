@@ -141,7 +141,7 @@
 
 <!-- end svg.html-->
 
-	<div class="app" app-component>
+	<div class="app hidden" app-component>
 <!-- start header.html-->
 <!-- header -->
 <header class="section--header">
@@ -177,10 +177,10 @@
 				<li><a href="/tiemme-com/product-radiant.html">Rubinetti</a></li>
 			</ul>
 			<ul class="nav--header" dropdown-item="1002">
-				<li><a href="#">Corporate</a></li>
-				<li><a href="#">Cataloghi</a></li>
-				<li><a href="#">Cataloghi Tecnici</a></li>
-				<li><a href="#">Brochure di Prodotto</a></li>
+				<li><a href="/tiemme-com/media-corporate.html">Corporate</a></li>
+				<li><a href="/tiemme-com/media-catalogues.html">Cataloghi</a></li>
+				<li><a href="/tiemme-com/media-technical.html">Cataloghi Tecnici</a></li>
+				<li><a href="/tiemme-com/media-brochure.html">Brochure di Prodotto</a></li>
 			</ul>
 			<ul class="nav--header" dropdown-item="1003">
 				<li><a href="/tiemme-com/news.html">News</a></li>
@@ -1417,7 +1417,6 @@
 	</div>
 </section>
 
-
 <!-- start technician.html-->
 <section class="section--technician background--gradient">
 	<div class="container">
@@ -1448,10 +1447,10 @@
 	<div class="container">
 		<div class="group--title">
 			<div class="title">Ultime novità</div>
-			<a href="#" class="btn--category"><span>Tutte le news</span></a>
+			<a href="/tiemme-com/news.html" class="btn--category"><span>Tutte le news</span></a>
 		</div>
 		<div class="listing--news">
-			<a href="#" class="card--news" appear>
+			<a href="/tiemme-com/dettaglio-news.html" class="card--news" appear>
 				<div class="picture picture--news">
 					<img lazy="/tiemme-com/img/news/news-01.jpg" />
 					<div class="date">Ott 2019</div>
@@ -1464,7 +1463,7 @@
 					</div>
 				</div>
 			</a>
-			<a href="#" class="card--news" appear>
+			<a href="/tiemme-com/dettaglio-news.html" class="card--news" appear>
 				<div class="picture picture--news">
 					<img lazy="/tiemme-com/img/news/news-02.jpg" />
 					<div class="date">Feb 2019</div>
@@ -1477,7 +1476,7 @@
 					</div>
 				</div>
 			</a>
-			<a href="#" class="card--news" appear>
+			<a href="/tiemme-com/dettaglio-news.html" class="card--news" appear>
 				<div class="picture picture--news">
 					<img lazy="/tiemme-com/img/news/news-01.jpg" />
 					<div class="date">Ott 2019</div>
@@ -1538,10 +1537,10 @@
 			<div class="flex__item">
 				<b>Media</b>
 				<ul class="nav--footer">
-					<li><a href="#">Corporate</a></li>
-					<li><a href="#">Cataloghi</a></li>
-					<li><a href="#">Cataloghi Tecnici</a></li>
-					<li><a href="#">Brochure di Prodotto</a></li>
+					<li><a href="/tiemme-com/media-corporate.html">Corporate</a></li>
+					<li><a href="/tiemme-com/media-catalogues.html">Cataloghi</a></li>
+					<li><a href="/tiemme-com/media-technical.html">Cataloghi Tecnici</a></li>
+					<li><a href="/tiemme-com/media-brochure.html">Brochure di Prodotto</a></li>
 				</ul>
 			</div>
 			<div class="flex__item">
@@ -1587,9 +1586,15 @@
 </footer>
 
 <!-- end footer.html-->
+
+<!-- start modal-outlet.html-->
+<!-- modal-outlet -->
+<div class="modal-outlet" modal-outlet></div>
+
+<!-- end modal-outlet.html-->
 	</div>
 <!-- start scripts.html-->
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es5%2CArray.prototype.find%2Cfetch%2CObject.assign"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es5%2CArray.prototype.find%2Cfetch%2CObject.assign%2CURLSearchParams"></script>
 <script src="/tiemme-com/js/vendors.min.js"></script>
 <script src="/tiemme-com/js/main.js"></script>
 

@@ -39,3 +39,13 @@
 	}
 
 }
+
+.text--center {
+	text-align: center;
+
+	.group--cta {
+		display: flex;
+		justify-content: center;
+		margin: 20px auto 0 auto;
+	}
+}
