@@ -24,7 +24,7 @@ export default class FilterItem {
 	match(item) {
 		let match;
 		if (this.mode === FilterMode.OR) {
-			match = false;
+			match = this.values.length ? false : true;
 			this.values.forEach(value => {
 				match = match || this.filter(item, value);
 			});
@@ -57,7 +57,7 @@ export default class FilterItem {
 		if (this.mode === FilterMode.EXACT) {
 			this.placeholder = item.label;
 		}
-		console.log('FilterItem.set', item);
+		// console.log('FilterItem.set', item);
 		this.change$.next(item.value);
 	}
 
@@ -70,7 +70,7 @@ export default class FilterItem {
 			const first = this.options[0];
 			this.placeholder = first.label;
 		}
-		console.log('FilterItem.remove', item);
+		// console.log('FilterItem.remove', item);
 		this.change$.next(item.value);
 	}
 

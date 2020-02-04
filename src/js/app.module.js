@@ -1,5 +1,6 @@
 import { CoreModule, Module } from 'rxcomp';
 import { FormModule } from 'rxcomp-form';
+import AgentsComponent from './agents/agents.component';
 import AppComponent from './app.component';
 import AppearDirective from './appear/appear.directive';
 import ClickOutsideDirective from './click-outside/click-outside.directive';
@@ -44,6 +45,7 @@ AppModule.meta = {
 		FormModule,
 	],
 	declarations: [
+		AgentsComponent,
 		AppearDirective,
 		ClickOutsideDirective,
 		ClubComponent,

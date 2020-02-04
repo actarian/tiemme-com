@@ -7,7 +7,7 @@ import FilterService from '../filter/filter.service';
 export default class MediaLibraryComponent extends Component {
 
 	onInit() {
-		this.filteredItems = [];
+		this.items = [];
 		const filters = window.filters || {};
 		const initialParams = window.params || {};
 		const filterService = new FilterService(filters, initialParams, (key, filter) => {
@@ -20,16 +20,16 @@ export default class MediaLibraryComponent extends Component {
 		});
 		filterService.items$(window.medias || []).pipe(
 			takeUntil(this.unsubscribe$),
-		).subscribe(filteredItems => {
-			this.filteredItems = filteredItems;
+		).subscribe(items => {
+			this.items = items;
 			this.pushChanges();
 			/*
 			setTimeout(() => {
-				this.filteredItems = filteredItems;
+				this.items = items;
 				this.pushChanges();
 			}, 50);
 			*/
-			// console.log('MediaLibraryComponent.filteredItems', filteredItems.length);
+			// console.log('MediaLibraryComponent.items', items.length);
 		});
 
 		this.filterService = filterService;
@@ -41,5 +41,4 @@ export default class MediaLibraryComponent extends Component {
 
 MediaLibraryComponent.meta = {
 	selector: '[media-library]',
-	inputs: ['items', 'filters']
 };

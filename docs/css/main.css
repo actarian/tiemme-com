@@ -4962,9 +4962,13 @@ ul {
       .card--agent .title {
         font-size: 24px;
         padding-bottom: 10px; } }
-  .card--agent .address, .card--agent .phone, .card--agent .mail, .card--agent .location {
+  .card--agent .address,
+  .card--agent .phone,
+  .card--agent .mail,
+  .card--agent .location {
     font-size: 14px; }
-  .card--agent .location span, .card--agent .phone span {
+  .card--agent .location b,
+  .card--agent .phone b {
     font-weight: 600; }
   .card--agent .dati {
     margin: 20px 0; }

@@ -65,7 +65,7 @@ export default class WorkWithUsComponent extends Component {
 		if (this.form.valid) {
 			// console.log('WorkWithUsComponent.onSubmit', this.form.value);
 			this.form.submitted = true;
-			this.http.post$('/WS/wsUsers.asmx/Contact', this.form.value)
+			this.http.post$('/WS/wsUsers.asmx/Contact', { data: this.form.value })
 				.subscribe(response => {
 					console.log('WorkWithUsComponent.onSubmit', response);
 					this.form.reset();

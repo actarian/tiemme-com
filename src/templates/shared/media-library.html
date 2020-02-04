@@ -681,8 +681,8 @@
 				</div>
 				<div class="flex__item">
 					<!-- results -->
-					<div class="listing listing--media" *if="filteredItems.length">
-						<a href="medias-detail.html" class="listing__item" *for="let item of filteredItems">
+					<div class="listing listing--media">
+						<a href="medias-detail.html" class="listing__item" *for="let item of items">
 							<!-- appear -->
 							<div class="picture picture--with-category">
 								<img [lazy]="item.image" alt="title" />
@@ -726,7 +726,7 @@
 					<div class="title">Be inspired by the architectural creativity</div>
 				</div>
 			</div>
-			<div class="listing listing--media" *if="!filteredItems">
+			<div class="listing listing--media" *if="!items">
 				<a href="medias-detail.html" class="listing__item" appear>
 					<div class="picture picture--with-category">
 						<img lazy data-src="img/medias/01.jpg" alt="title" />
@@ -739,8 +739,8 @@
 					</div>
 				</a>
 			</div>
-			<div class="listing listing--media" *if="filteredItems.length">
-				<a href="medias-detail.html" class="listing__item" *for="let item of filteredItems">
+			<div class="listing listing--media" *if="items.length">
+				<a href="medias-detail.html" class="listing__item" *for="let item of items">
 					<div class="picture picture--with-category">
 						<img [lazy]="item.image" alt="title" />
 						<span class="category" [innerHTML]="item.category"></span>

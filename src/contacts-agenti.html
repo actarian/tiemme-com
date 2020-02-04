@@ -17,7 +17,711 @@
 
 <!-- @@include ./templates/shared/contacts-menu.html { "a": "", "b": "", "c": "active", "d": "" } -->
 
-<section class="section--agenti">
+<script>
+	window.filters = {
+		countries: {
+			label: 'Nazione',
+			placeholder: 'tutte le nazioni',
+			mode: 'and',
+			options: [
+				{ value: "ITALIA", label: "Italia" },
+				{ value: "ALBANIA", label: "Albania" },
+				{ value: "BULGARIA", label: "Bulgaria" },
+				{ value: "GRECIA", label: "Grecia" },
+				{ value: "REPUBBLICA DI S.MARINO", label: "Repubblica di San Marino" },
+			]
+		},
+		regions: {
+			label: 'Regione',
+			placeholder: 'tutte le regioni',
+			mode: 'or',
+			options: [
+				{ value: "ABRUZZO", label: "ABRUZZO", country: 'ITALIA' },
+				{ value: "BASILICATA", label: "BASILICATA", country: 'ITALIA' },
+				{ value: "CALABRIA", label: "CALABRIA", country: 'ITALIA' },
+				{ value: "CAMPANIA", label: "CAMPANIA", country: 'ITALIA' },
+				{ value: "EMILIA ROMAGNA", label: "EMILIA ROMAGNA", country: 'ITALIA' },
+				{ value: "FRIULI", label: "FRIULI", country: 'ITALIA' },
+				{ value: "LAZIO", label: "LAZIO", country: 'ITALIA' },
+				{ value: "LIGURIA", label: "LIGURIA", country: 'ITALIA' },
+				{ value: "LOMBARDIA", label: "LOMBARDIA", country: 'ITALIA' },
+				{ value: "MARCHE", label: "MARCHE", country: 'ITALIA' },
+				{ value: "MOLISE", label: "MOLISE", country: 'ITALIA' },
+				{ value: "PIEMONTE", label: "PIEMONTE", country: 'ITALIA' },
+				{ value: "PUGLIA", label: "PUGLIA", country: 'ITALIA' },
+				{ value: "SARDEGNA", label: "SARDEGNA", country: 'ITALIA' },
+				{ value: "SICILIA", label: "SICILIA", country: 'ITALIA' },
+				{ value: "SICILIA OCC", label: "SICILIA OCC", country: 'ITALIA' },
+				{ value: "TOSCANA", label: "TOSCANA", country: 'ITALIA' },
+				{ value: "TRENTINO-ALTO ADIGE", label: "TRENTINO-ALTO ADIGE", country: 'ITALIA' },
+				{ value: "UMBRIA", label: "UMBRIA", country: 'ITALIA' },
+				{ value: "VALLE D'AOSTA", label: "VALLE D'AOSTA", country: 'ITALIA' },
+				{ value: "VENETO", label: "VENETO", country: 'ITALIA' },
+			]
+		},
+		provinces: {
+			label: 'Provincia',
+			placeholder: 'tutte le province',
+			mode: 'and',
+			options: [
+				{ "value": "AG", "label": "AG", country: 'ITALIA' },
+				{ "value": "AL", "label": "AL", country: 'ITALIA' },
+				{ "value": "AN", "label": "AN", country: 'ITALIA' },
+				{ "value": "AO", "label": "AO", country: 'ITALIA' },
+				{ "value": "AP", "label": "AP", country: 'ITALIA' },
+				{ "value": "AQ", "label": "AQ", country: 'ITALIA' },
+				{ "value": "AR", "label": "AR", country: 'ITALIA' },
+				{ "value": "AT", "label": "AT", country: 'ITALIA' },
+				{ "value": "AV", "label": "AV", country: 'ITALIA' },
+				{ "value": "BA", "label": "BA", country: 'ITALIA' },
+				{ "value": "BG", "label": "BG", country: 'ITALIA' },
+				{ "value": "BI", "label": "BI", country: 'ITALIA' },
+				{ "value": "BL", "label": "BL", country: 'ITALIA' },
+				{ "value": "BN", "label": "BN", country: 'ITALIA' },
+				{ "value": "BO", "label": "BO", country: 'ITALIA' },
+				{ "value": "BR", "label": "BR", country: 'ITALIA' },
+				{ "value": "BS", "label": "BS", country: 'ITALIA' },
+				{ "value": "BT", "label": "BT", country: 'ITALIA' },
+				{ "value": "BZ", "label": "BZ", country: 'ITALIA' },
+				{ "value": "CA", "label": "CA", country: 'ITALIA' },
+				{ "value": "CB", "label": "CB", country: 'ITALIA' },
+				{ "value": "CE", "label": "CE", country: 'ITALIA' },
+				{ "value": "CH", "label": "CH", country: 'ITALIA' },
+				{ "value": "CI", "label": "CI", country: 'ITALIA' },
+				{ "value": "CL", "label": "CL", country: 'ITALIA' },
+				{ "value": "CN", "label": "CN", country: 'ITALIA' },
+				{ "value": "CO", "label": "CO", country: 'ITALIA' },
+				{ "value": "CR", "label": "CR", country: 'ITALIA' },
+				{ "value": "CS", "label": "CS", country: 'ITALIA' },
+				{ "value": "CT", "label": "CT", country: 'ITALIA' },
+				{ "value": "CZ", "label": "CZ", country: 'ITALIA' },
+				{ "value": "EN", "label": "EN", country: 'ITALIA' },
+				{ "value": "FC", "label": "FC", country: 'ITALIA' },
+				{ "value": "FE", "label": "FE", country: 'ITALIA' },
+				{ "value": "FG", "label": "FG", country: 'ITALIA' },
+				{ "value": "FI", "label": "FI", country: 'ITALIA' },
+				{ "value": "FM", "label": "FM", country: 'ITALIA' },
+				{ "value": "FR", "label": "FR", country: 'ITALIA' },
+				{ "value": "GE-SV-IM-SP", "label": "GE-SV-IM-SP", country: 'ITALIA' },
+				{ "value": "GO", "label": "GO", country: 'ITALIA' },
+				{ "value": "GR", "label": "GR", country: 'ITALIA' },
+				{ "value": "IS", "label": "IS", country: 'ITALIA' },
+				{ "value": "KR", "label": "KR", country: 'ITALIA' },
+				{ "value": "LC", "label": "LC", country: 'ITALIA' },
+				{ "value": "LE", "label": "LE", country: 'ITALIA' },
+				{ "value": "LI", "label": "LI", country: 'ITALIA' },
+				{ "value": "LO", "label": "LO", country: 'ITALIA' },
+				{ "value": "LT (escluso Aprilia)", "label": "LT (escluso Aprilia)", country: 'ITALIA' },
+				{ "value": "LT (solo Aprilia)", "label": "LT (solo Aprilia)", country: 'ITALIA' },
+				{ "value": "LU", "label": "LU", country: 'ITALIA' },
+				{ "value": "MB", "label": "MB", country: 'ITALIA' },
+				{ "value": "MC", "label": "MC", country: 'ITALIA' },
+				{ "value": "ME", "label": "ME", country: 'ITALIA' },
+				{ "value": "MI", "label": "MI", country: 'ITALIA' },
+				{ "value": "MN", "label": "MN", country: 'ITALIA' },
+				{ "value": "MO", "label": "MO", country: 'ITALIA' },
+				{ "value": "MS", "label": "MS", country: 'ITALIA' },
+				{ "value": "MT", "label": "MT", country: 'ITALIA' },
+				{ "value": "NA", "label": "NA", country: 'ITALIA' },
+				{ "value": "NO", "label": "NO", country: 'ITALIA' },
+				{ "value": "NU", "label": "NU", country: 'ITALIA' },
+				{ "value": "OCC PA", "label": "OCC PA", country: 'ITALIA' },
+				{ "value": "OG", "label": "OG", country: 'ITALIA' },
+				{ "value": "OR", "label": "OR", country: 'ITALIA' },
+				{ "value": "OT", "label": "OT", country: 'ITALIA' },
+				{ "value": "PA", "label": "PA", country: 'ITALIA' },
+				{ "value": "PC", "label": "PC", country: 'ITALIA' },
+				{ "value": "PD", "label": "PD", country: 'ITALIA' },
+				{ "value": "PE", "label": "PE", country: 'ITALIA' },
+				{ "value": "PG", "label": "PG", country: 'ITALIA' },
+				{ "value": "PI", "label": "PI", country: 'ITALIA' },
+				{ "value": "PN", "label": "PN", country: 'ITALIA' },
+				{ "value": "PO", "label": "PO", country: 'ITALIA' },
+				{ "value": "PR", "label": "PR", country: 'ITALIA' },
+				{ "value": "PT", "label": "PT", country: 'ITALIA' },
+				{ "value": "PU", "label": "PU", country: 'ITALIA' },
+				{ "value": "PV", "label": "PV", country: 'ITALIA' },
+				{ "value": "PZ", "label": "PZ", country: 'ITALIA' },
+				{ "value": "RA", "label": "RA", country: 'ITALIA' },
+				{ "value": "RC", "label": "RC", country: 'ITALIA' },
+				{ "value": "RE", "label": "RE", country: 'ITALIA' },
+				{ "value": "RG", "label": "RG", country: 'ITALIA' },
+				{ "value": "RI", "label": "RI", country: 'ITALIA' },
+				{ "value": "RM (Interno raccordo anulare)", "label": "RM (Interno raccordo anulare)", country: 'ITALIA' },
+				{ "value": "RM (fuori dal Raccordo Anulare )", "label": "RM (fuori dal Raccordo Anulare )", country: 'ITALIA' },
+				{ "value": "RN", "label": "RN", country: 'ITALIA' },
+				{ "value": "RO", "label": "RO", country: 'ITALIA' },
+				{ "value": "RSM", "label": "RSM", country: 'ITALIA' },
+				{ "value": "SA", "label": "SA", country: 'ITALIA' },
+				{ "value": "SI", "label": "SI", country: 'ITALIA' },
+				{ "value": "SO", "label": "SO", country: 'ITALIA' },
+				{ "value": "SR", "label": "SR", country: 'ITALIA' },
+				{ "value": "SS", "label": "SS", country: 'ITALIA' },
+				{ "value": "TA", "label": "TA", country: 'ITALIA' },
+				{ "value": "TE", "label": "TE", country: 'ITALIA' },
+				{ "value": "TN", "label": "TN", country: 'ITALIA' },
+				{ "value": "TO", "label": "TO", country: 'ITALIA' },
+				{ "value": "TP", "label": "TP", country: 'ITALIA' },
+				{ "value": "TR", "label": "TR", country: 'ITALIA' },
+				{ "value": "TS", "label": "TS", country: 'ITALIA' },
+				{ "value": "TV", "label": "TV", country: 'ITALIA' },
+				{ "value": "UD", "label": "UD", country: 'ITALIA' },
+				{ "value": "VA", "label": "VA", country: 'ITALIA' },
+				{ "value": "VB", "label": "VB", country: 'ITALIA' },
+				{ "value": "VC", "label": "VC", country: 'ITALIA' },
+				{ "value": "VE", "label": "VE", country: 'ITALIA' },
+				{ "value": "VI", "label": "VI", country: 'ITALIA' },
+				{ "value": "VR", "label": "VR", country: 'ITALIA' },
+				{ "value": "VS", "label": "VS", country: 'ITALIA' },
+				{ "value": "VT", "label": "VT", country: 'ITALIA' },
+				{ "value": "VV", "label": "VV", country: 'ITALIA' },
+			]
+		},
+		categories: {
+			label: 'Categoria',
+			placeholder: 'tutte le categorie',
+			mode: 'and',
+			options: [
+				{ value: "Componenti Idraulici", label: "Componenti Idraulici" },
+				{ value: "Centrale Termica", label: "Centrale Termica" },
+				{ value: "Sistemi Radianti", label: "Sistemi Radianti" },
+				{ value: "Rubinetti", label: "Rubinetti" },
+			]
+		},
+	}
+
+	window.agents = [
+		/* ALBANIA */
+		{
+			name: 'TIEMME HELLAS S.A.',
+			radianti: true,
+			raccorderie: true,
+			address: 'Thesi Drassaria - 19300 Aspropyrgos',
+			telephone: '+30 2105571500',
+			email: 'info@tiemme.gr',
+			country: 'ALBANIA'
+		},
+		/* BULGARIA */
+		{
+			name: 'TIEMME HELLAS S.A.',
+			radianti: true,
+			raccorderie: true,
+			address: 'Thesi Drassaria - 19300 Aspropyrgos',
+			telephone: '+30 2105571500',
+			email: 'info@tiemme.gr',
+			country: 'BULGARIA'
+		},
+		/* GRECIA */
+		{
+			name: 'TIEMME HELLAS S.A.',
+			radianti: true,
+			raccorderie: true,
+			address: 'Thesi Drassaria - 19300 Aspropyrgos',
+			telephone: '+30 2105571500',
+			email: 'info@tiemme.gr',
+			country: 'GRECIA'
+		},
+		/* REPUBBLICA DI S.MARINO */
+		{
+			name: 'POLETTI MARCO',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'VIA MURAGLIONE 13 48012 BAGNACAVALLO (RA)',
+			telephone: '+39 335 327369 / +39 054563894',
+			email: 'marcopoletti@polettimarco.it',
+			country: 'REPUBBLICA DI S.MARINO',
+			provinces: ['RSM']
+		},
+		/* ITALIA */
+		{
+			name: 'AGENZIA STORTO PIETRO',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'P.ZZA MUNICIPIO, 9 86020 CASTELLINO DEL BIFERMO - CAMPOBASSO',
+			telephone: 'Sig. Storto 335-1403714',
+			email: 'pietro.storto@virgilio.it',
+			country: 'ITALIA',
+			regions: ['MOLISE'],
+			provinces: ['IS', 'CB']
+		}, {
+			name: 'ANTONIO DAL COL',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'VIA CAL GRANDE INTERMEDIA, 13 31028 VAZZOLA (Treviso)',
+			telephone: 'Tel. 0438 441103',
+			mobilePhone: '336 359922',
+			email: 'info@adcrap.com',
+			country: 'ITALIA',
+			regions: ['FRIULI'],
+			provinces: ['UD', 'PN', 'TS', 'GO']
+		}, {
+			name: 'ANTONIO DAL COL',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'VIA CAL GRANDE INTERMEDIA, 13 - 31028 VAZZOLA (Treviso)',
+			telephone: 'Tel. 0438 441103',
+			mobilePhone: '336 359922',
+			email: 'info@adcrap.com',
+			country: 'ITALIA',
+			regions: ['VENETO'],
+			provinces: ['TV', 'PD', 'RO', 'VE', 'VI', 'BL']
+		}, {
+			name: 'ANTONIO DAL COL',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'VIA CAL GRANDE INTERMEDIA, 13 - 31028 VAZZOLA (Treviso)',
+			telephone: 'Tel. 0438 441103',
+			mobilePhone: '336 359922',
+			email: 'info@adcrap.com',
+			country: 'ITALIA',
+			regions: ['TRENTINO-ALTO ADIGE'],
+			provinces: ['TN', 'BZ']
+		}, {
+			name: 'BONA LUCA',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'Via L. Bassani 39 37069 Villafranca di Verona (VR)',
+			telephone: '335.7621910 / 045.6937680',
+			email: 'bn.ufficio@gmail.com',
+			country: 'ITALIA',
+			regions: ['VENETO'],
+			provinces: ['VR']
+		}, {
+			name: 'BONAZZA SANDRO',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'VIA MAZZINI 44 27020 OTTOBIANO - PAVIA',
+			telephone: 'Sig. Bonazza 335-5860182 / Sig. William 392-9024616',
+			email: 'bonazzas@gmail.com',
+			country: 'ITALIA',
+			regions: ['LOMBARDIA'],
+			provinces: ['PV']
+		}, {
+			name: 'CMC RAPPRESENTANZE TERMOTECNICHE DI MORRONE CHRISTIAN',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'Via Carlo Cattaneo 17 A/B 74121 TARANTO (TA)',
+			telephone: '099.7791502 / 392.4149999',
+			email: 'info@cmcrappresentanze.it',
+			country: 'ITALIA',
+			regions: ['PUGLIA'],
+			provinces: ['BR', 'TA', 'LE']
+		}, {
+			name: 'CORRADO RAPPRESENTANZE SAS',
+			radianti: true,
+			raccorderie: true,
+			address: 'VIA D. FONTANA, 184 80131 NAPOLI',
+			telephone: 'Sig. Giuseppe 337-843733 / Sig. Salvatore 335-6656224',
+			email: 'corradosas@fastwebnet.it',
+			country: 'ITALIA',
+			regions: ['BASILICATA'],
+			provinces: ['PZ']
+		}, {
+			name: 'CORRADO RAPPRESENTANZE SAS',
+			radianti: true,
+			raccorderie: true,
+			address: 'VIA D. FONTANA, 184 80131 NAPOLI',
+			telephone: 'Sig. Giuseppe 337-843733 / Sig. Salvatore 335-6656224',
+			email: 'corradosas@fastwebnet.it',
+			country: 'ITALIA',
+			regions: ['CAMPANIA'],
+			provinces: ['NA', 'SA', 'AV', 'BN', 'CE']
+		}, {
+			name: 'CUCCU GIUSEPPE',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'VIA NAZIONALE, 132 09039 - VILLACIDRO (VS)',
+			telephone: 'Cel. 348 7624498 - Tel./Fax 340 7624490',
+			email: 'gcuccu.clima@gmail.com',
+			country: 'ITALIA',
+			regions: ['SARDEGNA'],
+			provinces: ['CA', 'CI', 'OG', 'VS', 'OR']
+		}, {
+			name: 'CURRADO BRUNO RAPPRESENTANZE',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'VIA DURANDO N.1/B 14037 PORTACOMARO D\'ASTI - ASTI',
+			telephone: '335-216205 / 336-790137',
+			email: 'curradobruno@libero.it',
+			country: 'ITALIA',
+			regions: ['PIEMONTE'],
+			provinces: ['CN', 'TO', 'VC', 'AT', 'NO', 'AL', 'BI', 'VB']
+		}, {
+			name: 'CURRADO BRUNO RAPPRESENTANZE',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'VIA DURANDO N.1/B 14037 PORTACOMARO D\'ASTI - ASTI',
+			telephone: '335-216205 / 336-790137',
+			email: 'curradobruno@libero.it',
+			country: 'ITALIA',
+			regions: ['VALLE D\'AOSTA'],
+			provinces: ['AO']
+		}, {
+			name: 'D.P.S. DI DE PAOLIS STEFANO &amp; C. S.A.S',
+			rubinetterie: true,
+			radianti: true,
+			address: 'VIA MONS. TAGLIAFERRI N.3 03011 ALATRI - FROSINONE',
+			telephone: '335-7828693',
+			email: 'dpstefano@hotmail.it',
+			country: 'ITALIA',
+			regions: ['LAZIO'],
+			provinces: ['LT (escluso Aprilia)', 'FR'],
+			note: 'ESCLUSO SISTEMI'
+		}, {
+			name: 'ENERTEC DI PANTALEO LUIGI',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'VIA LUIGI POLACCHI , 6 65129 PESCARA',
+			telephone: 'Sig. Pantaleo 338-9146400',
+			email: 'enertecagenzia@gmail.com',
+			country: 'ITALIA',
+			regions: ['ABRUZZO'],
+			provinces: ['PE', 'AQ', 'CH', 'TE']
+		}, {
+			name: 'EUROSERVICE TRADE S.r.l.',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'VIALE EMILIA 98/C - 88060 - S.MARIA DI CATANZARO - CATANZARO',
+			telephone: 'Sig. Gianni 340-8716087 / Sig. Floro 348-0947380 / Sig. Dattilo 348-0947383',
+			email: 'info@euroservicesnc.it',
+			country: 'ITALIA',
+			regions: ['CALABRIA'],
+			provinces: ['CZ', 'CS', 'KR', 'RC', 'VV']
+		}, {
+			name: 'FERRARA RAPPRESENTANZE',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'VIA VOMERO, 56 70019 TRIGGIANO - BARI',
+			telephone: 'Sig. Ferrara 335-6956778',
+			email: 'info@ftrappresentanze.it',
+			country: 'ITALIA',
+			regions: ['BASILICATA'],
+			provinces: ['MT']
+		}, {
+			name: 'FERRARA RAPPRESENTANZE',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'VIA VOMERO, 56 70019 TRIGGIANO - BARI',
+			telephone: 'Sig. Ferrara 335-6956778',
+			email: 'info@ftrappresentanze.it',
+			country: 'ITALIA',
+			regions: ['PUGLIA'],
+			provinces: ['FG', 'BA', 'BT']
+		}, {
+			name: 'FRANCESCO GIANGUALANO RAPPRESENTANZE',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'VIA ARGINE CROSTOLO, 5 42016 GUASTALLA - REGGIO EMILIA',
+			telephone: '328-7449673',
+			email: 'effegirapp@gmail.com',
+			country: 'ITALIA',
+			regions: ['EMILIA ROMAGNA'],
+			provinces: ['MO', 'RE']
+		}, {
+			name: 'GELMINI MARCO',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'VICOLO IVO COBIANCHI N.7 43126 PARMA',
+			telephone: '335 7054760',
+			email: 'marcogelmini74@gmail.com',
+			country: 'ITALIA',
+			regions: ['EMILIA ROMAGNA'],
+			provinces: ['PR', 'PC']
+		}, {
+			name: 'MANCA SALVATORE',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'VIA LAMARMORA 4 - 07033 OSILO (SS)',
+			telephone: 'Cell. 333-6045029',
+			email: 'mancarappresentanze@alice.it',
+			country: 'ITALIA',
+			regions: ['SARDEGNA'],
+			provinces: ['NU', 'OT', 'SS']
+		}, {
+			name: 'MARINI PAOLO',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'LOC.MONTECAVALLO, 46/P 61042 APECCHIO - PESARO E URBINO',
+			telephone: '335-6065301',
+			email: 'paolomarini1961@gmail.com',
+			country: 'ITALIA',
+			regions: ['TOSCANA'],
+			provinces: ['AR']
+		}, {
+			name: 'MARINI PAOLO',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'LOC.MONTECAVALLO 46/P 61042 APECCHIO - PESARO E URBINO',
+			telephone: '335-6065301',
+			email: 'paolomarini1961@gmail.com',
+			country: 'ITALIA',
+			regions: ['UMBRIA'],
+			provinces: ['PG']
+		}, {
+			name: 'MARTORANA ANTONINO',
+			raccorderie: true,
+			address: 'VIA UGO LA MALFA 58/A - 90014 CASTELDACCIA (PA)',
+			telephone: '380 2108717',
+			email: 'a.martorana@tiemme.com',
+			country: 'ITALIA',
+			regions: ['SICILIA'],
+			provinces: ['OCC PA', 'TP', 'AG', 'CL'],
+			note: 'Solo SISTEMI'
+		}, {
+			name: 'MIOLI MARTA',
+			radianti: true,
+			address: 'VIA GOITO N. 1/A 45100 ROVIGO',
+			telephone: 'Sig. Capelli 335-7683848',
+			email: 'tonino.capelli@gmail.com',
+			country: 'ITALIA',
+			regions: ['EMILIA ROMAGNA'],
+			provinces: ['BO', 'FE', 'FC', 'MO', 'PR', 'PC', 'RA', 'RE', 'RN'],
+			note: 'SOLO I CLIENTI DEL SETTORE OEM'
+		}, {
+			name: 'MIOLI MARTA',
+			radianti: true,
+			address: 'VIA GOITO N. 1/A 45100 ROVIGO',
+			telephone: 'Sig. Capelli 335-7683848',
+			email: 'toninocapelli@libero.it',
+			country: 'ITALIA',
+			regions: ['LOMBARDIA'],
+			provinces: ['CR', 'MN'],
+			note: 'SOLO I CLIENTI DEL SETTORE OEM'
+		}, {
+			name: 'NEWCLIMA di Giacomo Ciccola e Luca Molini s.n.c.',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'Via Concordia, 68 62100 MACERATA (MC)',
+			telephone: 'Ciccola: 348 2524005 / Molini: 348 5100964',
+			email: 'info@newclimasnc.it',
+			country: 'ITALIA',
+			regions: ['MARCHE'],
+			provinces: ['AN', 'AP', 'MC', 'FM']
+		}, {
+			name: 'NORCINI PALA ADELIO',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'LARGO VALERIO BACIGALUPO N.33 00142 ROMA',
+			telephone: '337-761035',
+			email: 'adelionorcini@gmail.com; info@npagroup.it',
+			country: 'ITALIA',
+			regions: ['LAZIO'],
+			provinces: ['RM (fuori dal Raccordo Anulare )', 'LT (solo Aprilia)'],
+			note: 'SOLO SISTEMI (All\'interno del Raccordo Anulare)'
+		}, {
+			name: 'PATRIZIO DE SIMONI',
+			raccorderie: true,
+			address: 'P.ZZA DALMAZIA 38 - 05100 TERNI (TR)',
+			telephone: '346 6143816',
+			email: 'agenziadesimoni@gmail.com',
+			country: 'ITALIA',
+			regions: ['LAZIO', 'UMBRIA'],
+			provinces: ['RI', 'VT', 'TR'],
+			note: 'SOLO SISTEMI'
+		}, {
+			name: 'PICCILLO PAOLO',
+			rubinetterie: true,
+			radianti: true,
+			address: 'VIA ENRICO VERIUS, 80 00126 ROMA',
+			telephone: '338-8990592',
+			email: 'paolopiccillo@libero.it',
+			country: 'ITALIA',
+			regions: ['LAZIO'],
+			provinces: ['RM (Interno raccordo anulare)'],
+			note: 'ESCLUSO SISTEMI'
+		}, {
+			name: 'PICENNI CLAUDIO',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'VIA PETRARCA, 25 46043 CASTIGLIONE D/S - MANTOVA',
+			telephone: '335-6528452',
+			email: 'picenniclaudio@libero.it',
+			country: 'ITALIA',
+			regions: ['LOMBARDIA'],
+			provinces: ['MN']
+		}, {
+			name: 'POLETTI MARCO',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'VIA MURAGLIONE 13 48012 BAGNACAVALLO (RA)',
+			telephone: '+39 335 327369 / +39 054563894',
+			email: 'mpoletti59@alice.it',
+			country: 'ITALIA',
+			regions: ['EMILIA ROMAGNA'],
+			provinces: ['RN', 'RA', 'FC']
+		}, {
+			name: 'POLETTI MARCO',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'VIA MURAGLIONE 13 48012 BAGNACAVALLO (RA)',
+			telephone: '+39 335 327369 / +39 054563894',
+			email: 'marcopoletti@polettimarco.it',
+			country: 'ITALIA',
+			regions: ['MARCHE'],
+			provinces: ['PU']
+		}, {
+			name: 'RACCIS FEDERICO',
+			radianti: true,
+			raccorderie: true,
+			address: 'VIA GRAMSCI, 30 25082 BOTTICINO SERA - BRESCIA',
+			telephone: 'Cell. 348-4229982',
+			email: 'irrigazione@gmail.com',
+			country: 'ITALIA',
+			regions: ['TRENTINO-ALTO ADIGE'],
+			provinces: ['BZ'],
+			note: 'Solo settore IRRIGAZIONE'
+		}, {
+			name: 'ROBERTO MAGNI',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'Corso de Stefanis 12/13c 16139 Genova',
+			telephone: 'Sig. Magni 348-3817155',
+			email: 'r.magni14@gmail.com',
+			country: 'ITALIA',
+			regions: ['LIGURIA'],
+			provinces: ['GE-SV-IM-SP']
+		}, {
+			name: 'SABE SRL',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'VIA RIMEMBRANZE, 1 25069 VILLA CARCINA - BRESCIA',
+			telephone: '335-6280882 / 339-6327608',
+			email: 'simonesaleri@gmail.com',
+			country: 'ITALIA',
+			regions: ['LOMBARDIA'],
+			provinces: ['BS', 'BG', 'CR', 'LO']
+		}, {
+			name: 'SCUDERI DOMENICO',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'VIA FIORITA, 9 95123 CATANIA',
+			telephone: '338-7426121',
+			email: 'scuderidomenico@hotmail.it',
+			country: 'ITALIA',
+			regions: ['SICILIA'],
+			provinces: ['CT', 'ME', 'SR', 'EN', 'RG']
+		}, {
+			name: 'SG RAPPRESENTANZE DI SALVATORE GIACALONE',
+			rubinetterie: true,
+			radianti: true,
+			address: 'VIA F.CO CULCASI 9/C 91110 TRAPANI',
+			telephone: '388 1830855',
+			email: 'sgrappresentanzesrl@gmail.com',
+			country: 'ITALIA',
+			regions: ['SICILIA OCC'],
+			provinces: ['PA', 'TP', 'AG', 'CL'],
+			note: 'ESCLUSO SISTEMI'
+		}, {
+			name: 'STEFANO DE SIMONI',
+			rubinetterie: true,
+			radianti: true,
+			address: 'VIA MERLINO DI FILIPPO, 3 - 05100 TERNI (TR)',
+			telephone: '335-7104017',
+			email: 'stefanodesimoni@yahoo.it',
+			country: 'ITALIA',
+			regions: ['LAZIO', 'UMBRIA'],
+			provinces: ['RI', 'VT', 'TR'],
+			note: 'ESCLUSO SISTEMI'
+		}, {
+			name: 'T&amp;B GROUP di Terracciano Luca',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'VIA ALDOVRANDI 20 - 56121 OSPEDALETTO (PI)',
+			telephone: '392-9797002',
+			email: 'betticommerciale@gmail.com',
+			country: 'ITALIA',
+			regions: ['TOSCANA'],
+			provinces: ['MS', 'LU', 'PI', 'LI', 'GR']
+		}, {
+			name: 'TAGLIAFERRI EMILIANO',
+			raccorderie: true,
+			address: 'Via Brighindi Francesco, 159 03100 Frosinone (FR)',
+			telephone: 'Cell. Tagliaferri 328-7595575',
+			mobilePhone: 'Prato 335-6027838',
+			email: 'agenzia.riellofrosinone@gmail.com',
+			country: 'ITALIA',
+			regions: ['LAZIO'],
+			provinces: ['LT (escluso Aprilia)', 'FR'],
+			note: 'Solo SISTEMI'
+		}, {
+			name: 'TOTI MARCO',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'Via G. Rossini, 42 50050 Cerreto Guidi (FI)',
+			telephone: '347.6341084',
+			email: 'agenziatoti@gmail.com',
+			country: 'ITALIA',
+			regions: ['TOSCANA'],
+			provinces: ['FI', 'PO', 'PT', 'SI']
+		}, {
+			name: 'TSA di Luigi Zanieri',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'VIA A.VIVALDI, 15/4 40054 BUDRIO - BOLOGNA',
+			telephone: 'Sig. Zanieri 349-2856011',
+			email: 'luigi.zanieri@gmail.com',
+			country: 'ITALIA',
+			regions: ['EMILIA ROMAGNA'],
+			provinces: ['BO', 'FE']
+		}, {
+			name: 'VERNANI GIULIO RAPPRESENTANZE',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'VIA MERANO, 20 20814 VAREDO - MONZA E BRIANZA',
+			telephone: '333-2805989 / 335-6284474',
+			email: 'vernani.rappresentanze@gmail.com',
+			country: 'ITALIA',
+			regions: ['LOMBARDIA'],
+			provinces: ['MI', 'MB', 'VA']
+		}, {
+			name: 'VERNANI NIKOLAS',
+			rubinetterie: true,
+			radianti: true,
+			raccorderie: true,
+			address: 'VIA MERANO, 20 20814 VAREDO - MONZA E BRIANZA',
+			telephone: '335-5907295',
+			email: 'vernani.rappresentanze@gmail.com',
+			country: 'ITALIA',
+			regions: ['LOMBARDIA'],
+			provinces: ['CO', 'LC', 'SO']
+		},
+	];
+
+</script>
+
+<section class="section--agenti" agents>
 	<!--
 	<svg class="icon icon--radiant icon--background"><use xlink:href="#radiant"></use></svg>
 	-->
@@ -25,6 +729,21 @@
 		<div class="row">
 			<div class="col-md-3">
 				<div class="tit-sidebox">FILTRA</div>
+
+				<!-- filters -->
+				<ul class="nav--filters">
+					<li *for="let [key, filter] of filters">
+						<span class="label" [innerHTML]="filter.label"></span>
+						<ul class="nav--options">
+							<li *for="let item of filter.options">
+								<span class="label" [class]="{ active: filter.has(item) }" (click)="filter.toggle(item)">
+									<span [innerHTML]="item.label"></span>
+								</span>
+							</li>
+						</ul>
+					</li>
+				</ul>
+
 				<ul class="nav--menu">
 					<li>
 						<span dropdown="stato">
@@ -132,75 +851,48 @@
 				</ul>
 			</div>
 			<div class="col-md-9">
-				<div class="card--agent">
+				<!-- results -->
+				<div class="card--agent" *for="let item of items">
 					<div class="sx">
 						<div>
-							<div class="title">AGENZIA STORTO PIETRO</div>
-							<div class="address">P.ZZA MUNICIPIO, 9 86020 CASTELLINO DEL BIFERMO - CAMPOBASSO</div>
+							<div class="title" [innerHTML]="item.name"></div>
+							<div class="address" [innerHTML]="item.address"></div>
 						</div>
 						<div class="dati">
-							<div class="phone"><i class="fas fa-phone"></i> Sig. Storto <span>335-1403714</span></div>
-							<div class="mail"><i class="fas fa-envelope"></i> <a href="mailto:pietro.storto@virgilio.it">pietro.storto@virgilio.it</a></div>
+							<div class="phone"><i class="fas fa-phone"></i> <span [innerHTML]="item.telephone"></span></div>
+							<div class="mail"><i class="fas fa-envelope"></i> <a [href]="'mailto:' + item.email" [innerHTML]="item.email"></a></div>
 						</div>
 						<div>
-							<div class="location"><span>ITALIA - MOLISE</span><br>Provincie: IS - CB</div>
+							<div class="location">
+								<b>
+									<span [innerHTML]="item.country"></span>
+									<span *if="item.regions">- <span [innerHTML]="item.regions"></span></span>
+								</b>
+								<br><span *if="item.provinces">Provincie: <span [innerHTML]="item.provinces"></span></span>
+							</div>
 						</div>
 					</div>
 					<div class="dx">
 						<ul class="settori">
-							<li>
+							<li *if="item.raccorderie">
 								<span>Componenti Idraulici</span>
 								<img lazy="/tiemme-com/img/contacts/agents/icon-componenti-idraulici.png" />
 							</li>
-							<li>
+							<li *if="item.radianti">
 								<span>Sistemi Radianti</span>
 								<img lazy="/tiemme-com/img/contacts/agents/icon-sistemi-radianti.png" />
 							</li>
-							<li>
+							<li *if="item.rubinetterie">
 								<span>Rubinetti</span>
 								<img lazy="/tiemme-com/img/contacts/agents/icon-rubinetti.png" />
 							</li>
 						</ul>
-						<a href="#" class="btn--cta link">Contatta Agente</a>
-					</div>
-				</div>
-				<div class="card--agent">
-					<div class="sx">
-						<div>
-							<div class="title">AGENZIA STORTO PIETRO</div>
-							<div class="address">P.ZZA MUNICIPIO, 9 86020 CASTELLINO DEL BIFERMO - CAMPOBASSO</div>
-						</div>
-						<div class="dati">
-							<div class="phone"><i class="fas fa-phone"></i> Sig. Storto <span>335-1403714</span></div>
-							<div class="mail"><i class="fas fa-envelope"></i> <a href="mailto:pietro.storto@virgilio.it">pietro.storto@virgilio.it</a></div>
-						</div>
-						<div>
-							<div class="location"><span>ITALIA - MOLISE</span><br>Provincie: IS - CB</div>
-						</div>
-					</div>
-					<div class="dx">
-						<ul class="settori">
-							<li>
-								<span>Componenti Idraulici</span>
-								<img lazy="/tiemme-com/img/contacts/agents/icon-componenti-idraulici.png" />
-							</li>
-							<li>
-								<span>Sistemi Radianti</span>
-								<img lazy="/tiemme-com/img/contacts/agents/icon-sistemi-radianti.png" />
-							</li>
-							<li>
-								<span>Rubinetti</span>
-								<img lazy="/tiemme-com/img/contacts/agents/icon-rubinetti.png" />
-							</li>
-						</ul>
-						<a href="#" class="btn--cta link">Contatta Agente</a>
+						<a [href]="'mailto:' + item.email" class="btn--cta link">Contatta Agente</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </section>
-
-<!-- @@include ./templates/shared/work-with-us.html -->
 
 <!-- @@close-->

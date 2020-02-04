@@ -338,7 +338,8 @@
 			}
 
 			&.terminato {
-				background-color: $background-negative;;
+				background-color: $background-negative;
+				;
 				color: #fff;
 			}
 		}
@@ -452,7 +453,7 @@
 	background-color: #EAEBF0;
 	padding: 30px;
 	display: flex;
-	box-shadow: 0 20px 20px -5px rgba(0,0,0,.2);
+	box-shadow: 0 20px 20px -5px rgba(0, 0, 0, .2);
 	margin-bottom: 50px;
 
 	&:last-child {
@@ -498,13 +499,17 @@
 		}
 	}
 
-	.address, .phone, .mail, .location {
+	.address,
+	.phone,
+	.mail,
+	.location {
 		font-size: 14px;
 	}
 
-	.location, .phone {
+	.location,
+	.phone {
 
-		span {
+		b {
 			font-weight: 600;
 		}
 	}
