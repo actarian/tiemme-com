@@ -1,0 +1,84 @@
+.section--agenti {
+	padding: 80px 0;
+
+	.tit-sidebox {
+		text-transform: uppercase;
+		font-family: $font-secondary;
+		font-size: 32px;
+		padding-bottom: 25px;
+		margin: 0;
+	}
+
+	//Select Agenti
+	.nav--menu {
+		margin: 0;
+		flex-wrap: wrap;
+
+		li {
+			width: 100%;
+
+			span {
+				background-color: #B9BDCD;
+				display: flex;
+				flex-wrap: wrap;
+				padding: 10px;
+
+				.label {
+					display: block;
+					flex: 0 0 100%;
+					font-family: $font-secondary;
+					font-size: 14px;
+					font-weight: 500;
+					line-height: 1;
+					margin-bottom: -1px;
+					color: #16255b;
+					text-transform: uppercase;
+					padding: 0;
+				}
+
+				.placeholder {
+					border-radius: 0;
+					flex: 1 1 auto;
+					max-width: 100%;
+					margin: 0;
+					padding: 0 20px 0 0;
+					background: none;
+					border: none;
+					outline: none;
+					color: #16255b;
+					font-family: Barlow Condensed,sans-serif;
+					font-size: 28px;
+					text-transform: uppercase;
+					line-height: 1;
+					font-weight: 500;
+					letter-spacing: 0;
+				}
+
+				.icon--caret-down {
+					fill: #16255b;
+					margin-right: 0;
+				}
+			}
+
+			.dropdown--with-icons>.category {
+				padding: 0 40px 0 40px;
+				margin-bottom: -10px;
+			}
+
+			.nav--dropdown {
+
+				li {
+					height: auto;
+
+					a {
+
+						span {
+							background: transparent;
+							padding: 0;
+						}
+					}
+				}
+			}
+		}
+	}
+}

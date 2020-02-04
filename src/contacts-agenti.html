@@ -1,0 +1,206 @@
+<!-- @@master = ./templates/layout.html-->
+
+<!-- @@block = main-->
+<section class="section--hero-secondary">
+	<div class="background">
+		<img lazy="/tiemme-com/img/contacts/work-with-us/hero-02.jpg" />
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-10">
+				<div class="category">Contatti</div>
+				<div class="title">Cerca un agente</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- @@include ./templates/shared/contacts-menu.html { "a": "", "b": "", "c": "active", "d": "" } -->
+
+<section class="section--agenti">
+	<!--
+	<svg class="icon icon--radiant icon--background"><use xlink:href="#radiant"></use></svg>
+	-->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<div class="tit-sidebox">FILTRA</div>
+				<ul class="nav--menu">
+					<li>
+						<span dropdown="stato">
+							<span class="label">STATO</span>
+							<span class="placeholder">Seleziona</span> <svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
+						</span>
+						<div class="dropdown dropdown--with-icons" dropdown-item="stato">
+							<div class="category">Stato</div>
+							<ul class="nav--dropdown">
+								<li>
+									<a href="#">
+										<span>Italia</span>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<span>Albania</span>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<span>Bulgaria</span>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<span>Grecia</span>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<span>Repubblica di San Marino</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</li>
+					<li>
+						<span dropdown="regione">
+							<span class="label">REGIONE</span>
+							<span class="placeholder">Seleziona</span> <svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
+						</span>
+						<div class="dropdown dropdown--with-icons" dropdown-item="regione">
+							<div class="category">Regione</div>
+							<ul class="nav--dropdown">
+								<li>
+									<a href="#">
+										<span>Abruzzo</span>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<span>Basilicata</span>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<span>Calabria</span>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<span>Campania</span>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<span>Emilia-Romagna</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</li>
+					<li>
+						<span dropdown="categoria">
+							<span class="label">CATEGORIA</span>
+							<span class="placeholder">Seleziona</span> <svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
+						</span>
+						<div class="dropdown dropdown--with-icons" dropdown-item="categoria">
+							<div class="category">Categoria</div>
+							<ul class="nav--dropdown">
+								<li>
+									<a href="#">
+										<span>Componenti Idraulici</span>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<span>Sistemi Radianti</span>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<span>Centrale Termica</span>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<span>Rubinetti</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="col-md-9">
+				<div class="card--agent">
+					<div class="sx">
+						<div>
+							<div class="title">AGENZIA STORTO PIETRO</div>
+							<div class="address">P.ZZA MUNICIPIO, 9 86020 CASTELLINO DEL BIFERMO - CAMPOBASSO</div>
+						</div>
+						<div class="dati">
+							<div class="phone"><i class="fas fa-phone"></i> Sig. Storto <span>335-1403714</span></div>
+							<div class="mail"><i class="fas fa-envelope"></i> <a href="mailto:pietro.storto@virgilio.it">pietro.storto@virgilio.it</a></div>
+						</div>
+						<div>
+							<div class="location"><span>ITALIA - MOLISE</span><br>Provincie: IS - CB</div>
+						</div>
+					</div>
+					<div class="dx">
+						<ul class="settori">
+							<li>
+								<span>Componenti Idraulici</span>
+								<img lazy="/tiemme-com/img/contacts/agents/icon-componenti-idraulici.png" />
+							</li>
+							<li>
+								<span>Sistemi Radianti</span>
+								<img lazy="/tiemme-com/img/contacts/agents/icon-sistemi-radianti.png" />
+							</li>
+							<li>
+								<span>Rubinetti</span>
+								<img lazy="/tiemme-com/img/contacts/agents/icon-rubinetti.png" />
+							</li>
+						</ul>
+						<a href="#" class="btn--cta link">Contatta Agente</a>
+					</div>
+				</div>
+				<div class="card--agent">
+					<div class="sx">
+						<div>
+							<div class="title">AGENZIA STORTO PIETRO</div>
+							<div class="address">P.ZZA MUNICIPIO, 9 86020 CASTELLINO DEL BIFERMO - CAMPOBASSO</div>
+						</div>
+						<div class="dati">
+							<div class="phone"><i class="fas fa-phone"></i> Sig. Storto <span>335-1403714</span></div>
+							<div class="mail"><i class="fas fa-envelope"></i> <a href="mailto:pietro.storto@virgilio.it">pietro.storto@virgilio.it</a></div>
+						</div>
+						<div>
+							<div class="location"><span>ITALIA - MOLISE</span><br>Provincie: IS - CB</div>
+						</div>
+					</div>
+					<div class="dx">
+						<ul class="settori">
+							<li>
+								<span>Componenti Idraulici</span>
+								<img lazy="/tiemme-com/img/contacts/agents/icon-componenti-idraulici.png" />
+							</li>
+							<li>
+								<span>Sistemi Radianti</span>
+								<img lazy="/tiemme-com/img/contacts/agents/icon-sistemi-radianti.png" />
+							</li>
+							<li>
+								<span>Rubinetti</span>
+								<img lazy="/tiemme-com/img/contacts/agents/icon-rubinetti.png" />
+							</li>
+						</ul>
+						<a href="#" class="btn--cta link">Contatta Agente</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- @@include ./templates/shared/work-with-us.html -->
+
+<!-- @@close-->
