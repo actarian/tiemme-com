@@ -55,6 +55,10 @@
 				font-size: 70px;
 				line-height: 40px;
 				font-weight: $font-medium;
+
+				@include media-breakpoint-down(xs) {
+					font-size: 32px;
+				}
 			}
 		}
 
@@ -441,4 +445,105 @@
 		}
 	}
 
+}
+
+
+.card--agent {
+	background-color: #EAEBF0;
+	padding: 30px;
+	display: flex;
+	box-shadow: 0 20px 20px -5px rgba(0,0,0,.2);
+	margin-bottom: 50px;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+
+	@include media-breakpoint-down(xs) {
+		flex-wrap: wrap;
+	}
+
+	.sx {
+		width: 70%;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+
+		@include media-breakpoint-down(xs) {
+			width: 100%;
+		}
+	}
+
+	.dx {
+		width: 30%;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+
+		@include media-breakpoint-down(xs) {
+			width: 100%;
+		}
+	}
+
+	.title {
+		text-transform: uppercase;
+		font-weight: 500;
+		font-size: 32px;
+		line-height: 30px;
+		font-family: $font-secondary;
+
+		@include media-breakpoint-down(xs) {
+			font-size: 24px;
+			padding-bottom: 10px;
+		}
+	}
+
+	.address, .phone, .mail, .location {
+		font-size: 14px;
+	}
+
+	.location, .phone {
+
+		span {
+			font-weight: 600;
+		}
+	}
+
+	.dati {
+		margin: 20px 0;
+	}
+
+	i {
+		padding-right: 10px;
+	}
+
+	.settori {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+
+		@include media-breakpoint-down(xs) {
+			margin: 20px 0;
+		}
+
+		li {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding-bottom: 10px;
+
+			&:last-child {
+				padding-bottom: 0;
+			}
+
+			span {
+				font-family: $font-secondary;
+				font-size: 14px;
+			}
+		}
+	}
+
+	.link {
+		text-align: center;
+	}
 }
