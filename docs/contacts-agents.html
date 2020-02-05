@@ -965,8 +965,8 @@
 			</ul>
 			<ul class="nav--header" dropdown-item="1003">
 				<li><a href="/tiemme-com/news.html">News</a></li>
-				<li><a href="/tiemme-com/eventi.html">Eventi e Fiere</a></li>
-				<li><a href="/tiemme-com/realizzazioni.html">Realizzazioni </a> </li>
+				<li><a href="/tiemme-com/events.html">Eventi e Fiere</a></li>
+				<li><a href="/tiemme-com/achievements.html">Realizzazioni</a> </li>
 			</ul>
 			<ul class="nav--header" dropdown-item="1004">
 				<li><a href="#">Bim</a></li>
@@ -977,14 +977,14 @@
 			<ul class="nav--header" dropdown-item="1005">
 				<li><a href="/tiemme-com/contacts-contact-us.html">Contattaci</a></li>
 				<li><a href="/tiemme-com/contacts-work-with-us.html">Filiali</a></li>
-				<li><a href="/tiemme-com/contacts-agenti.html">Cerca un agente</a></li>
+				<li><a href="/tiemme-com/contacts-agents.html">Cerca un agente</a></li>
 				<li><a href="/tiemme-com/contacts-work-with-us.html">Lavora con noi</a></li>
 			</ul>
 		</div>
 		<!-- club -->
 		<div class="dropdown--menu" *if="menu == 'club'">
 <!-- start club.html-->
-<div class="section--club" club="/tiemme-com/club.html">
+<div class="section--club" club="/tiemme-com/club-profile.html">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-6 left">
@@ -1151,7 +1151,7 @@
 						</ul>
 					</div>
 				</div>
-				<a href="/tiemme-com/club.html" class="btn--club" *if="user"><span><svg class="icon icon--user"><use xlink:href="#user"></use></svg> Club Tiemme</span></a>
+				<a href="/tiemme-com/club-profile.html" class="btn--club" *if="user"><span><svg class="icon icon--user"><use xlink:href="#user"></use></svg> Club Tiemme</span></a>
 				<button type="button" class="btn--club" (click)="toggleMenu('club')" *if="!user"><span>Club Tiemme</span></button>
 			</div>
 		</div>
@@ -1163,39 +1163,43 @@
 <!-- start main -->
 <section class="section--hero-secondary">
 	<div class="background">
-		<img lazy="/tiemme-com/img/news/hero-news.jpg" />
+		<img lazy="/tiemme-com/img/contacts/work-with-us/hero-02.jpg" />
 	</div>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-10">
-				<div class="category">Comunicazione</div>
-				<div class="title">Realizzazioni</div>
+				<div class="category">Contatti</div>
+				<div class="title">Cerca un agente</div>
 			</div>
 		</div>
 	</div>
 </section>
 
-<!-- start comunicazione-menu.html-->
+<!-- start contacts-menu.html-->
 <div class="sticky--menu">
 	<section class="section--menu">
 		<div class="container-fluid">
 			<ul class="nav--menu nav--menu--primary">
 				<li>
-					<a href="/tiemme-com/news.html" class="">
-						<span>News</span>
+					<a href="/tiemme-com/contacts-contact-us.html" class="">
+						<span>Contattaci</span>
 					</a>
 				</li>
 				<li>
-					<a href="/tiemme-com/eventi.html" class="">
-						<span>Eventi e Fiere</span>
+					<a href="/tiemme-com/contacts-work-with-us.html" class="">
+						<span>Filiali</span>
 					</a>
 				</li>
 				<li>
-					<a href="/tiemme-com/realizzazioni.html" class="active">
-						<span>Realizzazioni</span>
+					<a href="/tiemme-com/contacts-agents.html" class="active">
+						<span>Cerca un agente</span>
 					</a>
 				</li>
-				
+				<li>
+					<a href="/tiemme-com/contacts-work-with-us.html" class="">
+						<span>Lavora con noi</span>
+					</a>
+				</li>
 				<li class="group--search">
 					<svg class="icon icon--search"><use xlink:href="#search"></use></svg> <input class="form--control" placeholder="cerca..." />
 				</li>
@@ -1204,56 +1208,710 @@
 	</section>
 </div>
 
-<!-- end comunicazione-menu.html-->
+<!-- end contacts-menu.html-->
 
-<!-- start listing-realizzazioni.html-->
-<section class="section--realizzazioni">
+<script>
+	window.filters = {
+		countries: {
+			label: 'Nazione',
+			placeholder: 'Seleziona',
+			mode: 'select',
+			options: [
+				{ value: "ITALIA", label: "Italia" },
+				{ value: "ALBANIA", label: "Albania" },
+				{ value: "BULGARIA", label: "Bulgaria" },
+				{ value: "GRECIA", label: "Grecia" },
+				{ value: "REPUBBLICA DI S.MARINO", label: "Repubblica di San Marino" },
+			]
+		},
+		regions: {
+			label: 'Regione',
+			placeholder: 'Seleziona',
+			mode: 'select',
+			options: [
+				{ value: "ABRUZZO", label: "ABRUZZO", country: 'ITALIA' },
+				{ value: "BASILICATA", label: "BASILICATA", country: 'ITALIA' },
+				{ value: "CALABRIA", label: "CALABRIA", country: 'ITALIA' },
+				{ value: "CAMPANIA", label: "CAMPANIA", country: 'ITALIA' },
+				{ value: "EMILIA ROMAGNA", label: "EMILIA ROMAGNA", country: 'ITALIA' },
+				{ value: "FRIULI", label: "FRIULI", country: 'ITALIA' },
+				{ value: "LAZIO", label: "LAZIO", country: 'ITALIA' },
+				{ value: "LIGURIA", label: "LIGURIA", country: 'ITALIA' },
+				{ value: "LOMBARDIA", label: "LOMBARDIA", country: 'ITALIA' },
+				{ value: "MARCHE", label: "MARCHE", country: 'ITALIA' },
+				{ value: "MOLISE", label: "MOLISE", country: 'ITALIA' },
+				{ value: "PIEMONTE", label: "PIEMONTE", country: 'ITALIA' },
+				{ value: "PUGLIA", label: "PUGLIA", country: 'ITALIA' },
+				{ value: "SARDEGNA", label: "SARDEGNA", country: 'ITALIA' },
+				{ value: "SICILIA", label: "SICILIA", country: 'ITALIA' },
+				{ value: "SICILIA OCC", label: "SICILIA OCC", country: 'ITALIA' },
+				{ value: "TOSCANA", label: "TOSCANA", country: 'ITALIA' },
+				{ value: "TRENTINO-ALTO ADIGE", label: "TRENTINO-ALTO ADIGE", country: 'ITALIA' },
+				{ value: "UMBRIA", label: "UMBRIA", country: 'ITALIA' },
+				{ value: "VALLE D'AOSTA", label: "VALLE D'AOSTA", country: 'ITALIA' },
+				{ value: "VENETO", label: "VENETO", country: 'ITALIA' },
+			]
+		},
+		provinces: {
+			label: 'Provincia',
+			placeholder: 'Seleziona',
+			mode: 'select',
+			options: [
+				{ "value": "AG", "label": "AG", country: 'ITALIA' },
+				{ "value": "AL", "label": "AL", country: 'ITALIA' },
+				{ "value": "AN", "label": "AN", country: 'ITALIA' },
+				{ "value": "AO", "label": "AO", country: 'ITALIA' },
+				{ "value": "AP", "label": "AP", country: 'ITALIA' },
+				{ "value": "AQ", "label": "AQ", country: 'ITALIA' },
+				{ "value": "AR", "label": "AR", country: 'ITALIA' },
+				{ "value": "AT", "label": "AT", country: 'ITALIA' },
+				{ "value": "AV", "label": "AV", country: 'ITALIA' },
+				{ "value": "BA", "label": "BA", country: 'ITALIA' },
+				{ "value": "BG", "label": "BG", country: 'ITALIA' },
+				{ "value": "BI", "label": "BI", country: 'ITALIA' },
+				{ "value": "BL", "label": "BL", country: 'ITALIA' },
+				{ "value": "BN", "label": "BN", country: 'ITALIA' },
+				{ "value": "BO", "label": "BO", country: 'ITALIA' },
+				{ "value": "BR", "label": "BR", country: 'ITALIA' },
+				{ "value": "BS", "label": "BS", country: 'ITALIA' },
+				{ "value": "BT", "label": "BT", country: 'ITALIA' },
+				{ "value": "BZ", "label": "BZ", country: 'ITALIA' },
+				{ "value": "CA", "label": "CA", country: 'ITALIA' },
+				{ "value": "CB", "label": "CB", country: 'ITALIA' },
+				{ "value": "CE", "label": "CE", country: 'ITALIA' },
+				{ "value": "CH", "label": "CH", country: 'ITALIA' },
+				{ "value": "CI", "label": "CI", country: 'ITALIA' },
+				{ "value": "CL", "label": "CL", country: 'ITALIA' },
+				{ "value": "CN", "label": "CN", country: 'ITALIA' },
+				{ "value": "CO", "label": "CO", country: 'ITALIA' },
+				{ "value": "CR", "label": "CR", country: 'ITALIA' },
+				{ "value": "CS", "label": "CS", country: 'ITALIA' },
+				{ "value": "CT", "label": "CT", country: 'ITALIA' },
+				{ "value": "CZ", "label": "CZ", country: 'ITALIA' },
+				{ "value": "EN", "label": "EN", country: 'ITALIA' },
+				{ "value": "FC", "label": "FC", country: 'ITALIA' },
+				{ "value": "FE", "label": "FE", country: 'ITALIA' },
+				{ "value": "FG", "label": "FG", country: 'ITALIA' },
+				{ "value": "FI", "label": "FI", country: 'ITALIA' },
+				{ "value": "FM", "label": "FM", country: 'ITALIA' },
+				{ "value": "FR", "label": "FR", country: 'ITALIA' },
+				{ "value": "GE-SV-IM-SP", "label": "GE-SV-IM-SP", country: 'ITALIA' },
+				{ "value": "GO", "label": "GO", country: 'ITALIA' },
+				{ "value": "GR", "label": "GR", country: 'ITALIA' },
+				{ "value": "IS", "label": "IS", country: 'ITALIA' },
+				{ "value": "KR", "label": "KR", country: 'ITALIA' },
+				{ "value": "LC", "label": "LC", country: 'ITALIA' },
+				{ "value": "LE", "label": "LE", country: 'ITALIA' },
+				{ "value": "LI", "label": "LI", country: 'ITALIA' },
+				{ "value": "LO", "label": "LO", country: 'ITALIA' },
+				{ "value": "LT (escluso Aprilia)", "label": "LT (escluso Aprilia)", country: 'ITALIA' },
+				{ "value": "LT (solo Aprilia)", "label": "LT (solo Aprilia)", country: 'ITALIA' },
+				{ "value": "LU", "label": "LU", country: 'ITALIA' },
+				{ "value": "MB", "label": "MB", country: 'ITALIA' },
+				{ "value": "MC", "label": "MC", country: 'ITALIA' },
+				{ "value": "ME", "label": "ME", country: 'ITALIA' },
+				{ "value": "MI", "label": "MI", country: 'ITALIA' },
+				{ "value": "MN", "label": "MN", country: 'ITALIA' },
+				{ "value": "MO", "label": "MO", country: 'ITALIA' },
+				{ "value": "MS", "label": "MS", country: 'ITALIA' },
+				{ "value": "MT", "label": "MT", country: 'ITALIA' },
+				{ "value": "NA", "label": "NA", country: 'ITALIA' },
+				{ "value": "NO", "label": "NO", country: 'ITALIA' },
+				{ "value": "NU", "label": "NU", country: 'ITALIA' },
+				{ "value": "OCC PA", "label": "OCC PA", country: 'ITALIA' },
+				{ "value": "OG", "label": "OG", country: 'ITALIA' },
+				{ "value": "OR", "label": "OR", country: 'ITALIA' },
+				{ "value": "OT", "label": "OT", country: 'ITALIA' },
+				{ "value": "PA", "label": "PA", country: 'ITALIA' },
+				{ "value": "PC", "label": "PC", country: 'ITALIA' },
+				{ "value": "PD", "label": "PD", country: 'ITALIA' },
+				{ "value": "PE", "label": "PE", country: 'ITALIA' },
+				{ "value": "PG", "label": "PG", country: 'ITALIA' },
+				{ "value": "PI", "label": "PI", country: 'ITALIA' },
+				{ "value": "PN", "label": "PN", country: 'ITALIA' },
+				{ "value": "PO", "label": "PO", country: 'ITALIA' },
+				{ "value": "PR", "label": "PR", country: 'ITALIA' },
+				{ "value": "PT", "label": "PT", country: 'ITALIA' },
+				{ "value": "PU", "label": "PU", country: 'ITALIA' },
+				{ "value": "PV", "label": "PV", country: 'ITALIA' },
+				{ "value": "PZ", "label": "PZ", country: 'ITALIA' },
+				{ "value": "RA", "label": "RA", country: 'ITALIA' },
+				{ "value": "RC", "label": "RC", country: 'ITALIA' },
+				{ "value": "RE", "label": "RE", country: 'ITALIA' },
+				{ "value": "RG", "label": "RG", country: 'ITALIA' },
+				{ "value": "RI", "label": "RI", country: 'ITALIA' },
+				{ "value": "RM (Interno raccordo anulare)", "label": "RM (Interno raccordo anulare)", country: 'ITALIA' },
+				{ "value": "RM (fuori dal Raccordo Anulare )", "label": "RM (fuori dal Raccordo Anulare )", country: 'ITALIA' },
+				{ "value": "RN", "label": "RN", country: 'ITALIA' },
+				{ "value": "RO", "label": "RO", country: 'ITALIA' },
+				{ "value": "RSM", "label": "RSM", country: 'ITALIA' },
+				{ "value": "SA", "label": "SA", country: 'ITALIA' },
+				{ "value": "SI", "label": "SI", country: 'ITALIA' },
+				{ "value": "SO", "label": "SO", country: 'ITALIA' },
+				{ "value": "SR", "label": "SR", country: 'ITALIA' },
+				{ "value": "SS", "label": "SS", country: 'ITALIA' },
+				{ "value": "TA", "label": "TA", country: 'ITALIA' },
+				{ "value": "TE", "label": "TE", country: 'ITALIA' },
+				{ "value": "TN", "label": "TN", country: 'ITALIA' },
+				{ "value": "TO", "label": "TO", country: 'ITALIA' },
+				{ "value": "TP", "label": "TP", country: 'ITALIA' },
+				{ "value": "TR", "label": "TR", country: 'ITALIA' },
+				{ "value": "TS", "label": "TS", country: 'ITALIA' },
+				{ "value": "TV", "label": "TV", country: 'ITALIA' },
+				{ "value": "UD", "label": "UD", country: 'ITALIA' },
+				{ "value": "VA", "label": "VA", country: 'ITALIA' },
+				{ "value": "VB", "label": "VB", country: 'ITALIA' },
+				{ "value": "VC", "label": "VC", country: 'ITALIA' },
+				{ "value": "VE", "label": "VE", country: 'ITALIA' },
+				{ "value": "VI", "label": "VI", country: 'ITALIA' },
+				{ "value": "VR", "label": "VR", country: 'ITALIA' },
+				{ "value": "VS", "label": "VS", country: 'ITALIA' },
+				{ "value": "VT", "label": "VT", country: 'ITALIA' },
+				{ "value": "VV", "label": "VV", country: 'ITALIA' },
+			]
+		},
+		categories: {
+			label: 'Categoria',
+			placeholder: 'Seleziona',
+			mode: 'select',
+			options: [
+				{ value: 1, label: "Componenti Idraulici" },
+				{ value: 2, label: "Centrale Termica" },
+				{ value: 3, label: "Sistemi Radianti" },
+				{ value: 4, label: "Rubinetti" },
+			]
+		},
+	}
+
+	window.agents = [
+		/* ALBANIA */
+		{
+			name: 'TIEMME HELLAS S.A.',
+			categories: [3, 1],
+			address: 'Thesi Drassaria - 19300 Aspropyrgos',
+			telephone: '+30 2105571500',
+			email: 'info@tiemme.gr',
+			country: 'ALBANIA'
+		},
+		/* BULGARIA */
+		{
+			name: 'TIEMME HELLAS S.A.',
+			categories: [3, 1],
+			address: 'Thesi Drassaria - 19300 Aspropyrgos',
+			telephone: '+30 2105571500',
+			email: 'info@tiemme.gr',
+			country: 'BULGARIA'
+		},
+		/* GRECIA */
+		{
+			name: 'TIEMME HELLAS S.A.',
+			categories: [3, 1],
+			address: 'Thesi Drassaria - 19300 Aspropyrgos',
+			telephone: '+30 2105571500',
+			email: 'info@tiemme.gr',
+			country: 'GRECIA'
+		},
+		/* REPUBBLICA DI S.MARINO */
+		{
+			name: 'POLETTI MARCO',
+			categories: [4, 3, 1],
+			address: 'VIA MURAGLIONE 13 48012 BAGNACAVALLO (RA)',
+			telephone: '+39 335 327369 / +39 054563894',
+			email: 'marcopoletti@polettimarco.it',
+			country: 'REPUBBLICA DI S.MARINO',
+			provinces: ['RSM']
+		},
+		/* ITALIA */
+		{
+			name: 'AGENZIA STORTO PIETRO',
+			categories: [4, 3, 1],
+			address: 'P.ZZA MUNICIPIO, 9 86020 CASTELLINO DEL BIFERMO - CAMPOBASSO',
+			telephone: 'Sig. Storto 335-1403714',
+			email: 'pietro.storto@virgilio.it',
+			country: 'ITALIA',
+			regions: ['MOLISE'],
+			provinces: ['IS', 'CB']
+		}, {
+			name: 'ANTONIO DAL COL',
+			categories: [4, 3, 1],
+			address: 'VIA CAL GRANDE INTERMEDIA, 13 31028 VAZZOLA (Treviso)',
+			telephone: 'Tel. 0438 441103',
+			mobilePhone: '336 359922',
+			email: 'info@adcrap.com',
+			country: 'ITALIA',
+			regions: ['FRIULI'],
+			provinces: ['UD', 'PN', 'TS', 'GO']
+		}, {
+			name: 'ANTONIO DAL COL',
+			categories: [4, 3, 1],
+			address: 'VIA CAL GRANDE INTERMEDIA, 13 - 31028 VAZZOLA (Treviso)',
+			telephone: 'Tel. 0438 441103',
+			mobilePhone: '336 359922',
+			email: 'info@adcrap.com',
+			country: 'ITALIA',
+			regions: ['VENETO'],
+			provinces: ['TV', 'PD', 'RO', 'VE', 'VI', 'BL']
+		}, {
+			name: 'ANTONIO DAL COL',
+			categories: [4, 3, 1],
+			address: 'VIA CAL GRANDE INTERMEDIA, 13 - 31028 VAZZOLA (Treviso)',
+			telephone: 'Tel. 0438 441103',
+			mobilePhone: '336 359922',
+			email: 'info@adcrap.com',
+			country: 'ITALIA',
+			regions: ['TRENTINO-ALTO ADIGE'],
+			provinces: ['TN', 'BZ']
+		}, {
+			name: 'BONA LUCA',
+			categories: [4, 3, 1],
+			address: 'Via L. Bassani 39 37069 Villafranca di Verona (VR)',
+			telephone: '335.7621910 / 045.6937680',
+			email: 'bn.ufficio@gmail.com',
+			country: 'ITALIA',
+			regions: ['VENETO'],
+			provinces: ['VR']
+		}, {
+			name: 'BONAZZA SANDRO',
+			categories: [4, 3, 1],
+			address: 'VIA MAZZINI 44 27020 OTTOBIANO - PAVIA',
+			telephone: 'Sig. Bonazza 335-5860182 / Sig. William 392-9024616',
+			email: 'bonazzas@gmail.com',
+			country: 'ITALIA',
+			regions: ['LOMBARDIA'],
+			provinces: ['PV']
+		}, {
+			name: 'CMC RAPPRESENTANZE TERMOTECNICHE DI MORRONE CHRISTIAN',
+			categories: [4, 3, 1],
+			address: 'Via Carlo Cattaneo 17 A/B 74121 TARANTO (TA)',
+			telephone: '099.7791502 / 392.4149999',
+			email: 'info@cmcrappresentanze.it',
+			country: 'ITALIA',
+			regions: ['PUGLIA'],
+			provinces: ['BR', 'TA', 'LE']
+		}, {
+			name: 'CORRADO RAPPRESENTANZE SAS',
+			categories: [3, 1],
+			address: 'VIA D. FONTANA, 184 80131 NAPOLI',
+			telephone: 'Sig. Giuseppe 337-843733 / Sig. Salvatore 335-6656224',
+			email: 'corradosas@fastwebnet.it',
+			country: 'ITALIA',
+			regions: ['BASILICATA'],
+			provinces: ['PZ']
+		}, {
+			name: 'CORRADO RAPPRESENTANZE SAS',
+			categories: [3, 1],
+			address: 'VIA D. FONTANA, 184 80131 NAPOLI',
+			telephone: 'Sig. Giuseppe 337-843733 / Sig. Salvatore 335-6656224',
+			email: 'corradosas@fastwebnet.it',
+			country: 'ITALIA',
+			regions: ['CAMPANIA'],
+			provinces: ['NA', 'SA', 'AV', 'BN', 'CE']
+		}, {
+			name: 'CUCCU GIUSEPPE',
+			categories: [4, 3, 1],
+			address: 'VIA NAZIONALE, 132 09039 - VILLACIDRO (VS)',
+			telephone: 'Cel. 348 7624498 - Tel./Fax 340 7624490',
+			email: 'gcuccu.clima@gmail.com',
+			country: 'ITALIA',
+			regions: ['SARDEGNA'],
+			provinces: ['CA', 'CI', 'OG', 'VS', 'OR']
+		}, {
+			name: 'CURRADO BRUNO RAPPRESENTANZE',
+			categories: [4, 3, 1],
+			address: 'VIA DURANDO N.1/B 14037 PORTACOMARO D\'ASTI - ASTI',
+			telephone: '335-216205 / 336-790137',
+			email: 'curradobruno@libero.it',
+			country: 'ITALIA',
+			regions: ['PIEMONTE'],
+			provinces: ['CN', 'TO', 'VC', 'AT', 'NO', 'AL', 'BI', 'VB']
+		}, {
+			name: 'CURRADO BRUNO RAPPRESENTANZE',
+			categories: [4, 3, 1],
+			address: 'VIA DURANDO N.1/B 14037 PORTACOMARO D\'ASTI - ASTI',
+			telephone: '335-216205 / 336-790137',
+			email: 'curradobruno@libero.it',
+			country: 'ITALIA',
+			regions: ['VALLE D\'AOSTA'],
+			provinces: ['AO']
+		}, {
+			name: 'D.P.S. DI DE PAOLIS STEFANO &amp; C. S.A.S',
+			categories: [4, 3],
+			address: 'VIA MONS. TAGLIAFERRI N.3 03011 ALATRI - FROSINONE',
+			telephone: '335-7828693',
+			email: 'dpstefano@hotmail.it',
+			country: 'ITALIA',
+			regions: ['LAZIO'],
+			provinces: ['LT (escluso Aprilia)', 'FR'],
+			note: 'ESCLUSO SISTEMI'
+		}, {
+			name: 'ENERTEC DI PANTALEO LUIGI',
+			categories: [4, 3, 1],
+			address: 'VIA LUIGI POLACCHI , 6 65129 PESCARA',
+			telephone: 'Sig. Pantaleo 338-9146400',
+			email: 'enertecagenzia@gmail.com',
+			country: 'ITALIA',
+			regions: ['ABRUZZO'],
+			provinces: ['PE', 'AQ', 'CH', 'TE']
+		}, {
+			name: 'EUROSERVICE TRADE S.r.l.',
+			categories: [4, 3, 1],
+			address: 'VIALE EMILIA 98/C - 88060 - S.MARIA DI CATANZARO - CATANZARO',
+			telephone: 'Sig. Gianni 340-8716087 / Sig. Floro 348-0947380 / Sig. Dattilo 348-0947383',
+			email: 'info@euroservicesnc.it',
+			country: 'ITALIA',
+			regions: ['CALABRIA'],
+			provinces: ['CZ', 'CS', 'KR', 'RC', 'VV']
+		}, {
+			name: 'FERRARA RAPPRESENTANZE',
+			categories: [4, 3, 1],
+			address: 'VIA VOMERO, 56 70019 TRIGGIANO - BARI',
+			telephone: 'Sig. Ferrara 335-6956778',
+			email: 'info@ftrappresentanze.it',
+			country: 'ITALIA',
+			regions: ['BASILICATA'],
+			provinces: ['MT']
+		}, {
+			name: 'FERRARA RAPPRESENTANZE',
+			categories: [4, 3, 1],
+			address: 'VIA VOMERO, 56 70019 TRIGGIANO - BARI',
+			telephone: 'Sig. Ferrara 335-6956778',
+			email: 'info@ftrappresentanze.it',
+			country: 'ITALIA',
+			regions: ['PUGLIA'],
+			provinces: ['FG', 'BA', 'BT']
+		}, {
+			name: 'FRANCESCO GIANGUALANO RAPPRESENTANZE',
+			categories: [4, 3, 1],
+			address: 'VIA ARGINE CROSTOLO, 5 42016 GUASTALLA - REGGIO EMILIA',
+			telephone: '328-7449673',
+			email: 'effegirapp@gmail.com',
+			country: 'ITALIA',
+			regions: ['EMILIA ROMAGNA'],
+			provinces: ['MO', 'RE']
+		}, {
+			name: 'GELMINI MARCO',
+			categories: [4, 3, 1],
+			address: 'VICOLO IVO COBIANCHI N.7 43126 PARMA',
+			telephone: '335 7054760',
+			email: 'marcogelmini74@gmail.com',
+			country: 'ITALIA',
+			regions: ['EMILIA ROMAGNA'],
+			provinces: ['PR', 'PC']
+		}, {
+			name: 'MANCA SALVATORE',
+			categories: [4, 3, 1],
+			address: 'VIA LAMARMORA 4 - 07033 OSILO (SS)',
+			telephone: 'Cell. 333-6045029',
+			email: 'mancarappresentanze@alice.it',
+			country: 'ITALIA',
+			regions: ['SARDEGNA'],
+			provinces: ['NU', 'OT', 'SS']
+		}, {
+			name: 'MARINI PAOLO',
+			categories: [4, 3, 1],
+			address: 'LOC.MONTECAVALLO, 46/P 61042 APECCHIO - PESARO E URBINO',
+			telephone: '335-6065301',
+			email: 'paolomarini1961@gmail.com',
+			country: 'ITALIA',
+			regions: ['TOSCANA'],
+			provinces: ['AR']
+		}, {
+			name: 'MARINI PAOLO',
+			categories: [4, 3, 1],
+			address: 'LOC.MONTECAVALLO 46/P 61042 APECCHIO - PESARO E URBINO',
+			telephone: '335-6065301',
+			email: 'paolomarini1961@gmail.com',
+			country: 'ITALIA',
+			regions: ['UMBRIA'],
+			provinces: ['PG']
+		}, {
+			name: 'MARTORANA ANTONINO',
+			categories: [1],
+			address: 'VIA UGO LA MALFA 58/A - 90014 CASTELDACCIA (PA)',
+			telephone: '380 2108717',
+			email: 'a.martorana@tiemme.com',
+			country: 'ITALIA',
+			regions: ['SICILIA'],
+			provinces: ['OCC PA', 'TP', 'AG', 'CL'],
+			note: 'Solo SISTEMI'
+		}, {
+			name: 'MIOLI MARTA',
+			categories: [3],
+			address: 'VIA GOITO N. 1/A 45100 ROVIGO',
+			telephone: 'Sig. Capelli 335-7683848',
+			email: 'tonino.capelli@gmail.com',
+			country: 'ITALIA',
+			regions: ['EMILIA ROMAGNA'],
+			provinces: ['BO', 'FE', 'FC', 'MO', 'PR', 'PC', 'RA', 'RE', 'RN'],
+			note: 'SOLO I CLIENTI DEL SETTORE OEM'
+		}, {
+			name: 'MIOLI MARTA',
+			categories: [3],
+			address: 'VIA GOITO N. 1/A 45100 ROVIGO',
+			telephone: 'Sig. Capelli 335-7683848',
+			email: 'toninocapelli@libero.it',
+			country: 'ITALIA',
+			regions: ['LOMBARDIA'],
+			provinces: ['CR', 'MN'],
+			note: 'SOLO I CLIENTI DEL SETTORE OEM'
+		}, {
+			name: 'NEWCLIMA di Giacomo Ciccola e Luca Molini s.n.c.',
+			categories: [4, 3, 1],
+			address: 'Via Concordia, 68 62100 MACERATA (MC)',
+			telephone: 'Ciccola: 348 2524005 / Molini: 348 5100964',
+			email: 'info@newclimasnc.it',
+			country: 'ITALIA',
+			regions: ['MARCHE'],
+			provinces: ['AN', 'AP', 'MC', 'FM']
+		}, {
+			name: 'NORCINI PALA ADELIO',
+			categories: [4, 3, 1],
+			address: 'LARGO VALERIO BACIGALUPO N.33 00142 ROMA',
+			telephone: '337-761035',
+			email: 'adelionorcini@gmail.com; info@npagroup.it',
+			country: 'ITALIA',
+			regions: ['LAZIO'],
+			provinces: ['RM (fuori dal Raccordo Anulare )', 'LT (solo Aprilia)'],
+			note: 'SOLO SISTEMI (All\'interno del Raccordo Anulare)'
+		}, {
+			name: 'PATRIZIO DE SIMONI',
+			categories: [1],
+			address: 'P.ZZA DALMAZIA 38 - 05100 TERNI (TR)',
+			telephone: '346 6143816',
+			email: 'agenziadesimoni@gmail.com',
+			country: 'ITALIA',
+			regions: ['LAZIO', 'UMBRIA'],
+			provinces: ['RI', 'VT', 'TR'],
+			note: 'SOLO SISTEMI'
+		}, {
+			name: 'PICCILLO PAOLO',
+			categories: [4, 3],
+			address: 'VIA ENRICO VERIUS, 80 00126 ROMA',
+			telephone: '338-8990592',
+			email: 'paolopiccillo@libero.it',
+			country: 'ITALIA',
+			regions: ['LAZIO'],
+			provinces: ['RM (Interno raccordo anulare)'],
+			note: 'ESCLUSO SISTEMI'
+		}, {
+			name: 'PICENNI CLAUDIO',
+			categories: [4, 3, 1],
+			address: 'VIA PETRARCA, 25 46043 CASTIGLIONE D/S - MANTOVA',
+			telephone: '335-6528452',
+			email: 'picenniclaudio@libero.it',
+			country: 'ITALIA',
+			regions: ['LOMBARDIA'],
+			provinces: ['MN']
+		}, {
+			name: 'POLETTI MARCO',
+			categories: [4, 3, 1],
+			address: 'VIA MURAGLIONE 13 48012 BAGNACAVALLO (RA)',
+			telephone: '+39 335 327369 / +39 054563894',
+			email: 'mpoletti59@alice.it',
+			country: 'ITALIA',
+			regions: ['EMILIA ROMAGNA'],
+			provinces: ['RN', 'RA', 'FC']
+		}, {
+			name: 'POLETTI MARCO',
+			categories: [4, 3, 1],
+			address: 'VIA MURAGLIONE 13 48012 BAGNACAVALLO (RA)',
+			telephone: '+39 335 327369 / +39 054563894',
+			email: 'marcopoletti@polettimarco.it',
+			country: 'ITALIA',
+			regions: ['MARCHE'],
+			provinces: ['PU']
+		}, {
+			name: 'RACCIS FEDERICO',
+			categories: [3, 1],
+			address: 'VIA GRAMSCI, 30 25082 BOTTICINO SERA - BRESCIA',
+			telephone: 'Cell. 348-4229982',
+			email: 'irrigazione@gmail.com',
+			country: 'ITALIA',
+			regions: ['TRENTINO-ALTO ADIGE'],
+			provinces: ['BZ'],
+			note: 'Solo settore IRRIGAZIONE'
+		}, {
+			name: 'ROBERTO MAGNI',
+			categories: [4, 3, 1],
+			address: 'Corso de Stefanis 12/13c 16139 Genova',
+			telephone: 'Sig. Magni 348-3817155',
+			email: 'r.magni14@gmail.com',
+			country: 'ITALIA',
+			regions: ['LIGURIA'],
+			provinces: ['GE-SV-IM-SP']
+		}, {
+			name: 'SABE SRL',
+			categories: [4, 3, 1],
+			address: 'VIA RIMEMBRANZE, 1 25069 VILLA CARCINA - BRESCIA',
+			telephone: '335-6280882 / 339-6327608',
+			email: 'simonesaleri@gmail.com',
+			country: 'ITALIA',
+			regions: ['LOMBARDIA'],
+			provinces: ['BS', 'BG', 'CR', 'LO']
+		}, {
+			name: 'SCUDERI DOMENICO',
+			categories: [4, 3, 1],
+			address: 'VIA FIORITA, 9 95123 CATANIA',
+			telephone: '338-7426121',
+			email: 'scuderidomenico@hotmail.it',
+			country: 'ITALIA',
+			regions: ['SICILIA'],
+			provinces: ['CT', 'ME', 'SR', 'EN', 'RG']
+		}, {
+			name: 'SG RAPPRESENTANZE DI SALVATORE GIACALONE',
+			categories: [4, 3],
+			address: 'VIA F.CO CULCASI 9/C 91110 TRAPANI',
+			telephone: '388 1830855',
+			email: 'sgrappresentanzesrl@gmail.com',
+			country: 'ITALIA',
+			regions: ['SICILIA OCC'],
+			provinces: ['PA', 'TP', 'AG', 'CL'],
+			note: 'ESCLUSO SISTEMI'
+		}, {
+			name: 'STEFANO DE SIMONI',
+			categories: [4, 3],
+			address: 'VIA MERLINO DI FILIPPO, 3 - 05100 TERNI (TR)',
+			telephone: '335-7104017',
+			email: 'stefanodesimoni@yahoo.it',
+			country: 'ITALIA',
+			regions: ['LAZIO', 'UMBRIA'],
+			provinces: ['RI', 'VT', 'TR'],
+			note: 'ESCLUSO SISTEMI'
+		}, {
+			name: 'T&amp;B GROUP di Terracciano Luca',
+			categories: [4, 3, 1],
+			address: 'VIA ALDOVRANDI 20 - 56121 OSPEDALETTO (PI)',
+			telephone: '392-9797002',
+			email: 'betticommerciale@gmail.com',
+			country: 'ITALIA',
+			regions: ['TOSCANA'],
+			provinces: ['MS', 'LU', 'PI', 'LI', 'GR']
+		}, {
+			name: 'TAGLIAFERRI EMILIANO',
+			categories: [1],
+			address: 'Via Brighindi Francesco, 159 03100 Frosinone (FR)',
+			telephone: 'Cell. Tagliaferri 328-7595575',
+			mobilePhone: 'Prato 335-6027838',
+			email: 'agenzia.riellofrosinone@gmail.com',
+			country: 'ITALIA',
+			regions: ['LAZIO'],
+			provinces: ['LT (escluso Aprilia)', 'FR'],
+			note: 'Solo SISTEMI'
+		}, {
+			name: 'TOTI MARCO',
+			categories: [4, 3, 1],
+			address: 'Via G. Rossini, 42 50050 Cerreto Guidi (FI)',
+			telephone: '347.6341084',
+			email: 'agenziatoti@gmail.com',
+			country: 'ITALIA',
+			regions: ['TOSCANA'],
+			provinces: ['FI', 'PO', 'PT', 'SI']
+		}, {
+			name: 'TSA di Luigi Zanieri',
+			categories: [4, 3, 1],
+			address: 'VIA A.VIVALDI, 15/4 40054 BUDRIO - BOLOGNA',
+			telephone: 'Sig. Zanieri 349-2856011',
+			email: 'luigi.zanieri@gmail.com',
+			country: 'ITALIA',
+			regions: ['EMILIA ROMAGNA'],
+			provinces: ['BO', 'FE']
+		}, {
+			name: 'VERNANI GIULIO RAPPRESENTANZE',
+			categories: [4, 3, 1],
+			address: 'VIA MERANO, 20 20814 VAREDO - MONZA E BRIANZA',
+			telephone: '333-2805989 / 335-6284474',
+			email: 'vernani.rappresentanze@gmail.com',
+			country: 'ITALIA',
+			regions: ['LOMBARDIA'],
+			provinces: ['MI', 'MB', 'VA']
+		}, {
+			name: 'VERNANI NIKOLAS',
+			categories: [4, 3, 1],
+			address: 'VIA MERANO, 20 20814 VAREDO - MONZA E BRIANZA',
+			telephone: '335-5907295',
+			email: 'vernani.rappresentanze@gmail.com',
+			country: 'ITALIA',
+			regions: ['LOMBARDIA'],
+			provinces: ['CO', 'LC', 'SO']
+		},
+	];
+
+</script>
+
+<section class="section--agents" agents>
+	<!--
+	<svg class="icon icon--radiant icon--background"><use xlink:href="#radiant"></use></svg>
+	-->
 	<div class="container">
-		<div class="listing--realizzazioni">
-			<a href="dettaglio-realizzazione.html" class="card--realizzazione" appear>
-				<div class="picture picture--news">
-					<img lazy="/tiemme-com/img/realizzazioni/case-01.jpg" />
-					<div class="location">messina, italy</div>
-				</div>
-				<div class="content">
-					<div class="title">Castello Gallego</div>
-					<div class="abstract">
-						<p>Progetto: Ristrutturazione Castello Gallego Prodotto Tiemme: Progetto dell’impianto di riscaldamento a pavimento Il Castello Gallego (sec. XVII) è il simbolo architettonico della città…</p>
-						<button type="button" class="btn--link"><span>dettaglio</span></button>
+		<div class="row">
+			<div class="col-md-3">
+				<div class="tit-sidebox">FILTRA</div>
+				<!-- filters -->
+				<ul class="nav--menu">
+					<li *for="let [key, filter] of filters">
+						<span [dropdown]="key">
+							<span class="label" [innerHTML]="filter.label"></span>
+							<span class="placeholder" [innerHTML]="filter.getLabel()"></span> <svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
+						</span>
+						<div class="dropdown" [dropdown-item]="key">
+							<div class="category" [innerHTML]="filter.label"></div>
+							<ul class="nav--dropdown">
+								<li *for="let item of filter.options">
+									<span [class]="{ active: filter.has(item), disabled: item.disabled }" (click)="filter.set(item)" [innerHTML]="item.label"></span>
+								</li>
+							</ul>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="col-md-9">
+				<!-- results -->
+				<div class="card--agent" *for="let item of items">
+					<div class="sx">
+						<div>
+							<div class="title" [innerHTML]="item.name"></div>
+							<div class="address" [innerHTML]="item.address"></div>
+						</div>
+						<div class="dati">
+							<div class="phone"><i class="fas fa-phone"></i> <span [innerHTML]="item.telephone"></span></div>
+							<div class="mail"><i class="fas fa-envelope"></i> <a [href]="'mailto:' + item.email" [innerHTML]="item.email"></a></div>
+						</div>
+						<div>
+							<div class="location">
+								<b>
+									<span [innerHTML]="item.country"></span>
+									<span *if="item.regions">- <span [innerHTML]="item.regions"></span></span>
+								</b>
+								<br><span *if="item.provinces">Provincie: <span [innerHTML]="item.provinces"></span></span>
+							</div>
+						</div>
+					</div>
+					<div class="dx">
+						<ul class="settori">
+							<li *if="hasCategory(item, 1)">
+								<span>Componenti Idraulici</span>
+								<svg class="icon icon--valves"><use xlink:href="#valves"></use></svg>
+							</li>
+							<li *if="hasCategory(item, 2)">
+								<span>Centrale Termica</span>
+								<svg class="icon icon--thermo"><use xlink:href="#thermo"></use></svg>
+							</li>
+							<li *if="hasCategory(item, 3)">
+								<span>Sistemi Radianti</span>
+								<svg class="icon icon--radiant"><use xlink:href="#radiant"></use></svg>
+							</li>
+							<li *if="hasCategory(item, 4)">
+								<span>Rubinetti</span>
+								<svg class="icon icon--taps"><use xlink:href="#taps"></use></svg>
+							</li>
+						</ul>
+						<a [href]="'mailto:' + item.email" class="btn--cta link">Contatta Agente</a>
 					</div>
 				</div>
-			</a>
-			<a href="dettaglio-realizzazione.html" class="card--realizzazione" appear>
-				<div class="picture picture--news">
-					<img lazy="/tiemme-com/img/realizzazioni/case-02.jpg" />
-					<div class="location">torino, italy</div>
-				</div>
-				<div class="content">
-					<div class="title">Teatro Carignano</div>
-					<div class="abstract">
-						<p>Progetto: Rifunzionalizzazione del teatro È il più antico teatro torinese rimasto e, senza dubbio, uno dei più illustri in Italia per gli eventi che ha ospitato. Notevoli furono...</p>
-						<button type="button" class="btn--link"><span>dettaglio</span></button>
-					</div>
-				</div>
-			</a>
-			<a href="dettaglio-realizzazione.html" class="card--realizzazione" appear>
-				<div class="picture picture--news">
-					<img lazy="/tiemme-com/img/realizzazioni/case-03.jpg" />
-					<div class="location">brescia, italy</div>
-				</div>
-				<div class="content">
-					<div class="title">Palazzo Biscotto</div>
-					<div class="abstract">
-						<p>Edificio direzionale che si articola su 8 piani fuori terra ed uno interrato. I piani fuori terra si sviluppano per circa mq 800/cad, per un totale di circa 5400 mq di s.l.p. (superficie lorda di pavimento)....</p>
-						<button type="button" class="btn--link"><span>dettaglio</span></button>
-					</div>
-				</div>
-			</a>
+			</div>
 		</div>
 	</div>
 </section>
-
-<!-- end listing-realizzazioni.html-->
 
 
 <!-- end main -->
@@ -1307,8 +1965,8 @@
 				<b>Comunicazione</b>
 				<ul class="nav--footer">
 					<li><a href="/tiemme-com/news.html">News</a></li>
-					<li><a href="/tiemme-com/eventi.html">Eventi e Fiere</a></li>
-					<li><a href="/tiemme-com/realizzazioni.html">Realizzazioni </a> </li>
+					<li><a href="/tiemme-com/events.html">Eventi e Fiere</a></li>
+					<li><a href="/tiemme-com/achievements.html">Realizzazioni</a> </li>
 				</ul>
 			</div>
 			<div class="flex__item">
@@ -1326,7 +1984,7 @@
 					<li><a href="#">Azienda</a></li>
 					<li><a href="/tiemme-com/contacts-contact-us.html">Contattaci</a></li>
 					<li><a href="/tiemme-com/contacts-contact-us.html">Filiali</a></li>
-					<li><a href="/tiemme-com/contacts-agenti.html">Cerca un agente</a></li>
+					<li><a href="/tiemme-com/contacts-agents.html">Cerca un agente</a></li>
 					<li><a href="/tiemme-com/contacts-work-with-us.html">Lavora con noi</a></li>
 				</ul>
 			</div>

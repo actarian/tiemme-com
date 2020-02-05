@@ -965,8 +965,8 @@
 			</ul>
 			<ul class="nav--header" dropdown-item="1003">
 				<li><a href="/tiemme-com/news.html">News</a></li>
-				<li><a href="/tiemme-com/eventi.html">Eventi e Fiere</a></li>
-				<li><a href="/tiemme-com/realizzazioni.html">Realizzazioni </a> </li>
+				<li><a href="/tiemme-com/events.html">Eventi e Fiere</a></li>
+				<li><a href="/tiemme-com/achievements.html">Realizzazioni</a> </li>
 			</ul>
 			<ul class="nav--header" dropdown-item="1004">
 				<li><a href="#">Bim</a></li>
@@ -977,14 +977,14 @@
 			<ul class="nav--header" dropdown-item="1005">
 				<li><a href="/tiemme-com/contacts-contact-us.html">Contattaci</a></li>
 				<li><a href="/tiemme-com/contacts-work-with-us.html">Filiali</a></li>
-				<li><a href="/tiemme-com/contacts-agenti.html">Cerca un agente</a></li>
+				<li><a href="/tiemme-com/contacts-agents.html">Cerca un agente</a></li>
 				<li><a href="/tiemme-com/contacts-work-with-us.html">Lavora con noi</a></li>
 			</ul>
 		</div>
 		<!-- club -->
 		<div class="dropdown--menu" *if="menu == 'club'">
 <!-- start club.html-->
-<div class="section--club" club="/tiemme-com/club.html">
+<div class="section--club" club="/tiemme-com/club-profile.html">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-6 left">
@@ -1151,7 +1151,7 @@
 						</ul>
 					</div>
 				</div>
-				<a href="/tiemme-com/club.html" class="btn--club" *if="user"><span><svg class="icon icon--user"><use xlink:href="#user"></use></svg> Club Tiemme</span></a>
+				<a href="/tiemme-com/club-profile.html" class="btn--club" *if="user"><span><svg class="icon icon--user"><use xlink:href="#user"></use></svg> Club Tiemme</span></a>
 				<button type="button" class="btn--club" (click)="toggleMenu('club')" *if="!user"><span>Club Tiemme</span></button>
 			</div>
 		</div>
@@ -1161,69 +1161,101 @@
 <!-- end header.html-->
 
 <!-- start main -->
-<section class="section--hero-tertiary">
-	<div class="background"></div>
-</section>
-
-<section class="section--reserved-area">
-	<div class="container-fluid">
-		<div class="flex--row">
-			<div class="flex__item">
-				<ul class="nav--filters">
-					<li>
-						<span class="label">Menu</span>
-						<ul class="nav--options">
-							<li><a href="#" class="label"><span>Il mio profilo</span></a></li>
-							<li><a href="#" class="label"><span>Modifica password</span></a></li>
-							<li><a href="#" class="label"><span>Vantaggi</span></a></li>
-							<li><a href="#" class="label"><span>Partecipa agli eventi</span></a></li>
-							<li><a href="#" class="label"><span>Listini</span></a></li>
-						</ul>
-					</li>
-				</ul>
-			</div>
-			<div class="flex__item">
-<!-- start club-profile.html-->
-<div club-profile (signUp)="onSignUp($event)" (login)="onLogin($event)">
-	<div class="container">
-		<form class="form" [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">
-			<div class="title">Il mio profilo</div>
-			<div class="listing--form">
-				<input name="checkField" [formControl]="controls.checkField" value="" type="text" style="display:none !important;" />
-				<div control-text [control]="controls.firstName" label="Nome"></div>
-				<div control-text [control]="controls.lastName" label="Cognome"></div>
-				<div control-text [control]="controls.company" label="Azienda"></div>
-				<div control-custom-select [control]="controls.role" label="Ruolo"></div>
-				<div control-custom-select [control]="controls.country" label="Nazione"></div>
-				<div control-custom-select [control]="controls.province" label="Provincia"></div>
-				<div control-text [control]="controls.address" label="Indirizzo"></div>
-				<div control-text [control]="controls.zipCode" label="Cap"></div>
-				<div control-text [control]="controls.city" label="Città"></div>
-				<div control-text [control]="controls.telephone" label="Telefono"></div>
-				<div control-text [control]="controls.fax" label="Fax"></div>
-				<div control-text [control]="controls.email" label="Email"></div>
-				<!-- <div control-text [control]="controls.username" label="Username"></div> -->
-				<!-- <div control-password [control]="controls.password" label="Password"></div> -->
-				<!-- <div control-password [control]="controls.passwordConfirm" label="Conferma Password"></div> -->
-				<!-- <div control-checkbox [control]="controls.privacy" label="Consenso al trattamento del dato"></div> -->
-				<div control-checkbox [control]="controls.newsletter" label="Voglio iscrivermi alla newsletter TIEMME <div href=%22#%22>aaa</div>"></div>
-			</div>
-			<div class="group--cta">
-				<button type="submit" class="btn--submit">
-					<span *if="!form.submitted">Salva</span>
-					<span *if="form.submitted">Inviato!</span>
-				</button>
-			</div>
-			<test-component [form]="form" (test)="test($event)" (reset)="reset($event)"></test-component>
-		</form>
+<section class="section--hero-secondary">
+	<div class="background">
+		<img lazy="/tiemme-com/img/news/hero-news.jpg" />
 	</div>
-</div>
-
-<!-- end club-profile.html-->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-10">
+				<div class="category">Comunicazione</div>
+				<div class="title">achievements</div>
 			</div>
 		</div>
 	</div>
 </section>
+
+<!-- start communication-menu.html-->
+<div class="sticky--menu">
+	<section class="section--menu">
+		<div class="container-fluid">
+			<ul class="nav--menu nav--menu--primary">
+				<li>
+					<a href="/tiemme-com/news.html" class="">
+						<span>News</span>
+					</a>
+				</li>
+				<li>
+					<a href="/tiemme-com/events.html" class="">
+						<span>Eventi e Fiere</span>
+					</a>
+				</li>
+				<li>
+					<a href="/tiemme-com/achievements.html" class="active">
+						<span>Realizzazioni</span>
+					</a>
+				</li>
+				<li class="group--search">
+					<svg class="icon icon--search"><use xlink:href="#search"></use></svg> <input class="form--control" placeholder="cerca..." />
+				</li>
+			</ul>
+		</div>
+	</section>
+</div>
+
+<!-- end communication-menu.html-->
+
+<!-- start listing-achievements.html-->
+<section class="section--achievements section--products-related">
+	<div class="container">
+		<div class="group--title">
+			<div class="title">Potrebbero Interessarti</div>
+		</div>
+		<div class="listing--achievements">
+			<a href="achievements-detail.html" class="card--achievement" appear>
+				<div class="picture picture--news">
+					<img lazy="/tiemme-com/img/achievements/case-01.jpg" />
+					<div class="location">messina, italy</div>
+				</div>
+				<div class="content">
+					<div class="title">Castello Gallego</div>
+					<div class="abstract">
+						<p>Progetto: Ristrutturazione Castello Gallego Prodotto Tiemme: Progetto dell’impianto di riscaldamento a pavimento Il Castello Gallego (sec. XVII) è il simbolo architettonico della città…</p>
+						<button type="button" class="btn--link"><span>dettaglio</span></button>
+					</div>
+				</div>
+			</a>
+			<a href="achievements-detail.html" class="card--achievement" appear>
+				<div class="picture picture--news">
+					<img lazy="/tiemme-com/img/achievements/case-02.jpg" />
+					<div class="location">torino, italy</div>
+				</div>
+				<div class="content">
+					<div class="title">Teatro Carignano</div>
+					<div class="abstract">
+						<p>Progetto: Rifunzionalizzazione del teatro È il più antico teatro torinese rimasto e, senza dubbio, uno dei più illustri in Italia per gli eventi che ha ospitato. Notevoli furono...</p>
+						<button type="button" class="btn--link"><span>dettaglio</span></button>
+					</div>
+				</div>
+			</a>
+			<a href="achievements-detail.html" class="card--achievement" appear>
+				<div class="picture picture--news">
+					<img lazy="/tiemme-com/img/achievements/case-03.jpg" />
+					<div class="location">brescia, italy</div>
+				</div>
+				<div class="content">
+					<div class="title">Palazzo Biscotto</div>
+					<div class="abstract">
+						<p>Edificio direzionale che si articola su 8 piani fuori terra ed uno interrato. I piani fuori terra si sviluppano per circa mq 800/cad, per un totale di circa 5400 mq di s.l.p. (superficie lorda di pavimento)....</p>
+						<button type="button" class="btn--link"><span>dettaglio</span></button>
+					</div>
+				</div>
+			</a>
+		</div>
+	</div>
+</section>
+
+<!-- end listing-achievements.html-->
 
 
 <!-- end main -->
@@ -1277,8 +1309,8 @@
 				<b>Comunicazione</b>
 				<ul class="nav--footer">
 					<li><a href="/tiemme-com/news.html">News</a></li>
-					<li><a href="/tiemme-com/eventi.html">Eventi e Fiere</a></li>
-					<li><a href="/tiemme-com/realizzazioni.html">Realizzazioni </a> </li>
+					<li><a href="/tiemme-com/events.html">Eventi e Fiere</a></li>
+					<li><a href="/tiemme-com/achievements.html">Realizzazioni</a> </li>
 				</ul>
 			</div>
 			<div class="flex__item">
@@ -1296,7 +1328,7 @@
 					<li><a href="#">Azienda</a></li>
 					<li><a href="/tiemme-com/contacts-contact-us.html">Contattaci</a></li>
 					<li><a href="/tiemme-com/contacts-contact-us.html">Filiali</a></li>
-					<li><a href="/tiemme-com/contacts-agenti.html">Cerca un agente</a></li>
+					<li><a href="/tiemme-com/contacts-agents.html">Cerca un agente</a></li>
 					<li><a href="/tiemme-com/contacts-work-with-us.html">Lavora con noi</a></li>
 				</ul>
 			</div>

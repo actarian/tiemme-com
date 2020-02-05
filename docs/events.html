@@ -965,8 +965,8 @@
 			</ul>
 			<ul class="nav--header" dropdown-item="1003">
 				<li><a href="/tiemme-com/news.html">News</a></li>
-				<li><a href="/tiemme-com/eventi.html">Eventi e Fiere</a></li>
-				<li><a href="/tiemme-com/realizzazioni.html">Realizzazioni </a> </li>
+				<li><a href="/tiemme-com/events.html">Eventi e Fiere</a></li>
+				<li><a href="/tiemme-com/achievements.html">Realizzazioni</a> </li>
 			</ul>
 			<ul class="nav--header" dropdown-item="1004">
 				<li><a href="#">Bim</a></li>
@@ -977,14 +977,14 @@
 			<ul class="nav--header" dropdown-item="1005">
 				<li><a href="/tiemme-com/contacts-contact-us.html">Contattaci</a></li>
 				<li><a href="/tiemme-com/contacts-work-with-us.html">Filiali</a></li>
-				<li><a href="/tiemme-com/contacts-agenti.html">Cerca un agente</a></li>
+				<li><a href="/tiemme-com/contacts-agents.html">Cerca un agente</a></li>
 				<li><a href="/tiemme-com/contacts-work-with-us.html">Lavora con noi</a></li>
 			</ul>
 		</div>
 		<!-- club -->
 		<div class="dropdown--menu" *if="menu == 'club'">
 <!-- start club.html-->
-<div class="section--club" club="/tiemme-com/club.html">
+<div class="section--club" club="/tiemme-com/club-profile.html">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-6 left">
@@ -1151,7 +1151,7 @@
 						</ul>
 					</div>
 				</div>
-				<a href="/tiemme-com/club.html" class="btn--club" *if="user"><span><svg class="icon icon--user"><use xlink:href="#user"></use></svg> Club Tiemme</span></a>
+				<a href="/tiemme-com/club-profile.html" class="btn--club" *if="user"><span><svg class="icon icon--user"><use xlink:href="#user"></use></svg> Club Tiemme</span></a>
 				<button type="button" class="btn--club" (click)="toggleMenu('club')" *if="!user"><span>Club Tiemme</span></button>
 			</div>
 		</div>
@@ -1175,7 +1175,7 @@
 	</div>
 </section>
 
-<!-- start comunicazione-menu.html-->
+<!-- start communication-menu.html-->
 <div class="sticky--menu">
 	<section class="section--menu">
 		<div class="container-fluid">
@@ -1186,16 +1186,15 @@
 					</a>
 				</li>
 				<li>
-					<a href="/tiemme-com/eventi.html" class="active">
+					<a href="/tiemme-com/events.html" class="active">
 						<span>Eventi e Fiere</span>
 					</a>
 				</li>
 				<li>
-					<a href="/tiemme-com/realizzazioni.html" class="">
+					<a href="/tiemme-com/achievements.html" class="">
 						<span>Realizzazioni</span>
 					</a>
 				</li>
-				
 				<li class="group--search">
 					<svg class="icon icon--search"><use xlink:href="#search"></use></svg> <input class="form--control" placeholder="cerca..." />
 				</li>
@@ -1204,15 +1203,15 @@
 	</section>
 </div>
 
-<!-- end comunicazione-menu.html-->
+<!-- end communication-menu.html-->
 
-<!-- start listing-eventi.html-->
-<section class="section--eventi">
+<!-- start listing-events.html-->
+<section class="section--events">
 	<div class="container">
-		<div class="listing--eventi">
-			<a href="dettaglio-evento.html" class="card--evento" appear>
+		<div class="listing--events">
+			<a href="events-detail.html" class="card--event" appear>
 				<div class="picture picture--news">
-					<img lazy="/tiemme-com/img/eventi/event-01.jpg" />
+					<img lazy="/tiemme-com/img/events/event-01.jpg" />
 					<div class="date">15 GEN 2019</div>
 					<div class="status in-corso">In Corso</div>
 				</div>
@@ -1224,9 +1223,9 @@
 					</div>
 				</div>
 			</a>
-			<a href="dettaglio-evento.html" class="card--evento" appear>
+			<a href="events-detail.html" class="card--event" appear>
 				<div class="picture picture--news">
-					<img lazy="/tiemme-com/img/eventi/event-02.jpg" />
+					<img lazy="/tiemme-com/img/events/event-02.jpg" />
 					<div class="date">14 ott 2019</div>
 					<div class="status terminato">Terminato</div>
 				</div>
@@ -1238,9 +1237,9 @@
 					</div>
 				</div>
 			</a>
-			<a href="dettaglio-evento.html" class="card--evento" appear>
+			<a href="events-detail.html" class="card--event" appear>
 				<div class="picture picture--news">
-					<img lazy="/tiemme-com/img/eventi/event-03.jpg" />
+					<img lazy="/tiemme-com/img/events/event-03.jpg" />
 					<div class="date">10 set 2019</div>
 					<div class="status terminato">Terminato</div>
 				</div>
@@ -1256,7 +1255,7 @@
 	</div>
 </section>
 
-<!-- end listing-eventi.html-->
+<!-- end listing-events.html-->
 
 
 <!-- end main -->
@@ -1310,8 +1309,8 @@
 				<b>Comunicazione</b>
 				<ul class="nav--footer">
 					<li><a href="/tiemme-com/news.html">News</a></li>
-					<li><a href="/tiemme-com/eventi.html">Eventi e Fiere</a></li>
-					<li><a href="/tiemme-com/realizzazioni.html">Realizzazioni </a> </li>
+					<li><a href="/tiemme-com/events.html">Eventi e Fiere</a></li>
+					<li><a href="/tiemme-com/achievements.html">Realizzazioni</a> </li>
 				</ul>
 			</div>
 			<div class="flex__item">
@@ -1329,7 +1328,7 @@
 					<li><a href="#">Azienda</a></li>
 					<li><a href="/tiemme-com/contacts-contact-us.html">Contattaci</a></li>
 					<li><a href="/tiemme-com/contacts-contact-us.html">Filiali</a></li>
-					<li><a href="/tiemme-com/contacts-agenti.html">Cerca un agente</a></li>
+					<li><a href="/tiemme-com/contacts-agents.html">Cerca un agente</a></li>
 					<li><a href="/tiemme-com/contacts-work-with-us.html">Lavora con noi</a></li>
 				</ul>
 			</div>

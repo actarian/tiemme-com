@@ -13,7 +13,7 @@
 			text-transform: uppercase;
 			margin: 0;
 
-			
+
 		}
 
 		i {
@@ -21,7 +21,7 @@
 		}
 	}
 
-	.share {		
+	.share {
 
 		.title {
 			text-transform: uppercase;
@@ -50,20 +50,14 @@
 }
 
 
-@include media-breakpoint-up(lg) {
-		
-}
+@include media-breakpoint-up(lg) {}
 
-@include media-breakpoint-down(md) {
-	
-}
+@include media-breakpoint-down(md) {}
 
-@include media-breakpoint-down(xs) {
-
-}
+@include media-breakpoint-down(xs) {}
 
 // Prodotti Utilizzati
-.section--prodotti-utilizzati {
+.section--products-related {
 	padding: 80px 0;
 
 	.group--title {

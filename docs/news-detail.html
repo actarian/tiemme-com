@@ -965,8 +965,8 @@
 			</ul>
 			<ul class="nav--header" dropdown-item="1003">
 				<li><a href="/tiemme-com/news.html">News</a></li>
-				<li><a href="/tiemme-com/eventi.html">Eventi e Fiere</a></li>
-				<li><a href="/tiemme-com/realizzazioni.html">Realizzazioni </a> </li>
+				<li><a href="/tiemme-com/events.html">Eventi e Fiere</a></li>
+				<li><a href="/tiemme-com/achievements.html">Realizzazioni</a> </li>
 			</ul>
 			<ul class="nav--header" dropdown-item="1004">
 				<li><a href="#">Bim</a></li>
@@ -977,14 +977,14 @@
 			<ul class="nav--header" dropdown-item="1005">
 				<li><a href="/tiemme-com/contacts-contact-us.html">Contattaci</a></li>
 				<li><a href="/tiemme-com/contacts-work-with-us.html">Filiali</a></li>
-				<li><a href="/tiemme-com/contacts-agenti.html">Cerca un agente</a></li>
+				<li><a href="/tiemme-com/contacts-agents.html">Cerca un agente</a></li>
 				<li><a href="/tiemme-com/contacts-work-with-us.html">Lavora con noi</a></li>
 			</ul>
 		</div>
 		<!-- club -->
 		<div class="dropdown--menu" *if="menu == 'club'">
 <!-- start club.html-->
-<div class="section--club" club="/tiemme-com/club.html">
+<div class="section--club" club="/tiemme-com/club-profile.html">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-6 left">
@@ -1151,7 +1151,7 @@
 						</ul>
 					</div>
 				</div>
-				<a href="/tiemme-com/club.html" class="btn--club" *if="user"><span><svg class="icon icon--user"><use xlink:href="#user"></use></svg> Club Tiemme</span></a>
+				<a href="/tiemme-com/club-profile.html" class="btn--club" *if="user"><span><svg class="icon icon--user"><use xlink:href="#user"></use></svg> Club Tiemme</span></a>
 				<button type="button" class="btn--club" (click)="toggleMenu('club')" *if="!user"><span>Club Tiemme</span></button>
 			</div>
 		</div>
@@ -1163,40 +1163,39 @@
 <!-- start main -->
 <section class="section--hero-secondary">
 	<div class="background">
-		<img lazy="/tiemme-com/img/eventi/event-01.jpg" />
+		<img lazy="/tiemme-com/img/news/news-06.jpg" />
 	</div>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-10">
-				<div class="category">15 Gen 2019</div>
-				<div class="title">MCE 2020</div>
+				<div class="category">11 Giugno 2018</div>
+				<div class="title">Raccordo a pressare serie 1650 “COBRAPRESS” per tubo multistrato Ø 90 mm</div>
 			</div>
 		</div>
 	</div>
 </section>
 
 
-<!-- start comunicazione-menu.html-->
+<!-- start communication-menu.html-->
 <div class="sticky--menu">
 	<section class="section--menu">
 		<div class="container-fluid">
 			<ul class="nav--menu nav--menu--primary">
 				<li>
-					<a href="/tiemme-com/news.html" class="">
+					<a href="/tiemme-com/news.html" class="active">
 						<span>News</span>
 					</a>
 				</li>
 				<li>
-					<a href="/tiemme-com/eventi.html" class="active">
+					<a href="/tiemme-com/events.html" class="">
 						<span>Eventi e Fiere</span>
 					</a>
 				</li>
 				<li>
-					<a href="/tiemme-com/realizzazioni.html" class="">
+					<a href="/tiemme-com/achievements.html" class="">
 						<span>Realizzazioni</span>
 					</a>
 				</li>
-				
 				<li class="group--search">
 					<svg class="icon icon--search"><use xlink:href="#search"></use></svg> <input class="form--control" placeholder="cerca..." />
 				</li>
@@ -1205,18 +1204,19 @@
 	</section>
 </div>
 
-<!-- end comunicazione-menu.html-->
+<!-- end communication-menu.html-->
 
-<!-- start content-evento.html-->
+<!-- start content-news.html-->
 <section class="section--dettaglio">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-9">
 				<div class="intro-text">
-					Fiera Milano RHO, 17 - 20 Marzo 2020
+					Dopo l’introduzione, a marzo 2017, dei raccordi a pressare serie 1650 “COBRAPRESS” Ø 75 mm, Tiemme arricchisce ulteriormente la famiglia inserendo una gamma completa di figure per tubo multistrato Ø 90 mm, in grado di aiutare l’installatore nella realizzazione di impianti idrotermosanitari sempre più performanti.
 				</div>
 				<div class="text">
-					<p>Vi aspettiamo allo stand P33 R26 del padiglione 4 per presentarvi tutte le novità Tiemme.
+					<p>A questo punto possiamo sicuramente affermare che la vasta gamma, la disponibilità, la qualità, il know-how e il servizio offerto, rende Tiemme il player di riferimento sul mercato per quanto riguarda il sistema multistrato.</p>
+					<p>Desideri saperne di più? <a href="#" class="btn--cta link">Catalogo prodotti</a></p>
 				</div>
 			</div>
 			<div class="col-md-3">
@@ -1244,7 +1244,7 @@
 		</div>
 	</div>
 </section>
-<!-- end content-evento.html-->
+<!-- end content-news.html-->
 
 
 <!-- end main -->
@@ -1298,8 +1298,8 @@
 				<b>Comunicazione</b>
 				<ul class="nav--footer">
 					<li><a href="/tiemme-com/news.html">News</a></li>
-					<li><a href="/tiemme-com/eventi.html">Eventi e Fiere</a></li>
-					<li><a href="/tiemme-com/realizzazioni.html">Realizzazioni </a> </li>
+					<li><a href="/tiemme-com/events.html">Eventi e Fiere</a></li>
+					<li><a href="/tiemme-com/achievements.html">Realizzazioni</a> </li>
 				</ul>
 			</div>
 			<div class="flex__item">
@@ -1317,7 +1317,7 @@
 					<li><a href="#">Azienda</a></li>
 					<li><a href="/tiemme-com/contacts-contact-us.html">Contattaci</a></li>
 					<li><a href="/tiemme-com/contacts-contact-us.html">Filiali</a></li>
-					<li><a href="/tiemme-com/contacts-agenti.html">Cerca un agente</a></li>
+					<li><a href="/tiemme-com/contacts-agents.html">Cerca un agente</a></li>
 					<li><a href="/tiemme-com/contacts-work-with-us.html">Lavora con noi</a></li>
 				</ul>
 			</div>

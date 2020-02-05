@@ -30,56 +30,56 @@
 	}
 }
 
-.section--eventi {
+.section--events {
 	padding: 80px 0;
 
-	.listing--eventi {
+	.listing--events {
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
 
 		@include media-breakpoint-up(lg) {
-			.card--evento {
+			.card--event {
 				@include as-col(4, 12, 20px);
 			}
 		}
 
 		@include media-breakpoint-down(md) {
-			.card--evento {
+			.card--event {
 				@include as-col(6, 12, 20px);
 			}
 		}
 
 		@include media-breakpoint-down(xs) {
-			.card--evento {
+			.card--event {
 				@include as-col(12, 12, 0px);
 			}
 		}
 	}
 }
 
-.section--realizzazioni {
+.section--achievements {
 	padding: 80px 0;
 
-	.listing--realizzazioni {
+	.listing--achievements {
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
 
 		@include media-breakpoint-up(lg) {
-			.card--realizzazione {
+			.card--achievement {
 				@include as-col(4, 12, 20px);
 			}
 		}
 
 		@include media-breakpoint-down(md) {
-			.card--realizzazione {
+			.card--achievement {
 				@include as-col(6, 12, 20px);
 			}
 		}
 
 		@include media-breakpoint-down(xs) {
-			.card--realizzazione {
+			.card--achievement {
 				@include as-col(12, 12, 0px);
 			}
 		}

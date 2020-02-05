@@ -4818,20 +4818,20 @@ ul {
     background: #b9bdcd;
     color: #16255b; }
 
-.card--evento {
+.card--event {
   margin-bottom: 80px; }
-  .card--evento .picture {
+  .card--event .picture {
     position: relative;
     width: 100%;
     padding-top: 68.22222%;
     overflow: hidden;
     margin-bottom: 25px; }
-    .card--evento .picture > img,
-    .card--evento .picture > svg,
-    .card--evento .picture > video,
-    .card--evento .picture > canvas,
-    .card--evento .picture > .video,
-    .card--evento .picture > iframe {
+    .card--event .picture > img,
+    .card--event .picture > svg,
+    .card--event .picture > video,
+    .card--event .picture > canvas,
+    .card--event .picture > .video,
+    .card--event .picture > iframe {
       position: absolute;
       top: 0;
       left: 0;
@@ -4839,14 +4839,14 @@ ul {
       height: 100%;
       -o-object-fit: cover;
          object-fit: cover; }
-    .card--evento .picture img {
+    .card--event .picture img {
       -webkit-transition: 700ms 0ms cubic-bezier(0.32, 0, 0.29, 0.99);
       transition: 700ms 0ms cubic-bezier(0.32, 0, 0.29, 0.99);
       -webkit-transition-property: opacity, -webkit-transform;
       transition-property: opacity, -webkit-transform;
       transition-property: transform, opacity;
       transition-property: transform, opacity, -webkit-transform; }
-    .card--evento .picture .date {
+    .card--event .picture .date {
       position: absolute;
       bottom: 0;
       left: 0;
@@ -4864,7 +4864,7 @@ ul {
           -ms-flex-align: center;
               align-items: center;
       padding: 0 10px; }
-    .card--evento .picture .status {
+    .card--event .picture .status {
       position: absolute;
       bottom: 0;
       right: 0;
@@ -4881,47 +4881,47 @@ ul {
           -ms-flex-align: center;
               align-items: center;
       padding: 0 10px; }
-      .card--evento .picture .status.in-corso {
+      .card--event .picture .status.in-corso {
         background-color: #5FB74A;
         color: #fff; }
-      .card--evento .picture .status.terminato {
+      .card--event .picture .status.terminato {
         background-color: #16255b;
         color: #fff; }
-  .card--evento .title {
+  .card--event .title {
     font-family: "Barlow Condensed", sans-serif;
     font-size: 22px;
     line-height: 30px;
     font-weight: 500;
     text-transform: uppercase;
     margin-bottom: 25px; }
-  .card--evento .abstract {
+  .card--event .abstract {
     font-size: 16px;
     line-height: 25px;
     font-weight: 300; }
-    .card--evento .abstract > p {
+    .card--event .abstract > p {
       display: inline;
       margin-right: 20px; }
-  .card--evento:hover .picture img {
+  .card--event:hover .picture img {
     -webkit-transform: scale(1.2);
             transform: scale(1.2); }
-  .card--evento:hover .btn--link span {
+  .card--event:hover .btn--link span {
     background: #b9bdcd;
     color: #16255b; }
 
-.card--realizzazione {
+.card--achievement {
   margin-bottom: 80px; }
-  .card--realizzazione .picture {
+  .card--achievement .picture {
     position: relative;
     width: 100%;
     padding-top: 68.22222%;
     overflow: hidden;
     margin-bottom: 25px; }
-    .card--realizzazione .picture > img,
-    .card--realizzazione .picture > svg,
-    .card--realizzazione .picture > video,
-    .card--realizzazione .picture > canvas,
-    .card--realizzazione .picture > .video,
-    .card--realizzazione .picture > iframe {
+    .card--achievement .picture > img,
+    .card--achievement .picture > svg,
+    .card--achievement .picture > video,
+    .card--achievement .picture > canvas,
+    .card--achievement .picture > .video,
+    .card--achievement .picture > iframe {
       position: absolute;
       top: 0;
       left: 0;
@@ -4929,14 +4929,14 @@ ul {
       height: 100%;
       -o-object-fit: cover;
          object-fit: cover; }
-    .card--realizzazione .picture img {
+    .card--achievement .picture img {
       -webkit-transition: 700ms 0ms cubic-bezier(0.32, 0, 0.29, 0.99);
       transition: 700ms 0ms cubic-bezier(0.32, 0, 0.29, 0.99);
       -webkit-transition-property: opacity, -webkit-transform;
       transition-property: opacity, -webkit-transform;
       transition-property: transform, opacity;
       transition-property: transform, opacity, -webkit-transform; }
-    .card--realizzazione .picture .location {
+    .card--achievement .picture .location {
       position: absolute;
       bottom: 0;
       left: 0;
@@ -4954,24 +4954,24 @@ ul {
           -ms-flex-align: center;
               align-items: center;
       padding: 0 10px; }
-  .card--realizzazione .title {
+  .card--achievement .title {
     font-family: "Barlow Condensed", sans-serif;
     font-size: 22px;
     line-height: 30px;
     font-weight: 500;
     text-transform: uppercase;
     margin-bottom: 25px; }
-  .card--realizzazione .abstract {
+  .card--achievement .abstract {
     font-size: 16px;
     line-height: 25px;
     font-weight: 300; }
-    .card--realizzazione .abstract > p {
+    .card--achievement .abstract > p {
       display: inline;
       margin-right: 20px; }
-  .card--realizzazione:hover .picture img {
+  .card--achievement:hover .picture img {
     -webkit-transform: scale(1.2);
             transform: scale(1.2); }
-  .card--realizzazione:hover .btn--link span {
+  .card--achievement:hover .btn--link span {
     background: #b9bdcd;
     color: #16255b; }
 
@@ -5685,9 +5685,9 @@ ul {
                 flex: 0 0 calc(100% - 0px);
         max-width: 100%; } }
 
-.section--eventi {
+.section--events {
   padding: 80px 0; }
-  .section--eventi .listing--eventi {
+  .section--events .listing--events {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -5697,27 +5697,27 @@ ul {
         -ms-flex-pack: justify;
             justify-content: space-between; }
     @media (min-width: 1440px) {
-      .section--eventi .listing--eventi .card--evento {
+      .section--events .listing--events .card--event {
         -webkit-box-flex: 0;
             -ms-flex: 0 0 calc(33.33333% - 20px);
                 flex: 0 0 calc(33.33333% - 20px);
         max-width: 33.33333%; } }
     @media (max-width: 1439.98px) {
-      .section--eventi .listing--eventi .card--evento {
+      .section--events .listing--events .card--event {
         -webkit-box-flex: 0;
             -ms-flex: 0 0 calc(50% - 20px);
                 flex: 0 0 calc(50% - 20px);
         max-width: 50%; } }
     @media (max-width: 767.98px) {
-      .section--eventi .listing--eventi .card--evento {
+      .section--events .listing--events .card--event {
         -webkit-box-flex: 0;
             -ms-flex: 0 0 calc(100% - 0px);
                 flex: 0 0 calc(100% - 0px);
         max-width: 100%; } }
 
-.section--realizzazioni {
+.section--achievements {
   padding: 80px 0; }
-  .section--realizzazioni .listing--realizzazioni {
+  .section--achievements .listing--achievements {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -5727,19 +5727,19 @@ ul {
         -ms-flex-pack: justify;
             justify-content: space-between; }
     @media (min-width: 1440px) {
-      .section--realizzazioni .listing--realizzazioni .card--realizzazione {
+      .section--achievements .listing--achievements .card--achievement {
         -webkit-box-flex: 0;
             -ms-flex: 0 0 calc(33.33333% - 20px);
                 flex: 0 0 calc(33.33333% - 20px);
         max-width: 33.33333%; } }
     @media (max-width: 1439.98px) {
-      .section--realizzazioni .listing--realizzazioni .card--realizzazione {
+      .section--achievements .listing--achievements .card--achievement {
         -webkit-box-flex: 0;
             -ms-flex: 0 0 calc(50% - 20px);
                 flex: 0 0 calc(50% - 20px);
         max-width: 50%; } }
     @media (max-width: 767.98px) {
-      .section--realizzazioni .listing--realizzazioni .card--realizzazione {
+      .section--achievements .listing--achievements .card--achievement {
         -webkit-box-flex: 0;
             -ms-flex: 0 0 calc(100% - 0px);
                 flex: 0 0 calc(100% - 0px);
@@ -6328,13 +6328,13 @@ img {
   .section--dettaglio .link {
     display: inline; }
 
-.section--prodotti-utilizzati {
+.section--products-related {
   padding: 80px 0; }
-  .section--prodotti-utilizzati .group--title {
+  .section--products-related .group--title {
     -webkit-box-pack: center;
         -ms-flex-pack: center;
             justify-content: center; }
-    .section--prodotti-utilizzati .group--title .title {
+    .section--products-related .group--title .title {
       font-size: 50px; }
 
 .section--agents {
