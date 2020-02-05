@@ -25,6 +25,8 @@ export default class WorkWithUsComponent extends Component {
 			introduction: new FormControl(null),
 			privacy: new FormControl(null, Validators.RequiredTrueValidator()),
 			curricula: new FormControl(null, Validators.RequiredValidator()),
+			checkRequest: window.antiforgery,
+			checkField: ''
 		});
 
 		const controls = form.controls;
@@ -53,6 +55,8 @@ export default class WorkWithUsComponent extends Component {
 			introduction: 'Hi!',
 			privacy: true,
 			curricula: {},
+			checkRequest: window.antiforgery,
+			checkField: ''
 		});
 	}
 

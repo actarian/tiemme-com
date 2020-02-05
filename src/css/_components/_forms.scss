@@ -385,6 +385,12 @@ errors-component {
 [control-custom-select] {
 	position: relative;
 
+	&.hidden {
+		display: block;
+		visibility: hidden;
+		pointer-events: none;
+	}
+
 	@include media-breakpoint-up(md) {
 
 		.dropdown {

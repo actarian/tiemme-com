@@ -17,6 +17,8 @@ export default class ClubSigninComponent extends Component {
 		const form = new FormGroup({
 			username: new FormControl(null, Validators.RequiredValidator()),
 			password: new FormControl(null, Validators.RequiredValidator()),
+			checkRequest: window.antiforgery,
+			checkField: ''
 		});
 
 		const controls = form.controls;
@@ -36,6 +38,8 @@ export default class ClubSigninComponent extends Component {
 		this.form.patch({
 			username: 'username',
 			password: 'password',
+			checkRequest: window.antiforgery,
+			checkField: ''
 		});
 	}
 

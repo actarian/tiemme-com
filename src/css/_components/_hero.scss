@@ -137,6 +137,18 @@
 	}
 }
 
+.section--hero-tertiary {
+	@extend %section--hero;
+
+	@include media-breakpoint-up(md) {
+		height: 200px;
+	}
+
+	@include media-breakpoint-down(sm) {
+		height: 200px;
+	}
+}
+
 .scroll__indicator {
 	position: absolute;
 	left: 50%;

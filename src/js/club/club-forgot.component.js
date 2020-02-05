@@ -12,6 +12,8 @@ export default class ClubForgotComponent extends Component {
 
 		const form = new FormGroup({
 			email: new FormControl(null, [Validators.RequiredValidator(), Validators.EmailValidator()]),
+			checkRequest: window.antiforgery,
+			checkField: ''
 		});
 
 		const controls = form.controls;
@@ -30,6 +32,8 @@ export default class ClubForgotComponent extends Component {
 	test() {
 		this.form.patch({
 			email: 'jhonappleseed@gmail.com',
+			checkRequest: window.antiforgery,
+			checkField: ''
 		});
 	}
 

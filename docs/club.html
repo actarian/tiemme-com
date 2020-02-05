@@ -1161,129 +1161,69 @@
 <!-- end header.html-->
 
 <!-- start main -->
-<section class="section--hero-secondary">
-	<div class="background">
-		<img lazy="/tiemme-com/img/contacts/contact-us/hero.jpg" />
-	</div>
-	<div class="container">
-		<div class="row">
-			<div class="col-md-10">
-				<div class="category">Contatti</div>
-				<div class="title">Headquarter</div>
-			</div>
-		</div>
-	</div>
+<section class="section--hero-tertiary">
+	<div class="background"></div>
 </section>
 
-<!-- start contacts-menu.html-->
-<div class="sticky--menu">
-	<section class="section--menu">
-		<div class="container-fluid">
-			<ul class="nav--menu nav--menu--primary">
-				<li>
-					<a href="/tiemme-com/contacts-contact-us.html" class="active">
-						<span>Contattaci</span>
-					</a>
-				</li>
-				<li>
-					<a href="/tiemme-com/contacts-work-with-us.html" class="">
-						<span>Filiali</span>
-					</a>
-				</li>
-				<li>
-					<a href="/tiemme-com/contacts-agenti.html" class="">
-						<span>Cerca un agente</span>
-					</a>
-				</li>
-				<li>
-					<a href="/tiemme-com/contacts-work-with-us.html" class="">
-						<span>Lavora con noi</span>
-					</a>
-				</li>
-				<li class="group--search">
-					<svg class="icon icon--search"><use xlink:href="#search"></use></svg> <input class="form--control" placeholder="cerca..." />
-				</li>
-			</ul>
-		</div>
-	</section>
-</div>
-
-<!-- end contacts-menu.html-->
-
-<section class="section--text-picture">
-	<!--
-	<svg class="icon icon--radiant icon--background"><use xlink:href="#radiant"></use></svg>
-	-->
+<section class="section--reserved-area">
+	<div class="container-fluid">
+		<div class="flex--row">
+			<div class="flex__item">
+				<ul class="nav--filters">
+					<li>
+						<span class="label">Menu</span>
+						<ul class="nav--options">
+							<li><a href="#" class="label"><span>Il mio profilo</span></a></li>
+							<li><a href="#" class="label"><span>Modifica password</span></a></li>
+							<li><a href="#" class="label"><span>Vantaggi</span></a></li>
+							<li><a href="#" class="label"><span>Partecipa agli eventi</span></a></li>
+							<li><a href="#" class="label"><span>Listini</span></a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<div class="flex__item">
+<!-- start club-profile.html-->
+<div club-profile (signUp)="onSignUp($event)" (login)="onLogin($event)">
 	<div class="container">
-		<div class="row">
-			<div class="col-lg-6">
-				<div class="group--address">
-					<div class="name">Tiemme Raccorderie Spa</div>
-					<div class="address">Via Cavallera, 6/A (loc. Barco) - 25045 Castegnato (BS) - Italia</div>
-					<div class="info"><span>Tel.</span> <a href="tel:00390302142211" class="btn--link"><span>+39 030 21.42.211</span></a></div>
-					<div class="info"><span>Fax.</span> <a href="tel:00390302142206" class="btn--link"><span>+39 030 21.42.206</span></a></div>
-					<div class="info"><span>Email</span> <a href="mailto:info@tiemme.com" class="btn--link"><span>info@tiemme.com</span></a></div>
-				</div>
-
-				<div class="group--address">
-					<div class="name">Customer Service</div>
-					<div class="info"><span>Fax.</span> <a href="tel:00390302142254" class="btn--link"><span>+39 030 21.42.254</span></a></div>
-					<div class="info"><span>Email</span> <a href="mailto:customerservice@tiemme.com" class="btn--link"><span>customerservice@tiemme.com</span></a></div>
-				</div>
-
-				<div class="group--address">
-					<div class="name">Ufficio Acquisti</div>
-					<div class="info"><span>Fax.</span> <a href="tel:00390302142229" class="btn--link"><span>+39 030 21.42.229</span></a></div>
-					<div class="info"><span>Email</span> <a href="mailto:acquisti@tiemme.com" class="btn--link"><span>acquisti@tiemme.com</span></a></div>
-				</div>
-
-			</div>
-			<div class="col-md-8 offset-md-2 col-lg-5 offset-lg-1">
-				<div class="picture picture--product">
-					<iframe src="https://www.google.com/maps/embed?pb=!1m17!1m11!1m3!1d26830.500563102778!2d10.127993343321194!3d45.54958472944363!2m2!1f0!2f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47817115262a75ab%3A0xe145bd0bd9c997e7!2sTIEMME+RACCORDERIE+S.P.A.!5e1!3m2!1sit!2sus!4v1397898975387" width="100%" height="600" frameborder="0" style="border:0"></iframe>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
-<!-- start request-info-commercial.html-->
-<section class="section--form background--tertiary" request-info-commercial>
-	<div class="container" *if="!submitted">
-		<div class="section--slides__title">Richiesta Informazioni</div>
 		<form class="form" [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">
+			<div class="title">Il mio profilo</div>
 			<div class="listing--form">
 				<input name="checkField" [formControl]="controls.checkField" value="" type="text" style="display:none !important;" />
 				<div control-text [control]="controls.firstName" label="Nome"></div>
 				<div control-text [control]="controls.lastName" label="Cognome"></div>
-				<div control-text [control]="controls.email" label="Email"></div>
 				<div control-text [control]="controls.company" label="Azienda"></div>
 				<div control-custom-select [control]="controls.role" label="Ruolo"></div>
-				<div control-custom-select [control]="controls.interests" label="Area di interesse"></div>
 				<div control-custom-select [control]="controls.country" label="Nazione"></div>
-				<div control-custom-select [control]="controls.province" label="Provincia" *if="controls.province.options.length"></div>
-				<div control-textarea [control]="controls.message" label="Messaggio"></div>
-				<div control-checkbox [control]="controls.privacy" label="Consenso al trattamento del dato"></div>
-				<div control-checkbox [control]="controls.newsletter" label="Voglio iscrivermi alla newsletter TIEMME"></div>
+				<div control-custom-select [control]="controls.province" label="Provincia"></div>
+				<div control-text [control]="controls.address" label="Indirizzo"></div>
+				<div control-text [control]="controls.zipCode" label="Cap"></div>
+				<div control-text [control]="controls.city" label="Città"></div>
+				<div control-text [control]="controls.telephone" label="Telefono"></div>
+				<div control-text [control]="controls.fax" label="Fax"></div>
+				<div control-text [control]="controls.email" label="Email"></div>
+				<!-- <div control-text [control]="controls.username" label="Username"></div> -->
+				<!-- <div control-password [control]="controls.password" label="Password"></div> -->
+				<!-- <div control-password [control]="controls.passwordConfirm" label="Conferma Password"></div> -->
+				<!-- <div control-checkbox [control]="controls.privacy" label="Consenso al trattamento del dato"></div> -->
+				<div control-checkbox [control]="controls.newsletter" label="Voglio iscrivermi alla newsletter TIEMME <div href=%22#%22>aaa</div>"></div>
 			</div>
 			<div class="group--cta">
 				<button type="submit" class="btn--submit">
-					<span *if="!form.submitted">Invia</span>
+					<span *if="!form.submitted">Salva</span>
 					<span *if="form.submitted">Inviato!</span>
 				</button>
 			</div>
 			<test-component [form]="form" (test)="test($event)" (reset)="reset($event)"></test-component>
 		</form>
 	</div>
-	<div class="container" *if="submitted">
-		<div class="section--slides__title">Richiesta Inviata</div>
-		<div class="abstract">
-			Grazie per averci contattato. La tua richiesta è stata inviata correttamente.
+</div>
+
+<!-- end club-profile.html-->
+			</div>
 		</div>
 	</div>
 </section>
-
-<!-- end request-info-commercial.html-->
 
 
 <!-- end main -->

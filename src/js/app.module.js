@@ -6,6 +6,7 @@ import AppearDirective from './appear/appear.directive';
 import ClickOutsideDirective from './click-outside/click-outside.directive';
 import ClubForgotComponent from './club/club-forgot.component';
 import ClubModalComponent from './club/club-modal.component';
+import ClubProfileComponent from './club/club-profile.component';
 import ClubSigninComponent from './club/club-signin.component';
 import ClubSignupComponent from './club/club-signup.component';
 import ClubComponent from './club/club.component';
@@ -52,6 +53,7 @@ AppModule.meta = {
 		ClubComponent,
 		ClubForgotComponent,
 		ClubModalComponent,
+		ClubProfileComponent,
 		ClubSigninComponent,
 		ClubSignupComponent,
 		ControlCheckboxComponent,

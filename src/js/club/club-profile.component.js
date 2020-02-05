@@ -3,7 +3,7 @@ import { FormControl, FormGroup, FormValidator, Validators } from 'rxcomp-form';
 import { takeUntil } from 'rxjs/operators';
 import HttpService from '../http/http.service';
 
-export default class ClubSignupComponent extends Component {
+export default class ClubProfileComponent extends Component {
 
 	onInit() {
 
@@ -28,10 +28,10 @@ export default class ClubSignupComponent extends Component {
 			telephone: new FormControl(null, Validators.RequiredValidator()),
 			fax: null,
 			email: new FormControl(null, [Validators.RequiredValidator(), Validators.EmailValidator()]),
-			username: new FormControl(null, [Validators.RequiredValidator()]),
-			password: new FormControl(null, [Validators.RequiredValidator()]),
-			passwordConfirm: new FormControl(null, [Validators.RequiredValidator(), this.MatchValidator('password')]),
-			privacy: new FormControl(null, Validators.RequiredTrueValidator()),
+			// username: new FormControl(null, [Validators.RequiredValidator()]),
+			// password: new FormControl(null, [Validators.RequiredValidator()]),
+			// passwordConfirm: new FormControl(null, [Validators.RequiredValidator(), this.MatchValidator('password')]),
+			// privacy: new FormControl(null, Validators.RequiredTrueValidator()),
 			newsletter: null,
 			checkRequest: window.antiforgery,
 			checkField: ''
@@ -46,7 +46,7 @@ export default class ClubSignupComponent extends Component {
 		form.changes$.pipe(
 			takeUntil(this.unsubscribe$)
 		).subscribe((changes) => {
-			// console.log('ClubSignupComponent.form.changes$', changes, form.valid);
+			// console.log('ClubProfileComponent.form.changes$', changes, form.valid);
 			const provinces = data.provinces.filter(province => {
 				return String(province.idstato) === String(changes.country);
 			});
@@ -56,6 +56,8 @@ export default class ClubSignupComponent extends Component {
 		});
 
 		this.form = form;
+
+		this.test();
 	}
 
 	test() {
@@ -70,10 +72,10 @@ export default class ClubSignupComponent extends Component {
 			city: 'Pesaro',
 			telephone: '00390721411112',
 			email: 'jhonappleseed@gmail.com',
-			username: 'username',
-			password: 'password',
-			passwordConfirm: 'password',
-			privacy: true,
+			// username: 'username',
+			// password: 'password',
+			// passwordConfirm: 'password',
+			// privacy: true,
 			checkRequest: window.antiforgery,
 			checkField: ''
 		});
@@ -94,14 +96,14 @@ export default class ClubSignupComponent extends Component {
 	}
 
 	onSubmit() {
-		// console.log('ClubSignupComponent.onSubmit', 'form.valid', valid);
+		// console.log('ClubProfileComponent.onSubmit', 'form.valid', valid);
 		if (this.form.valid) {
-			// console.log('ClubSignupComponent.onSubmit', this.form.value);
+			// console.log('ClubProfileComponent.onSubmit', this.form.value);
 			this.form.submitted = true;
-			this.http.post$('/WS/wsUsers.asmx/Register', { data: this.form.value })
+			this.http.post$('/WS/wsUsers.asmx/Update', { data: this.form.value })
 				.subscribe(response => {
-					console.log('ClubSignupComponent.onSubmit', response);
-					this.signUp.next(this.form.value); // change to response!!!
+					console.log('ClubProfileComponent.onSubmit', response);
+					this.update.next(this.form.value); // change to response!!!
 					// this.form.reset();
 				})
 		} else {
@@ -109,13 +111,9 @@ export default class ClubSignupComponent extends Component {
 		}
 	}
 
-	onLogin() {
-		this.login.next();
-	}
-
 }
 
-ClubSignupComponent.meta = {
-	selector: '[club-signup]',
-	outputs: ['signUp', 'login'],
+ClubProfileComponent.meta = {
+	selector: '[club-profile]',
+	outputs: ['update'],
 };

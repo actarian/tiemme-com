@@ -81,7 +81,7 @@
     subClass.__proto__ = superClass;
   }
 
-  var FilterMode$1 = {
+  var FilterMode = {
     SELECT: 'select',
     AND: 'and',
     OR: 'or'
@@ -92,7 +92,7 @@
   function () {
     function FilterItem(filter) {
       this.change$ = new rxjs.BehaviorSubject();
-      this.mode = FilterMode$1.SELECT;
+      this.mode = FilterMode.SELECT;
       this.filter = 'Filter';
       this.placeholder = 'Select';
       this.values = [];
@@ -102,7 +102,7 @@
         Object.assign(this, filter);
       }
 
-      if (filter.mode === FilterMode$1.SELECT) {
+      if (filter.mode === FilterMode.SELECT) {
         filter.options.unshift({
           label: filter.placeholder,
           value: undefined
@@ -121,7 +121,7 @@
 
       var match;
 
-      if (this.mode === FilterMode$1.OR) {
+      if (this.mode === FilterMode.OR) {
         match = this.values.length ? false : true;
         this.values.forEach(function (value) {
           match = match || _this.filter(item, value);
@@ -137,7 +137,7 @@
     };
 
     _proto.getLabel = function getLabel() {
-      if (this.mode === FilterMode$1.SELECT) {
+      if (this.mode === FilterMode.SELECT) {
         return this.placeholder || this.label;
       } else {
         return this.label;
@@ -149,7 +149,7 @@
     };
 
     _proto.set = function set(item) {
-      if (this.mode === FilterMode$1.SELECT) {
+      if (this.mode === FilterMode.SELECT) {
         this.values = [];
       }
 
@@ -161,7 +161,7 @@
         }
       }
 
-      if (this.mode === FilterMode$1.SELECT) {
+      if (this.mode === FilterMode.SELECT) {
         this.placeholder = item.label;
       } // console.log('FilterItem.set', item);
 
@@ -176,7 +176,7 @@
         this.values.splice(index, 1);
       }
 
-      if (this.mode === FilterMode$1.SELECT) {
+      if (this.mode === FilterMode.SELECT) {
         var first = this.options[0];
         this.placeholder = first.label;
       } // console.log('FilterItem.remove', item);
@@ -434,10 +434,10 @@
       var items = window.agents || [];
       var filters = window.filters || {};
       var initialParams = window.params || {};
-      filters.countries.mode = FilterMode$1.SELECT;
-      filters.regions.mode = FilterMode$1.SELECT;
-      filters.provinces.mode = FilterMode$1.SELECT;
-      filters.categories.mode = FilterMode$1.SELECT;
+      filters.countries.mode = FilterMode.SELECT;
+      filters.regions.mode = FilterMode.SELECT;
+      filters.provinces.mode = FilterMode.SELECT;
+      filters.categories.mode = FilterMode.SELECT;
       var filterService = new FilterService(filters, initialParams, function (key, filter) {
         switch (key) {
           case 'countries':
@@ -774,7 +774,9 @@
       this.http = HttpService;
       this.submitted = false;
       var form = new rxcompForm.FormGroup({
-        email: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator(), rxcompForm.Validators.EmailValidator()])
+        email: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator(), rxcompForm.Validators.EmailValidator()]),
+        checkRequest: window.antiforgery,
+        checkField: ''
       });
       var controls = form.controls;
       this.controls = controls;
@@ -787,7 +789,9 @@
 
     _proto.test = function test() {
       this.form.patch({
-        email: 'jhonappleseed@gmail.com'
+        email: 'jhonappleseed@gmail.com',
+        checkRequest: window.antiforgery,
+        checkField: ''
       });
     };
 
@@ -1092,6 +1096,138 @@
     selector: '[club-modal]'
   };
 
+  var ClubProfileComponent =
+  /*#__PURE__*/
+  function (_Component) {
+    _inheritsLoose(ClubProfileComponent, _Component);
+
+    function ClubProfileComponent() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = ClubProfileComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      var _this = this;
+
+      this.http = HttpService;
+      var data = window.data || {
+        roles: [],
+        countries: [],
+        provinces: []
+      };
+      var form = new rxcompForm.FormGroup({
+        firstName: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        lastName: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        company: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        role: null,
+        country: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        province: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        address: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        zipCode: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        city: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        telephone: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        fax: null,
+        email: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator(), rxcompForm.Validators.EmailValidator()]),
+        // username: new FormControl(null, [Validators.RequiredValidator()]),
+        // password: new FormControl(null, [Validators.RequiredValidator()]),
+        // passwordConfirm: new FormControl(null, [Validators.RequiredValidator(), this.MatchValidator('password')]),
+        // privacy: new FormControl(null, Validators.RequiredTrueValidator()),
+        newsletter: null,
+        checkRequest: window.antiforgery,
+        checkField: ''
+      });
+      var controls = form.controls;
+      controls.role.options = data.roles;
+      controls.country.options = data.countries;
+      controls.province.options = [];
+      this.controls = controls;
+      form.changes$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (changes) {
+        // console.log('ClubProfileComponent.form.changes$', changes, form.valid);
+        var provinces = data.provinces.filter(function (province) {
+          return String(province.idstato) === String(changes.country);
+        });
+        controls.province.options = provinces;
+        controls.province.disabled = provinces.length === 0;
+
+        _this.pushChanges();
+      });
+      this.form = form;
+      this.test();
+    };
+
+    _proto.test = function test() {
+      this.form.patch({
+        firstName: 'Jhon',
+        lastName: 'Appleseed',
+        company: 'Websolute',
+        role: this.controls.role.options[0].id,
+        country: this.controls.country.options[0].id,
+        address: 'Strada della Campanara',
+        zipCode: '15',
+        city: 'Pesaro',
+        telephone: '00390721411112',
+        email: 'jhonappleseed@gmail.com',
+        // username: 'username',
+        // password: 'password',
+        // passwordConfirm: 'password',
+        // privacy: true,
+        checkRequest: window.antiforgery,
+        checkField: ''
+      });
+    };
+
+    _proto.MatchValidator = function MatchValidator(fieldName) {
+      var _this2 = this;
+
+      return new rxcompForm.FormValidator(function (value) {
+        var field = _this2.form ? _this2.form.get(fieldName) : null;
+
+        if (!value || !field) {
+          return null;
+        }
+
+        return value !== field.value ? {
+          match: {
+            value: value,
+            match: field.value
+          }
+        } : null;
+      });
+    };
+
+    _proto.reset = function reset() {
+      this.form.reset();
+    };
+
+    _proto.onSubmit = function onSubmit() {
+      var _this3 = this;
+
+      // console.log('ClubProfileComponent.onSubmit', 'form.valid', valid);
+      if (this.form.valid) {
+        // console.log('ClubProfileComponent.onSubmit', this.form.value);
+        this.form.submitted = true;
+        this.http.post$('/WS/wsUsers.asmx/Update', {
+          data: this.form.value
+        }).subscribe(function (response) {
+          console.log('ClubProfileComponent.onSubmit', response);
+
+          _this3.update.next(_this3.form.value); // change to response!!!
+          // this.form.reset();
+
+        });
+      } else {
+        this.form.touched = true;
+      }
+    };
+
+    return ClubProfileComponent;
+  }(rxcomp.Component);
+  ClubProfileComponent.meta = {
+    selector: '[club-profile]',
+    outputs: ['update']
+  };
+
   var ClubSigninComponent =
   /*#__PURE__*/
   function (_Component) {
@@ -1109,7 +1245,9 @@
       this.http = HttpService;
       var form = new rxcompForm.FormGroup({
         username: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
-        password: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator())
+        password: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        checkRequest: window.antiforgery,
+        checkField: ''
       });
       var controls = form.controls;
       this.controls = controls;
@@ -1123,7 +1261,9 @@
     _proto.test = function test() {
       this.form.patch({
         username: 'username',
-        password: 'password'
+        password: 'password',
+        checkRequest: window.antiforgery,
+        checkField: ''
       });
     };
 
@@ -1203,7 +1343,9 @@
         password: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator()]),
         passwordConfirm: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator(), this.MatchValidator('password')]),
         privacy: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredTrueValidator()),
-        newsletter: null
+        newsletter: null,
+        checkRequest: window.antiforgery,
+        checkField: ''
       });
       var controls = form.controls;
       controls.role.options = data.roles;
@@ -1238,7 +1380,9 @@
         username: 'username',
         password: 'password',
         passwordConfirm: 'password',
-        privacy: true
+        privacy: true,
+        checkRequest: window.antiforgery,
+        checkField: ''
       });
     };
 
@@ -1459,8 +1603,6 @@
     inputs: ['dropdown-item']
   };
 
-  // export const FormAttributes = ['untouched', 'touched', 'pristine', 'dirty', 'pending', 'enabled', 'disabled', 'valid', 'invalid', 'submitted'];
-
   var ControlComponent =
   /*#__PURE__*/
   function (_Component) {
@@ -1473,22 +1615,17 @@
     var _proto = ControlComponent.prototype;
 
     _proto.onChanges = function onChanges() {
-      /*
-      const { node } = getContext(this);
-      const control = this.control;
-      FormAttributes.forEach(x => {
-      	if (control[x]) {
-      		node.classList.add(x);
-      	} else {
-      		node.classList.remove(x);
-      	}
-      	if (control.errors.required) {
-      		node.classList.add('required');
-      	} else {
-      		node.classList.remove('required');
-      	}
+      var _getContext = rxcomp.getContext(this),
+          node = _getContext.node;
+
+      var control = this.control;
+      rxcompForm.FormAttributes.forEach(function (x) {
+        if (control[x]) {
+          node.classList.add(x);
+        } else {
+          node.classList.remove(x);
+        }
       });
-      */
     };
 
     return ControlComponent;
@@ -1603,7 +1740,7 @@
     };
 
     _proto.onDropped = function onDropped($event) {
-      console.log($event);
+      // console.log($event);
       this.dropped = $event === this.dropdownId;
     }
     /*
@@ -2231,7 +2368,6 @@
         provinces: []
       };
       var form = new rxcompForm.FormGroup({
-        checkRequest: window.labels.antiforgery,
         firstName: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
         lastName: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
         email: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator(), rxcompForm.Validators.EmailValidator()]),
@@ -2241,10 +2377,11 @@
         country: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
         province: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
         message: null,
-        checkField: '',
         privacy: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredTrueValidator()),
         newsletter: null,
-        scope: 'www.website.com'
+        scope: 'www.website.com',
+        checkRequest: window.antiforgery,
+        checkField: ''
       });
       var controls = form.controls;
       controls.role.options = data.roles;
@@ -2275,7 +2412,7 @@
         interests: this.controls.interests.options[0].id,
         country: this.controls.country.options[0].id,
         privacy: true,
-        checkRequest: window.labels.antiforgery,
+        checkRequest: window.antiforgery,
         checkField: ''
       });
     };
@@ -2794,7 +2931,9 @@
         department: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
         introduction: new rxcompForm.FormControl(null),
         privacy: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredTrueValidator()),
-        curricula: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator())
+        curricula: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        checkRequest: window.antiforgery,
+        checkField: ''
       });
       var controls = form.controls;
       controls.department.options = data.departments;
@@ -2817,7 +2956,9 @@
         department: this.controls.departments.options[0].id,
         introduction: 'Hi!',
         privacy: true,
-        curricula: {}
+        curricula: {},
+        checkRequest: window.antiforgery,
+        checkField: ''
       });
     };
 
@@ -3183,7 +3324,7 @@
   }(rxcomp.Module);
   AppModule.meta = {
     imports: [rxcomp.CoreModule, rxcompForm.FormModule],
-    declarations: [AgentsComponent, AppearDirective, ClickOutsideDirective, ClubComponent, ClubForgotComponent, ClubModalComponent, ClubSigninComponent, ClubSignupComponent, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlPasswordComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, FileSizePipe, HeaderComponent, LazyDirective, MainMenuComponent, MediaLibraryComponent, ModalOutletComponent, RequestInfoCommercialComponent, RegisterOrLoginComponent, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, TestComponent, // ValueDirective,
+    declarations: [AgentsComponent, AppearDirective, ClickOutsideDirective, ClubComponent, ClubForgotComponent, ClubModalComponent, ClubProfileComponent, ClubSigninComponent, ClubSignupComponent, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlPasswordComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, FileSizePipe, HeaderComponent, LazyDirective, MainMenuComponent, MediaLibraryComponent, ModalOutletComponent, RequestInfoCommercialComponent, RegisterOrLoginComponent, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, TestComponent, // ValueDirective,
     VideoComponent, WorkWithUsComponent, YoutubeComponent, ZoomableDirective],
     bootstrap: AppComponent
   };

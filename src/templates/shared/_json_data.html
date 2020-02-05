@@ -1,4 +1,6 @@
 <script>
+	window.antiforgery = '@(AppSession.Current.AntiForgeryToken.Value)';
+
 	window.labels = {
 		'select': 'Seleziona',
 		'select_file': 'Seleziona un file...',

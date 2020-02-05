@@ -3,6 +3,7 @@
 		<form class="form" [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">
 			<div class="title">Recupera Password</div>
 			<div class="fields">
+				<input name="checkField" [formControl]="controls.checkField" value="" type="text" style="display:none !important;" />
 				<div control-text [control]="controls.email" label="Email"></div>
 			</div>
 			<div class="group--cta">

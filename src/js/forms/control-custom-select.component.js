@@ -69,7 +69,7 @@ export default class ControlCustomSelectComponent extends ControlComponent {
 	}
 
 	onDropped($event) {
-		console.log($event);
+		// console.log($event);
 		this.dropped = $event === this.dropdownId;
 	}
 

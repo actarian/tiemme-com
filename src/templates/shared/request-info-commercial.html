@@ -1,10 +1,9 @@
-<!-- @@include ./_json_data.html -->
-
 <section class="section--form background--tertiary" request-info-commercial>
 	<div class="container" *if="!submitted">
 		<div class="section--slides__title">Richiesta Informazioni</div>
 		<form class="form" [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">
 			<div class="listing--form">
+				<input name="checkField" [formControl]="controls.checkField" value="" type="text" style="display:none !important;" />
 				<div control-text [control]="controls.firstName" label="Nome"></div>
 				<div control-text [control]="controls.lastName" label="Cognome"></div>
 				<div control-text [control]="controls.email" label="Email"></div>

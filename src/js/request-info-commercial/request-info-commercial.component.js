@@ -30,7 +30,6 @@ export default class RequestInfoCommercialComponent extends Component {
 		};
 
 		const form = new FormGroup({
-			checkRequest: window.labels.antiforgery,
 			firstName: new FormControl(null, Validators.RequiredValidator()),
 			lastName: new FormControl(null, Validators.RequiredValidator()),
 			email: new FormControl(null, [Validators.RequiredValidator(), Validators.EmailValidator()]),
@@ -40,10 +39,11 @@ export default class RequestInfoCommercialComponent extends Component {
 			country: new FormControl(null, Validators.RequiredValidator()),
 			province: new FormControl(null, Validators.RequiredValidator()),
 			message: null,
-			checkField: '',
 			privacy: new FormControl(null, Validators.RequiredTrueValidator()),
 			newsletter: null,
 			scope: 'www.website.com',
+			checkRequest: window.antiforgery,
+			checkField: '',
 		});
 
 		const controls = form.controls;
@@ -78,7 +78,7 @@ export default class RequestInfoCommercialComponent extends Component {
 			interests: this.controls.interests.options[0].id,
 			country: this.controls.country.options[0].id,
 			privacy: true,
-			checkRequest: window.labels.antiforgery,
+			checkRequest: window.antiforgery,
 			checkField: ''
 		});
 	}

@@ -1,5 +1,6 @@
 import { Component } from 'rxcomp';
 import { takeUntil } from 'rxjs/operators';
+import { FilterMode } from '../filter/filter-item';
 import FilterService from '../filter/filter.service';
 
 // const GTM_CAT = 'media-library';
