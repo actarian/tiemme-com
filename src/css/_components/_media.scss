@@ -7,7 +7,8 @@
 	height: 196px;
 	transform: translateX(-50%) translateY(-50%);
 	pointer-events: none;
-	transition: opacity ease-in-out 350ms 200ms;
+	transition: ease-in-out 350ms 200ms;
+	transition-property: width, height, opacity;
 
 	.icon--play-progress,
 	.icon--play-progress-background {
@@ -19,7 +20,8 @@
 		left: 0;
 		fill: transparent;
 		stroke: $foreground-negative;
-		transition: opacity ease-in-out 350ms;
+		transition: ease-in-out 350ms 200ms;
+		transition-property: width, height, opacity;
 	}
 
 	.icon--play,

@@ -1,7 +1,7 @@
 import { BehaviorSubject } from 'rxjs';
 
 export const FilterMode = {
-	EXACT: 'exact',
+	SELECT: 'select',
 	AND: 'and',
 	OR: 'or',
 };
@@ -10,10 +10,19 @@ export default class FilterItem {
 
 	constructor(filter) {
 		this.change$ = new BehaviorSubject();
-		this.mode = FilterMode.EXACT;
+		this.mode = FilterMode.SELECT;
+		this.filter = 'Filter';
+		this.placeholder = 'Select';
 		this.values = [];
+		this.options = [];
 		if (filter) {
 			Object.assign(this, filter);
+		}
+		if (filter.mode === FilterMode.SELECT) {
+			filter.options.unshift({
+				label: filter.placeholder,
+				value: undefined,
+			});
 		}
 	}
 
@@ -38,7 +47,7 @@ export default class FilterItem {
 	}
 
 	getLabel() {
-		if (this.mode === FilterMode.EXACT) {
+		if (this.mode === FilterMode.SELECT) {
 			return this.placeholder || this.label;
 		} else {
 			return this.label;
@@ -50,15 +59,20 @@ export default class FilterItem {
 	}
 
 	set(item) {
+		if (this.mode === FilterMode.SELECT) {
+			this.values = [];
+		}
 		const index = this.values.indexOf(item.value);
 		if (index === -1) {
-			this.values.push(item.value);
+			if (item.value !== undefined) {
+				this.values.push(item.value);
+			}
 		}
-		if (this.mode === FilterMode.EXACT) {
+		if (this.mode === FilterMode.SELECT) {
 			this.placeholder = item.label;
 		}
 		// console.log('FilterItem.set', item);
-		this.change$.next(item.value);
+		this.change$.next();
 	}
 
 	remove(item) {
@@ -66,18 +80,15 @@ export default class FilterItem {
 		if (index !== -1) {
 			this.values.splice(index, 1);
 		}
-		if (this.mode === FilterMode.EXACT) {
+		if (this.mode === FilterMode.SELECT) {
 			const first = this.options[0];
 			this.placeholder = first.label;
 		}
 		// console.log('FilterItem.remove', item);
-		this.change$.next(item.value);
+		this.change$.next();
 	}
 
 	toggle(item) {
-		if (this.mode === FilterMode.EXACT) {
-			this.values = [];
-		}
 		if (this.has(item)) {
 			this.remove(item);
 		} else {

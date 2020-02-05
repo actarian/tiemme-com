@@ -1,7 +1,7 @@
 import { merge } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import LocationService from '../location/location.service';
-import FilterItem, { FilterMode } from './filter-item';
+import FilterItem from './filter-item';
 
 export default class FilterService {
 
@@ -12,12 +12,6 @@ export default class FilterService {
 				const filter = new FilterItem(options[key]);
 				if (typeof callback === 'function') {
 					callback(key, filter);
-				}
-				if (filter.mode === FilterMode.EXACT) {
-					filter.options.unshift({
-						label: filters[key].placeholder,
-						value: null,
-					});
 				}
 				filters[key] = filter;
 			});

@@ -197,7 +197,7 @@
 			<ul class="nav--header" dropdown-item="1005">
 				<li><a href="/tiemme-com/contacts-contact-us.html">Contattaci</a></li>
 				<li><a href="/tiemme-com/contacts-work-with-us.html">Filiali</a></li>
-				<li><a href="/tiemme-com/contacts-work-with-us.html">Cerca un agente</a></li>
+				<li><a href="/tiemme-com/contacts-agenti.html">Cerca un agente</a></li>
 				<li><a href="/tiemme-com/contacts-work-with-us.html">Lavora con noi</a></li>
 			</ul>
 		</div>
@@ -1209,8 +1209,8 @@
 	window.filters = {
 		countries: {
 			label: 'Nazione',
-			placeholder: 'tutte le nazioni',
-			mode: 'and',
+			placeholder: 'Seleziona',
+			mode: 'select',
 			options: [
 				{ value: "ITALIA", label: "Italia" },
 				{ value: "ALBANIA", label: "Albania" },
@@ -1221,8 +1221,8 @@
 		},
 		regions: {
 			label: 'Regione',
-			placeholder: 'tutte le regioni',
-			mode: 'or',
+			placeholder: 'Seleziona',
+			mode: 'select',
 			options: [
 				{ value: "ABRUZZO", label: "ABRUZZO", country: 'ITALIA' },
 				{ value: "BASILICATA", label: "BASILICATA", country: 'ITALIA' },
@@ -1249,8 +1249,8 @@
 		},
 		provinces: {
 			label: 'Provincia',
-			placeholder: 'tutte le province',
-			mode: 'and',
+			placeholder: 'Seleziona',
+			mode: 'select',
 			options: [
 				{ "value": "AG", "label": "AG", country: 'ITALIA' },
 				{ "value": "AL", "label": "AL", country: 'ITALIA' },
@@ -1367,13 +1367,13 @@
 		},
 		categories: {
 			label: 'Categoria',
-			placeholder: 'tutte le categorie',
-			mode: 'and',
+			placeholder: 'Seleziona',
+			mode: 'select',
 			options: [
-				{ value: "Componenti Idraulici", label: "Componenti Idraulici" },
-				{ value: "Centrale Termica", label: "Centrale Termica" },
-				{ value: "Sistemi Radianti", label: "Sistemi Radianti" },
-				{ value: "Rubinetti", label: "Rubinetti" },
+				{ value: 1, label: "Componenti Idraulici" },
+				{ value: 2, label: "Centrale Termica" },
+				{ value: 3, label: "Sistemi Radianti" },
+				{ value: 4, label: "Rubinetti" },
 			]
 		},
 	}
@@ -1382,8 +1382,7 @@
 		/* ALBANIA */
 		{
 			name: 'TIEMME HELLAS S.A.',
-			radianti: true,
-			raccorderie: true,
+			categories: [3, 1],
 			address: 'Thesi Drassaria - 19300 Aspropyrgos',
 			telephone: '+30 2105571500',
 			email: 'info@tiemme.gr',
@@ -1392,8 +1391,7 @@
 		/* BULGARIA */
 		{
 			name: 'TIEMME HELLAS S.A.',
-			radianti: true,
-			raccorderie: true,
+			categories: [3, 1],
 			address: 'Thesi Drassaria - 19300 Aspropyrgos',
 			telephone: '+30 2105571500',
 			email: 'info@tiemme.gr',
@@ -1402,8 +1400,7 @@
 		/* GRECIA */
 		{
 			name: 'TIEMME HELLAS S.A.',
-			radianti: true,
-			raccorderie: true,
+			categories: [3, 1],
 			address: 'Thesi Drassaria - 19300 Aspropyrgos',
 			telephone: '+30 2105571500',
 			email: 'info@tiemme.gr',
@@ -1412,9 +1409,7 @@
 		/* REPUBBLICA DI S.MARINO */
 		{
 			name: 'POLETTI MARCO',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'VIA MURAGLIONE 13 48012 BAGNACAVALLO (RA)',
 			telephone: '+39 335 327369 / +39 054563894',
 			email: 'marcopoletti@polettimarco.it',
@@ -1424,9 +1419,7 @@
 		/* ITALIA */
 		{
 			name: 'AGENZIA STORTO PIETRO',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'P.ZZA MUNICIPIO, 9 86020 CASTELLINO DEL BIFERMO - CAMPOBASSO',
 			telephone: 'Sig. Storto 335-1403714',
 			email: 'pietro.storto@virgilio.it',
@@ -1435,9 +1428,7 @@
 			provinces: ['IS', 'CB']
 		}, {
 			name: 'ANTONIO DAL COL',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'VIA CAL GRANDE INTERMEDIA, 13 31028 VAZZOLA (Treviso)',
 			telephone: 'Tel. 0438 441103',
 			mobilePhone: '336 359922',
@@ -1447,9 +1438,7 @@
 			provinces: ['UD', 'PN', 'TS', 'GO']
 		}, {
 			name: 'ANTONIO DAL COL',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'VIA CAL GRANDE INTERMEDIA, 13 - 31028 VAZZOLA (Treviso)',
 			telephone: 'Tel. 0438 441103',
 			mobilePhone: '336 359922',
@@ -1459,9 +1448,7 @@
 			provinces: ['TV', 'PD', 'RO', 'VE', 'VI', 'BL']
 		}, {
 			name: 'ANTONIO DAL COL',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'VIA CAL GRANDE INTERMEDIA, 13 - 31028 VAZZOLA (Treviso)',
 			telephone: 'Tel. 0438 441103',
 			mobilePhone: '336 359922',
@@ -1471,9 +1458,7 @@
 			provinces: ['TN', 'BZ']
 		}, {
 			name: 'BONA LUCA',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'Via L. Bassani 39 37069 Villafranca di Verona (VR)',
 			telephone: '335.7621910 / 045.6937680',
 			email: 'bn.ufficio@gmail.com',
@@ -1482,9 +1467,7 @@
 			provinces: ['VR']
 		}, {
 			name: 'BONAZZA SANDRO',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'VIA MAZZINI 44 27020 OTTOBIANO - PAVIA',
 			telephone: 'Sig. Bonazza 335-5860182 / Sig. William 392-9024616',
 			email: 'bonazzas@gmail.com',
@@ -1493,9 +1476,7 @@
 			provinces: ['PV']
 		}, {
 			name: 'CMC RAPPRESENTANZE TERMOTECNICHE DI MORRONE CHRISTIAN',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'Via Carlo Cattaneo 17 A/B 74121 TARANTO (TA)',
 			telephone: '099.7791502 / 392.4149999',
 			email: 'info@cmcrappresentanze.it',
@@ -1504,8 +1485,7 @@
 			provinces: ['BR', 'TA', 'LE']
 		}, {
 			name: 'CORRADO RAPPRESENTANZE SAS',
-			radianti: true,
-			raccorderie: true,
+			categories: [3, 1],
 			address: 'VIA D. FONTANA, 184 80131 NAPOLI',
 			telephone: 'Sig. Giuseppe 337-843733 / Sig. Salvatore 335-6656224',
 			email: 'corradosas@fastwebnet.it',
@@ -1514,8 +1494,7 @@
 			provinces: ['PZ']
 		}, {
 			name: 'CORRADO RAPPRESENTANZE SAS',
-			radianti: true,
-			raccorderie: true,
+			categories: [3, 1],
 			address: 'VIA D. FONTANA, 184 80131 NAPOLI',
 			telephone: 'Sig. Giuseppe 337-843733 / Sig. Salvatore 335-6656224',
 			email: 'corradosas@fastwebnet.it',
@@ -1524,9 +1503,7 @@
 			provinces: ['NA', 'SA', 'AV', 'BN', 'CE']
 		}, {
 			name: 'CUCCU GIUSEPPE',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'VIA NAZIONALE, 132 09039 - VILLACIDRO (VS)',
 			telephone: 'Cel. 348 7624498 - Tel./Fax 340 7624490',
 			email: 'gcuccu.clima@gmail.com',
@@ -1535,9 +1512,7 @@
 			provinces: ['CA', 'CI', 'OG', 'VS', 'OR']
 		}, {
 			name: 'CURRADO BRUNO RAPPRESENTANZE',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'VIA DURANDO N.1/B 14037 PORTACOMARO D\'ASTI - ASTI',
 			telephone: '335-216205 / 336-790137',
 			email: 'curradobruno@libero.it',
@@ -1546,9 +1521,7 @@
 			provinces: ['CN', 'TO', 'VC', 'AT', 'NO', 'AL', 'BI', 'VB']
 		}, {
 			name: 'CURRADO BRUNO RAPPRESENTANZE',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'VIA DURANDO N.1/B 14037 PORTACOMARO D\'ASTI - ASTI',
 			telephone: '335-216205 / 336-790137',
 			email: 'curradobruno@libero.it',
@@ -1557,8 +1530,7 @@
 			provinces: ['AO']
 		}, {
 			name: 'D.P.S. DI DE PAOLIS STEFANO &amp; C. S.A.S',
-			rubinetterie: true,
-			radianti: true,
+			categories: [4, 3],
 			address: 'VIA MONS. TAGLIAFERRI N.3 03011 ALATRI - FROSINONE',
 			telephone: '335-7828693',
 			email: 'dpstefano@hotmail.it',
@@ -1568,9 +1540,7 @@
 			note: 'ESCLUSO SISTEMI'
 		}, {
 			name: 'ENERTEC DI PANTALEO LUIGI',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'VIA LUIGI POLACCHI , 6 65129 PESCARA',
 			telephone: 'Sig. Pantaleo 338-9146400',
 			email: 'enertecagenzia@gmail.com',
@@ -1579,9 +1549,7 @@
 			provinces: ['PE', 'AQ', 'CH', 'TE']
 		}, {
 			name: 'EUROSERVICE TRADE S.r.l.',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'VIALE EMILIA 98/C - 88060 - S.MARIA DI CATANZARO - CATANZARO',
 			telephone: 'Sig. Gianni 340-8716087 / Sig. Floro 348-0947380 / Sig. Dattilo 348-0947383',
 			email: 'info@euroservicesnc.it',
@@ -1590,9 +1558,7 @@
 			provinces: ['CZ', 'CS', 'KR', 'RC', 'VV']
 		}, {
 			name: 'FERRARA RAPPRESENTANZE',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'VIA VOMERO, 56 70019 TRIGGIANO - BARI',
 			telephone: 'Sig. Ferrara 335-6956778',
 			email: 'info@ftrappresentanze.it',
@@ -1601,9 +1567,7 @@
 			provinces: ['MT']
 		}, {
 			name: 'FERRARA RAPPRESENTANZE',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'VIA VOMERO, 56 70019 TRIGGIANO - BARI',
 			telephone: 'Sig. Ferrara 335-6956778',
 			email: 'info@ftrappresentanze.it',
@@ -1612,9 +1576,7 @@
 			provinces: ['FG', 'BA', 'BT']
 		}, {
 			name: 'FRANCESCO GIANGUALANO RAPPRESENTANZE',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'VIA ARGINE CROSTOLO, 5 42016 GUASTALLA - REGGIO EMILIA',
 			telephone: '328-7449673',
 			email: 'effegirapp@gmail.com',
@@ -1623,9 +1585,7 @@
 			provinces: ['MO', 'RE']
 		}, {
 			name: 'GELMINI MARCO',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'VICOLO IVO COBIANCHI N.7 43126 PARMA',
 			telephone: '335 7054760',
 			email: 'marcogelmini74@gmail.com',
@@ -1634,9 +1594,7 @@
 			provinces: ['PR', 'PC']
 		}, {
 			name: 'MANCA SALVATORE',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'VIA LAMARMORA 4 - 07033 OSILO (SS)',
 			telephone: 'Cell. 333-6045029',
 			email: 'mancarappresentanze@alice.it',
@@ -1645,9 +1603,7 @@
 			provinces: ['NU', 'OT', 'SS']
 		}, {
 			name: 'MARINI PAOLO',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'LOC.MONTECAVALLO, 46/P 61042 APECCHIO - PESARO E URBINO',
 			telephone: '335-6065301',
 			email: 'paolomarini1961@gmail.com',
@@ -1656,9 +1612,7 @@
 			provinces: ['AR']
 		}, {
 			name: 'MARINI PAOLO',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'LOC.MONTECAVALLO 46/P 61042 APECCHIO - PESARO E URBINO',
 			telephone: '335-6065301',
 			email: 'paolomarini1961@gmail.com',
@@ -1667,7 +1621,7 @@
 			provinces: ['PG']
 		}, {
 			name: 'MARTORANA ANTONINO',
-			raccorderie: true,
+			categories: [1],
 			address: 'VIA UGO LA MALFA 58/A - 90014 CASTELDACCIA (PA)',
 			telephone: '380 2108717',
 			email: 'a.martorana@tiemme.com',
@@ -1677,7 +1631,7 @@
 			note: 'Solo SISTEMI'
 		}, {
 			name: 'MIOLI MARTA',
-			radianti: true,
+			categories: [3],
 			address: 'VIA GOITO N. 1/A 45100 ROVIGO',
 			telephone: 'Sig. Capelli 335-7683848',
 			email: 'tonino.capelli@gmail.com',
@@ -1687,7 +1641,7 @@
 			note: 'SOLO I CLIENTI DEL SETTORE OEM'
 		}, {
 			name: 'MIOLI MARTA',
-			radianti: true,
+			categories: [3],
 			address: 'VIA GOITO N. 1/A 45100 ROVIGO',
 			telephone: 'Sig. Capelli 335-7683848',
 			email: 'toninocapelli@libero.it',
@@ -1697,9 +1651,7 @@
 			note: 'SOLO I CLIENTI DEL SETTORE OEM'
 		}, {
 			name: 'NEWCLIMA di Giacomo Ciccola e Luca Molini s.n.c.',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'Via Concordia, 68 62100 MACERATA (MC)',
 			telephone: 'Ciccola: 348 2524005 / Molini: 348 5100964',
 			email: 'info@newclimasnc.it',
@@ -1708,9 +1660,7 @@
 			provinces: ['AN', 'AP', 'MC', 'FM']
 		}, {
 			name: 'NORCINI PALA ADELIO',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'LARGO VALERIO BACIGALUPO N.33 00142 ROMA',
 			telephone: '337-761035',
 			email: 'adelionorcini@gmail.com; info@npagroup.it',
@@ -1720,7 +1670,7 @@
 			note: 'SOLO SISTEMI (All\'interno del Raccordo Anulare)'
 		}, {
 			name: 'PATRIZIO DE SIMONI',
-			raccorderie: true,
+			categories: [1],
 			address: 'P.ZZA DALMAZIA 38 - 05100 TERNI (TR)',
 			telephone: '346 6143816',
 			email: 'agenziadesimoni@gmail.com',
@@ -1730,8 +1680,7 @@
 			note: 'SOLO SISTEMI'
 		}, {
 			name: 'PICCILLO PAOLO',
-			rubinetterie: true,
-			radianti: true,
+			categories: [4, 3],
 			address: 'VIA ENRICO VERIUS, 80 00126 ROMA',
 			telephone: '338-8990592',
 			email: 'paolopiccillo@libero.it',
@@ -1741,9 +1690,7 @@
 			note: 'ESCLUSO SISTEMI'
 		}, {
 			name: 'PICENNI CLAUDIO',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'VIA PETRARCA, 25 46043 CASTIGLIONE D/S - MANTOVA',
 			telephone: '335-6528452',
 			email: 'picenniclaudio@libero.it',
@@ -1752,9 +1699,7 @@
 			provinces: ['MN']
 		}, {
 			name: 'POLETTI MARCO',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'VIA MURAGLIONE 13 48012 BAGNACAVALLO (RA)',
 			telephone: '+39 335 327369 / +39 054563894',
 			email: 'mpoletti59@alice.it',
@@ -1763,9 +1708,7 @@
 			provinces: ['RN', 'RA', 'FC']
 		}, {
 			name: 'POLETTI MARCO',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'VIA MURAGLIONE 13 48012 BAGNACAVALLO (RA)',
 			telephone: '+39 335 327369 / +39 054563894',
 			email: 'marcopoletti@polettimarco.it',
@@ -1774,8 +1717,7 @@
 			provinces: ['PU']
 		}, {
 			name: 'RACCIS FEDERICO',
-			radianti: true,
-			raccorderie: true,
+			categories: [3, 1],
 			address: 'VIA GRAMSCI, 30 25082 BOTTICINO SERA - BRESCIA',
 			telephone: 'Cell. 348-4229982',
 			email: 'irrigazione@gmail.com',
@@ -1785,9 +1727,7 @@
 			note: 'Solo settore IRRIGAZIONE'
 		}, {
 			name: 'ROBERTO MAGNI',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'Corso de Stefanis 12/13c 16139 Genova',
 			telephone: 'Sig. Magni 348-3817155',
 			email: 'r.magni14@gmail.com',
@@ -1796,9 +1736,7 @@
 			provinces: ['GE-SV-IM-SP']
 		}, {
 			name: 'SABE SRL',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'VIA RIMEMBRANZE, 1 25069 VILLA CARCINA - BRESCIA',
 			telephone: '335-6280882 / 339-6327608',
 			email: 'simonesaleri@gmail.com',
@@ -1807,9 +1745,7 @@
 			provinces: ['BS', 'BG', 'CR', 'LO']
 		}, {
 			name: 'SCUDERI DOMENICO',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'VIA FIORITA, 9 95123 CATANIA',
 			telephone: '338-7426121',
 			email: 'scuderidomenico@hotmail.it',
@@ -1818,8 +1754,7 @@
 			provinces: ['CT', 'ME', 'SR', 'EN', 'RG']
 		}, {
 			name: 'SG RAPPRESENTANZE DI SALVATORE GIACALONE',
-			rubinetterie: true,
-			radianti: true,
+			categories: [4, 3],
 			address: 'VIA F.CO CULCASI 9/C 91110 TRAPANI',
 			telephone: '388 1830855',
 			email: 'sgrappresentanzesrl@gmail.com',
@@ -1829,8 +1764,7 @@
 			note: 'ESCLUSO SISTEMI'
 		}, {
 			name: 'STEFANO DE SIMONI',
-			rubinetterie: true,
-			radianti: true,
+			categories: [4, 3],
 			address: 'VIA MERLINO DI FILIPPO, 3 - 05100 TERNI (TR)',
 			telephone: '335-7104017',
 			email: 'stefanodesimoni@yahoo.it',
@@ -1840,9 +1774,7 @@
 			note: 'ESCLUSO SISTEMI'
 		}, {
 			name: 'T&amp;B GROUP di Terracciano Luca',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'VIA ALDOVRANDI 20 - 56121 OSPEDALETTO (PI)',
 			telephone: '392-9797002',
 			email: 'betticommerciale@gmail.com',
@@ -1851,7 +1783,7 @@
 			provinces: ['MS', 'LU', 'PI', 'LI', 'GR']
 		}, {
 			name: 'TAGLIAFERRI EMILIANO',
-			raccorderie: true,
+			categories: [1],
 			address: 'Via Brighindi Francesco, 159 03100 Frosinone (FR)',
 			telephone: 'Cell. Tagliaferri 328-7595575',
 			mobilePhone: 'Prato 335-6027838',
@@ -1862,9 +1794,7 @@
 			note: 'Solo SISTEMI'
 		}, {
 			name: 'TOTI MARCO',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'Via G. Rossini, 42 50050 Cerreto Guidi (FI)',
 			telephone: '347.6341084',
 			email: 'agenziatoti@gmail.com',
@@ -1873,9 +1803,7 @@
 			provinces: ['FI', 'PO', 'PT', 'SI']
 		}, {
 			name: 'TSA di Luigi Zanieri',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'VIA A.VIVALDI, 15/4 40054 BUDRIO - BOLOGNA',
 			telephone: 'Sig. Zanieri 349-2856011',
 			email: 'luigi.zanieri@gmail.com',
@@ -1884,9 +1812,7 @@
 			provinces: ['BO', 'FE']
 		}, {
 			name: 'VERNANI GIULIO RAPPRESENTANZE',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'VIA MERANO, 20 20814 VAREDO - MONZA E BRIANZA',
 			telephone: '333-2805989 / 335-6284474',
 			email: 'vernani.rappresentanze@gmail.com',
@@ -1895,9 +1821,7 @@
 			provinces: ['MI', 'MB', 'VA']
 		}, {
 			name: 'VERNANI NIKOLAS',
-			rubinetterie: true,
-			radianti: true,
-			raccorderie: true,
+			categories: [4, 3, 1],
 			address: 'VIA MERANO, 20 20814 VAREDO - MONZA E BRIANZA',
 			telephone: '335-5907295',
 			email: 'vernani.rappresentanze@gmail.com',
@@ -1909,7 +1833,7 @@
 
 </script>
 
-<section class="section--agenti" agents>
+<section class="section--agents" agents>
 	<!--
 	<svg class="icon icon--radiant icon--background"><use xlink:href="#radiant"></use></svg>
 	-->
@@ -1917,121 +1841,18 @@
 		<div class="row">
 			<div class="col-md-3">
 				<div class="tit-sidebox">FILTRA</div>
-
 				<!-- filters -->
-				<ul class="nav--filters">
-					<li *for="let [key, filter] of filters">
-						<span class="label" [innerHTML]="filter.label"></span>
-						<ul class="nav--options">
-							<li *for="let item of filter.options">
-								<span class="label" [class]="{ active: filter.has(item) }" (click)="filter.toggle(item)">
-									<span [innerHTML]="item.label"></span>
-								</span>
-							</li>
-						</ul>
-					</li>
-				</ul>
-
 				<ul class="nav--menu">
-					<li>
-						<span dropdown="stato">
-							<span class="label">STATO</span>
-							<span class="placeholder">Seleziona</span> <svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
+					<li *for="let [key, filter] of filters">
+						<span [dropdown]="key">
+							<span class="label" [innerHTML]="filter.label"></span>
+							<span class="placeholder" [innerHTML]="filter.getLabel()"></span> <svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
 						</span>
-						<div class="dropdown dropdown--with-icons" dropdown-item="stato">
-							<div class="category">Stato</div>
+						<div class="dropdown" [dropdown-item]="key">
+							<div class="category" [innerHTML]="filter.label"></div>
 							<ul class="nav--dropdown">
-								<li>
-									<a href="#">
-										<span>Italia</span>
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<span>Albania</span>
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<span>Bulgaria</span>
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<span>Grecia</span>
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<span>Repubblica di San Marino</span>
-									</a>
-								</li>
-							</ul>
-						</div>
-					</li>
-					<li>
-						<span dropdown="regione">
-							<span class="label">REGIONE</span>
-							<span class="placeholder">Seleziona</span> <svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
-						</span>
-						<div class="dropdown dropdown--with-icons" dropdown-item="regione">
-							<div class="category">Regione</div>
-							<ul class="nav--dropdown">
-								<li>
-									<a href="#">
-										<span>Abruzzo</span>
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<span>Basilicata</span>
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<span>Calabria</span>
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<span>Campania</span>
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<span>Emilia-Romagna</span>
-									</a>
-								</li>
-							</ul>
-						</div>
-					</li>
-					<li>
-						<span dropdown="categoria">
-							<span class="label">CATEGORIA</span>
-							<span class="placeholder">Seleziona</span> <svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
-						</span>
-						<div class="dropdown dropdown--with-icons" dropdown-item="categoria">
-							<div class="category">Categoria</div>
-							<ul class="nav--dropdown">
-								<li>
-									<a href="#">
-										<span>Componenti Idraulici</span>
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<span>Sistemi Radianti</span>
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<span>Centrale Termica</span>
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<span>Rubinetti</span>
-									</a>
+								<li *for="let item of filter.options">
+									<span [class]="{ active: filter.has(item), disabled: item.disabled }" (click)="filter.set(item)" [innerHTML]="item.label"></span>
 								</li>
 							</ul>
 						</div>
@@ -2062,17 +1883,21 @@
 					</div>
 					<div class="dx">
 						<ul class="settori">
-							<li *if="item.raccorderie">
+							<li *if="hasCategory(item, 1)">
 								<span>Componenti Idraulici</span>
-								<img lazy="/tiemme-com/img/contacts/agents/icon-componenti-idraulici.png" />
+								<svg class="icon icon--valves"><use xlink:href="#valves"></use></svg>
 							</li>
-							<li *if="item.radianti">
+							<li *if="hasCategory(item, 2)">
+								<span>Centrale Termica</span>
+								<svg class="icon icon--thermo"><use xlink:href="#thermo"></use></svg>
+							</li>
+							<li *if="hasCategory(item, 3)">
 								<span>Sistemi Radianti</span>
-								<img lazy="/tiemme-com/img/contacts/agents/icon-sistemi-radianti.png" />
+								<svg class="icon icon--radiant"><use xlink:href="#radiant"></use></svg>
 							</li>
-							<li *if="item.rubinetterie">
+							<li *if="hasCategory(item, 4)">
 								<span>Rubinetti</span>
-								<img lazy="/tiemme-com/img/contacts/agents/icon-rubinetti.png" />
+								<svg class="icon icon--taps"><use xlink:href="#taps"></use></svg>
 							</li>
 						</ul>
 						<a [href]="'mailto:' + item.email" class="btn--cta link">Contatta Agente</a>
@@ -2154,7 +1979,7 @@
 					<li><a href="#">Azienda</a></li>
 					<li><a href="/tiemme-com/contacts-contact-us.html">Contattaci</a></li>
 					<li><a href="/tiemme-com/contacts-contact-us.html">Filiali</a></li>
-					<li><a href="/tiemme-com/contacts-contact-us.html">Cerca un agente</a></li>
+					<li><a href="/tiemme-com/contacts-agenti.html">Cerca un agente</a></li>
 					<li><a href="/tiemme-com/contacts-work-with-us.html">Lavora con noi</a></li>
 				</ul>
 			</div>

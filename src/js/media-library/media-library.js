@@ -7,9 +7,12 @@ import FilterService from '../filter/filter.service';
 export default class MediaLibraryComponent extends Component {
 
 	onInit() {
-		this.items = [];
+		const items = window.medias || [];
 		const filters = window.filters || {};
 		const initialParams = window.params || {};
+		filters.departments.mode = FilterMode.OR;
+		filters.languages.mode = FilterMode.OR;
+		filters.categories.mode = FilterMode.OR;
 		const filterService = new FilterService(filters, initialParams, (key, filter) => {
 			switch (key) {
 				default:
@@ -18,7 +21,7 @@ export default class MediaLibraryComponent extends Component {
 					};
 			}
 		});
-		filterService.items$(window.medias || []).pipe(
+		filterService.items$(items).pipe(
 			takeUntil(this.unsubscribe$),
 		).subscribe(items => {
 			this.items = items;

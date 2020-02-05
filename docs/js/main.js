@@ -81,6 +81,121 @@
     subClass.__proto__ = superClass;
   }
 
+  var FilterMode$1 = {
+    SELECT: 'select',
+    AND: 'and',
+    OR: 'or'
+  };
+
+  var FilterItem =
+  /*#__PURE__*/
+  function () {
+    function FilterItem(filter) {
+      this.change$ = new rxjs.BehaviorSubject();
+      this.mode = FilterMode$1.SELECT;
+      this.filter = 'Filter';
+      this.placeholder = 'Select';
+      this.values = [];
+      this.options = [];
+
+      if (filter) {
+        Object.assign(this, filter);
+      }
+
+      if (filter.mode === FilterMode$1.SELECT) {
+        filter.options.unshift({
+          label: filter.placeholder,
+          value: undefined
+        });
+      }
+    }
+
+    var _proto = FilterItem.prototype;
+
+    _proto.filter = function filter(item, value) {
+      return item.options.indexOf(value) !== -1;
+    };
+
+    _proto.match = function match(item) {
+      var _this = this;
+
+      var match;
+
+      if (this.mode === FilterMode$1.OR) {
+        match = this.values.length ? false : true;
+        this.values.forEach(function (value) {
+          match = match || _this.filter(item, value);
+        });
+      } else {
+        match = true;
+        this.values.forEach(function (value) {
+          match = match && _this.filter(item, value);
+        });
+      }
+
+      return match;
+    };
+
+    _proto.getLabel = function getLabel() {
+      if (this.mode === FilterMode$1.SELECT) {
+        return this.placeholder || this.label;
+      } else {
+        return this.label;
+      }
+    };
+
+    _proto.has = function has(item) {
+      return this.values.indexOf(item.value) !== -1;
+    };
+
+    _proto.set = function set(item) {
+      if (this.mode === FilterMode$1.SELECT) {
+        this.values = [];
+      }
+
+      var index = this.values.indexOf(item.value);
+
+      if (index === -1) {
+        if (item.value !== undefined) {
+          this.values.push(item.value);
+        }
+      }
+
+      if (this.mode === FilterMode$1.SELECT) {
+        this.placeholder = item.label;
+      } // console.log('FilterItem.set', item);
+
+
+      this.change$.next();
+    };
+
+    _proto.remove = function remove(item) {
+      var index = this.values.indexOf(item.value);
+
+      if (index !== -1) {
+        this.values.splice(index, 1);
+      }
+
+      if (this.mode === FilterMode$1.SELECT) {
+        var first = this.options[0];
+        this.placeholder = first.label;
+      } // console.log('FilterItem.remove', item);
+
+
+      this.change$.next();
+    };
+
+    _proto.toggle = function toggle(item) {
+      if (this.has(item)) {
+        this.remove(item);
+      } else {
+        this.set(item);
+      }
+    };
+
+    return FilterItem;
+  }();
+
   var LocationService =
   /*#__PURE__*/
   function () {
@@ -156,109 +271,6 @@
     return LocationService;
   }();
 
-  var FilterMode = {
-    EXACT: 'exact',
-    AND: 'and',
-    OR: 'or'
-  };
-
-  var FilterItem =
-  /*#__PURE__*/
-  function () {
-    function FilterItem(filter) {
-      this.change$ = new rxjs.BehaviorSubject();
-      this.mode = FilterMode.EXACT;
-      this.values = [];
-
-      if (filter) {
-        Object.assign(this, filter);
-      }
-    }
-
-    var _proto = FilterItem.prototype;
-
-    _proto.filter = function filter(item, value) {
-      return item.options.indexOf(value) !== -1;
-    };
-
-    _proto.match = function match(item) {
-      var _this = this;
-
-      var match;
-
-      if (this.mode === FilterMode.OR) {
-        match = this.values.length ? false : true;
-        this.values.forEach(function (value) {
-          match = match || _this.filter(item, value);
-        });
-      } else {
-        match = true;
-        this.values.forEach(function (value) {
-          match = match && _this.filter(item, value);
-        });
-      }
-
-      return match;
-    };
-
-    _proto.getLabel = function getLabel() {
-      if (this.mode === FilterMode.EXACT) {
-        return this.placeholder || this.label;
-      } else {
-        return this.label;
-      }
-    };
-
-    _proto.has = function has(item) {
-      return this.values.indexOf(item.value) !== -1;
-    };
-
-    _proto.set = function set(item) {
-      var index = this.values.indexOf(item.value);
-
-      if (index === -1) {
-        this.values.push(item.value);
-      }
-
-      if (this.mode === FilterMode.EXACT) {
-        this.placeholder = item.label;
-      } // console.log('FilterItem.set', item);
-
-
-      this.change$.next(item.value);
-    };
-
-    _proto.remove = function remove(item) {
-      var index = this.values.indexOf(item.value);
-
-      if (index !== -1) {
-        this.values.splice(index, 1);
-      }
-
-      if (this.mode === FilterMode.EXACT) {
-        var first = this.options[0];
-        this.placeholder = first.label;
-      } // console.log('FilterItem.remove', item);
-
-
-      this.change$.next(item.value);
-    };
-
-    _proto.toggle = function toggle(item) {
-      if (this.mode === FilterMode.EXACT) {
-        this.values = [];
-      }
-
-      if (this.has(item)) {
-        this.remove(item);
-      } else {
-        this.set(item);
-      }
-    };
-
-    return FilterItem;
-  }();
-
   var FilterService =
   /*#__PURE__*/
   function () {
@@ -271,13 +283,6 @@
 
           if (typeof callback === 'function') {
             callback(key, filter);
-          }
-
-          if (filter.mode === FilterMode.EXACT) {
-            filter.options.unshift({
-              label: filters[key].placeholder,
-              value: null
-            });
           }
 
           filters[key] = filter;
@@ -429,6 +434,10 @@
       var items = window.agents || [];
       var filters = window.filters || {};
       var initialParams = window.params || {};
+      filters.countries.mode = FilterMode$1.SELECT;
+      filters.regions.mode = FilterMode$1.SELECT;
+      filters.provinces.mode = FilterMode$1.SELECT;
+      filters.categories.mode = FilterMode$1.SELECT;
       var filterService = new FilterService(filters, initialParams, function (key, filter) {
         switch (key) {
           case 'countries':
@@ -454,35 +463,18 @@
 
           case 'categories':
             filter.filter = function (item, value) {
-              return true; // item.features.indexOf(value) !== -1;
+              return item.categories && item.categories.indexOf(value) !== -1;
             };
 
             break;
 
           default:
             filter.filter = function (item, value) {
-              return false;
+              return true;
             };
 
         }
       });
-      var provinces = [];
-      items.forEach(function (x) {
-        if (x.provinces) {
-          x.provinces.forEach(function (province) {
-            if (provinces.indexOf(province) === -1) {
-              provinces.push(province);
-            }
-          });
-        }
-      });
-      provinces = provinces.sort().map(function (x) {
-        return {
-          value: x,
-          label: x
-        };
-      });
-      console.log(JSON.stringify(provinces));
       filterService.items$(items).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (items) {
         _this.items = items;
 
@@ -499,6 +491,32 @@
       this.filterService = filterService;
       this.filters = filterService.filters;
     };
+
+    _proto.hasCategory = function hasCategory(item, id) {
+      return item.categories && item.categories.indexOf(id) !== -1;
+    }
+    /*
+    collect() {
+    	let provinces = [];
+    	items.forEach(x => {
+    		if (x.provinces) {
+    			x.provinces.forEach(province => {
+    				if (provinces.indexOf(province) === -1) {
+    					provinces.push(province);
+    				}
+    			})
+    		}
+    	});
+    	provinces = provinces.sort().map(x => {
+    		return {
+    			value: x,
+    			label: x,
+    		}
+    	});
+    	console.log(JSON.stringify(provinces));
+    }
+    */
+    ;
 
     return AgentsComponent;
   }(rxcomp.Component);
@@ -2089,9 +2107,12 @@
     _proto.onInit = function onInit() {
       var _this = this;
 
-      this.items = [];
+      var items = window.medias || [];
       var filters = window.filters || {};
       var initialParams = window.params || {};
+      filters.departments.mode = FilterMode.OR;
+      filters.languages.mode = FilterMode.OR;
+      filters.categories.mode = FilterMode.OR;
       var filterService = new FilterService(filters, initialParams, function (key, filter) {
         switch (key) {
           default:
@@ -2101,7 +2122,7 @@
 
         }
       });
-      filterService.items$(window.medias || []).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (items) {
+      filterService.items$(items).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (items) {
         _this.items = items;
 
         _this.pushChanges();
@@ -2288,6 +2309,44 @@
   }(rxcomp.Component);
   RequestInfoCommercialComponent.meta = {
     selector: '[request-info-commercial]'
+  };
+
+  var FileSizePipe =
+  /*#__PURE__*/
+  function (_Pipe) {
+    _inheritsLoose(FileSizePipe, _Pipe);
+
+    function FileSizePipe() {
+      return _Pipe.apply(this, arguments) || this;
+    }
+
+    FileSizePipe.transform = function transform(value, si) {
+      if (si === void 0) {
+        si = true;
+      }
+
+      value = parseInt(value);
+      var unit = si ? 1000 : 1024;
+
+      if (Math.abs(value) < unit) {
+        return value + ' B';
+      }
+
+      var units = si ? ['kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'] : ['KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+      var u = -1;
+
+      do {
+        value /= unit;
+        ++u;
+      } while (Math.abs(value) >= unit && u < units.length - 1);
+
+      return value.toFixed(1) + " " + units[u];
+    };
+
+    return FileSizePipe;
+  }(rxcomp.Pipe);
+  FileSizePipe.meta = {
+    name: 'fileSize'
   };
 
   var SwiperDirective =
@@ -2813,15 +2872,11 @@
           node = _getContext.node,
           parentInstance = _getContext.parentInstance;
 
-      this.progress = node.querySelector(".icon--play-progress path");
+      this.progress = node.querySelector('.icon--play-progress path');
       this.onPlayerReady = this.onPlayerReady.bind(this);
       this.onPlayerStateChange = this.onPlayerStateChange.bind(this);
       this.onPlayerError = this.onPlayerError.bind(this);
       this.id$ = new rxjs.Subject().pipe(operators.distinctUntilChanged());
-      this.player$().pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (player) {
-        console.log("YoutubeComponent.player$", player);
-      });
-      this.interval$().pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function () {});
 
       if (parentInstance instanceof SwiperDirective) {
         parentInstance.events$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (event) {
@@ -2832,22 +2887,32 @@
     };
 
     _proto.onChanges = function onChanges(changes) {
-      var id = this.youtube; // console.log("YoutubeComponent.onChanges", id);
+      var id = this.youtubeId; // console.log('YoutubeComponent.onChanges', id);
 
       this.id$.next(id);
     };
 
-    _proto.player$ = function player$(youtube) {
+    _proto.initPlayer = function initPlayer() {
+      console.log('VideoComponent.initPlayer');
+      this.player$().pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (player) {
+        console.log('YoutubeComponent.player$', player);
+      });
+      this.interval$().pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function () {});
+      this.id$.next(this.youtubeId);
+    };
+
+    _proto.player$ = function player$() {
       var _this2 = this;
 
       var _getContext2 = rxcomp.getContext(this),
           node = _getContext2.node;
 
-      var video = node.querySelector(".video");
+      var video = node.querySelector('.video');
       return this.id$.pipe(operators.switchMap(function (id) {
-        // console.log("YoutubeComponent.videoId", id);
+        console.log('YoutubeComponent.videoId', id);
         return YoutubeComponent.once$().pipe(operators.map(function (youtube) {
-          // console.log("YoutubeComponent.once$", youtube);
+          console.log('YoutubeComponent.once$', youtube);
+
           _this2.destroyPlayer();
 
           _this2.player = new youtube.Player(video, {
@@ -2855,7 +2920,7 @@
             height: node.offsetHeight,
             videoId: id,
             playerVars: {
-              autoplay: 0,
+              autoplay: 1,
               controls: 0,
               disablekb: 1,
               enablejsapi: 1,
@@ -2866,8 +2931,8 @@
               rel: 0,
               showinfo: 0,
               iv_load_policy: 3,
-              listType: "user_uploads",
-              origin: "https://log6i.csb.app/"
+              listType: 'user_uploads' // origin: 'https://log6i.csb.app/'
+
             },
             events: {
               onReady: _this2.onPlayerReady,
@@ -2881,12 +2946,13 @@
     };
 
     _proto.onPlayerReady = function onPlayerReady(event) {
-      // console.log("YoutubeComponent.onPlayerReady", event);
-      event.target.mute(); // event.target.playVideo();
+      // console.log('YoutubeComponent.onPlayerReady', event);
+      event.target.mute();
+      event.target.playVideo();
     };
 
     _proto.onPlayerStateChange = function onPlayerStateChange(event) {
-      // console.log("YoutubeComponent.onPlayerStateChange", event.data);
+      // console.log('YoutubeComponent.onPlayerStateChange', event.data);
       if (event.data === 1) {
         this.playing = true;
       } else {
@@ -2895,7 +2961,7 @@
     };
 
     _proto.onPlayerError = function onPlayerError(event) {
-      console.log("YoutubeComponent.onPlayerError", event);
+      console.log('YoutubeComponent.onPlayerError', event);
     };
 
     _proto.destroyPlayer = function destroyPlayer() {
@@ -2919,7 +2985,8 @@
     };
 
     _proto.togglePlay = function togglePlay() {
-      // console.log("VideoComponent.togglePlay");
+      console.log('VideoComponent.togglePlay');
+
       if (this.playing) {
         this.pause();
       } else {
@@ -2928,11 +2995,13 @@
     };
 
     _proto.play = function play() {
-      if (!this.player) {
-        return;
-      }
+      console.log('VideoComponent.play');
 
-      this.player.playVideo();
+      if (!this.player) {
+        this.initPlayer();
+      } else {
+        this.player.playVideo();
+      }
     };
 
     _proto.pause = function pause() {
@@ -2951,17 +3020,17 @@
           return youtube !== null;
         }));
         window.onYouTubeIframeAPIReady = this.onYouTubeIframeAPIReady_.bind(this);
-        var script = document.createElement("script");
-        var scripts = document.querySelectorAll("script");
+        var script = document.createElement('script');
+        var scripts = document.querySelectorAll('script');
         var last = scripts[scripts.length - 1];
         last.parentNode.insertBefore(script, last);
-        script.src = "//www.youtube.com/iframe_api";
+        script.src = '//www.youtube.com/iframe_api';
         return this.youtube$;
       }
     };
 
     YoutubeComponent.onYouTubeIframeAPIReady_ = function onYouTubeIframeAPIReady_() {
-      // console.log("onYouTubeIframeAPIReady");
+      // console.log('onYouTubeIframeAPIReady');
       this.youtube$.next(window.YT);
     };
 
@@ -2979,15 +3048,15 @@
     }, {
       key: "cover",
       get: function get() {
-        return this.youtube ? "//i.ytimg.com/vi/" + this.youtube + "/maxresdefault.jpg" : "";
+        return this.youtubeId ? "//i.ytimg.com/vi/" + this.youtubeId + "/maxresdefault.jpg" : '';
       }
     }]);
 
     return YoutubeComponent;
   }(rxcomp.Component);
   YoutubeComponent.meta = {
-    selector: "[youtube], [[youtube]]",
-    inputs: ["youtube"]
+    selector: '[youtube]',
+    inputs: ['youtubeId', 'title']
   };
 
   var ZoomableDirective =
@@ -3114,7 +3183,7 @@
   }(rxcomp.Module);
   AppModule.meta = {
     imports: [rxcomp.CoreModule, rxcompForm.FormModule],
-    declarations: [AgentsComponent, AppearDirective, ClickOutsideDirective, ClubComponent, ClubForgotComponent, ClubModalComponent, ClubSigninComponent, ClubSignupComponent, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlPasswordComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, HeaderComponent, LazyDirective, MainMenuComponent, MediaLibraryComponent, ModalOutletComponent, RequestInfoCommercialComponent, RegisterOrLoginComponent, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, TestComponent, // ValueDirective,
+    declarations: [AgentsComponent, AppearDirective, ClickOutsideDirective, ClubComponent, ClubForgotComponent, ClubModalComponent, ClubSigninComponent, ClubSignupComponent, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlPasswordComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, FileSizePipe, HeaderComponent, LazyDirective, MainMenuComponent, MediaLibraryComponent, ModalOutletComponent, RequestInfoCommercialComponent, RegisterOrLoginComponent, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, TestComponent, // ValueDirective,
     VideoComponent, WorkWithUsComponent, YoutubeComponent, ZoomableDirective],
     bootstrap: AppComponent
   };

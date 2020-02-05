@@ -1,5 +1,6 @@
 import { Component } from 'rxcomp';
 import { takeUntil } from 'rxjs/operators';
+import { FilterMode } from '../filter/filter-item';
 import FilterService from '../filter/filter.service';
 
 export default class AgentsComponent extends Component {
@@ -8,6 +9,10 @@ export default class AgentsComponent extends Component {
 		const items = window.agents || [];
 		const filters = window.filters || {};
 		const initialParams = window.params || {};
+		filters.countries.mode = FilterMode.SELECT;
+		filters.regions.mode = FilterMode.SELECT;
+		filters.provinces.mode = FilterMode.SELECT;
+		filters.categories.mode = FilterMode.SELECT;
 		const filterService = new FilterService(filters, initialParams, (key, filter) => {
 			switch (key) {
 				case 'countries':
@@ -27,33 +32,15 @@ export default class AgentsComponent extends Component {
 					break;
 				case 'categories':
 					filter.filter = (item, value) => {
-						return true; // item.features.indexOf(value) !== -1;
+						return item.categories && item.categories.indexOf(value) !== -1;
 					};
 					break;
 				default:
 					filter.filter = (item, value) => {
-						return false;
+						return true;
 					};
 			}
 		});
-
-		let provinces = [];
-		items.forEach(x => {
-			if (x.provinces) {
-				x.provinces.forEach(province => {
-					if (provinces.indexOf(province) === -1) {
-						provinces.push(province);
-					}
-				})
-			}
-		});
-		provinces = provinces.sort().map(x => {
-			return {
-				value: x,
-				label: x,
-			}
-		});
-		console.log(JSON.stringify(provinces));
 
 		filterService.items$(items).pipe(
 			takeUntil(this.unsubscribe$),
@@ -73,6 +60,32 @@ export default class AgentsComponent extends Component {
 		this.filters = filterService.filters;
 
 	}
+
+	hasCategory(item, id) {
+		return item.categories && item.categories.indexOf(id) !== -1;
+	}
+
+	/*
+	collect() {
+		let provinces = [];
+		items.forEach(x => {
+			if (x.provinces) {
+				x.provinces.forEach(province => {
+					if (provinces.indexOf(province) === -1) {
+						provinces.push(province);
+					}
+				})
+			}
+		});
+		provinces = provinces.sort().map(x => {
+			return {
+				value: x,
+				label: x,
+			}
+		});
+		console.log(JSON.stringify(provinces));
+	}
+	*/
 
 }
 

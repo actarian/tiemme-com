@@ -1,9 +1,10 @@
-import { Component, getContext } from "rxcomp";
-import { BehaviorSubject, interval, Subject } from "rxjs";
-import { distinctUntilChanged, filter, map, switchMap, takeUntil, tap } from "rxjs/operators";
-import SwiperDirective from "../swiper/swiper.directive";
+import { Component, getContext } from 'rxcomp';
+import { BehaviorSubject, interval, Subject } from 'rxjs';
+import { distinctUntilChanged, filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import SwiperDirective from '../swiper/swiper.directive';
 
 export default class YoutubeComponent extends Component {
+
 	get playing() {
 		return this.playing_;
 	}
@@ -16,27 +17,17 @@ export default class YoutubeComponent extends Component {
 	}
 
 	get cover() {
-		return this.youtube ?
-			`//i.ytimg.com/vi/${this.youtube}/maxresdefault.jpg` :
-			"";
+		return this.youtubeId ? `//i.ytimg.com/vi/${this.youtubeId}/maxresdefault.jpg` : '';
 	}
 
 	onInit() {
 		this.item = {};
 		const { node, parentInstance } = getContext(this);
-		this.progress = node.querySelector(".icon--play-progress path");
+		this.progress = node.querySelector('.icon--play-progress path');
 		this.onPlayerReady = this.onPlayerReady.bind(this);
 		this.onPlayerStateChange = this.onPlayerStateChange.bind(this);
 		this.onPlayerError = this.onPlayerError.bind(this);
 		this.id$ = new Subject().pipe(distinctUntilChanged());
-		this.player$()
-			.pipe(takeUntil(this.unsubscribe$))
-			.subscribe(player => {
-				console.log("YoutubeComponent.player$", player);
-			});
-		this.interval$()
-			.pipe(takeUntil(this.unsubscribe$))
-			.subscribe(() => {});
 		if (parentInstance instanceof SwiperDirective) {
 			parentInstance.events$.pipe(
 				takeUntil(this.unsubscribe$)
@@ -46,27 +37,40 @@ export default class YoutubeComponent extends Component {
 	}
 
 	onChanges(changes) {
-		const id = this.youtube;
-		// console.log("YoutubeComponent.onChanges", id);
+		const id = this.youtubeId;
+		// console.log('YoutubeComponent.onChanges', id);
 		this.id$.next(id);
 	}
 
-	player$(youtube) {
+	initPlayer() {
+		console.log('VideoComponent.initPlayer');
+		this.player$()
+			.pipe(takeUntil(this.unsubscribe$))
+			.subscribe(player => {
+				console.log('YoutubeComponent.player$', player);
+			});
+		this.interval$()
+			.pipe(takeUntil(this.unsubscribe$))
+			.subscribe(() => {});
+		this.id$.next(this.youtubeId);
+	}
+
+	player$() {
 		const { node } = getContext(this);
-		const video = node.querySelector(".video");
+		const video = node.querySelector('.video');
 		return this.id$.pipe(
 			switchMap(id => {
-				// console.log("YoutubeComponent.videoId", id);
+				console.log('YoutubeComponent.videoId', id);
 				return YoutubeComponent.once$().pipe(
 					map(youtube => {
-						// console.log("YoutubeComponent.once$", youtube);
+						console.log('YoutubeComponent.once$', youtube);
 						this.destroyPlayer();
 						this.player = new youtube.Player(video, {
 							width: node.offsetWidth,
 							height: node.offsetHeight,
 							videoId: id,
 							playerVars: {
-								autoplay: 0,
+								autoplay: 1,
 								controls: 0,
 								disablekb: 1,
 								enablejsapi: 1,
@@ -77,8 +81,8 @@ export default class YoutubeComponent extends Component {
 								rel: 0,
 								showinfo: 0,
 								iv_load_policy: 3,
-								listType: "user_uploads",
-								origin: "https://log6i.csb.app/"
+								listType: 'user_uploads',
+								// origin: 'https://log6i.csb.app/'
 							},
 							events: {
 								onReady: this.onPlayerReady,
@@ -94,13 +98,13 @@ export default class YoutubeComponent extends Component {
 	}
 
 	onPlayerReady(event) {
-		// console.log("YoutubeComponent.onPlayerReady", event);
+		// console.log('YoutubeComponent.onPlayerReady', event);
 		event.target.mute();
-		// event.target.playVideo();
+		event.target.playVideo();
 	}
 
 	onPlayerStateChange(event) {
-		// console.log("YoutubeComponent.onPlayerStateChange", event.data);
+		// console.log('YoutubeComponent.onPlayerStateChange', event.data);
 		if (event.data === 1) {
 			this.playing = true;
 		} else {
@@ -109,7 +113,7 @@ export default class YoutubeComponent extends Component {
 	}
 
 	onPlayerError(event) {
-		console.log("YoutubeComponent.onPlayerError", event);
+		console.log('YoutubeComponent.onPlayerError', event);
 	}
 
 	destroyPlayer() {
@@ -133,7 +137,7 @@ export default class YoutubeComponent extends Component {
 	}
 
 	togglePlay() {
-		// console.log("VideoComponent.togglePlay");
+		console.log('VideoComponent.togglePlay');
 		if (this.playing) {
 			this.pause();
 		} else {
@@ -142,10 +146,12 @@ export default class YoutubeComponent extends Component {
 	}
 
 	play() {
+		console.log('VideoComponent.play');
 		if (!this.player) {
-			return;
+			this.initPlayer();
+		} else {
+			this.player.playVideo();
 		}
-		this.player.playVideo();
 	}
 
 	pause() {
@@ -163,22 +169,22 @@ export default class YoutubeComponent extends Component {
 				filter(youtube => youtube !== null)
 			);
 			window.onYouTubeIframeAPIReady = this.onYouTubeIframeAPIReady_.bind(this);
-			const script = document.createElement("script");
-			const scripts = document.querySelectorAll("script");
+			const script = document.createElement('script');
+			const scripts = document.querySelectorAll('script');
 			const last = scripts[scripts.length - 1];
 			last.parentNode.insertBefore(script, last);
-			script.src = "//www.youtube.com/iframe_api";
+			script.src = '//www.youtube.com/iframe_api';
 			return this.youtube$;
 		}
 	}
 
 	static onYouTubeIframeAPIReady_() {
-		// console.log("onYouTubeIframeAPIReady");
+		// console.log('onYouTubeIframeAPIReady');
 		this.youtube$.next(window.YT);
 	}
 }
 
 YoutubeComponent.meta = {
-	selector: "[youtube], [[youtube]]",
-	inputs: ["youtube"]
+	selector: '[youtube]',
+	inputs: ['youtubeId', 'title']
 };

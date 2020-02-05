@@ -477,6 +477,8 @@ ul {
 				transition-property: fill;
 			}
 
+			background: $background;
+			color: $foreground;
 
 			&:hover,
 			&.active {

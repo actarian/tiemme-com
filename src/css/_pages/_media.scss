@@ -4,11 +4,11 @@
 
 	.flex__item {
 		&:first-child {
-			flex: 1 0 30%;
+			flex: 1 0 270px;
 		}
 
 		&:last-child {
-			flex: 1 0 calc(70% - 30px);
+			flex: 1 0 calc(100% - 300px);
 			margin-left: 30px;
 		}
 	}
@@ -66,6 +66,135 @@
 			&>a,
 			&>span {
 				box-shadow: 0 20px 20px -5px rgba(0, 0, 0, 0.2);
+			}
+		}
+	}
+}
+
+.card--pdf {
+	display: flex;
+	padding: 20px 0;
+	background: $background-tertiary;
+	box-shadow: 0 20px 20px -5px rgba(0, 0, 0, 0.2);
+
+	.picture {
+		flex: 1 0 200px;
+		padding: 0 20px;
+	}
+
+	.content {
+		flex: 1 1 auto;
+		padding-right: 15px;
+	}
+
+	.title {
+		font-family: $font-secondary;
+		font-size: 24px;
+		line-height: 1.1;
+		font-weight: $font-medium;
+		margin-bottom: 20px;
+	}
+
+	.abstract {
+		font-size: 14px;
+		line-height: 20px;
+	}
+
+	.group--cta {
+		padding: 20px 0;
+	}
+
+	.btn--download {
+		padding: 2px 8px;
+		opacity: 1;
+		font-family: $font-secondary;
+		font-size: 14px;
+		text-transform: uppercase;
+		background: $background-secondary;
+		color: $foreground;
+
+		&:hover {
+			background: $background-negative;
+			color: $foreground-negative;
+
+			.icon {
+				fill: $foreground-negative;
+			}
+		}
+	}
+
+	.size {
+		display: flex;
+		align-items: center;
+		font-family: $font-secondary;
+		font-size: 14px;
+
+		.icon--insights {
+			width: 16px;
+			height: 16px;
+			margin: 0 5px;
+			fill: $foreground;
+		}
+	}
+
+}
+
+.listing--media {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+
+	.listing__item {
+		margin-bottom: 60px;
+	}
+
+	@include media-breakpoint-up(md) {
+		.listing__item {
+			@include as-col(6, 12, 30px);
+		}
+	}
+
+	@include media-breakpoint-down(sm) {
+		.listing__item {
+			@include as-col(12, 12, 0px);
+		}
+	}
+
+	.card--video {
+		.icon--expand {
+			width: 17px;
+			height: 18px;
+			top: 15px;
+			right: 15px;
+		}
+	}
+
+	.btn--play {
+		width: 100px;
+		height: 100px;
+
+		.icon--play-progress,
+		.icon--play-progress-background {
+			width: 100px;
+			height: 100px;
+		}
+
+		.icon--play,
+		.icon--pause {
+			width: 20px;
+			height: 20px;
+			margin-left: -9px;
+			margin-top: -9px;
+		}
+
+		@include media-breakpoint-down(md) {
+			width: 100px;
+			height: 100px;
+
+			.icon--play-progress,
+			.icon--play-progress-background {
+				width: 100px;
+				height: 100px;
 			}
 		}
 	}

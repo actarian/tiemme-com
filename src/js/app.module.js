@@ -29,6 +29,7 @@ import MediaLibraryComponent from './media-library/media-library';
 import ModalOutletComponent from './modal/modal-outlet.component';
 import RegisterOrLoginComponent from './register-or-login/register-or-login.component';
 import RequestInfoCommercialComponent from './request-info-commercial/request-info-commercial.component';
+import FileSizePipe from './size/size.pipe';
 import SwiperListingDirective from './swiper/swiper-listing.directive';
 import SwiperSlidesDirective from './swiper/swiper-slides.directive';
 import SwiperDirective from './swiper/swiper.directive';
@@ -64,6 +65,7 @@ AppModule.meta = {
 		DropdownDirective,
 		DropdownItemDirective,
 		ErrorsComponent,
+		FileSizePipe,
 		HeaderComponent,
 		LazyDirective,
 		MainMenuComponent,
