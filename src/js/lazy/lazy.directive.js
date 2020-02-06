@@ -35,9 +35,9 @@ export default class LazyDirective extends Directive {
 	lazy$(input) {
 		const { node } = getContext(this);
 		return IntersectionService.intersection$(node).pipe(
-			takeUntil(this.unsubscribe$),
 			first(),
-			switchMap(() => ImageService.load$(input))
+			switchMap(() => ImageService.load$(input)),
+			takeUntil(this.unsubscribe$),
 		);
 	}
 

@@ -44,14 +44,14 @@ export default class YoutubeComponent extends Component {
 
 	initPlayer() {
 		console.log('VideoComponent.initPlayer');
-		this.player$()
-			.pipe(takeUntil(this.unsubscribe$))
-			.subscribe(player => {
-				console.log('YoutubeComponent.player$', player);
-			});
-		this.interval$()
-			.pipe(takeUntil(this.unsubscribe$))
-			.subscribe(() => {});
+		this.player$().pipe(
+			takeUntil(this.unsubscribe$)
+		).subscribe(player => {
+			console.log('YoutubeComponent.player$', player);
+		});
+		this.interval$().pipe(
+			takeUntil(this.unsubscribe$)
+		).subscribe(() => {});
 		this.id$.next(this.youtubeId);
 	}
 

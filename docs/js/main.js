@@ -640,7 +640,7 @@
         var _getContext = rxcomp.getContext(this),
             node = _getContext.node;
 
-        IntersectionService.intersection$(node).pipe(operators.takeUntil(this.unsubscribe$), operators.first()).subscribe(function (src) {
+        IntersectionService.intersection$(node).pipe(operators.first(), operators.takeUntil(this.unsubscribe$)).subscribe(function (src) {
           node.classList.add('appeared');
         });
       }
@@ -2260,9 +2260,9 @@
       var _getContext2 = rxcomp.getContext(this),
           node = _getContext2.node;
 
-      return IntersectionService.intersection$(node).pipe(operators.takeUntil(this.unsubscribe$), operators.first(), operators.switchMap(function () {
+      return IntersectionService.intersection$(node).pipe(operators.first(), operators.switchMap(function () {
         return ImageService.load$(input);
-      }));
+      }), operators.takeUntil(this.unsubscribe$));
     };
 
     return LazyDirective;
