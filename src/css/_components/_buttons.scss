@@ -72,10 +72,6 @@ button,
 			color: $foreground;
 		}
 	}
-
-	@include media-breakpoint-down(xs) {
-		display: block;
-	}
 }
 
 .btn--download,
@@ -169,7 +165,7 @@ button,
 		}
 	}
 
-	@include media-breakpoint-down(xs) {
+	@include media-down(xs) {
 		display: block;
 	}
 }

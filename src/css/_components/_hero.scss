@@ -30,11 +30,11 @@
 			height: 100%;
 		}
 
-		@include media-breakpoint-up(sm) {
+		@include media-up(sm) {
 			height: calc(100vh - 35px);
 		}
 
-		@include media-breakpoint-down(xs) {
+		@include media-down(xs) {
 			height: 70vh;
 
 			.container {
@@ -111,11 +111,11 @@
 	@extend %section--hero;
 	@extend %section--hero-title;
 
-	@include media-breakpoint-up(md) {
+	@include media-up(md) {
 		height: 770px;
 	}
 
-	@include media-breakpoint-down(sm) {
+	@include media-down(sm) {
 		height: 70vh;
 	}
 }
@@ -128,11 +128,11 @@
 		padding-bottom: 90px;
 	}
 
-	@include media-breakpoint-up(md) {
+	@include media-up(md) {
 		height: 560px;
 	}
 
-	@include media-breakpoint-down(sm) {
+	@include media-down(sm) {
 		height: 60vh;
 	}
 }
@@ -140,11 +140,11 @@
 .section--hero-tertiary {
 	@extend %section--hero;
 
-	@include media-breakpoint-up(md) {
+	@include media-up(md) {
 		height: 200px;
 	}
 
-	@include media-breakpoint-down(sm) {
+	@include media-down(sm) {
 		height: 200px;
 	}
 }

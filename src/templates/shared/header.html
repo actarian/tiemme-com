@@ -3,61 +3,65 @@
 	<div class="container-fluid">
 		<!-- menu -->
 		<div class="dropdown--menu" *if="menu == 'main'">
-			<!-- menu liv 1 -->
-			<ul class="nav--header">
-				<li>
-					<a href="#">Azienda</a>
-				</li>
-				<li>
-					<span dropdown="1001" (dropped)="onDropped($event)">Prodotti <svg class="icon icon--caret-right"><use xlink:href="#caret-right"></use></svg></span>
-				</li>
-				<li>
-					<span dropdown="1002" (dropped)="onDropped($event)">Media <svg class="icon icon--caret-right"><use xlink:href="#caret-right"></use></svg></span>
-				</li>
-				<li>
-					<span dropdown="1003" (dropped)="onDropped($event)">Comunicazione <svg class="icon icon--caret-right"><use xlink:href="#caret-right"></use></svg></span>
-				</li>
-				<li>
-					<span dropdown="1004" (dropped)="onDropped($event)">Servizi <svg class="icon icon--caret-right"><use xlink:href="#caret-right"></use></svg></span>
-				</li>
-				<li>
-					<span dropdown="1005" (dropped)="onDropped($event)">Contatti <svg class="icon icon--caret-right"><use xlink:href="#caret-right"></use></svg></span>
-				</li>
-			</ul>
-			<!-- menu liv 2 -->
-			<ul class="nav--header" dropdown-item="1001">
-				<li><a href="/tiemme-com/product-radiant.html">Componenti Idraulici</a></li>
-				<li><a href="/tiemme-com/product-radiant.html">Centrale Termica</a></li>
-				<li><a href="/tiemme-com/product-radiant.html">Sistemi radianti</a></li>
-				<li><a href="/tiemme-com/product-radiant.html">Rubinetti</a></li>
-			</ul>
-			<ul class="nav--header" dropdown-item="1002">
-				<li><a href="/tiemme-com/media-corporate.html">Corporate</a></li>
-				<li><a href="/tiemme-com/media-catalogues.html">Cataloghi</a></li>
-				<li><a href="/tiemme-com/media-technical.html">Cataloghi Tecnici</a></li>
-				<li><a href="/tiemme-com/media-brochure.html">Brochure di Prodotto</a></li>
-			</ul>
-			<ul class="nav--header" dropdown-item="1003">
-				<li><a href="/tiemme-com/news.html">News</a></li>
-				<li><a href="/tiemme-com/events.html">Eventi e Fiere</a></li>
-				<li><a href="/tiemme-com/achievements.html">Realizzazioni</a> </li>
-			</ul>
-			<ul class="nav--header" dropdown-item="1004">
-				<li><a href="#">Bim</a></li>
-				<li><a href="#">Experience</a></li>
-				<li><a href="#">Tiemme Lab</a></li>
-				<li><a href="#">Garanzia ZERO10</a></li>
-			</ul>
-			<ul class="nav--header" dropdown-item="1005">
-				<li><a href="/tiemme-com/contacts-contact-us.html">Contattaci</a></li>
-				<li><a href="/tiemme-com/contacts-work-with-us.html">Filiali</a></li>
-				<li><a href="/tiemme-com/contacts-agents.html">Cerca un agente</a></li>
-				<li><a href="/tiemme-com/contacts-work-with-us.html">Lavora con noi</a></li>
-			</ul>
+			<div class="inner">
+				<!-- menu liv 1 -->
+				<ul class="nav--header">
+					<li>
+						<a href="#">Azienda</a>
+					</li>
+					<li>
+						<span dropdown="1001" (dropped)="onDropped($event)">Prodotti <svg class="icon icon--caret-right"><use xlink:href="#caret-right"></use></svg></span>
+					</li>
+					<li>
+						<span dropdown="1002" (dropped)="onDropped($event)">Media <svg class="icon icon--caret-right"><use xlink:href="#caret-right"></use></svg></span>
+					</li>
+					<li>
+						<span dropdown="1003" (dropped)="onDropped($event)">Comunicazione <svg class="icon icon--caret-right"><use xlink:href="#caret-right"></use></svg></span>
+					</li>
+					<li>
+						<span dropdown="1004" (dropped)="onDropped($event)">Servizi <svg class="icon icon--caret-right"><use xlink:href="#caret-right"></use></svg></span>
+					</li>
+					<li>
+						<span dropdown="1005" (dropped)="onDropped($event)">Contatti <svg class="icon icon--caret-right"><use xlink:href="#caret-right"></use></svg></span>
+					</li>
+				</ul>
+				<!-- menu liv 2 -->
+				<ul class="nav--header" dropdown-item="1001">
+					<li><a href="/tiemme-com/product-radiant.html">Componenti Idraulici</a></li>
+					<li><a href="/tiemme-com/product-radiant.html">Centrale Termica</a></li>
+					<li><a href="/tiemme-com/product-radiant.html">Sistemi radianti</a></li>
+					<li><a href="/tiemme-com/product-radiant.html">Rubinetti</a></li>
+				</ul>
+				<ul class="nav--header" dropdown-item="1002">
+					<li><a href="/tiemme-com/media-corporate.html">Corporate</a></li>
+					<li><a href="/tiemme-com/media-catalogues.html">Cataloghi</a></li>
+					<li><a href="/tiemme-com/media-technical.html">Cataloghi Tecnici</a></li>
+					<li><a href="/tiemme-com/media-brochure.html">Brochure di Prodotto</a></li>
+				</ul>
+				<ul class="nav--header" dropdown-item="1003">
+					<li><a href="/tiemme-com/news.html">News</a></li>
+					<li><a href="/tiemme-com/events.html">Eventi e Fiere</a></li>
+					<li><a href="/tiemme-com/achievements.html">Realizzazioni</a> </li>
+				</ul>
+				<ul class="nav--header" dropdown-item="1004">
+					<li><a href="#">Bim</a></li>
+					<li><a href="#">Experience</a></li>
+					<li><a href="#">Tiemme Lab</a></li>
+					<li><a href="#">Garanzia ZERO10</a></li>
+				</ul>
+				<ul class="nav--header" dropdown-item="1005">
+					<li><a href="/tiemme-com/contacts-contact-us.html">Contattaci</a></li>
+					<li><a href="/tiemme-com/contacts-work-with-us.html">Filiali</a></li>
+					<li><a href="/tiemme-com/contacts-agents.html">Cerca un agente</a></li>
+					<li><a href="/tiemme-com/contacts-work-with-us.html">Lavora con noi</a></li>
+				</ul>
+			</div>
 		</div>
 		<!-- club -->
 		<div class="dropdown--menu" *if="menu == 'club'">
-			<!-- @@include ./club.html -->
+			<div class="inner">
+				<!-- @@include ./club.html -->
+			</div>
 		</div>
 		<div class="flex--header">
 			<div class="left">
@@ -83,7 +87,7 @@
 					</div>
 				</div>
 				<a href="/tiemme-com/club-profile.html" class="btn--club" *if="user"><span><svg class="icon icon--user"><use xlink:href="#user"></use></svg> Club Tiemme</span></a>
-				<button type="button" class="btn--club" (click)="toggleMenu('club')" *if="!user"><span>Club Tiemme</span></button>
+				<button type="button" class="btn--club" (click)="toggleMenu('club')" *if="!user"><svg class="icon icon--user"><use xlink:href="#user"></use></svg> <span>Club Tiemme</span></button>
 			</div>
 		</div>
 	</div>

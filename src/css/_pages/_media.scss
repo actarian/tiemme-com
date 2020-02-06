@@ -148,13 +148,13 @@
 		margin-bottom: 60px;
 	}
 
-	@include media-breakpoint-up(md) {
+	@include media-up(lg) {
 		.listing__item {
 			@include as-col(6, 12, 30px);
 		}
 	}
 
-	@include media-breakpoint-down(sm) {
+	@include media-down(md) {
 		.listing__item {
 			@include as-col(12, 12, 0px);
 		}
@@ -187,7 +187,7 @@
 			margin-top: -9px;
 		}
 
-		@include media-breakpoint-down(md) {
+		@include media-down(md) {
 			width: 100px;
 			height: 100px;
 

@@ -344,7 +344,7 @@ errors-component {
 	text-align: center;
 	background: rgba(255, 255, 255, 0.8);
 
-	@include media-breakpoint-down(xs) {
+	@include media-down(xs) {
 		display: none;
 	}
 }
@@ -355,7 +355,7 @@ errors-component {
 	align-items: flex-start;
 	flex-wrap: wrap;
 
-	@include media-breakpoint-up(lg) {
+	@include media-up(lg) {
 		&>div {
 			@include as-col(5, 12, 20px);
 
@@ -365,7 +365,7 @@ errors-component {
 		}
 	}
 
-	@include media-breakpoint-down(md) {
+	@include media-down(md) {
 		&>div {
 			@include as-col(6, 12, 20px);
 
@@ -375,7 +375,7 @@ errors-component {
 		}
 	}
 
-	@include media-breakpoint-down(xs) {
+	@include media-down(xs) {
 		&>div {
 			@include as-col(12, 12, 0px);
 		}
@@ -391,7 +391,7 @@ errors-component {
 		pointer-events: none;
 	}
 
-	@include media-breakpoint-up(md) {
+	@include media-up(md) {
 
 		.dropdown {
 			top: -65px;

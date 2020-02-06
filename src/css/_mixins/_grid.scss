@@ -9,7 +9,7 @@
 
 	@each $breakpoint,
 	$gutter in $gutter-widths {
-		@include media-breakpoint-up($breakpoint, $breakpoints) {
+		@include media-up($breakpoint, $breakpoints) {
 			padding-right: $gutter / 2;
 			padding-left: $gutter / 2;
 		}
@@ -22,7 +22,7 @@
 
 	@each $breakpoint,
 	$container-max-width in $max-widths {
-		@include media-breakpoint-up($breakpoint, $breakpoints) {
+		@include media-up($breakpoint, $breakpoints) {
 			max-width: $container-max-width;
 		}
 	}
@@ -32,7 +32,7 @@
 
 	@each $breakpoint,
 	$container-fluid-max-width in $max-widths {
-		@include media-breakpoint-up($breakpoint, $breakpoints) {
+		@include media-up($breakpoint, $breakpoints) {
 			max-width: $container-fluid-max-width;
 		}
 	}
@@ -44,7 +44,7 @@
 
 	@each $breakpoint,
 	$gutter in $gutter-widths {
-		@include media-breakpoint-up($breakpoint, $breakpoints) {
+		@include media-up($breakpoint, $breakpoints) {
 			margin-right: -$gutter / 2;
 			margin-left: -$gutter / 2;
 		}
@@ -60,7 +60,7 @@
 
 	@each $breakpoint,
 	$gutter in $gutter-widths {
-		@include media-breakpoint-up($breakpoint, $breakpoints) {
+		@include media-up($breakpoint, $breakpoints) {
 			padding-right: $gutter / 2;
 			padding-left: $gutter / 2;
 		}
@@ -99,7 +99,7 @@
 
 	@each $breakpoint,
 	$gutter in $gutter-widths {
-		@include media-breakpoint-up($breakpoint, $breakpoints) {
+		@include media-up($breakpoint, $breakpoints) {
 			padding-right: $gutter / 2;
 			padding-left: $gutter / 2;
 		}
@@ -135,7 +135,7 @@
 			@include grid-column()
 		}
 
-		@include media-breakpoint-up($breakpoint, $breakpoints) {
+		@include media-up($breakpoint, $breakpoints) {
 
 			// Provide basic `.col-{bp}` classes for equal-width flexbox columns
 			.col#{$infix} {

@@ -50,11 +50,11 @@
 }
 
 
-@include media-breakpoint-up(lg) {}
+@include media-up(lg) {}
 
-@include media-breakpoint-down(md) {}
+@include media-down(md) {}
 
-@include media-breakpoint-down(xs) {}
+@include media-down(xs) {}
 
 // Prodotti Utilizzati
 .section--products-related {

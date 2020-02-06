@@ -5,11 +5,11 @@ body {
 	background: $background;
 	color: $foreground;
 
-	@include media-breakpoint-up(sm) {
+	@include media-up(sm) {
 		font-size: $font-size;
 	}
 
-	@include media-breakpoint-down(xs) {
+	@include media-down(xs) {
 		font-size: $font-size-xs;
 	}
 }
@@ -67,6 +67,10 @@ strong {
 
 	.icon {
 		margin-right: 5px;
+	}
+
+	@include media-down(md) {
+		font-size: 21px;
 	}
 }
 

@@ -10,19 +10,19 @@
 		flex-wrap: wrap;
 		justify-content: space-between;
 
-		@include media-breakpoint-up(lg) {
+		@include media-up(lg) {
 			.card--news {
 				@include as-col(4, 12, 20px);
 			}
 		}
 
-		@include media-breakpoint-down(md) {
+		@include media-down(md) {
 			.card--news {
 				@include as-col(6, 12, 20px);
 			}
 		}
 
-		@include media-breakpoint-down(xs) {
+		@include media-down(xs) {
 			.card--news {
 				@include as-col(12, 12, 0px);
 			}
@@ -38,19 +38,19 @@
 		flex-wrap: wrap;
 		justify-content: space-between;
 
-		@include media-breakpoint-up(lg) {
+		@include media-up(lg) {
 			.card--event {
 				@include as-col(4, 12, 20px);
 			}
 		}
 
-		@include media-breakpoint-down(md) {
+		@include media-down(md) {
 			.card--event {
 				@include as-col(6, 12, 20px);
 			}
 		}
 
-		@include media-breakpoint-down(xs) {
+		@include media-down(xs) {
 			.card--event {
 				@include as-col(12, 12, 0px);
 			}
@@ -66,19 +66,19 @@
 		flex-wrap: wrap;
 		justify-content: space-between;
 
-		@include media-breakpoint-up(lg) {
+		@include media-up(lg) {
 			.card--achievement {
 				@include as-col(4, 12, 20px);
 			}
 		}
 
-		@include media-breakpoint-down(md) {
+		@include media-down(md) {
 			.card--achievement {
 				@include as-col(6, 12, 20px);
 			}
 		}
 
-		@include media-breakpoint-down(xs) {
+		@include media-down(xs) {
 			.card--achievement {
 				@include as-col(12, 12, 0px);
 			}
@@ -100,19 +100,19 @@
 			margin-bottom: 40px;
 		}
 
-		@include media-breakpoint-up(lg) {
+		@include media-up(lg) {
 			.card--product {
 				@include as-col(4, 12, 30px);
 			}
 		}
 
-		@include media-breakpoint-down(md) {
+		@include media-down(md) {
 			.card--product {
 				@include as-col(6, 12, 20px);
 			}
 		}
 
-		@include media-breakpoint-down(xs) {
+		@include media-down(xs) {
 			.card--product {
 				@include as-col(12, 12, 0px);
 			}

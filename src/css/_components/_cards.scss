@@ -41,7 +41,7 @@
 				line-height: 40px;
 				font-weight: $font-medium;
 
-				@include media-breakpoint-down(xs) {
+				@include media-down(xs) {
 					font-size: 32px;
 				}
 			}
@@ -263,6 +263,14 @@
 		}
 	}
 	*/
+
+	@include media-down(md) {
+		.picture {
+			&>.category {
+				font-size: 16px;
+			}
+		}
+	}
 }
 
 .card--news {
@@ -500,7 +508,7 @@
 		margin-bottom: 0;
 	}
 
-	@include media-breakpoint-down(xs) {
+	@include media-down(xs) {
 		flex-wrap: wrap;
 	}
 
@@ -510,7 +518,7 @@
 		flex-direction: column;
 		justify-content: space-between;
 
-		@include media-breakpoint-down(xs) {
+		@include media-down(xs) {
 			width: 100%;
 		}
 	}
@@ -521,7 +529,7 @@
 		flex-direction: column;
 		justify-content: space-between;
 
-		@include media-breakpoint-down(xs) {
+		@include media-down(xs) {
 			width: 100%;
 		}
 	}
@@ -533,7 +541,7 @@
 		line-height: 30px;
 		font-family: $font-secondary;
 
-		@include media-breakpoint-down(xs) {
+		@include media-down(xs) {
 			font-size: 24px;
 			padding-bottom: 10px;
 		}
@@ -568,7 +576,7 @@
 		margin: 0;
 		padding: 0;
 
-		@include media-breakpoint-down(xs) {
+		@include media-down(xs) {
 			margin: 20px 0;
 		}
 
