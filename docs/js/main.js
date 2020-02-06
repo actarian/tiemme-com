@@ -1144,14 +1144,11 @@
       this.controls = controls;
       form.changes$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (changes) {
         // console.log('ClubProfileComponent.form.changes$', changes, form.valid);
-        var provinces = data.provinces.filter(function (province) {
-          return String(province.idstato) === String(changes.country);
-        });
-        controls.province.options = provinces;
-        controls.province.disabled = provinces.length === 0;
+        _this.countryId = changes.country;
 
         _this.pushChanges();
       });
+      this.data = data;
       this.form = form;
       this.test();
     };
@@ -1220,6 +1217,22 @@
         this.form.touched = true;
       }
     };
+
+    _createClass(ClubProfileComponent, [{
+      key: "countryId",
+      set: function set(countryId) {
+        if (this.countryId_ !== countryId) {
+          console.log('ClubProfileComponent.set countryId', countryId);
+          this.countryId_ = countryId;
+          var provinces = this.data.provinces.filter(function (province) {
+            return String(province.idstato) === String(countryId);
+          });
+          this.controls.province.options = provinces;
+          this.controls.province.hidden = provinces.length === 0;
+          this.controls.province.value = null;
+        }
+      }
+    }]);
 
     return ClubProfileComponent;
   }(rxcomp.Component);
@@ -1354,14 +1367,11 @@
       this.controls = controls;
       form.changes$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (changes) {
         // console.log('ClubSignupComponent.form.changes$', changes, form.valid);
-        var provinces = data.provinces.filter(function (province) {
-          return String(province.idstato) === String(changes.country);
-        });
-        controls.province.options = provinces;
-        controls.province.disabled = provinces.length === 0;
+        _this.countryId = changes.country;
 
         _this.pushChanges();
       });
+      this.data = data;
       this.form = form;
     };
 
@@ -1433,6 +1443,22 @@
     _proto.onLogin = function onLogin() {
       this.login.next();
     };
+
+    _createClass(ClubSignupComponent, [{
+      key: "countryId",
+      set: function set(countryId) {
+        if (this.countryId_ !== countryId) {
+          console.log('ClubSignupComponent.set countryId', countryId);
+          this.countryId_ = countryId;
+          var provinces = this.data.provinces.filter(function (province) {
+            return String(province.idstato) === String(countryId);
+          });
+          this.controls.province.options = provinces;
+          this.controls.province.hidden = provinces.length === 0;
+          this.controls.province.value = null;
+        }
+      }
+    }]);
 
     return ClubSignupComponent;
   }(rxcomp.Component);
@@ -1657,7 +1683,7 @@
     inputs: ['control', 'label'],
     template:
     /* html */
-    "\n\t\t<div class=\"group--form--checkbox\" [class]=\"{ required: control.validators.length }\">\n\t\t\t<input type=\"checkbox\" class=\"control--checkbox\" [formControl]=\"control\" [value]=\"true\"/>\n\t\t\t<label><span [innerHTML]=\"label\"></span></label>\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
+    "\n\t\t<div class=\"group--form--checkbox\" [class]=\"{ required: control.validators.length }\">\n\t\t\t<input type=\"checkbox\" class=\"control--checkbox\" [formControl]=\"control\" [value]=\"true\"/>\n\t\t\t<label><span [innerHTML]=\"label | html\"></span></label>\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
   };
 
   var ControlCustomSelectComponent =
@@ -2064,6 +2090,47 @@
     selector: 'header'
   };
 
+  /*
+  ['quot', 'amp', 'apos', 'lt', 'gt', 'nbsp', 'iexcl', 'cent', 'pound', 'curren', 'yen', 'brvbar', 'sect', 'uml', 'copy', 'ordf', 'laquo', 'not', 'shy', 'reg', 'macr', 'deg', 'plusmn', 'sup2', 'sup3', 'acute', 'micro', 'para', 'middot', 'cedil', 'sup1', 'ordm', 'raquo', 'frac14', 'frac12', 'frac34', 'iquest', 'Agrave', 'Aacute', 'Acirc', 'Atilde', 'Auml', 'Aring', 'AElig', 'Ccedil', 'Egrave', 'Eacute', 'Ecirc', 'Euml', 'Igrave', 'Iacute', 'Icirc', 'Iuml', 'ETH', 'Ntilde', 'Ograve', 'Oacute', 'Ocirc', 'Otilde', 'Ouml', 'times', 'Oslash', 'Ugrave', 'Uacute', 'Ucirc', 'Uuml', 'Yacute', 'THORN', 'szlig', 'agrave', 'aacute', 'atilde', 'auml', 'aring', 'aelig', 'ccedil', 'egrave', 'eacute', 'ecirc', 'euml', 'igrave', 'iacute', 'icirc', 'iuml', 'eth', 'ntilde', 'ograve', 'oacute', 'ocirc', 'otilde', 'ouml', 'divide', 'oslash', 'ugrave', 'uacute', 'ucirc', 'uuml', 'yacute', 'thorn', 'yuml', 'amp', 'bull', 'deg', 'infin', 'permil', 'sdot', 'plusmn', 'dagger', 'mdash', 'not', 'micro', 'perp', 'par', 'euro', 'pound', 'yen', 'cent', 'copy', 'reg', 'trade', 'alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta', 'theta', 'iota', 'kappa', 'lambda', 'mu', 'nu', 'xi', 'omicron', 'pi', 'rho', 'sigma', 'tau', 'upsilon', 'phi', 'chi', 'psi', 'omega', 'Alpha', 'Beta', 'Gamma', 'Delta', 'Epsilon', 'Zeta', 'Eta', 'Theta', 'Iota', 'Kappa', 'Lambda', 'Mu', 'Nu', 'Xi', 'Omicron', 'Pi', 'Rho', 'Sigma', 'Tau', 'Upsilon', 'Phi', 'Chi', 'Psi', 'Omega'];
+  ['"', '&', ''', '<', '>', ' ', '¡', '¢', '£', '¤', '¥', '¦', '§', '¨', '©', 'ª', '«', '¬', '­', '®', '¯', '°', '±', '²', '³', '´', 'µ', '¶', '·', '¸', '¹', 'º', '»', '¼', '½', '¾', '¿', 'À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Æ', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ð', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', '×', 'Ø', 'Ù', 'Ú', 'Û', 'Ü', 'Ý', 'Þ', 'ß', 'à', 'á', 'ã', 'ä', 'å', 'æ', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ð', 'ñ', 'ò', 'ó', 'ô', 'õ', 'ö', '÷', 'ø', 'ù', 'ú', 'û', 'ü', 'ý', 'þ', 'ÿ', '&', '•', '°', '∞', '‰', '⋅', '±', '†', '—', '¬', 'µ', '⊥', '∥', '€', '£', '¥', '¢', '©', '®', '™', 'α', 'β', 'γ', 'δ', 'ε', 'ζ', 'η', 'θ', 'ι', 'κ', 'λ', 'μ', 'ν', 'ξ', 'ο', 'π', 'ρ', 'σ', 'τ', 'υ', 'φ', 'χ', 'ψ', 'ω', 'Α', 'Β', 'Γ', 'Δ', 'Ε', 'Ζ', 'Η', 'Θ', 'Ι', 'Κ', 'Λ', 'Μ', 'Ν', 'Ξ', 'Ο', 'Π', 'Ρ', 'Σ', 'Τ', 'Υ', 'Φ', 'Χ', 'Ψ', 'Ω'];
+  */
+
+  var HtmlPipe =
+  /*#__PURE__*/
+  function (_Pipe) {
+    _inheritsLoose(HtmlPipe, _Pipe);
+
+    function HtmlPipe() {
+      return _Pipe.apply(this, arguments) || this;
+    }
+
+    HtmlPipe.transform = function transform(value) {
+      if (value) {
+        value = value.replace(/&#(\d+);/g, function (m, n) {
+          return String.fromCharCode(parseInt(n));
+        });
+        var escapes = ['quot', 'amp', 'apos', 'lt', 'gt', 'nbsp', 'iexcl', 'cent', 'pound', 'curren', 'yen', 'brvbar', 'sect', 'uml', 'copy', 'ordf', 'laquo', 'not', 'shy', 'reg', 'macr', 'deg', 'plusmn', 'sup2', 'sup3', 'acute', 'micro', 'para', 'middot', 'cedil', 'sup1', 'ordm', 'raquo', 'frac14', 'frac12', 'frac34', 'iquest', 'Agrave', 'Aacute', 'Acirc', 'Atilde', 'Auml', 'Aring', 'AElig', 'Ccedil', 'Egrave', 'Eacute', 'Ecirc', 'Euml', 'Igrave', 'Iacute', 'Icirc', 'Iuml', 'ETH', 'Ntilde', 'Ograve', 'Oacute', 'Ocirc', 'Otilde', 'Ouml', 'times', 'Oslash', 'Ugrave', 'Uacute', 'Ucirc', 'Uuml', 'Yacute', 'THORN', 'szlig', 'agrave', 'aacute', 'atilde', 'auml', 'aring', 'aelig', 'ccedil', 'egrave', 'eacute', 'ecirc', 'euml', 'igrave', 'iacute', 'icirc', 'iuml', 'eth', 'ntilde', 'ograve', 'oacute', 'ocirc', 'otilde', 'ouml', 'divide', 'oslash', 'ugrave', 'uacute', 'ucirc', 'uuml', 'yacute', 'thorn', 'yuml', 'amp', 'bull', 'deg', 'infin', 'permil', 'sdot', 'plusmn', 'dagger', 'mdash', 'not', 'micro', 'perp', 'par', 'euro', 'pound', 'yen', 'cent', 'copy', 'reg', 'trade', 'alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta', 'theta', 'iota', 'kappa', 'lambda', 'mu', 'nu', 'xi', 'omicron', 'pi', 'rho', 'sigma', 'tau', 'upsilon', 'phi', 'chi', 'psi', 'omega', 'Alpha', 'Beta', 'Gamma', 'Delta', 'Epsilon', 'Zeta', 'Eta', 'Theta', 'Iota', 'Kappa', 'Lambda', 'Mu', 'Nu', 'Xi', 'Omicron', 'Pi', 'Rho', 'Sigma', 'Tau', 'Upsilon', 'Phi', 'Chi', 'Psi', 'Omega'];
+        var unescapes = ['"', '&', '\'', '<', '>', ' ', '¡', '¢', '£', '¤', '¥', '¦', '§', '¨', '©', 'ª', '«', '¬', '­', '®', '¯', '°', '±', '²', '³', '´', 'µ', '¶', '·', '¸', '¹', 'º', '»', '¼', '½', '¾', '¿', 'À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Æ', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ð', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', '×', 'Ø', 'Ù', 'Ú', 'Û', 'Ü', 'Ý', 'Þ', 'ß', 'à', 'á', 'ã', 'ä', 'å', 'æ', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ð', 'ñ', 'ò', 'ó', 'ô', 'õ', 'ö', '÷', 'ø', 'ù', 'ú', 'û', 'ü', 'ý', 'þ', 'ÿ', '&', '•', '°', '∞', '‰', '⋅', '±', '†', '—', '¬', 'µ', '⊥', '∥', '€', '£', '¥', '¢', '©', '®', '™', 'α', 'β', 'γ', 'δ', 'ε', 'ζ', 'η', 'θ', 'ι', 'κ', 'λ', 'μ', 'ν', 'ξ', 'ο', 'π', 'ρ', 'σ', 'τ', 'υ', 'φ', 'χ', 'ψ', 'ω', 'Α', 'Β', 'Γ', 'Δ', 'Ε', 'Ζ', 'Η', 'Θ', 'Ι', 'Κ', 'Λ', 'Μ', 'Ν', 'Ξ', 'Ο', 'Π', 'Ρ', 'Σ', 'Τ', 'Υ', 'Φ', 'Χ', 'Ψ', 'Ω'];
+        var rx = new RegExp("(&" + escapes.join(';)|(&') + ";)", 'g');
+        value = value.replace(rx, function () {
+          for (var i = 1; i < arguments.length; i++) {
+            if (arguments[i]) {
+              // console.log(arguments[i], unescapes[i - 1]);
+              return unescapes[i - 1];
+            }
+          }
+        }); // console.log(value);
+
+        return value;
+      }
+    };
+
+    return HtmlPipe;
+  }(rxcomp.Pipe);
+  HtmlPipe.meta = {
+    name: 'html'
+  };
+
   var PATH = STATIC ? './' : '/Client/docs/';
   var UID = 0;
 
@@ -2391,14 +2458,11 @@
       this.controls = controls;
       form.changes$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (changes) {
         // console.log('RequestInfoCommercialComponent.form.changes$', changes, form.valid);
-        var provinces = data.provinces.filter(function (province) {
-          return String(province.idstato) === String(changes.country);
-        });
-        controls.province.options = provinces;
-        controls.province.disabled = provinces.length === 0;
+        _this.countryId = changes.country;
 
         _this.pushChanges();
       });
+      this.data = data;
       this.form = form;
     };
 
@@ -2427,10 +2491,9 @@
       // console.log('RequestInfoCommercialComponent.onSubmit', 'form.valid', valid);
       if (this.form.valid) {
         // console.log('RequestInfoCommercialComponent.onSubmit', this.form.value);
-        this.form.submitted = true;
-        this.http.post$('/WS/wsUsers.asmx/Contact', {
-          data: this.form.value
-        }).subscribe(function (response) {
+        this.form.submitted = true; //this.http.post$('/WS/wsUsers.asmx/Contact', { data: this.form.value })
+
+        this.http.post$('/api/users/Contact', this.form.value).subscribe(function (response) {
           console.log('RequestInfoCommercialComponent.onSubmit', response);
 
           _this2.form.reset();
@@ -2441,6 +2504,22 @@
         this.form.touched = true;
       }
     };
+
+    _createClass(RequestInfoCommercialComponent, [{
+      key: "countryId",
+      set: function set(countryId) {
+        if (this.countryId_ !== countryId) {
+          console.log('RequestInfoCommercialComponent.set countryId', countryId);
+          this.countryId_ = countryId;
+          var provinces = this.data.provinces.filter(function (province) {
+            return String(province.idstato) === String(countryId);
+          });
+          this.controls.province.options = provinces;
+          this.controls.province.hidden = provinces.length === 0;
+          this.controls.province.value = null;
+        }
+      }
+    }]);
 
     return RequestInfoCommercialComponent;
   }(rxcomp.Component);
@@ -3324,7 +3403,7 @@
   }(rxcomp.Module);
   AppModule.meta = {
     imports: [rxcomp.CoreModule, rxcompForm.FormModule],
-    declarations: [AgentsComponent, AppearDirective, ClickOutsideDirective, ClubComponent, ClubForgotComponent, ClubModalComponent, ClubProfileComponent, ClubSigninComponent, ClubSignupComponent, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlPasswordComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, FileSizePipe, HeaderComponent, LazyDirective, MainMenuComponent, MediaLibraryComponent, ModalOutletComponent, RequestInfoCommercialComponent, RegisterOrLoginComponent, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, TestComponent, // ValueDirective,
+    declarations: [AgentsComponent, AppearDirective, ClickOutsideDirective, ClubComponent, ClubForgotComponent, ClubModalComponent, ClubProfileComponent, ClubSigninComponent, ClubSignupComponent, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlPasswordComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, FileSizePipe, HtmlPipe, HeaderComponent, LazyDirective, MainMenuComponent, MediaLibraryComponent, ModalOutletComponent, RequestInfoCommercialComponent, RegisterOrLoginComponent, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, TestComponent, // ValueDirective,
     VideoComponent, WorkWithUsComponent, YoutubeComponent, ZoomableDirective],
     bootstrap: AppComponent
   };

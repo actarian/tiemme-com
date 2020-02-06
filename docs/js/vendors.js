@@ -9293,7 +9293,7 @@
 
 
 /**
- * @license rxcomp v1.0.0-beta.2
+ * @license rxcomp v1.0.0-beta.4
  * (c) 2020 Luca Zampetti <lzampetti@gmail.com>
  * License: MIT
  */
@@ -9450,6 +9450,8 @@
 
     return Context;
   }(Component);
+
+  var Structure = function Structure() {};
 
   var ID = 0;
   var CONTEXTS = {};
@@ -9623,7 +9625,7 @@
     };
 
     Module.parsePipes = function parsePipes(expression) {
-      var rx1 = /(.*?)\|([^\|]*)/;
+      var rx1 = /(.*?[^\|])\|([^\|]+)/;
 
       while (expression.match(rx1)) {
         expression = expression.replace(rx1, function () {
@@ -9746,7 +9748,20 @@
       }
 
       var replacedText = expressions.reduce(function (p, c) {
-        return p + (typeof c === 'function' ? _this4.resolve(c, instance, instance) : c);
+        var text;
+
+        if (typeof c === 'function') {
+          text = _this4.resolve(c, instance, instance);
+
+          if (text == undefined) {
+            // !!! keep == loose equality
+            text = '';
+          }
+        } else {
+          text = c;
+        }
+
+        return p + text;
       }, '');
 
       if (node.nodeValue !== replacedText) {
@@ -9789,6 +9804,7 @@
     };
 
     _proto.resolve = function resolve(expressionFunc, changes, payload) {
+      // console.log(expressionFunc, changes, payload);
       return expressionFunc.apply(changes, [payload, this]);
     };
 
@@ -9809,7 +9825,21 @@
           expression = null;
 
       if (node.hasAttribute(key)) {
-        expression = "'" + node.getAttribute(key).replace('{{', '\'+').replace('}}', '+\'') + "'";
+        // const attribute = node.getAttribute(key).replace(/{{/g, '"+').replace(/}}/g, '+"');
+        var attribute = node.getAttribute(key).replace(/({{)|(}})|(")/g, function (match, a, b, c) {
+          if (a) {
+            return '"+';
+          }
+
+          if (b) {
+            return '+"';
+          }
+
+          if (c) {
+            return '\"';
+          }
+        });
+        expression = "\"" + attribute + "\"";
       } else if (node.hasAttribute("[" + key + "]")) {
         expression = node.getAttribute("[" + key + "]");
       }
@@ -9969,6 +9999,11 @@
           }
 
           results.push(match);
+
+          if (factory.prototype instanceof Structure) {
+            // console.log('Structure', node);
+            break;
+          }
         }
       }
 
@@ -9978,6 +10013,11 @@
     Module.querySelectorsAll = function querySelectorsAll(node, selectors, results) {
       if (node.nodeType === 1) {
         results = this.matchSelectors(node, selectors, results);
+
+        if (results.length && results[0].factory.prototype instanceof Structure) {
+          return results;
+        }
+
         var childNodes = node.childNodes;
 
         for (var i = 0; i < childNodes.length; i++) {
@@ -10201,8 +10241,6 @@
   EventDirective.meta = {
     selector: "[(" + EVENTS.join(')],[(') + ")]"
   };
-
-  var Structure = function Structure() {};
 
   var ForItem =
   /*#__PURE__*/
@@ -10506,7 +10544,7 @@
       var _getContext = getContext(this),
           node = _getContext.node;
 
-      node.innerHTML = this.innerHTML;
+      node.innerHTML = this.innerHTML == undefined ? '' : this.innerHTML; // !!! keep == loose equality
     };
 
     return InnerHtmlDirective;
@@ -10849,7 +10887,7 @@
 })));
 
 /**
- * @license rxcomp-form v1.0.0-beta.2
+ * @license rxcomp-form v1.0.0-beta.3
  * (c) 2020 Luca Zampetti <lzampetti@gmail.com>
  * License: MIT
  */
@@ -12330,10 +12368,11 @@
     ;
 
     /**
+     * @param {null | FormStatus} status - optional FormStatus
      * @return {void}
      */
-    _proto.reset = function reset() {
-      this.status = FormStatus.Pending;
+    _proto.reset = function reset(status) {
+      this.status = status || FormStatus.Pending;
       this.value_ = null;
       this.dirty_ = false;
       this.touched_ = false;
@@ -12433,12 +12472,21 @@
       set: function set(disabled) {
         if (disabled) {
           if (this.status !== FormStatus.Disabled) {
-            this.status = FormStatus.Disabled;
+            this.status = FormStatus.Disabled; // this.value_ = null;
+
+            this.dirty_ = false;
+            this.touched_ = false;
+            this.submitted_ = false;
             this.statusSubject.next(this);
           }
         } else {
           if (this.status === FormStatus.Disabled) {
-            this.reset();
+            this.status = FormStatus.Pending; // this.value_ = null;
+
+            this.dirty_ = false;
+            this.touched_ = false;
+            this.submitted_ = false;
+            this.statusSubject.next(this);
           }
         }
       }
@@ -12468,13 +12516,21 @@
       set: function set(hidden) {
         if (hidden) {
           if (this.status !== FormStatus.Hidden) {
-            this.status = FormStatus.Hidden;
-            console.log('set hidden', hidden, this.status);
+            this.status = FormStatus.Hidden; // this.value_ = null;
+
+            this.dirty_ = false;
+            this.touched_ = false;
+            this.submitted_ = false;
             this.statusSubject.next(this);
           }
         } else {
           if (this.status === FormStatus.Hidden) {
-            this.reset();
+            this.status = FormStatus.Pending; // this.value_ = null;
+
+            this.dirty_ = false;
+            this.touched_ = false;
+            this.submitted_ = false;
+            this.statusSubject.next(this);
           }
         }
       }
@@ -12797,7 +12853,10 @@
     _proto.patch = function patch(value) {
       if (value) {
         this.forEach_(function (control, key) {
-          control.patch(value[key]);
+          if (value[key] != undefined) {
+            // !!! keep != loose inequality
+            control.patch(value[key]);
+          }
         });
       }
     };

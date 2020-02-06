@@ -24,6 +24,7 @@ import ErrorsComponent from './forms/errors.component';
 import TestComponent from './forms/test.component';
 // import ValueDirective from './forms/value.directive';
 import HeaderComponent from './header/header.component';
+import HtmlPipe from './html/html.pipe';
 import LazyDirective from './lazy/lazy.directive';
 import MainMenuComponent from './main-menu/main-menu.component';
 import MediaLibraryComponent from './media-library/media-library';
@@ -68,6 +69,7 @@ AppModule.meta = {
 		DropdownItemDirective,
 		ErrorsComponent,
 		FileSizePipe,
+		HtmlPipe,
 		HeaderComponent,
 		LazyDirective,
 		MainMenuComponent,

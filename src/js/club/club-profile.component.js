@@ -47,17 +47,27 @@ export default class ClubProfileComponent extends Component {
 			takeUntil(this.unsubscribe$)
 		).subscribe((changes) => {
 			// console.log('ClubProfileComponent.form.changes$', changes, form.valid);
-			const provinces = data.provinces.filter(province => {
-				return String(province.idstato) === String(changes.country);
-			});
-			controls.province.options = provinces;
-			controls.province.disabled = provinces.length === 0;
+			this.countryId = changes.country;
 			this.pushChanges();
 		});
 
+		this.data = data;
 		this.form = form;
 
 		this.test();
+	}
+
+	set countryId(countryId) {
+		if (this.countryId_ !== countryId) {
+			console.log('ClubProfileComponent.set countryId', countryId);
+			this.countryId_ = countryId;
+			const provinces = this.data.provinces.filter(province => {
+				return String(province.idstato) === String(countryId);
+			});
+			this.controls.province.options = provinces;
+			this.controls.province.hidden = provinces.length === 0;
+			this.controls.province.value = null;
+		}
 	}
 
 	test() {

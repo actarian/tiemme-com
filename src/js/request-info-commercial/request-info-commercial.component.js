@@ -57,15 +57,25 @@ export default class RequestInfoCommercialComponent extends Component {
 			takeUntil(this.unsubscribe$)
 		).subscribe((changes) => {
 			// console.log('RequestInfoCommercialComponent.form.changes$', changes, form.valid);
-			const provinces = data.provinces.filter(province => {
-				return String(province.idstato) === String(changes.country);
-			});
-			controls.province.options = provinces;
-			controls.province.disabled = provinces.length === 0;
+			this.countryId = changes.country;
 			this.pushChanges();
 		});
 
+		this.data = data;
 		this.form = form;
+	}
+
+	set countryId(countryId) {
+		if (this.countryId_ !== countryId) {
+			console.log('RequestInfoCommercialComponent.set countryId', countryId);
+			this.countryId_ = countryId;
+			const provinces = this.data.provinces.filter(province => {
+				return String(province.idstato) === String(countryId);
+			});
+			this.controls.province.options = provinces;
+			this.controls.province.hidden = provinces.length === 0;
+			this.controls.province.value = null;
+		}
 	}
 
 	test() {
@@ -92,7 +102,8 @@ export default class RequestInfoCommercialComponent extends Component {
 		if (this.form.valid) {
 			// console.log('RequestInfoCommercialComponent.onSubmit', this.form.value);
 			this.form.submitted = true;
-			this.http.post$('/WS/wsUsers.asmx/Contact', { data: this.form.value })
+			//this.http.post$('/WS/wsUsers.asmx/Contact', { data: this.form.value })
+			this.http.post$('/api/users/Contact', this.form.value)
 				.subscribe(response => {
 					console.log('RequestInfoCommercialComponent.onSubmit', response);
 					this.form.reset();
