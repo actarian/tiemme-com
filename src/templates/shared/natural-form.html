@@ -1,0 +1,79 @@
+<script type="text/javascript">
+	window.filters = {
+		roles: {
+			label: 'Sono un',
+			placeholder: 'Seleziona',
+			options: [
+				{ id: "Agenzia", name: "Agenzia" },
+				{ id: "Azienda servizi pubblici", name: "Azienda servizi pubblici" },
+				{ id: "Distributore", name: "Distributore" },
+				{ id: "Ente Pubblico", name: "Ente Pubblico" },
+				{ id: "Filiale Tiemme", name: "Filiale Tiemme" },
+				{ id: "GDO", name: "GDO" },
+				{ id: "Grossista", name: "Grossista" },
+				{ id: "Gruppo d'acquisto", name: "Gruppo d'acquisto" },
+				{ id: "Impresa di costruzioni", name: "Impresa di costruzioni" },
+				{ id: "Installatore", name: "Installatore" },
+				{ id: "OEM", name: "OEM" },
+				{ id: "Studi professionali", name: "Studi professionali" },
+				{ id: "Altro", name: "Altro" },
+			]
+		},
+		actions: {
+			label: 'E Vorrei',
+			placeholder: 'Seleziona',
+			options: [
+				{ id: "Richiedere informazioni", name: "Richiedere informazioni" },
+				{ id: "Essere contattato", name: "Essere contattato" },
+				{ id: "Rimanere informato", name: "Rimanere informato" },
+				{ id: "Iscrivermi al Club", name: "Iscrivermi al Club" },
+			]
+		},
+		interests: {
+			label: 'Riguardo a',
+			placeholder: 'Seleziona',
+			options: [
+				{ id: "Componenti Idraulici", name: "Componenti Idraulici" },
+				{ id: "Centrale Termica", name: "Centrale Termica" },
+				{ id: "Sistemi Radianti", name: "Sistemi Radianti" },
+				{ id: "Rubinetti", name: "Rubinetti" },
+			]
+		},
+		newsletter: {
+			label: 'Club Tiemme',
+			placeholder: 'Seleziona',
+			options: [
+				{ id: "E non ricevere", name: "E non ricevere" },
+				{ id: "E ricevere", name: "E ricevere" },
+			]
+		}
+	};
+
+</script>
+
+<section class="section--natural-form" natural-form>
+	<div class="container">
+		<div *if="view == views.NATURAL">
+			<div natural-form-search [filters]="filters" (change)="onNaturalForm($event)">
+				<div class="content">
+					Sono un $roles$ e vorrei $actions$ riguardo a $interests$ $newsletter$ comunicazioni dal <a href="/tiemme-com/club-profile.html" class="btn--club" *if="user"><span><svg class="icon icon--user"><use xlink:href="#user"></use></svg> Club Tiemme</span></a><button type="button" class="btn--club" (click)="toggleMenu('club')" *if="!user"><svg class="icon icon--user"><use xlink:href="#user"></use></svg> <span>Club Tiemme</span></button>
+				</div>
+			</div>
+			<div class="group--cta">
+				<button type="button" class="btn--submit" (click)="onNext($event)"><span>Prosegui</span></button>
+			</div>
+		</div>
+		<div *if="view == views.COMMERCIAL">
+			<!-- @@include ./request-info-commercial.html -->
+		</div>
+		<div *if="view == views.INFOS">
+			<!-- @@include ./club-forgot.html -->
+		</div>
+		<div *if="view == views.NEWSLETTER">
+			<!-- @@include ./club-forgot.html -->
+		</div>
+		<div *if="view == views.CLUB">
+			<!-- @@include ./club-signup.html -->
+		</div>
+	</div>
+</section>

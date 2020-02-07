@@ -4480,6 +4480,13 @@ ul {
   .youtube:hover .playing .btn--play {
     opacity: 1; }
 
+@media (max-width: 1023.98px) {
+  .youtube .playing .overlay,
+  .youtube .playing .btn--play {
+    display: none; }
+  .youtube .playing + .content {
+    display: none; } }
+
 .lazy {
   display: inline-block;
   min-width: 1px;
@@ -6642,3 +6649,67 @@ img {
 
 .section--reserved-area {
   padding: 80px 0; }
+
+.section--natural-form {
+  padding: 80px 0;
+  background-color: #f3f4f6; }
+  .section--natural-form .group--cta {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    margin: 40px 0 0 0; }
+
+.natural-form-search {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 50px;
+  line-height: 1;
+  text-transform: uppercase; }
+  .natural-form-search .content {
+    text-align: center; }
+  .natural-form-search .btn--club {
+    vertical-align: middle;
+    margin-bottom: 10px; }
+
+.natural-form__control {
+  position: relative;
+  cursor: pointer; }
+  .natural-form__control > span {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 50px;
+    line-height: 1;
+    font-weight: 500;
+    text-align: left;
+    text-transform: uppercase;
+    background: #b9bdcd;
+    color: #16255b; }
+  .natural-form__control .icon--caret-right {
+    margin-left: 10px;
+    fill: #16255b; }
+  .natural-form__control .dropdown {
+    left: 100%;
+    text-align: left; }

@@ -1,0 +1,62 @@
+.section--natural-form {
+	padding: 80px 0;
+	background-color: $background-tertiary;
+
+	.group--cta {
+		display: flex;
+		justify-content: center;
+		margin: 40px 0 0 0;
+	}
+}
+
+.natural-form-search {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	font-family: $font-secondary;
+	font-size: 50px;
+	line-height: 1;
+	text-transform: uppercase;
+
+	.content {
+		text-align: center;
+	}
+
+	.btn--club {
+		vertical-align: middle;
+		margin-bottom: 10px;
+	}
+}
+
+.natural-form__control {
+	position: relative;
+	cursor: pointer;
+
+	&>span {
+		display: inline-flex;
+		justify-content: flex-start;
+		align-items: center;
+		padding: 10px 15px;
+		margin-bottom: 15px;
+		font-family: $font-secondary;
+		font-size: 50px;
+		line-height: 1;
+		font-weight: 500;
+		text-align: left;
+		text-transform: uppercase;
+		background: $background-secondary;
+		color: $foreground;
+	}
+
+	.icon--caret-right {
+		margin-left: 10px;
+		fill: $foreground;
+	}
+
+	.dropdown {
+		left: 100%;
+		text-align: left;
+	}
+
+}

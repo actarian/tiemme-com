@@ -65,6 +65,12 @@
 			{ id: "Studi professionali", name: "Studi professionali" },
 			{ id: "Altro", name: "Altro" },
 		],
+		interests: [
+			{ id: "Componenti Idraulici", name: "Componenti Idraulici" },
+			{ id: "Centrale Termica", name: "Centrale Termica" },
+			{ id: "Sistemi Radianti", name: "Sistemi Radianti" },
+			{ id: "Rubinetti", name: "Rubinetti" },
+		],
 		departments: [
 			{ id: "Acquisti", name: "Acquisti" },
 			{ id: "Amministrazione", name: "Amministrazione" },
@@ -79,12 +85,6 @@
 			{ id: "Ufficio R&D", name: "Ufficio R&D" },
 			{ id: "Ufficio tecnico", name: "Ufficio tecnico" },
 			{ id: "Ufficio vendite", name: "Ufficio vendite" },
-		],
-		interests: [
-			{ id: "Componenti Idraulici", name: "Componenti Idraulici" },
-			{ id: "Centrale Termica", name: "Centrale Termica" },
-			{ id: "Sistemi Radianti", name: "Sistemi Radianti" },
-			{ id: "Rubinetti", name: "Rubinetti" },
 		],
 		countries: [
 			{ id: 1, name: "Afghanistan", idstato: 0 },
@@ -1592,6 +1592,222 @@
 </section>
 
 <!-- end technician.html-->
+<!-- start natural-form.html-->
+<script type="text/javascript">
+	window.filters = {
+		roles: {
+			label: 'Sono un',
+			placeholder: 'Seleziona',
+			options: [
+				{ id: "Agenzia", name: "Agenzia" },
+				{ id: "Azienda servizi pubblici", name: "Azienda servizi pubblici" },
+				{ id: "Distributore", name: "Distributore" },
+				{ id: "Ente Pubblico", name: "Ente Pubblico" },
+				{ id: "Filiale Tiemme", name: "Filiale Tiemme" },
+				{ id: "GDO", name: "GDO" },
+				{ id: "Grossista", name: "Grossista" },
+				{ id: "Gruppo d'acquisto", name: "Gruppo d'acquisto" },
+				{ id: "Impresa di costruzioni", name: "Impresa di costruzioni" },
+				{ id: "Installatore", name: "Installatore" },
+				{ id: "OEM", name: "OEM" },
+				{ id: "Studi professionali", name: "Studi professionali" },
+				{ id: "Altro", name: "Altro" },
+			]
+		},
+		actions: {
+			label: 'E Vorrei',
+			placeholder: 'Seleziona',
+			options: [
+				{ id: "Richiedere informazioni", name: "Richiedere informazioni" },
+				{ id: "Essere contattato", name: "Essere contattato" },
+				{ id: "Rimanere informato", name: "Rimanere informato" },
+				{ id: "Iscrivermi al Club", name: "Iscrivermi al Club" },
+			]
+		},
+		interests: {
+			label: 'Riguardo a',
+			placeholder: 'Seleziona',
+			options: [
+				{ id: "Componenti Idraulici", name: "Componenti Idraulici" },
+				{ id: "Centrale Termica", name: "Centrale Termica" },
+				{ id: "Sistemi Radianti", name: "Sistemi Radianti" },
+				{ id: "Rubinetti", name: "Rubinetti" },
+			]
+		},
+		newsletter: {
+			label: 'Club Tiemme',
+			placeholder: 'Seleziona',
+			options: [
+				{ id: "E non ricevere", name: "E non ricevere" },
+				{ id: "E ricevere", name: "E ricevere" },
+			]
+		}
+	};
+
+</script>
+
+<section class="section--natural-form" natural-form>
+	<div class="container">
+		<div *if="view == views.NATURAL">
+			<div natural-form-search [filters]="filters" (change)="onNaturalForm($event)">
+				<div class="content">
+					Sono un $roles$ e vorrei $actions$ riguardo a $interests$ $newsletter$ comunicazioni dal <a href="/tiemme-com/club-profile.html" class="btn--club" *if="user"><span><svg class="icon icon--user"><use xlink:href="#user"></use></svg> Club Tiemme</span></a><button type="button" class="btn--club" (click)="toggleMenu('club')" *if="!user"><svg class="icon icon--user"><use xlink:href="#user"></use></svg> <span>Club Tiemme</span></button>
+				</div>
+			</div>
+			<div class="group--cta">
+				<button type="button" class="btn--submit" (click)="onNext($event)"><span>Prosegui</span></button>
+			</div>
+		</div>
+		<div *if="view == views.COMMERCIAL">
+<!-- start request-info-commercial.html-->
+<section class="section--form background--tertiary" request-info-commercial>
+	<div class="container" *if="!submitted">
+		<div class="section--slides__title">Richiesta Informazioni</div>
+		<form class="form" [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">
+			<div class="listing--form">
+				<input name="checkField" [formControl]="controls.checkField" value="" type="text" style="display:none !important;" />
+				<div control-text [control]="controls.firstName" label="Nome"></div>
+				<div control-text [control]="controls.lastName" label="Cognome"></div>
+				<div control-text [control]="controls.email" label="Email"></div>
+				<div control-text [control]="controls.company" label="Azienda"></div>
+				<div control-custom-select [control]="controls.role" label="Ruolo"></div>
+				<div control-custom-select [control]="controls.interests" label="Area di interesse"></div>
+				<div control-custom-select [control]="controls.country" label="Nazione"></div>
+				<div control-custom-select [control]="controls.province" label="Provincia"></div>
+				<div control-textarea [control]="controls.message" label="Messaggio"></div>
+				<div control-checkbox [control]="controls.privacy" label="Ho letto l&amp;#39;&amp;lt;a href=&amp;quot;/it/azienda/pagineinterne/informativa_sulla_privacy/&amp;quot; target=&amp;quot;_blank&amp;quot;&gt;informativa&amp;lt;/a&gt; e do il consenso al trattamento del dato"></div>
+				<div control-checkbox [control]="controls.newsletter" label="Voglio iscrivermi alla newsletter TIEMME"></div>
+			</div>
+			<div class="group--cta">
+				<button type="submit" class="btn--submit">
+					<span *if="!form.submitted">Invia</span>
+					<span *if="form.submitted">Inviato!</span>
+				</button>
+			</div>
+			<test-component [form]="form" (test)="test($event)" (reset)="reset($event)"></test-component>
+		</form>
+	</div>
+	<div class="container" *if="submitted">
+		<div class="section--slides__title">Richiesta Inviata</div>
+		<div class="abstract">
+			Grazie per averci contattato. La tua richiesta è stata inviata correttamente.
+		</div>
+	</div>
+</section>
+
+<!-- end request-info-commercial.html-->
+		</div>
+		<div *if="view == views.INFOS">
+<!-- start club-forgot.html-->
+<div club-forgot (sent)="onForgottenSent($event)" (login)="onLogin($event)">
+	<div class="container" *if="!submitted">
+		<form class="form" [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">
+			<div class="title">Recupera Password</div>
+			<div class="fields">
+				<input name="checkField" [formControl]="controls.checkField" value="" type="text" style="display:none !important;" />
+				<div control-text [control]="controls.email" label="Email"></div>
+			</div>
+			<div class="group--cta">
+				<button type="submit" class="btn--submit">
+					<span>Invia</span>
+				</button>
+			</div>
+			<div class="group--info">
+				Ricordi la password? <button type="button" class="btn--link" (click)="onLogin($event)"><span>Accedi</span></button>
+			</div>
+			<test-component [form]="form" (test)="test($event)" (reset)="reset($event)"></test-component>
+		</form>
+	</div>
+	<div class="container" *if="submitted">
+		<div class="title">Password Inviata</div>
+		<div class="abstract">
+			Abbiamo inviato la password all'indirizzo email fornito.
+		</div>
+		<div class="group--info">
+			Torna al <button type="button" class="btn--link" (click)="onLogin($event)"><span>Login</span></button>
+		</div>
+	</div>
+</div>
+
+<!-- end club-forgot.html-->
+		</div>
+		<div *if="view == views.NEWSLETTER">
+<!-- start club-forgot.html-->
+<div club-forgot (sent)="onForgottenSent($event)" (login)="onLogin($event)">
+	<div class="container" *if="!submitted">
+		<form class="form" [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">
+			<div class="title">Recupera Password</div>
+			<div class="fields">
+				<input name="checkField" [formControl]="controls.checkField" value="" type="text" style="display:none !important;" />
+				<div control-text [control]="controls.email" label="Email"></div>
+			</div>
+			<div class="group--cta">
+				<button type="submit" class="btn--submit">
+					<span>Invia</span>
+				</button>
+			</div>
+			<div class="group--info">
+				Ricordi la password? <button type="button" class="btn--link" (click)="onLogin($event)"><span>Accedi</span></button>
+			</div>
+			<test-component [form]="form" (test)="test($event)" (reset)="reset($event)"></test-component>
+		</form>
+	</div>
+	<div class="container" *if="submitted">
+		<div class="title">Password Inviata</div>
+		<div class="abstract">
+			Abbiamo inviato la password all'indirizzo email fornito.
+		</div>
+		<div class="group--info">
+			Torna al <button type="button" class="btn--link" (click)="onLogin($event)"><span>Login</span></button>
+		</div>
+	</div>
+</div>
+
+<!-- end club-forgot.html-->
+		</div>
+		<div *if="view == views.CLUB">
+<!-- start club-signup.html-->
+<div club-signup (signUp)="onSignUp($event)" (login)="onLogin($event)">
+	<div class="container">
+		<form class="form" [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">
+			<div class="title">Registrati per accedere ai servizi del club TIEMME</div>
+			<div class="fields">
+				<input name="checkField" [formControl]="controls.checkField" value="" type="text" style="display:none !important;" />
+				<div control-text [control]="controls.firstName" label="Nome"></div>
+				<div control-text [control]="controls.lastName" label="Cognome"></div>
+				<div control-text [control]="controls.company" label="Azienda"></div>
+				<div control-custom-select [control]="controls.role" label="Ruolo"></div>
+				<div control-custom-select [control]="controls.country" label="Nazione"></div>
+				<div control-custom-select [control]="controls.province" label="Provincia"></div>
+				<div control-text [control]="controls.address" label="Indirizzo"></div>
+				<div control-text [control]="controls.zipCode" label="Cap"></div>
+				<div control-text [control]="controls.city" label="Città"></div>
+				<div control-text [control]="controls.telephone" label="Telefono"></div>
+				<div control-text [control]="controls.fax" label="Fax"></div>
+				<div control-text [control]="controls.email" label="Email"></div>
+				<div control-text [control]="controls.username" label="Username"></div>
+				<div control-password [control]="controls.password" label="Password"></div>
+				<div control-password [control]="controls.passwordConfirm" label="Conferma Password"></div>
+				<div control-checkbox [control]="controls.privacy" label="Ho letto l&amp;#39;&amp;lt;a href=&amp;quot;/it/azienda/pagineinterne/informativa_sulla_privacy/&amp;quot; target=&amp;quot;_blank&amp;quot;&gt;informativa&amp;lt;/a&gt; e do il consenso al trattamento del dato"></div>
+				<div control-checkbox [control]="controls.newsletter" label="Voglio iscrivermi alla newsletter TIEMME"></div>
+			</div>
+			<div class="group--cta">
+				<button type="submit" class="btn--submit">
+					<span *if="!form.submitted">Registrati</span>
+					<span *if="form.submitted">Inviato!</span>
+				</button>
+			</div>
+			<test-component [form]="form" (test)="test($event)" (reset)="reset($event)"></test-component>
+		</form>
+	</div>
+</div>
+
+<!-- end club-signup.html-->
+		</div>
+	</div>
+</section>
+
+<!-- end natural-form.html-->
 <!-- start news.html-->
 <section class="section--news">
 	<div class="container">

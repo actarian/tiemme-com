@@ -29,6 +29,9 @@ import LazyDirective from './lazy/lazy.directive';
 import MainMenuComponent from './main-menu/main-menu.component';
 import MediaLibraryComponent from './media-library/media-library';
 import ModalOutletComponent from './modal/modal-outlet.component';
+import NaturalFormControlComponent from './natural-form/natural-form-control.component';
+import NaturalFormSearchComponent from './natural-form/natural-form-search.component';
+import NaturalFormComponent from './natural-form/natural-form.component';
 import RegisterOrLoginComponent from './register-or-login/register-or-login.component';
 import RequestInfoCommercialComponent from './request-info-commercial/request-info-commercial.component';
 import FileSizePipe from './size/size.pipe';
@@ -75,6 +78,9 @@ AppModule.meta = {
 		MainMenuComponent,
 		MediaLibraryComponent,
 		ModalOutletComponent,
+		NaturalFormComponent,
+		NaturalFormSearchComponent,
+		NaturalFormControlComponent,
 		RequestInfoCommercialComponent,
 		RegisterOrLoginComponent,
 		SwiperDirective,

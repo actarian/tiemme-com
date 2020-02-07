@@ -2362,6 +2362,299 @@
     selector: '[media-library]'
   };
 
+  var NaturalFormControlComponent =
+  /*#__PURE__*/
+  function (_Component) {
+    _inheritsLoose(NaturalFormControlComponent, _Component);
+
+    function NaturalFormControlComponent() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = NaturalFormControlComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      console.log('NaturalFormControlComponent.onInit');
+      this.label = 'label';
+      this.labels = window.labels || {};
+      this.dropped = false;
+      this.dropdownId = DropdownDirective.nextId();
+      this.keyboard$().pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (key) {// console.log(key);
+      });
+    };
+
+    _proto.onChanges = function onChanges() {
+      if (!this.filter.value) {
+        this.filter.value = this.filter.options[0].id;
+      }
+    };
+
+    _proto.keyboard$ = function keyboard$() {
+      var _this = this;
+
+      var r = /\w/;
+      return rxjs.fromEvent(document, 'keydown').pipe(operators.filter(function (event) {
+        return _this.dropped && event.key.match(r);
+      }), // tap(event => console.log(event)),
+      operators.map(function (event) {
+        return event.key.toLowerCase();
+      }), operators.tap(function (key) {
+        _this.scrollToKey(key);
+      }));
+    };
+
+    _proto.scrollToKey = function scrollToKey(key) {
+      var items = this.filter.options || [];
+      var index = -1;
+
+      for (var i = 0; i < items.length; i++) {
+        var x = items[i];
+
+        if (x.name.toLowerCase().substr(0, 1) === key) {
+          index = i;
+          break;
+        }
+      }
+
+      if (index !== -1) {
+        var _getContext = rxcomp.getContext(this),
+            node = _getContext.node;
+
+        var dropdown = node.querySelector('.dropdown');
+        var navDropdown = node.querySelector('.nav--dropdown');
+        var item = navDropdown.children[index];
+        dropdown.scroll(0, item.offsetTop);
+      }
+    };
+
+    _proto.setOption = function setOption(item) {
+      console.log('setOption', item);
+      this.filter.value = item.id;
+      this.change.next(this.filter);
+      DropdownDirective.dropdown$.next(null);
+      this.pushChanges();
+    };
+
+    _proto.onDropped = function onDropped(id) {// console.log('NaturalFormControlComponent.onDropped', id);
+    };
+
+    _proto.getLabel = function getLabel() {
+      var value = this.filter.value;
+      var items = this.filter.options || [];
+      var item = items.find(function (x) {
+        return x.id === value || x.name === value;
+      });
+
+      if (item) {
+        return item.name;
+      } else {
+        return this.labels.select;
+      }
+    };
+
+    _proto.onDropped = function onDropped($event) {
+      // console.log($event);
+      this.dropped = $event === this.dropdownId;
+    };
+
+    return NaturalFormControlComponent;
+  }(rxcomp.Component);
+  NaturalFormControlComponent.meta = {
+    selector: '[natural-form-control]',
+    inputs: ['filter', 'label'],
+    outputs: ['change'],
+    template:
+    /* html */
+    "\n\t\t<span [dropdown]=\"dropdownId\" (dropped)=\"onDropped($event)\">\n\t\t\t<span class=\"label\" [innerHTML]=\"getLabel()\"></span>\n\t\t\t<svg class=\"icon icon--caret-right\"><use xlink:href=\"#caret-right\"></use></svg>\n\t\t</span>\n\t\t<div class=\"dropdown\" [dropdown-item]=\"dropdownId\">\n\t\t\t<div class=\"category\" [innerHTML]=\"label\"></div>\n\t\t\t<ul class=\"nav--dropdown\">\n\t\t\t\t<li *for=\"let item of filter.options\" (click)=\"setOption(item)\"><span [innerHTML]=\"item.name\"></span></li>\n\t\t\t</ul>\n\t\t</div>\n\t"
+  };
+
+  var NaturalFormSearchComponent =
+  /*#__PURE__*/
+  function (_Component) {
+    _inheritsLoose(NaturalFormSearchComponent, _Component);
+
+    function NaturalFormSearchComponent() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = NaturalFormSearchComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      console.log('NaturalFormSearchComponent.onInit');
+
+      var _getContext = rxcomp.getContext(this),
+          node = _getContext.node,
+          module = _getContext.module;
+
+      node.classList.add('natural-form-search');
+    };
+
+    _proto.onChanges = function onChanges() {
+      console.log('NaturalFormSearchComponent.onChanges', this);
+      this.initControls();
+    };
+
+    _proto.initControls = function initControls() {
+      var _this = this;
+
+      if (!this.controls && this.filters) {
+        console.log('NaturalFormSearchComponent.initControls', this.filters);
+
+        var _getContext2 = rxcomp.getContext(this),
+            node = _getContext2.node,
+            module = _getContext2.module;
+
+        var html = node.innerHTML;
+        var keys = Object.keys(this.filters);
+        keys.forEach(function (x) {
+          // console.log(x);
+          html = html.replace("$" + x + "$",
+          /* html */
+          "\n\t\t\t\t\t<span class=\"natural-form__control\" natural-form-control [filter]=\"filters." + x + "\" [label]=\"filters." + x + ".label\" (change)=\"onNaturalForm($event)\"></span>\n\t\t\t\t");
+        }); // console.log('MoodboardSearchDirective', html);
+
+        node.innerHTML = html;
+        this.controls = Array.from(node.childNodes).map(function (x) {
+          console.log(x);
+          return module.compile(x, _this);
+        });
+        /*
+        const hasFilter = Object.keys(scope.filters).map(x => scope.filters[x]).find(x => x.value !== null) !== undefined;
+        if (!hasFilter) {
+        	this.animateUnderlines(node);
+        }
+        scope.animateOff = () => {
+        	this.animateOff(node);
+        };
+        */
+      }
+    };
+
+    _proto.onNaturalForm = function onNaturalForm(event) {
+      var _this2 = this;
+
+      var values = {};
+      Object.keys(this.filters).forEach(function (key) {
+        values[key] = _this2.filters[key].value;
+      });
+      this.change.next(values);
+    };
+
+    _proto.animateUnderlines = function animateUnderlines(node) {
+      this.animated = true;
+      var values = [].concat(node.querySelectorAll('.moodboard__underline'));
+      values.forEach(function (x) {
+        gsap.set(x, {
+          transformOrigin: '0 50%',
+          scaleX: 0
+        });
+      });
+      var i = -1;
+
+      var animate = function animate() {
+        i++;
+        i = i % values.length;
+        var u = values[i];
+        gsap.set(u, {
+          transformOrigin: '0 50%',
+          scaleX: 0
+        });
+        gsap.to(u, 0.50, {
+          scaleX: 1,
+          transformOrigin: '0 50%',
+          delay: 0,
+          ease: Power3.easeInOut,
+          overwrite: 'all',
+          onComplete: function onComplete() {
+            gsap.set(u, {
+              transformOrigin: '100% 50%',
+              scaleX: 1
+            });
+            gsap.to(u, 0.50, {
+              scaleX: 0,
+              transformOrigin: '100% 50%',
+              delay: 1.0,
+              ease: Power3.easeInOut,
+              overwrite: 'all',
+              onComplete: function onComplete() {
+                animate();
+              }
+            });
+          }
+        });
+      };
+
+      animate();
+    };
+
+    _proto.animateOff = function animateOff(node) {
+      if (this.animated) {
+        this.animated = false; // console.log('animateOff');
+        // gsap.killAll();
+
+        var values = [].concat(node.querySelectorAll('.moodboard__underline'));
+        gsap.set(values, {
+          transformOrigin: '0 50%',
+          scaleX: 0
+        });
+        gsap.to(values, 0.50, {
+          scaleX: 1,
+          transformOrigin: '0 50%',
+          delay: 0,
+          ease: Power3.easeInOut,
+          overwrite: 'all'
+        });
+      }
+    };
+
+    return NaturalFormSearchComponent;
+  }(rxcomp.Component);
+  NaturalFormSearchComponent.meta = {
+    selector: '[natural-form-search]',
+    inputs: ['filters'],
+    outputs: ['change']
+  };
+
+  var NaturalFormComponent =
+  /*#__PURE__*/
+  function (_Component) {
+    _inheritsLoose(NaturalFormComponent, _Component);
+
+    function NaturalFormComponent() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = NaturalFormComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      this.views = {
+        NATURAL: 0,
+        COMMERCIAL: 1,
+        CONTACT: 2,
+        NEWSLETTER: 3,
+        CLUB: 3
+      };
+      this.view = this.views.NATURAL;
+      this.filters = window.filters || {};
+      this.user = null;
+      console.log('NaturalFormComponent.onInit', this.filters);
+    };
+
+    _proto.onNaturalForm = function onNaturalForm(event) {
+      console.log('NaturalFormComponent.onNaturalForm', event);
+    };
+
+    _proto.onNext = function onNext(event) {
+      this.view = this.views.COMMERCIAL;
+      this.pushChanges();
+    };
+
+    return NaturalFormComponent;
+  }(rxcomp.Component);
+  NaturalFormComponent.meta = {
+    selector: '[natural-form]'
+  };
+
   var src = STATIC ? '/tiemme-com/club-modal.html' : '/it/club-modal';
 
   var RegisterOrLoginComponent =
@@ -3394,7 +3687,7 @@
   }(rxcomp.Module);
   AppModule.meta = {
     imports: [rxcomp.CoreModule, rxcompForm.FormModule],
-    declarations: [AgentsComponent, AppearDirective, ClickOutsideDirective, ClubComponent, ClubForgotComponent, ClubModalComponent, ClubProfileComponent, ClubSigninComponent, ClubSignupComponent, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlPasswordComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, FileSizePipe, HtmlPipe, HeaderComponent, LazyDirective, MainMenuComponent, MediaLibraryComponent, ModalOutletComponent, RequestInfoCommercialComponent, RegisterOrLoginComponent, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, TestComponent, // ValueDirective,
+    declarations: [AgentsComponent, AppearDirective, ClickOutsideDirective, ClubComponent, ClubForgotComponent, ClubModalComponent, ClubProfileComponent, ClubSigninComponent, ClubSignupComponent, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlPasswordComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, FileSizePipe, HtmlPipe, HeaderComponent, LazyDirective, MainMenuComponent, MediaLibraryComponent, ModalOutletComponent, NaturalFormComponent, NaturalFormSearchComponent, NaturalFormControlComponent, RequestInfoCommercialComponent, RegisterOrLoginComponent, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, TestComponent, // ValueDirective,
     VideoComponent, WorkWithUsComponent, YoutubeComponent, ZoomableDirective],
     bootstrap: AppComponent
   };

@@ -16,12 +16,13 @@
 					"output": {
 						"format": "umd",
 						"globals": {
+							"gsap": "gsap",
 							"rxjs": "rxjs",
 							"rxjs/operators": "rxjs.operators",
 							"rxcomp": "rxcomp",
 							"rxcomp-form": "rxcomp-form"
 						},
-						"external": ["rxjs", "rxcomp", "rxcomp-form"]
+						"external": ["gsap", "rxjs", "rxcomp", "rxcomp-form"]
 					}
 				},
 				"minify": true
