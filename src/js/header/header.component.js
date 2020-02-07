@@ -6,6 +6,7 @@ export default class HeaderComponent extends Component {
 
 	onInit() {
 		this.menu = null;
+		this.submenu = null;
 		UserService.user$.pipe(
 			takeUntil(this.unsubscribe$)
 		).subscribe(user => {
@@ -16,11 +17,14 @@ export default class HeaderComponent extends Component {
 
 	toggleMenu($event) {
 		this.menu = this.menu !== $event ? $event : null;
+		this.submenu = null;
 		this.pushChanges();
 	}
 
 	onDropped(id) {
 		console.log('HeaderComponent.onDropped', id);
+		this.submenu = id;
+		this.pushChanges();
 	}
 
 }

@@ -4,7 +4,7 @@
 	position: relative;
 	background: white;
 
-	[swiper] {
+	.swiper-container {
 		@extend %swiper-hero;
 	}
 
@@ -30,15 +30,15 @@
 			height: 100%;
 		}
 
-		@include media-up(sm) {
+		@include media-up(md) {
 			height: calc(100vh - 35px);
 		}
 
-		@include media-down(xs) {
-			height: 70vh;
+		@include media-down(sm) {
+			height: auto;
 
 			.container {
-				padding-top: 0;
+				padding: 120px 30px 30px 30px;
 			}
 		}
 
@@ -49,7 +49,7 @@
 
 		video,
 		img,
-		[data-thron] {
+		.data-thron {
 			display: none;
 		}
 	}
@@ -59,7 +59,6 @@
 
 	.category {
 		font-family: $font-secondary;
-		font-size: 20px;
 		line-height: 1.2;
 		font-weight: $font-medium;
 		margin-bottom: 15px;
@@ -69,8 +68,7 @@
 
 	.title {
 		font-family: $font-secondary;
-		font-size: 70px;
-		line-height: 60px;
+		line-height: 0.85;
 		font-weight: $font-medium;
 		margin-bottom: 15px;
 		color: $foreground-negative;
@@ -82,11 +80,46 @@
 	}
 
 	.abstract {
-		font-size: 22px;
-		line-height: 31px;
+		line-height: 1.4;
 		font-weight: $font-light;
 		color: $foreground-negative;
 		max-width: 960px;
+	}
+
+	@include media-up(md) {
+		.category {
+			font-size: 20px;
+		}
+
+		.title {
+			font-size: 70px;
+
+			small {
+				font-size: 50px;
+			}
+		}
+
+		.abstract {
+			font-size: 22px;
+		}
+	}
+
+	@include media-down(sm) {
+		.category {
+			font-size: 20px;
+		}
+
+		.title {
+			font-size: 50px;
+
+			small {
+				font-size: 40px;
+			}
+		}
+
+		.abstract {
+			font-size: 19px;
+		}
 	}
 
 	@media print {
@@ -111,13 +144,17 @@
 	@extend %section--hero;
 	@extend %section--hero-title;
 
-	@include media-up(md) {
-		height: 770px;
+	@media screen {
+
+		@include media-up(md) {
+			height: 770px;
+		}
+
+		@include media-down(sm) {
+			height: auto;
+		}
 	}
 
-	@include media-down(sm) {
-		height: 70vh;
-	}
 }
 
 .section--hero-secondary {
@@ -128,24 +165,31 @@
 		padding-bottom: 90px;
 	}
 
-	@include media-up(md) {
-		height: 560px;
+	@media screen {
+
+		@include media-up(md) {
+			height: 560px;
+		}
+
+		@include media-down(sm) {
+			height: auto;
+		}
 	}
 
-	@include media-down(sm) {
-		height: 60vh;
-	}
 }
 
 .section--hero-tertiary {
 	@extend %section--hero;
 
-	@include media-up(md) {
-		height: 200px;
-	}
+	@media screen {
 
-	@include media-down(sm) {
-		height: 200px;
+		@include media-up(md) {
+			height: 200px;
+		}
+
+		@include media-down(sm) {
+			height: 200px;
+		}
 	}
 }
 

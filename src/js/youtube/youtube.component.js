@@ -23,6 +23,7 @@ export default class YoutubeComponent extends Component {
 	onInit() {
 		this.item = {};
 		const { node, parentInstance } = getContext(this);
+		node.classList.add('youtube');
 		this.progress = node.querySelector('.icon--play-progress path');
 		this.onPlayerReady = this.onPlayerReady.bind(this);
 		this.onPlayerStateChange = this.onPlayerStateChange.bind(this);

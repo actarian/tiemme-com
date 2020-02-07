@@ -87,17 +87,11 @@ ul {
 	&>li {
 		position: relative;
 		display: block;
-		flex: 1 1 33%;
 
 		&>a,
 		&>span {
 			@extend %nav-item;
-			padding: 25px 20px 25px 15px;
-			font-size: 16px;
 			line-height: 1;
-			min-height: 90px;
-			border-right: 1px solid rgba(#16255b, 0.15);
-			border-bottom: 1px solid rgba(#16255b, 0.15);
 			transition: ease-in-out all 350ms;
 
 			.icon {
@@ -120,11 +114,38 @@ ul {
 		justify-content: flex-start;
 		align-items: center;
 		flex-wrap: wrap;
+
+		&>li {
+			flex: 1 1 33%;
+
+			&>a,
+			&>span {
+				padding: 25px 20px 25px 15px;
+				font-size: 16px;
+				border-right: 1px solid rgba(#16255b, 0.15);
+				border-bottom: 1px solid rgba(#16255b, 0.15);
+			}
+		}
+
 	}
 
 	@include media-down(sm) {
 		display: block;
 		// margin-bottom: 100px;
+
+		&>li {
+
+			&>a,
+			&>span {
+				padding: 25px 30px 25px 30px;
+				font-size: 16px;
+				border-bottom: 1px solid rgba(#16255b, 0.15);
+
+				.icon {
+					margin-right: 10px;
+				}
+			}
+		}
 	}
 }
 
@@ -432,7 +453,7 @@ ul {
 
 }
 
-[dropdown-item] {
+.dropdown-item {
 	&:not(.dropped) {
 		display: none;
 	}

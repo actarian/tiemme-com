@@ -58,13 +58,13 @@
 			<div class="swiper-slide">
 				<div class="inner">
 					<div class="container">
-						<div class="card--slide">
-							<div class="picture picture--video" video [item]="{'coId':9285,'id':'d01305c9-daa9-49a4-865d-7686d23bb428','typeName':'Video','name':'Title'}">
+						<div class="card--slide" video [item]="{'coId':9285,'id':'d01305c9-daa9-49a4-865d-7686d23bb428','typeName':'Video','name':'Title'}">
+							<div class="picture picture--video" [class]="{ playing: playing }">
 								<video oncanplay="this.muted = true;" playsinline muted loop poster="/tiemme-com/img/video/video-02.jpg">
 									<source src="/tiemme-com/img/video/video-02.mp4">
 								</video>
 								<div class="overlay" (click)="togglePlay($event)"></div>
-								<div class="btn--play" [class]="{ playing: playing }">
+								<div class="btn--play">
 									<svg class="icon icon--play-progress-background"><use xlink:href="#play-progress"></use></svg>
 									<svg class="icon icon--play-progress" viewBox="0 0 196 196">
 										<path xmlns="http://www.w3.org/2000/svg" stroke-width="2px" stroke-dasharray="1" stroke-dashoffset="1" pathLength="1" stroke-linecap="square" d="M195.5,98c0,53.8-43.7,97.5-97.5,97.5S0.5,151.8,0.5,98S44.2,0.5,98,0.5S195.5,44.2,195.5,98z"/>
@@ -83,13 +83,13 @@
 			<div class="swiper-slide">
 				<div class="inner">
 					<div class="container">
-						<div class="card--slide">
-							<div class="picture picture--video" video [item]="{'coId':9285,'id':'d01305c9-daa9-49a4-865d-7686d23bb428','typeName':'Video','name':'Title'}">
+						<div class="card--slide" video [item]="{'coId':9285,'id':'d01305c9-daa9-49a4-865d-7686d23bb428','typeName':'Video','name':'Title'}">
+							<div class="picture picture--video" [class]="{ playing: playing }">
 								<video oncanplay="this.muted = true;" playsinline muted loop poster="/tiemme-com/img/video/video-03.jpg">
 									<source src="/tiemme-com/img/video/video-03.mp4">
 								</video>
 								<div class="overlay" (click)="togglePlay($event)"></div>
-								<div class="btn--play" [class]="{ playing: playing }">
+								<div class="btn--play">
 									<svg class="icon icon--play-progress-background"><use xlink:href="#play-progress"></use></svg>
 									<svg class="icon icon--play-progress" viewBox="0 0 196 196">
 										<path xmlns="http://www.w3.org/2000/svg" stroke-width="2px" stroke-dasharray="1" stroke-dashoffset="1" pathLength="1" stroke-linecap="square" d="M195.5,98c0,53.8-43.7,97.5-97.5,97.5S0.5,151.8,0.5,98S44.2,0.5,98,0.5S195.5,44.2,195.5,98z"/>

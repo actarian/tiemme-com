@@ -9,6 +9,7 @@ export default class LazyDirective extends Directive {
 
 	onInit() {
 		const { node } = getContext(this);
+		node.classList.add('lazy');
 		this.input$ = new Subject().pipe(
 			distinctUntilChanged(),
 			switchMap(input => {

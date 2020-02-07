@@ -19,6 +19,7 @@ export default class VideoComponent extends Component {
 	onInit() {
 		this.item = {};
 		const { node, parentInstance } = getContext(this);
+		node.classList.add('video');
 		this.video = node.querySelector('video');
 		this.progress = node.querySelector('.icon--play-progress path');
 		if (parentInstance instanceof SwiperDirective) {
@@ -106,28 +107,4 @@ export default class VideoComponent extends Component {
 VideoComponent.meta = {
 	selector: '[video]',
 	inputs: ['item'],
-	/*
-	template: `
-	<div class="media">
-		<transclude></transclude>
-	</div>
-	<div class="overlay" (click)="togglePlay($event)"></div>
-	<div class="btn--play" [class]="{ playing: playing }">
-		<svg class="icon icon--play-progress-background"><use xlink:href="#play-progress"></use></svg>
-		<svg class="icon icon--play-progress" viewBox="0 0 196 196">
-			<path xmlns="http://www.w3.org/2000/svg" stroke-width="2px" stroke-dasharray="1" stroke-dashoffset="1" pathLength="1" stroke-linecap="square" d="M195.5,98c0,53.8-43.7,97.5-97.5,97.5S0.5,151.8,0.5,98S44.2,0.5,98,0.5S195.5,44.2,195.5,98z"/>
-		</svg>
-		<svg class="icon icon--play" *if="!playing"><use xlink:href="#play"></use></svg>
-		<svg class="icon icon--play" *if="playing"><use xlink:href="#pause"></use></svg>
-	</div><div class="btn--pinterest" (click)="onPin()" *if="onPin">
-	<svg class="icon icon--pinterest"><use xlink:href="#pinterest"></use></svg>
-	</div>
-	<div class="btn--wishlist" [class]="{ active: wishlistActive, activated: wishlistActivated, deactivated: wishlistDeactivated }" (click)="onClickWishlist($event)">
-		<svg class="icon icon--wishlist" *if="!wishlistActive"><use xlink:href="#wishlist"></use></svg>
-		<svg class="icon icon--wishlist" *if="wishlistActive"><use xlink:href="#wishlist-added"></use></svg>
-	</div>
-	<div class="btn--zoom" (click)="onClickZoom($event)">
-		<svg class="icon icon--zoom"><use xlink:href="#zoom"></use></svg>
-	</div>`
-	*/
 }

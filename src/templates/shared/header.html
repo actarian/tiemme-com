@@ -2,7 +2,7 @@
 <header class="section--header">
 	<div class="container-fluid">
 		<!-- menu -->
-		<div class="dropdown--menu" *if="menu == 'main'">
+		<div class="dropdown--menu" [class]="{ submenu: submenu }" *if="menu == 'main'">
 			<div class="inner">
 				<!-- menu liv 1 -->
 				<ul class="nav--header">

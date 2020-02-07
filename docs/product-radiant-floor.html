@@ -38,6 +38,7 @@
 
 	window.data = {
 		roles: [
+			/*
 			{ id: "Acquisti", name: "Acquisti" },
 			{ id: "Agente", name: "Agente" },
 			{ id: "Amministrazione", name: "Amministrazione" },
@@ -49,6 +50,20 @@
 			{ id: "Marketing", name: "Marketing" },
 			{ id: "Progettista / Termotecnico", name: "Progettista / Termotecnico" },
 			{ id: "Responsabile Filiale", name: "Responsabile Filiale" },
+			*/
+			{ id: "Agenzia", name: "Agenzia" },
+			{ id: "Azienda servizi pubblici", name: "Azienda servizi pubblici" },
+			{ id: "Distributore", name: "Distributore" },
+			{ id: "Ente Pubblico", name: "Ente Pubblico" },
+			{ id: "Filiale Tiemme", name: "Filiale Tiemme" },
+			{ id: "GDO", name: "GDO" },
+			{ id: "Grossista", name: "Grossista" },
+			{ id: "Gruppo d'acquisto", name: "Gruppo d'acquisto" },
+			{ id: "Impresa di costruzioni", name: "Impresa di costruzioni" },
+			{ id: "Installatore", name: "Installatore" },
+			{ id: "OEM", name: "OEM" },
+			{ id: "Studi professionali", name: "Studi professionali" },
+			{ id: "Altro", name: "Altro" },
 		],
 		departments: [
 			{ id: "Acquisti", name: "Acquisti" },
@@ -928,7 +943,7 @@
 <header class="section--header">
 	<div class="container-fluid">
 		<!-- menu -->
-		<div class="dropdown--menu" *if="menu == 'main'">
+		<div class="dropdown--menu" [class]="{ submenu: submenu }" *if="menu == 'main'">
 			<div class="inner">
 				<!-- menu liv 1 -->
 				<ul class="nav--header">
@@ -1439,13 +1454,13 @@
 			<div class="swiper-slide">
 				<div class="inner">
 					<div class="container">
-						<div class="card--slide">
-							<div class="picture picture--video" video [item]="{'coId':9285,'id':'d01305c9-daa9-49a4-865d-7686d23bb428','typeName':'Video','name':'Title'}">
+						<div class="card--slide" video [item]="{'coId':9285,'id':'d01305c9-daa9-49a4-865d-7686d23bb428','typeName':'Video','name':'Title'}">
+							<div class="picture picture--video" [class]="{ playing: playing }">
 								<video oncanplay="this.muted = true;" playsinline muted loop poster="/tiemme-com/img/video/video-02.jpg">
 									<source src="/tiemme-com/img/video/video-02.mp4">
 								</video>
 								<div class="overlay" (click)="togglePlay($event)"></div>
-								<div class="btn--play" [class]="{ playing: playing }">
+								<div class="btn--play">
 									<svg class="icon icon--play-progress-background"><use xlink:href="#play-progress"></use></svg>
 									<svg class="icon icon--play-progress" viewBox="0 0 196 196">
 										<path xmlns="http://www.w3.org/2000/svg" stroke-width="2px" stroke-dasharray="1" stroke-dashoffset="1" pathLength="1" stroke-linecap="square" d="M195.5,98c0,53.8-43.7,97.5-97.5,97.5S0.5,151.8,0.5,98S44.2,0.5,98,0.5S195.5,44.2,195.5,98z"/>
@@ -1464,13 +1479,13 @@
 			<div class="swiper-slide">
 				<div class="inner">
 					<div class="container">
-						<div class="card--slide">
-							<div class="picture picture--video" video [item]="{'coId':9285,'id':'d01305c9-daa9-49a4-865d-7686d23bb428','typeName':'Video','name':'Title'}">
+						<div class="card--slide" video [item]="{'coId':9285,'id':'d01305c9-daa9-49a4-865d-7686d23bb428','typeName':'Video','name':'Title'}">
+							<div class="picture picture--video" [class]="{ playing: playing }">
 								<video oncanplay="this.muted = true;" playsinline muted loop poster="/tiemme-com/img/video/video-03.jpg">
 									<source src="/tiemme-com/img/video/video-03.mp4">
 								</video>
 								<div class="overlay" (click)="togglePlay($event)"></div>
-								<div class="btn--play" [class]="{ playing: playing }">
+								<div class="btn--play">
 									<svg class="icon icon--play-progress-background"><use xlink:href="#play-progress"></use></svg>
 									<svg class="icon icon--play-progress" viewBox="0 0 196 196">
 										<path xmlns="http://www.w3.org/2000/svg" stroke-width="2px" stroke-dasharray="1" stroke-dashoffset="1" pathLength="1" stroke-linecap="square" d="M195.5,98c0,53.8-43.7,97.5-97.5,97.5S0.5,151.8,0.5,98S44.2,0.5,98,0.5S195.5,44.2,195.5,98z"/>
@@ -1498,7 +1513,7 @@
 <section class="section--technician background--gradient">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-md-6 o-2">
 				<div class="picture picture--technician">
 					<img lazy="/tiemme-com/img/technician/technician.png" />
 				</div>

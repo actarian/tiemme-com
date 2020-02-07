@@ -4,6 +4,11 @@ import IntersectionService from '../intersection/intersection.service';
 
 export default class AppearDirective extends Directive {
 
+	onInit() {
+		const { node } = getContext(this);
+		node.classList.add('appear');
+	}
+
 	onChanges() {
 		if (!this.appeared) {
 			this.appeared = true;

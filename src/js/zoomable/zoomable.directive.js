@@ -6,6 +6,7 @@ export default class ZoomableDirective extends Directive {
 
 	onInit() {
 		const { node } = getContext(this);
+		node.classList.add('zoomable');
 		const target = node.getAttribute('zoomable') !== '' ? node.querySelectorAll(node.getAttribute('zoomable')) : node;
 		fromEvent(target, 'click').pipe(
 			map($event => this.zoom = !this.zoom),

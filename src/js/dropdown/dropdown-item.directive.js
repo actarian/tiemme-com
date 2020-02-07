@@ -10,6 +10,7 @@ export default class DropdownItemDirective extends Directive {
 
 	onInit() {
 		const { node } = getContext(this);
+		node.classList.add('dropdown-item');
 		DropdownDirective.dropdown$.pipe(
 			takeUntil(this.unsubscribe$)
 		).subscribe(id => {

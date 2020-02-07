@@ -633,12 +633,19 @@
 
     var _proto = AppearDirective.prototype;
 
+    _proto.onInit = function onInit() {
+      var _getContext = rxcomp.getContext(this),
+          node = _getContext.node;
+
+      node.classList.add('appear');
+    };
+
     _proto.onChanges = function onChanges() {
       if (!this.appeared) {
         this.appeared = true;
 
-        var _getContext = rxcomp.getContext(this),
-            node = _getContext.node;
+        var _getContext2 = rxcomp.getContext(this),
+            node = _getContext2.node;
 
         IntersectionService.intersection$(node).pipe(operators.first(), operators.takeUntil(this.unsubscribe$)).subscribe(function (src) {
           node.classList.add('appeared');
@@ -1605,6 +1612,7 @@
       var _getContext = rxcomp.getContext(this),
           node = _getContext.node;
 
+      node.classList.add('dropdown-item');
       DropdownDirective.dropdown$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (id) {
         // console.log('DropdownItemDirective', id, this['dropdown-item']);
         if (_this.id === id) {
@@ -2068,6 +2076,7 @@
       var _this = this;
 
       this.menu = null;
+      this.submenu = null;
       UserService.user$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (user) {
         _this.user = user;
 
@@ -2077,11 +2086,14 @@
 
     _proto.toggleMenu = function toggleMenu($event) {
       this.menu = this.menu !== $event ? $event : null;
+      this.submenu = null;
       this.pushChanges();
     };
 
     _proto.onDropped = function onDropped(id) {
       console.log('HeaderComponent.onDropped', id);
+      this.submenu = id;
+      this.pushChanges();
     };
 
     return HeaderComponent;
@@ -2235,6 +2247,7 @@
       var _getContext = rxcomp.getContext(this),
           node = _getContext.node;
 
+      node.classList.add('lazy');
       this.input$ = new rxjs.Subject().pipe(operators.distinctUntilChanged(), operators.switchMap(function (input) {
         var src = LazyCache.get(input);
 
@@ -2849,6 +2862,7 @@
           node = _getContext.node,
           parentInstance = _getContext.parentInstance;
 
+      node.classList.add('video');
       this.video = node.querySelector('video');
       this.progress = node.querySelector('.icon--play-progress path');
 
@@ -2954,31 +2968,6 @@
   VideoComponent.meta = {
     selector: '[video]',
     inputs: ['item']
-    /*
-    template: `
-    <div class="media">
-    	<transclude></transclude>
-    </div>
-    <div class="overlay" (click)="togglePlay($event)"></div>
-    <div class="btn--play" [class]="{ playing: playing }">
-    	<svg class="icon icon--play-progress-background"><use xlink:href="#play-progress"></use></svg>
-    	<svg class="icon icon--play-progress" viewBox="0 0 196 196">
-    		<path xmlns="http://www.w3.org/2000/svg" stroke-width="2px" stroke-dasharray="1" stroke-dashoffset="1" pathLength="1" stroke-linecap="square" d="M195.5,98c0,53.8-43.7,97.5-97.5,97.5S0.5,151.8,0.5,98S44.2,0.5,98,0.5S195.5,44.2,195.5,98z"/>
-    	</svg>
-    	<svg class="icon icon--play" *if="!playing"><use xlink:href="#play"></use></svg>
-    	<svg class="icon icon--play" *if="playing"><use xlink:href="#pause"></use></svg>
-    </div><div class="btn--pinterest" (click)="onPin()" *if="onPin">
-    <svg class="icon icon--pinterest"><use xlink:href="#pinterest"></use></svg>
-    </div>
-    <div class="btn--wishlist" [class]="{ active: wishlistActive, activated: wishlistActivated, deactivated: wishlistDeactivated }" (click)="onClickWishlist($event)">
-    	<svg class="icon icon--wishlist" *if="!wishlistActive"><use xlink:href="#wishlist"></use></svg>
-    	<svg class="icon icon--wishlist" *if="wishlistActive"><use xlink:href="#wishlist-added"></use></svg>
-    </div>
-    <div class="btn--zoom" (click)="onClickZoom($event)">
-    	<svg class="icon icon--zoom"><use xlink:href="#zoom"></use></svg>
-    </div>`
-    */
-
   };
 
   var WorkWithUsComponent =
@@ -3092,6 +3081,7 @@
           node = _getContext.node,
           parentInstance = _getContext.parentInstance;
 
+      node.classList.add('youtube');
       this.progress = node.querySelector('.icon--play-progress path');
       this.onPlayerReady = this.onPlayerReady.bind(this);
       this.onPlayerStateChange = this.onPlayerStateChange.bind(this);
@@ -3296,6 +3286,7 @@
       var _getContext = rxcomp.getContext(this),
           node = _getContext.node;
 
+      node.classList.add('zoomable');
       var target = node.getAttribute('zoomable') !== '' ? node.querySelectorAll(node.getAttribute('zoomable')) : node;
       rxjs.fromEvent(target, 'click').pipe(operators.map(function ($event) {
         return _this.zoom = !_this.zoom;

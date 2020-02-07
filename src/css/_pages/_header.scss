@@ -100,7 +100,15 @@
 		&>span:nth-child(3) {
 			margin-top: 7px;
 		}
+	}
 
+	@include media-down(sm) {
+		width: 44px;
+		height: 35px;
+
+		&>span {
+			width: 24px;
+		}
 	}
 }
 
@@ -135,6 +143,7 @@
 	}
 
 	@include media-down(sm) {
+		margin-right: 0;
 
 		span,
 		.icon--caret-down {
@@ -227,8 +236,13 @@
 
 		.icon--user {
 			display: block;
+			margin: 0;
+			width: 24px;
+			height: 24px;
 			fill: $foreground;
+
 		}
+
 	}
 }
 
@@ -259,6 +273,7 @@
 	@include media-down(sm) {
 		overflow-x: hidden;
 		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
 
 		&>.inner {
 			height: auto;
@@ -274,6 +289,26 @@
 	animation-name: dropdown-menu;
 	animation-duration: 400ms;
 	animation-fill-mode: forwards;
+
+	@include media-down(sm) {
+		.inner {
+			justify-content: flex-start;
+			align-items: flex-start;
+			transform: translateX(0);
+			transition: all ease-in-out 350ms;
+		}
+
+		.nav--header {
+			width: 100%;
+			flex: 0 0 100%;
+		}
+
+		&.submenu {
+			.inner {
+				transform: translateX(-100%);
+			}
+		}
+	}
 }
 
 @keyframes dropdown-menu {
@@ -297,10 +332,7 @@
 			display: flex;
 			justify-content: flex-start;
 			align-items: center;
-			font-size: 50px;
-			line-height: 50px;
-			padding: 10px 20px;
-			margin-bottom: 20px;
+			line-height: 1;
 			font-family: $font-secondary;
 			font-weight: $font-medium;
 			text-transform: uppercase;
@@ -327,7 +359,6 @@
 			&.dropped {
 				background: $background-secondary;
 				color: $foreground;
-				padding: 10px 40px 10px 20px;
 
 				.icon {
 					opacity: 1;
@@ -353,6 +384,50 @@
 	@include media-up(md) {
 		width: 480px;
 		min-height: 540px;
+
+		&>li {
+
+			&>a,
+			&>span {
+				font-size: 50px;
+				padding: 10px 20px;
+				margin-bottom: 20px;
+
+				.icon {
+					right: 20px;
+					margin-top: -5px;
+					width: 8px;
+					height: 12px;
+				}
+
+				&:hover,
+				&.active,
+				&.dropped {
+					padding: 10px 40px 10px 20px;
+				}
+			}
+		}
+	}
+
+	@include media-down(sm) {
+		padding: 0;
+
+		&>li {
+
+			&>a,
+			&>span {
+				font-size: 40px;
+				padding: 10px 30px;
+				margin-bottom: 10px;
+
+				.icon {
+					right: 20px;
+					margin-top: -5px;
+					width: 8px;
+					height: 12px;
+				}
+			}
+		}
 	}
 
 	@include animation-delay(li, 10);
