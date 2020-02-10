@@ -1,4 +1,4 @@
-<section class="section--form background--tertiary" natural-form-signup (back)="onBack($event)">
+<section class="section--form" natural-form-signup (back)="onBack($event)">
 	<div class="container" *if="!submitted">
 		<div class="section--form__title"><svg class="icon icon--back" (click)="onBack($event)"><use xlink:href="#back"></use></svg> <span [innerHTML]="title"></span></div>
 		<form class="form" [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">

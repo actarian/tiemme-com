@@ -3,6 +3,10 @@
 	z-index: 1000;
 	width: 100%;
 	top: 0;
+
+	@include media-down(sm) {
+		background: white;
+	}
 }
 
 .flex--header {
@@ -35,6 +39,8 @@
 	}
 
 	@include media-down(sm) {
+		margin: 10px 0;
+
 		.center {
 			min-width: 160px;
 			flex: 1 1 160px;
@@ -103,11 +109,13 @@
 	}
 
 	@include media-down(sm) {
-		width: 44px;
+		width: 35px;
 		height: 35px;
+		background: transparent;
 
 		&>span {
 			width: 24px;
+			background: $foreground;
 		}
 	}
 }

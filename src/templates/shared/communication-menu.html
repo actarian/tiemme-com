@@ -1,5 +1,5 @@
-<div class="sticky--menu">
-	<section class="section--menu">
+<div class="sticky--menu" main-menu>
+	<section class="section--menu" [class]="{ active: sticky }">
 		<div class="container-fluid">
 			<ul class="nav--menu nav--menu--primary">
 				<li>
@@ -21,6 +21,7 @@
 					<svg class="icon icon--search"><use xlink:href="#search"></use></svg> <input class="form--control" placeholder="cerca..." />
 				</li>
 			</ul>
+			<button type="button" class="btn--sticky" (click)="onToggleSticky($event)"><span>Comunicazione</span></button>
 		</div>
 	</section>
 </div>

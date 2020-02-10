@@ -2,13 +2,14 @@ import { Component } from 'rxcomp';
 
 export default class MainMenuComponent extends Component {
 
-	onInit() {}
-
-	/*
-	onDropped(id) {
-		// console.log('MainMenuComponent.onDropped', id);
+	onInit() {
+		this.sticky = false;
 	}
-	*/
+
+	onToggleSticky(event) {
+		this.sticky = !this.sticky;
+		this.pushChanges();
+	}
 }
 
 MainMenuComponent.meta = {

@@ -11,6 +11,7 @@
 				display: flex;
 				justify-content: center;
 				align-items: center;
+				flex-wrap: wrap;
 				padding: 20px 0;
 				bottom: 0;
 			}
@@ -53,6 +54,11 @@
 				opacity: 1;
 			}
 		}
+
+		&>.swiper-pagination-bullets .swiper-pagination-bullet {
+			margin: 0 4px 4px 0;
+		}
+
 	}
 
 }
@@ -180,16 +186,16 @@
 	}
 }
 
+.nav--slides {
+	@extend %nav-grid;
+}
+
 .section--slides {
 	padding: 60px 0;
 
 	&__title {
 		@extend %category;
 		margin-bottom: 30px;
-	}
-
-	.nav--slides {
-		@extend %nav-grid;
 	}
 
 	.swiper-container {

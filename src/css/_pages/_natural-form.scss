@@ -3,9 +3,19 @@
 	background-color: $background-tertiary;
 
 	.group--cta {
+		margin: 40px 0 0 0;
 		display: flex;
 		justify-content: center;
-		margin: 40px 0 0 0;
+	}
+
+	.section--form {
+		padding: 0;
+	}
+
+	@include media-down(sm) {
+		.group--cta {
+			flex-direction: column;
+		}
 	}
 }
 
@@ -30,8 +40,22 @@
 			line-height: 1;
 			vertical-align: top;
 		}
-
 	}
+
+	@include media-down(sm) {
+		font-size: 27px;
+
+		.natural-form__control {
+			margin: 5px 0;
+
+			&>span {
+				padding: 8px 9px;
+				font-size: 27px;
+				text-align: center;
+			}
+		}
+	}
+
 }
 
 .natural-form__control {
@@ -74,7 +98,7 @@
 		.dropdown {
 			min-width: 100%;
 			left: 0;
-			top: 65px;
+			top: 100%;
 		}
 	}
 
@@ -109,33 +133,21 @@
 	}
 }
 
+.section--advantages {
 
-.nav--dropdown {
-	&.multiple {
-		&>li {
-
-			&>a,
-			&>span {
-				display: flex;
-				justify-content: flex-start;
-				align-items: center;
-
-				&:before {
-					content: '';
-					display: block;
-					flex: 0 0 8px;
-					width: 8px;
-					height: 8px;
-					margin: 0 8px 0 -20px;
-					border: 2px solid $foreground;
-				}
-
-				&.active {
-					&:before {
-						background: $foreground;
-					}
-				}
-			}
-		}
+	svg {
+		fill: $foreground;
+		flex: 0 0 30px;
+		width: 30px;
+		height: 30px;
+		margin-right: 36px;
 	}
+
+	.icon--tiemme-lab {
+		flex: 0 0 36px;
+		width: 36px;
+		height: 36px;
+		margin-right: 30px;
+	}
+
 }

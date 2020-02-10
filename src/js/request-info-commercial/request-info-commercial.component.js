@@ -102,13 +102,13 @@ export default class RequestInfoCommercialComponent extends Component {
 		if (this.form.valid) {
 			// console.log('RequestInfoCommercialComponent.onSubmit', this.form.value);
 			this.form.submitted = true;
-			//this.http.post$('/WS/wsUsers.asmx/Contact', { data: this.form.value })
+			// this.http.post$('/WS/wsUsers.asmx/Contact', { data: this.form.value })
 			this.http.post$('/api/users/Contact', this.form.value)
 				.subscribe(response => {
 					console.log('RequestInfoCommercialComponent.onSubmit', response);
 					this.form.reset();
 					this.submitted = true;
-				})
+				});
 		} else {
 			this.form.touched = true;
 		}

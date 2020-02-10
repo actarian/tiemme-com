@@ -130,6 +130,11 @@ button,
 		background: $foreground;
 		color: $foreground-negative;
 	}
+
+	@include media-down(sm) {
+		padding: 3px 8px;
+		font-size: 24px;
+	}
 }
 
 .btn--back {
@@ -145,8 +150,48 @@ button,
 	transition: all ease-in-out 350ms;
 
 	&:hover {
-		background: $foreground;
+		border-color: $background-secondary;
+		background: $background-secondary;
+		color: $foreground;
+	}
+
+	@include media-down(sm) {
+		padding: 3px 8px;
+		font-size: 24px;
+		margin-bottom: 15px;
+	}
+}
+
+.btn--sticky {
+	display: block;
+	width: 100%;
+	padding: 3px 8px;
+	font-size: 24px;
+	font-weight: $font-medium;
+	font-family: $font-secondary;
+	text-transform: uppercase;
+	opacity: 1;
+	cursor: pointer;
+	transition: all ease-in-out 350ms;
+
+	&,
+	&:link,
+	&:focus,
+	&:active,
+	&:visited,
+	&:hover {
+		background: $background-negative;
 		color: $foreground-negative;
+	}
+
+	@include media-up(md) {
+		display: none;
+	}
+
+	@include media-down(sm) {
+		display: block;
+		padding: 3px 8px;
+		font-size: 24px;
 	}
 }
 

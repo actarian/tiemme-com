@@ -29,4 +29,12 @@
 	.group--cta {
 		margin-bottom: 80px;
 	}
+
+	@include media-down(sm) {
+		.picture--technician {
+			max-width: 100%;
+			height: auto;
+		}
+	}
+
 }

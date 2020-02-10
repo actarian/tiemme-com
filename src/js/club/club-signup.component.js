@@ -13,7 +13,7 @@ export default class ClubSignupComponent extends Component {
 			roles: [],
 			countries: [],
 			provinces: [],
-		}
+		};
 
 		const form = new FormGroup({
 			firstName: new FormControl(null, Validators.RequiredValidator()),
@@ -108,12 +108,12 @@ export default class ClubSignupComponent extends Component {
 		if (this.form.valid) {
 			// console.log('ClubSignupComponent.onSubmit', this.form.value);
 			this.form.submitted = true;
-			this.http.post$('/WS/wsUsers.asmx/Register', { data: this.form.value })
+			this.http.post$('/api/users/Register', this.form.value)
 				.subscribe(response => {
 					console.log('ClubSignupComponent.onSubmit', response);
 					this.signUp.next(this.form.value); // change to response!!!
 					// this.form.reset();
-				})
+				});
 		} else {
 			this.form.touched = true;
 		}

@@ -47,4 +47,35 @@ body {
 			box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.2);
 		}
 	}
+
+	@include media-down(sm) {
+		display: block;
+		position: fixed;
+		bottom: 0;
+		top: auto;
+		z-index: 100;
+
+		.nav--menu {
+			opacity: 0;
+			visibility: hidden;
+			pointer-events: none;
+		}
+
+		.container-fluid {
+			padding: 0;
+		}
+
+		.section--menu.active {
+
+			.nav--menu {
+				opacity: 1;
+				visibility: visible;
+				pointer-events: auto;
+				height: calc(100vh - 115px);
+				background: white;
+				transition: all ease-in-out 400ms;
+			}
+
+		}
+	}
 }

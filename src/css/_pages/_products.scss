@@ -1,9 +1,3 @@
-.sticky--menu {
-	@include media-down(sm) {
-		display: none;
-	}
-}
-
 .section--menu {
 	position: absolute;
 	top: 0;

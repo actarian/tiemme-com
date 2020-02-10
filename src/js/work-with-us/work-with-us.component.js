@@ -40,6 +40,7 @@ export default class WorkWithUsComponent extends Component {
 			this.pushChanges();
 		});
 
+		this.data = data;
 		this.form = form;
 	}
 
@@ -51,7 +52,7 @@ export default class WorkWithUsComponent extends Component {
 			telephone: '00390721411112',
 			experience: false,
 			company: 'Websolute',
-			department: this.controls.departments.options[0].id,
+			department: this.controls.department.options[0].id,
 			introduction: 'Hi!',
 			privacy: true,
 			curricula: {},
@@ -69,12 +70,12 @@ export default class WorkWithUsComponent extends Component {
 		if (this.form.valid) {
 			// console.log('WorkWithUsComponent.onSubmit', this.form.value);
 			this.form.submitted = true;
-			this.http.post$('/WS/wsUsers.asmx/Contact', { data: this.form.value })
+			this.http.post$('/api/users/WorkWithUs', this.form.value)
 				.subscribe(response => {
 					console.log('WorkWithUsComponent.onSubmit', response);
 					this.form.reset();
 					this.submitted = true;
-				})
+				});
 		} else {
 			this.form.touched = true;
 		}

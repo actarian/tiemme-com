@@ -1199,8 +1199,8 @@
 </section>
 
 <!-- start product-menu-radiant-floor.html-->
-<div class="sticky--menu">
-	<section class="section--menu" main-menu>
+<div class="sticky--menu" main-menu>
+	<section class="section--menu" [class]="{ active: sticky }">
 		<div class="container-fluid">
 			<ul class="nav--menu">
 				<li>
@@ -1279,6 +1279,7 @@
 					<svg class="icon icon--search"><use xlink:href="#search"></use></svg> <input class="form--control" placeholder="cerca..." />
 				</li>
 			</ul>
+			<button type="button" class="btn--sticky" (click)="onToggleSticky($event)"><span>Prodotti</span></button>
 		</div>
 	</section>
 </div>
@@ -1598,16 +1599,15 @@
 </script>
 
 <section class="section--natural-form" natural-form>
-	<div class="container">
-		<div *if="view == views.NATURAL">
-			<div natural-form-search (club)="onClub($event)">
-				<div class="content"></div>
-			</div>
-			<div class="group--cta">
-				<button type="button" class="btn--submit" (click)="onNext($event)"><span>Prosegui</span></button>
-			</div>
+	<div class="container" *if="view == views.NATURAL">
+		<div natural-form-search (club)="onClub($event)">
+			<div class="content"></div>
 		</div>
-		<div *if="view == views.TECHNICAL || view == views.COMMERCIAL">
+		<div class="group--cta">
+			<button type="button" class="btn--back" (click)="onNext($event)"><span>Prosegui</span></button>
+		</div>
+	</div>
+	<div *if="view == views.TECHNICAL || view == views.COMMERCIAL">
 <!-- start natural-form-contact.html-->
 <section class="section--form background--tertiary" natural-form-contact (back)="onBack($event)">
 	<div class="container" *if="!submitted">
@@ -1644,8 +1644,8 @@
 </section>
 
 <!-- end natural-form-contact.html-->
-		</div>
-		<div *if="view == views.NEWSLETTER">
+	</div>
+	<div *if="view == views.NEWSLETTER">
 <!-- start natural-form-newsletter.html-->
 <section class="section--form background--tertiary" natural-form-newsletter (back)="onBack($event)">
 	<div class="container" *if="!submitted">
@@ -1679,10 +1679,10 @@
 </section>
 
 <!-- end natural-form-newsletter.html-->
-		</div>
-		<div *if="view == views.CLUB">
+	</div>
+	<div *if="view == views.CLUB">
 <!-- start natural-form-signup.html-->
-<section class="section--form background--tertiary" natural-form-signup (back)="onBack($event)">
+<section class="section--form" natural-form-signup (back)="onBack($event)">
 	<div class="container" *if="!submitted">
 		<div class="section--form__title"><svg class="icon icon--back" (click)="onBack($event)"><use xlink:href="#back"></use></svg> <span [innerHTML]="title"></span></div>
 		<form class="form" [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">
@@ -1724,7 +1724,22 @@
 </section>
 
 <!-- end natural-form-signup.html-->
-		</div>
+	</div>
+</section>
+
+<section class="section--intro">
+	<div class="container">
+		<div class="title"><span>I Vantaggi del club TIEMME</span></div>
+	</div>
+</section>
+
+<section class="section--advantages">
+	<div class="container">
+		<ul class="nav--slides">
+			<li><span><svg class="icon icon--tiemme-lab"><use xlink:href="#tiemme-lab"></use></svg> Accesso esclusivo al listino prezzie al centro formazione Tiemme LAB</span></li>
+			<li><span><svg class="icon icon--guides"><use xlink:href="#guides"></use></svg> Ricevere guide di settore e consigli di professionisti</span></li>
+			<li><span><svg class="icon icon--insights"><use xlink:href="#insights"></use></svg> Ricevere approfondimenti sui prodotti di tuo interesse</span></li>
+		</ul>
 	</div>
 </section>
 

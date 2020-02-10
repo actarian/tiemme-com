@@ -1297,9 +1297,8 @@
       // console.log('ClubSigninComponent.onSubmit', 'form.valid', valid);
       if (this.form.valid) {
         // console.log('ClubSigninComponent.onSubmit', this.form.value);
-        this.form.submitted = true; // this.http.post$('/WS/wsUsers.asmx/Login', this.form.value)
-
-        rxjs.of(this.form.value).subscribe(function (response) {
+        this.form.submitted = true;
+        this.http.post$('/api/users/Login', this.form.value).subscribe(function (response) {
           console.log('ClubSigninComponent.onSubmit', response);
 
           _this2.signIn.next(_this2.form.value); // change to response!!!
@@ -1433,9 +1432,7 @@
       if (this.form.valid) {
         // console.log('ClubSignupComponent.onSubmit', this.form.value);
         this.form.submitted = true;
-        this.http.post$('/WS/wsUsers.asmx/Register', {
-          data: this.form.value
-        }).subscribe(function (response) {
+        this.http.post$('/api/users/Register', this.form.value).subscribe(function (response) {
           console.log('ClubSignupComponent.onSubmit', response);
 
           _this3.signUp.next(_this3.form.value); // change to response!!!
@@ -2301,13 +2298,14 @@
 
     var _proto = MainMenuComponent.prototype;
 
-    _proto.onInit = function onInit() {}
-    /*
-    onDropped(id) {
-    	// console.log('MainMenuComponent.onDropped', id);
-    }
-    */
-    ;
+    _proto.onInit = function onInit() {
+      this.sticky = false;
+    };
+
+    _proto.onToggleSticky = function onToggleSticky(event) {
+      this.sticky = !this.sticky;
+      this.pushChanges();
+    };
 
     return MainMenuComponent;
   }(rxcomp.Component);
@@ -3370,7 +3368,7 @@
       // console.log('RequestInfoCommercialComponent.onSubmit', 'form.valid', valid);
       if (this.form.valid) {
         // console.log('RequestInfoCommercialComponent.onSubmit', this.form.value);
-        this.form.submitted = true; //this.http.post$('/WS/wsUsers.asmx/Contact', { data: this.form.value })
+        this.form.submitted = true; // this.http.post$('/WS/wsUsers.asmx/Contact', { data: this.form.value })
 
         this.http.post$('/api/users/Contact', this.form.value).subscribe(function (response) {
           console.log('RequestInfoCommercialComponent.onSubmit', response);
@@ -3875,6 +3873,7 @@
         // console.log('WorkWithUsComponent.form.changes$', changes, form.valid);
         _this.pushChanges();
       });
+      this.data = data;
       this.form = form;
     };
 
@@ -3886,7 +3885,7 @@
         telephone: '00390721411112',
         experience: false,
         company: 'Websolute',
-        department: this.controls.departments.options[0].id,
+        department: this.controls.department.options[0].id,
         introduction: 'Hi!',
         privacy: true,
         curricula: {},
@@ -3906,9 +3905,7 @@
       if (this.form.valid) {
         // console.log('WorkWithUsComponent.onSubmit', this.form.value);
         this.form.submitted = true;
-        this.http.post$('/WS/wsUsers.asmx/Contact', {
-          data: this.form.value
-        }).subscribe(function (response) {
+        this.http.post$('/api/users/WorkWithUs', this.form.value).subscribe(function (response) {
           console.log('WorkWithUsComponent.onSubmit', response);
 
           _this2.form.reset();

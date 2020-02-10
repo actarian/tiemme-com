@@ -1,6 +1,5 @@
 import { Component } from 'rxcomp';
 import { FormControl, FormGroup, Validators } from 'rxcomp-form';
-import { of } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import HttpService from '../http/http.service';
 
@@ -52,13 +51,12 @@ export default class ClubSigninComponent extends Component {
 		if (this.form.valid) {
 			// console.log('ClubSigninComponent.onSubmit', this.form.value);
 			this.form.submitted = true;
-			// this.http.post$('/WS/wsUsers.asmx/Login', this.form.value)
-			of (this.form.value)
-			.subscribe(response => {
-				console.log('ClubSigninComponent.onSubmit', response);
-				this.signIn.next(this.form.value); // change to response!!!
-				// this.form.reset();
-			})
+			this.http.post$('/api/users/Login', this.form.value)
+				.subscribe(response => {
+					console.log('ClubSigninComponent.onSubmit', response);
+					this.signIn.next(this.form.value); // change to response!!!
+					// this.form.reset();
+				});
 		} else {
 			this.form.touched = true;
 		}
