@@ -2362,6 +2362,212 @@
     selector: '[media-library]'
   };
 
+  var NaturalFormService =
+  /*#__PURE__*/
+  function () {
+    function NaturalFormService() {}
+
+    NaturalFormService.next = function next(form) {
+      this.form = form || this.form; // setter & getter
+    };
+
+    _createClass(NaturalFormService, null, [{
+      key: "values",
+      get: function get() {
+        var values = {};
+        var form = this.form;
+        Object.keys(this.form).forEach(function (key) {
+          values[key] = form[key].value;
+        });
+        return values;
+      }
+    }, {
+      key: "form",
+      set: function set(form) {
+        this.form$.next(form);
+      },
+      get: function get() {
+        return this.form$.getValue();
+      }
+    }, {
+      key: "phrase",
+      get: function get() {
+        var form = this.form;
+        console.log('NaturalFormService.set phrase form', form);
+        var action = form.action.options.find(function (x) {
+          return x.id === form.action.value;
+        });
+
+        if (!action) {
+          action = form.action.options[0];
+        }
+
+        return action.phrase;
+      }
+    }, {
+      key: "title",
+      get: function get() {
+        var _this = this;
+
+        var title = this.phrase;
+        var form = this.form;
+        Object.keys(form).forEach(function (key) {
+          var filter = _this.form[key];
+          var value = filter.value;
+          var items = filter.options || [];
+          var item = items.find(function (x) {
+            return x.id === value || x.name === value;
+          });
+
+          if (item) {
+            title = title.replace("$" + key + "$", item.name);
+          } else {
+            title = title.replace("$" + key + "$", filter.label);
+          }
+        });
+        return title;
+      }
+    }, {
+      key: "clubProfileUrl",
+      get: function get() {
+        return this.form.club.profileUrl;
+      }
+    }, {
+      key: "clubModalUrl",
+      get: function get() {
+        return STATIC ? '/tiemme-com/club-modal.html' : this.form.club.modalUrl;
+      }
+    }]);
+
+    return NaturalFormService;
+  }();
+  NaturalFormService.form$ = new rxjs.BehaviorSubject(window.naturalForm || {}); // !!! static
+
+  var NaturalFormContactComponent =
+  /*#__PURE__*/
+  function (_Component) {
+    _inheritsLoose(NaturalFormContactComponent, _Component);
+
+    function NaturalFormContactComponent() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = NaturalFormContactComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      var _this = this;
+
+      var values = NaturalFormService.values;
+      this.title = NaturalFormService.title;
+      this.http = HttpService;
+      this.submitted = false;
+      var data = window.data || {
+        roles: [],
+        interests: [],
+        countries: [],
+        provinces: []
+      };
+      var form = new rxcompForm.FormGroup({
+        role: new rxcompForm.FormControl(values.role, rxcompForm.Validators.RequiredValidator()),
+        interests: new rxcompForm.FormControl(values.interest, rxcompForm.Validators.RequiredValidator()),
+        //
+        firstName: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        lastName: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        email: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator(), rxcompForm.Validators.EmailValidator()]),
+        company: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        country: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        province: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        message: null,
+        privacy: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredTrueValidator()),
+        newsletter: values.newsletter === 2 ? true : false,
+        scope: 'www.website.com',
+        checkRequest: window.antiforgery,
+        checkField: ''
+      });
+      var controls = form.controls;
+      controls.role.options = data.roles;
+      controls.interests.options = data.interests;
+      controls.country.options = data.countries;
+      controls.province.options = [];
+      this.controls = controls;
+      form.changes$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (changes) {
+        // console.log('NaturalFormContactComponent.form.changes$', changes, form.valid);
+        _this.countryId = changes.country;
+
+        _this.pushChanges();
+      });
+      this.data = data;
+      this.form = form;
+    };
+
+    _proto.onChanges = function onChanges(changes) {};
+
+    _proto.test = function test() {
+      this.form.patch({
+        firstName: 'Jhon',
+        lastName: 'Appleseed',
+        email: 'jhonappleseed@gmail.com',
+        company: 'Websolute',
+        role: this.controls.role.options[0].id,
+        interests: this.controls.interests.options[0].id,
+        country: this.controls.country.options[0].id,
+        privacy: true,
+        checkRequest: window.antiforgery,
+        checkField: ''
+      });
+    };
+
+    _proto.reset = function reset() {
+      this.form.reset();
+    };
+
+    _proto.onSubmit = function onSubmit() {
+      var _this2 = this;
+
+      // console.log('NaturalFormContactComponent.onSubmit', 'form.valid', valid);
+      if (this.form.valid) {
+        // console.log('NaturalFormContactComponent.onSubmit', this.form.value);
+        this.form.submitted = true; //this.http.post$('/WS/wsUsers.asmx/Contact', { data: this.form.value })
+
+        this.http.post$('/api/users/Contact', this.form.value).subscribe(function (response) {
+          console.log('NaturalFormContactComponent.onSubmit', response);
+
+          _this2.form.reset();
+
+          _this2.submitted = true;
+        });
+      } else {
+        this.form.touched = true;
+      }
+    };
+
+    _proto.onBack = function onBack() {
+      this.back.next();
+    };
+
+    _createClass(NaturalFormContactComponent, [{
+      key: "countryId",
+      set: function set(countryId) {
+        if (this.countryId_ !== countryId) {
+          console.log('NaturalFormContactComponent.set countryId', countryId);
+          this.countryId_ = countryId;
+          var provinces = this.data.provinces.filter(function (province) {
+            return String(province.idstato) === String(countryId);
+          });
+          this.controls.province.options = provinces;
+          this.controls.province.hidden = provinces.length === 0;
+          this.controls.province.value = null;
+        }
+      }
+    }]);
+
+    return NaturalFormContactComponent;
+  }(rxcomp.Component);
+  NaturalFormContactComponent.meta = {
+    selector: '[natural-form-contact]',
+    outputs: ['back']
+  };
+
   var NaturalFormControlComponent =
   /*#__PURE__*/
   function (_Component) {
@@ -2374,7 +2580,7 @@
     var _proto = NaturalFormControlComponent.prototype;
 
     _proto.onInit = function onInit() {
-      console.log('NaturalFormControlComponent.onInit');
+      // console.log('NaturalFormControlComponent.onInit');
       this.label = 'label';
       this.labels = window.labels || {};
       this.dropped = false;
@@ -2428,7 +2634,7 @@
     };
 
     _proto.setOption = function setOption(item) {
-      console.log('setOption', item);
+      // console.log('setOption', item);
       this.filter.value = item.id;
       this.change.next(this.filter);
       DropdownDirective.dropdown$.next(null);
@@ -2468,6 +2674,104 @@
     "\n\t\t<span [dropdown]=\"dropdownId\" (dropped)=\"onDropped($event)\">\n\t\t\t<span class=\"label\" [innerHTML]=\"getLabel()\"></span>\n\t\t\t<svg class=\"icon icon--caret-right\"><use xlink:href=\"#caret-right\"></use></svg>\n\t\t</span>\n\t\t<div class=\"dropdown\" [dropdown-item]=\"dropdownId\">\n\t\t\t<div class=\"category\" [innerHTML]=\"label\"></div>\n\t\t\t<ul class=\"nav--dropdown\">\n\t\t\t\t<li *for=\"let item of filter.options\" (click)=\"setOption(item)\"><span [innerHTML]=\"item.name\"></span></li>\n\t\t\t</ul>\n\t\t</div>\n\t"
   };
 
+  var NaturalFormNewsletterComponent =
+  /*#__PURE__*/
+  function (_Component) {
+    _inheritsLoose(NaturalFormNewsletterComponent, _Component);
+
+    function NaturalFormNewsletterComponent() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = NaturalFormNewsletterComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      var _this = this;
+
+      var values = NaturalFormService.values;
+      this.title = NaturalFormService.title;
+      this.http = HttpService;
+      this.submitted = false;
+      var data = window.data || {
+        roles: [],
+        interests: [],
+        countries: [],
+        provinces: []
+      };
+      var form = new rxcompForm.FormGroup({
+        role: new rxcompForm.FormControl(values.role, rxcompForm.Validators.RequiredValidator()),
+        interests: new rxcompForm.FormControl(values.interest, rxcompForm.Validators.RequiredValidator()),
+        //
+        firstName: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        lastName: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        email: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator(), rxcompForm.Validators.EmailValidator()]),
+        company: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        privacy: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredTrueValidator()),
+        newsletter: true,
+        checkRequest: window.antiforgery,
+        checkField: ''
+      });
+      var controls = form.controls;
+      controls.role.options = data.roles;
+      controls.interests.options = data.interests;
+      this.controls = controls;
+      form.changes$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (changes) {
+        // console.log('NaturalFormNewsletterComponent.form.changes$', changes, form.valid);
+        _this.pushChanges();
+      });
+      this.data = data;
+      this.form = form;
+    };
+
+    _proto.test = function test() {
+      this.form.patch({
+        firstName: 'Jhon',
+        lastName: 'Appleseed',
+        email: 'jhonappleseed@gmail.com',
+        company: 'Websolute',
+        role: this.controls.role.options[0].id,
+        interests: this.controls.interests.options[0].id,
+        privacy: true,
+        checkRequest: window.antiforgery,
+        checkField: ''
+      });
+    };
+
+    _proto.reset = function reset() {
+      this.form.reset();
+    };
+
+    _proto.onSubmit = function onSubmit() {
+      var _this2 = this;
+
+      // console.log('NaturalFormNewsletterComponent.onSubmit', 'form.valid', valid);
+      if (this.form.valid) {
+        // console.log('NaturalFormNewsletterComponent.onSubmit', this.form.value);
+        this.form.submitted = true; //this.http.post$('/WS/wsUsers.asmx/Newsletter', { data: this.form.value })
+
+        this.http.post$('/api/users/Newsletter', this.form.value).subscribe(function (response) {
+          console.log('NaturalFormNewsletterComponent.onSubmit', response);
+
+          _this2.form.reset();
+
+          _this2.submitted = true;
+        });
+      } else {
+        this.form.touched = true;
+      }
+    };
+
+    _proto.onBack = function onBack() {
+      this.back.next();
+    };
+
+    return NaturalFormNewsletterComponent;
+  }(rxcomp.Component);
+  NaturalFormNewsletterComponent.meta = {
+    selector: '[natural-form-newsletter]',
+    outputs: ['back']
+  };
+
   var NaturalFormSearchComponent =
   /*#__PURE__*/
   function (_Component) {
@@ -2480,67 +2784,29 @@
     var _proto = NaturalFormSearchComponent.prototype;
 
     _proto.onInit = function onInit() {
-      console.log('NaturalFormSearchComponent.onInit');
-
-      var _getContext = rxcomp.getContext(this),
-          node = _getContext.node,
-          module = _getContext.module;
-
-      node.classList.add('natural-form-search');
-    };
-
-    _proto.onChanges = function onChanges() {
-      console.log('NaturalFormSearchComponent.onChanges', this);
-      this.initControls();
-    };
-
-    _proto.initControls = function initControls() {
       var _this = this;
 
-      if (!this.controls && this.filters) {
-        console.log('NaturalFormSearchComponent.initControls', this.filters);
+      // console.log('NaturalFormSearchComponent.onInit');
+      var _getContext = rxcomp.getContext(this),
+          node = _getContext.node;
 
-        var _getContext2 = rxcomp.getContext(this),
-            node = _getContext2.node,
-            module = _getContext2.module;
-
-        var html = node.innerHTML;
-        var keys = Object.keys(this.filters);
-        keys.forEach(function (x) {
-          // console.log(x);
-          html = html.replace("$" + x + "$",
-          /* html */
-          "\n\t\t\t\t\t<span class=\"natural-form__control\" natural-form-control [filter]=\"filters." + x + "\" [label]=\"filters." + x + ".label\" (change)=\"onNaturalForm($event)\"></span>\n\t\t\t\t");
-        }); // console.log('MoodboardSearchDirective', html);
-
-        node.innerHTML = html;
-        this.controls = Array.from(node.childNodes).map(function (x) {
-          console.log(x);
-          return module.compile(x, _this);
-        });
-        /*
-        const hasFilter = Object.keys(scope.filters).map(x => scope.filters[x]).find(x => x.value !== null) !== undefined;
-        if (!hasFilter) {
-        	this.animateUnderlines(node);
-        }
-        scope.animateOff = () => {
-        	this.animateOff(node);
-        };
-        */
-      }
+      node.classList.add('natural-form-search');
+      NaturalFormService.form$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (form) {
+        _this.naturalForm = form;
+        _this.phrase = NaturalFormService.phrase;
+      });
     };
 
     _proto.onNaturalForm = function onNaturalForm(event) {
-      var _this2 = this;
-
-      var values = {};
-      Object.keys(this.filters).forEach(function (key) {
-        values[key] = _this2.filters[key].value;
-      });
-      this.change.next(values);
+      var form = NaturalFormService.next();
+      this.change.next(form);
     };
 
-    _proto.animateUnderlines = function animateUnderlines(node) {
+    _proto.onClub = function onClub(event) {
+      this.club.next(event);
+    };
+
+    _proto.animateUnderlines_ = function animateUnderlines_(node) {
       this.animated = true;
       var values = [].concat(node.querySelectorAll('.moodboard__underline'));
       values.forEach(function (x) {
@@ -2587,9 +2853,9 @@
       animate();
     };
 
-    _proto.animateOff = function animateOff(node) {
+    _proto.animateOff_ = function animateOff_(node) {
       if (this.animated) {
-        this.animated = false; // console.log('animateOff');
+        this.animated = false; // console.log('animateOff_');
         // gsap.killAll();
 
         var values = [].concat(node.querySelectorAll('.moodboard__underline'));
@@ -2607,12 +2873,224 @@
       }
     };
 
+    _createClass(NaturalFormSearchComponent, [{
+      key: "phrase",
+      set: function set(phrase) {
+        var _this2 = this;
+
+        if (this.phrase_ !== phrase) {
+          this.phrase_ = phrase;
+
+          var _getContext2 = rxcomp.getContext(this),
+              node = _getContext2.node,
+              module = _getContext2.module;
+
+          var contentNode = node.querySelector('.content');
+
+          if (this.instances_) {
+            module.remove(contentNode);
+          }
+
+          var html = phrase;
+          var keys = Object.keys(this.naturalForm);
+          keys.forEach(function (x) {
+            // console.log(x);
+            html = html.replace("$" + x + "$", function () {
+              var item = _this2.naturalForm[x];
+
+              if (item.options) {
+                return (
+                  /* html */
+                  "\n\t\t\t\t\t<span class=\"natural-form__control\" natural-form-control [filter]=\"naturalForm." + x + "\" [label]=\"naturalForm." + x + ".label\" (change)=\"onNaturalForm($event)\"></span>\n\t\t\t\t"
+                );
+              } else {
+                return (
+                  /* html */
+                  "<button type=\"button\" class=\"btn--club\" (click)=\"onClub($event)\"><svg class=\"icon icon--user\"><use xlink:href=\"#user\"></use></svg> <span>Club Tiemme</span></button>"
+                );
+              }
+            });
+          }); // console.log('MoodboardSearchDirective', html);
+
+          contentNode.innerHTML = html;
+          this.instances_ = [];
+          Array.from(contentNode.childNodes).forEach(function (x) {
+            _this2.instances_ = _this2.instances_.concat(module.compile(x, _this2));
+          });
+          /*
+          const hasFilter = Object.keys(scope.naturalForm).map(x => scope.naturalForm[x]).find(x => x.value !== null) !== undefined;
+          if (!hasFilter) {
+          	this.animateUnderlines_(node);
+          }
+          scope.animateOff_ = () => {
+          	this.animateOff_(node);
+          };
+          */
+        }
+      }
+    }]);
+
     return NaturalFormSearchComponent;
   }(rxcomp.Component);
   NaturalFormSearchComponent.meta = {
     selector: '[natural-form-search]',
-    inputs: ['filters'],
-    outputs: ['change']
+    inputs: ['naturalForm'],
+    outputs: ['change', 'club']
+  };
+
+  var NaturalFormSignupComponent =
+  /*#__PURE__*/
+  function (_Component) {
+    _inheritsLoose(NaturalFormSignupComponent, _Component);
+
+    function NaturalFormSignupComponent() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = NaturalFormSignupComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      var _this = this;
+
+      var values = NaturalFormService.values;
+      this.title = NaturalFormService.title;
+      this.http = HttpService;
+      this.submitted = false;
+      var data = window.data || {
+        roles: [],
+        countries: [],
+        provinces: []
+      };
+      var form = new rxcompForm.FormGroup({
+        role: new rxcompForm.FormControl(values.role, rxcompForm.Validators.RequiredValidator()),
+        //
+        firstName: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        lastName: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        company: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        country: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        province: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        address: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        zipCode: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        city: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        telephone: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        fax: null,
+        email: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator(), rxcompForm.Validators.EmailValidator()]),
+        username: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator()]),
+        password: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator()]),
+        passwordConfirm: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator(), this.MatchValidator('password')]),
+        privacy: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredTrueValidator()),
+        newsletter: values.newsletter === 2 ? true : false,
+        checkRequest: window.antiforgery,
+        checkField: ''
+      });
+      var controls = form.controls;
+      controls.role.options = data.roles;
+      controls.country.options = data.countries;
+      controls.province.options = [];
+      this.controls = controls;
+      form.changes$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (changes) {
+        // console.log('NaturalFormSignupComponent.form.changes$', changes, form.valid);
+        _this.countryId = changes.country;
+
+        _this.pushChanges();
+      });
+      this.data = data;
+      this.form = form;
+    };
+
+    _proto.test = function test() {
+      this.form.patch({
+        firstName: 'Jhon',
+        lastName: 'Appleseed',
+        company: 'Websolute',
+        role: this.controls.role.options[0].id,
+        country: this.controls.country.options[0].id,
+        address: 'Strada della Campanara',
+        zipCode: '15',
+        city: 'Pesaro',
+        telephone: '00390721411112',
+        email: 'jhonappleseed@gmail.com',
+        username: 'username',
+        password: 'password',
+        passwordConfirm: 'password',
+        privacy: true,
+        checkRequest: window.antiforgery,
+        checkField: ''
+      });
+    };
+
+    _proto.MatchValidator = function MatchValidator(fieldName) {
+      var _this2 = this;
+
+      return new rxcompForm.FormValidator(function (value) {
+        var field = _this2.form ? _this2.form.get(fieldName) : null;
+
+        if (!value || !field) {
+          return null;
+        }
+
+        return value !== field.value ? {
+          match: {
+            value: value,
+            match: field.value
+          }
+        } : null;
+      });
+    };
+
+    _proto.reset = function reset() {
+      this.form.reset();
+    };
+
+    _proto.onSubmit = function onSubmit() {
+      var _this3 = this;
+
+      // console.log('NaturalFormSignupComponent.onSubmit', 'form.valid', valid);
+      if (this.form.valid) {
+        // console.log('NaturalFormSignupComponent.onSubmit', this.form.value);
+        this.form.submitted = true;
+        this.http.post$('/WS/wsUsers.asmx/Register', {
+          data: this.form.value
+        }).subscribe(function (response) {
+          console.log('NaturalFormSignupComponent.onSubmit', response);
+
+          _this3.signUp.next(_this3.form.value); // change to response!!!
+
+
+          _this3.form.reset();
+
+          _this3.submitted = true;
+        });
+      } else {
+        this.form.touched = true;
+      }
+    };
+
+    _proto.onBack = function onBack() {
+      this.back.next();
+    };
+
+    _createClass(NaturalFormSignupComponent, [{
+      key: "countryId",
+      set: function set(countryId) {
+        if (this.countryId_ !== countryId) {
+          console.log('NaturalFormSignupComponent.set countryId', countryId);
+          this.countryId_ = countryId;
+          var provinces = this.data.provinces.filter(function (province) {
+            return String(province.idstato) === String(countryId);
+          });
+          this.controls.province.options = provinces;
+          this.controls.province.hidden = provinces.length === 0;
+          this.controls.province.value = null;
+        }
+      }
+    }]);
+
+    return NaturalFormSignupComponent;
+  }(rxcomp.Component);
+  NaturalFormSignupComponent.meta = {
+    selector: '[natural-form-signup]',
+    outputs: ['signUp', 'back']
   };
 
   var NaturalFormComponent =
@@ -2627,32 +3105,63 @@
     var _proto = NaturalFormComponent.prototype;
 
     _proto.onInit = function onInit() {
+      var _this = this;
+
       this.views = {
         NATURAL: 0,
-        COMMERCIAL: 1,
-        CONTACT: 2,
+        TECHNICAL: 1,
+        COMMERCIAL: 2,
         NEWSLETTER: 3,
-        CLUB: 3
+        CLUB: 4
       };
       this.view = this.views.NATURAL;
-      this.filters = window.filters || {};
-      this.user = null;
-      console.log('NaturalFormComponent.onInit', this.filters);
+      UserService.user$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (user) {
+        _this.user = user;
+
+        _this.pushChanges();
+      }); // console.log('NaturalFormComponent.onInit', this.naturalForm);
     };
 
-    _proto.onNaturalForm = function onNaturalForm(event) {
-      console.log('NaturalFormComponent.onNaturalForm', event);
+    _proto.onClub = function onClub(event) {
+      var _this2 = this;
+
+      if (this.user) {
+        window.location.href = NaturalFormService.clubProfileUrl;
+      } else {
+        event.preventDefault();
+        var src = STATIC ? '/tiemme-com/club-modal.html' : NaturalFormService.clubModalUrl;
+        ModalService.open$({
+          src: src,
+          data: {
+            view: 1
+          }
+        }).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (event) {
+          // console.log('RegisterOrLoginComponent.onRegister', event);
+          if (event instanceof ModalResolveEvent) {
+            UserService.setUser(event.data);
+            _this2.user = event.data;
+
+            _this2.pushChanges();
+          }
+        });
+      }
     };
 
     _proto.onNext = function onNext(event) {
-      this.view = this.views.COMMERCIAL;
+      this.view = NaturalFormService.values.action;
+      this.pushChanges();
+    };
+
+    _proto.onBack = function onBack(event) {
+      this.view = this.views.NATURAL;
       this.pushChanges();
     };
 
     return NaturalFormComponent;
   }(rxcomp.Component);
   NaturalFormComponent.meta = {
-    selector: '[natural-form]'
+    selector: '[natural-form]',
+    outputs: ['club']
   };
 
   var src = STATIC ? '/tiemme-com/club-modal.html' : '/it/club-modal';
@@ -3687,7 +4196,7 @@
   }(rxcomp.Module);
   AppModule.meta = {
     imports: [rxcomp.CoreModule, rxcompForm.FormModule],
-    declarations: [AgentsComponent, AppearDirective, ClickOutsideDirective, ClubComponent, ClubForgotComponent, ClubModalComponent, ClubProfileComponent, ClubSigninComponent, ClubSignupComponent, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlPasswordComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, FileSizePipe, HtmlPipe, HeaderComponent, LazyDirective, MainMenuComponent, MediaLibraryComponent, ModalOutletComponent, NaturalFormComponent, NaturalFormSearchComponent, NaturalFormControlComponent, RequestInfoCommercialComponent, RegisterOrLoginComponent, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, TestComponent, // ValueDirective,
+    declarations: [AgentsComponent, AppearDirective, ClickOutsideDirective, ClubComponent, ClubForgotComponent, ClubModalComponent, ClubProfileComponent, ClubSigninComponent, ClubSignupComponent, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlPasswordComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, FileSizePipe, HtmlPipe, HeaderComponent, LazyDirective, MainMenuComponent, MediaLibraryComponent, ModalOutletComponent, NaturalFormComponent, NaturalFormSearchComponent, NaturalFormContactComponent, NaturalFormControlComponent, NaturalFormNewsletterComponent, NaturalFormSignupComponent, RequestInfoCommercialComponent, RegisterOrLoginComponent, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, TestComponent, // ValueDirective,
     VideoComponent, WorkWithUsComponent, YoutubeComponent, ZoomableDirective],
     bootstrap: AppComponent
   };

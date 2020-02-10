@@ -382,6 +382,43 @@ errors-component {
 	}
 }
 
+.listing--form-compact {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	flex-wrap: wrap;
+
+	@include media-up(lg) {
+		&>div {
+			@include as-col(4, 12, 20px);
+
+			&[control-checkbox] {
+				@include as-col(6, 12, 20px);
+			}
+
+			&[control-textarea] {
+				@include as-col(12, 12, 0px);
+			}
+		}
+	}
+
+	@include media-down(md) {
+		&>div {
+			@include as-col(6, 12, 20px);
+
+			&[control-textarea] {
+				@include as-col(12, 12, 0px);
+			}
+		}
+	}
+
+	@include media-down(xs) {
+		&>div {
+			@include as-col(12, 12, 0px);
+		}
+	}
+}
+
 [control-custom-select] {
 	position: relative;
 

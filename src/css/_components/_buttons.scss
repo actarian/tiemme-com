@@ -74,9 +74,7 @@ button,
 	}
 }
 
-.btn--download,
-.btn--cta,
-.btn--submit {
+.btn--download {
 	display: inline-flex;
 	align-items: center;
 	color: $foreground;
@@ -91,18 +89,20 @@ button,
 	}
 }
 
-.btn--cta,
-.btn--submit {
+.btn--cta {
 	display: block;
+	padding: 3px 10px;
 	background: $background-secondary;
 	font-weight: $font-medium;
 	font-family: $font-secondary;
 	text-transform: uppercase;
-	padding: 5px 10px;
 	opacity: 1;
+	transition: all ease-in-out 350ms;
 
 	.icon--download {
-		transition: fill ease-in-out 350ms;
+		margin-right: 8px;
+		fill: $foreground;
+		transition: all ease-in-out 350ms;
 	}
 
 	&:hover {
@@ -116,7 +116,38 @@ button,
 }
 
 .btn--submit {
+	display: block;
+	padding: 5px 10px;
+	background: $background-secondary;
 	font-size: 30px;
+	font-weight: $font-medium;
+	font-family: $font-secondary;
+	text-transform: uppercase;
+	opacity: 1;
+	transition: all ease-in-out 350ms;
+
+	&:hover {
+		background: $foreground;
+		color: $foreground-negative;
+	}
+}
+
+.btn--back {
+	display: block;
+	padding: 5px 10px;
+	font-size: 30px;
+	font-weight: $font-medium;
+	font-family: $font-secondary;
+	text-transform: uppercase;
+	border: 2px solid $foreground;
+	color: $foreground;
+	opacity: 1;
+	transition: all ease-in-out 350ms;
+
+	&:hover {
+		background: $foreground;
+		color: $foreground-negative;
+	}
 }
 
 .btn--category {

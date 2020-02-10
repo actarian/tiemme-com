@@ -1,6 +1,6 @@
 <script type="text/javascript">
-	window.filters = {
-		roles: {
+	window.naturalForm = {
+		role: {
 			label: 'Sono un',
 			placeholder: 'Seleziona',
 			options: [
@@ -19,17 +19,17 @@
 				{ id: "Altro", name: "Altro" },
 			]
 		},
-		actions: {
+		action: {
 			label: 'E Vorrei',
 			placeholder: 'Seleziona',
 			options: [
-				{ id: "Richiedere informazioni", name: "Richiedere informazioni" },
-				{ id: "Essere contattato", name: "Essere contattato" },
-				{ id: "Rimanere informato", name: "Rimanere informato" },
-				{ id: "Iscrivermi al Club", name: "Iscrivermi al Club" },
+				{ id: 1, name: "Richiedere informazioni", phrase: "Sono un $role$ e vorrei $action$ riguardo a $interest$ $newsletter$ comunicazioni dal $club$" },
+				{ id: 2, name: "Essere contattato", phrase: "Sono un $role$ e vorrei $action$ riguardo a $interest$ $newsletter$ comunicazioni dal $club$" },
+				{ id: 3, name: "Rimanere informato", phrase: "Sono un $role$ e vorrei $action$ riguardo a $interest$ e ricevere comunicazioni dal $club$" },
+				{ id: 4, name: "Iscrivermi al Club", phrase: "Sono un $role$ e vorrei $action$ $newsletter$ comunicazioni dal $club$" },
 			]
 		},
-		interests: {
+		interest: {
 			label: 'Riguardo a',
 			placeholder: 'Seleziona',
 			options: [
@@ -43,9 +43,14 @@
 			label: 'Club Tiemme',
 			placeholder: 'Seleziona',
 			options: [
-				{ id: "E non ricevere", name: "E non ricevere" },
-				{ id: "E ricevere", name: "E ricevere" },
+				{ id: 1, name: "E non ricevere" },
+				{ id: 2, name: "E ricevere" },
 			]
+		},
+		club: {
+			label: 'Club Tiemme',
+			profileUrl: '/tiemme-com/club-profile.html',
+			modalUrl: '/it/club-modal',
 		}
 	};
 
@@ -54,26 +59,21 @@
 <section class="section--natural-form" natural-form>
 	<div class="container">
 		<div *if="view == views.NATURAL">
-			<div natural-form-search [filters]="filters" (change)="onNaturalForm($event)">
-				<div class="content">
-					Sono un $roles$ e vorrei $actions$ riguardo a $interests$ $newsletter$ comunicazioni dal <a href="/tiemme-com/club-profile.html" class="btn--club" *if="user"><span><svg class="icon icon--user"><use xlink:href="#user"></use></svg> Club Tiemme</span></a><button type="button" class="btn--club" (click)="toggleMenu('club')" *if="!user"><svg class="icon icon--user"><use xlink:href="#user"></use></svg> <span>Club Tiemme</span></button>
-				</div>
+			<div natural-form-search (club)="onClub($event)">
+				<div class="content"></div>
 			</div>
 			<div class="group--cta">
 				<button type="button" class="btn--submit" (click)="onNext($event)"><span>Prosegui</span></button>
 			</div>
 		</div>
-		<div *if="view == views.COMMERCIAL">
-			<!-- @@include ./request-info-commercial.html -->
-		</div>
-		<div *if="view == views.INFOS">
-			<!-- @@include ./club-forgot.html -->
+		<div *if="view == views.TECHNICAL || view == views.COMMERCIAL">
+			<!-- @@include ./natural-form-contact.html -->
 		</div>
 		<div *if="view == views.NEWSLETTER">
-			<!-- @@include ./club-forgot.html -->
+			<!-- @@include ./natural-form-newsletter.html -->
 		</div>
 		<div *if="view == views.CLUB">
-			<!-- @@include ./club-signup.html -->
+			<!-- @@include ./natural-form-signup.html -->
 		</div>
 	</div>
 </section>

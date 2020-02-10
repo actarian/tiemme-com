@@ -1,0 +1,40 @@
+<section class="section--form background--tertiary" natural-form-signup (back)="onBack($event)">
+	<div class="container" *if="!submitted">
+		<div class="section--form__title" [innerHTML]="title"></div>
+		<form class="form" [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">
+			<div class="listing--form-compact">
+				<input name="checkField" [formControl]="controls.checkField" value="" type="text" style="display:none !important;" />
+				<div control-text [control]="controls.firstName" label="Nome"></div>
+				<div control-text [control]="controls.lastName" label="Cognome"></div>
+				<div control-text [control]="controls.company" label="Azienda"></div>
+				<div control-custom-select [control]="controls.country" label="Nazione"></div>
+				<div control-custom-select [control]="controls.province" label="Provincia"></div>
+				<div control-text [control]="controls.address" label="Indirizzo"></div>
+				<div control-text [control]="controls.zipCode" label="Cap"></div>
+				<div control-text [control]="controls.city" label="Città"></div>
+				<div control-text [control]="controls.telephone" label="Telefono"></div>
+				<div control-text [control]="controls.fax" label="Fax"></div>
+				<div control-text [control]="controls.email" label="Email"></div>
+				<div control-text [control]="controls.username" label="Username"></div>
+				<div control-password [control]="controls.password" label="Password"></div>
+				<div control-password [control]="controls.passwordConfirm" label="Conferma Password"></div>
+				<div control-checkbox [control]="controls.privacy" label="Ho letto l&amp;#39;&amp;lt;a href=&amp;quot;/it/azienda/pagineinterne/informativa_sulla_privacy/&amp;quot; target=&amp;quot;_blank&amp;quot;&gt;informativa&amp;lt;/a&gt; e do il consenso al trattamento del dato"></div>
+				<div control-checkbox [control]="controls.newsletter" label="Voglio iscrivermi alla newsletter TIEMME"></div>
+			</div>
+			<div class="group--cta">
+				<button type="submit" class="btn--back" (click)="onBack($event)"><span>Indietro</span></button>
+				<button type="submit" class="btn--submit">
+					<span *if="!form.submitted">Invia</span>
+					<span *if="form.submitted">Inviato!</span>
+				</button>
+			</div>
+			<test-component [form]="form" (test)="test($event)" (reset)="reset($event)"></test-component>
+		</form>
+	</div>
+	<div class="container" *if="submitted">
+		<div class="section--slides__title">Richiesta Inviata</div>
+		<div class="abstract">
+			Grazie per averci contattato. La tua richiesta è stata inviata correttamente.
+		</div>
+	</div>
+</section>

@@ -6,7 +6,7 @@ import DropdownDirective from '../dropdown/dropdown.directive';
 export default class NaturalFormControlComponent extends Component {
 
 	onInit() {
-		console.log('NaturalFormControlComponent.onInit');
+		// console.log('NaturalFormControlComponent.onInit');
 		this.label = 'label';
 		this.labels = window.labels || {};
 		this.dropped = false;
@@ -56,7 +56,7 @@ export default class NaturalFormControlComponent extends Component {
 	}
 
 	setOption(item) {
-		console.log('setOption', item);
+		// console.log('setOption', item);
 		this.filter.value = item.id;
 		this.change.next(this.filter);
 		DropdownDirective.dropdown$.next(null);

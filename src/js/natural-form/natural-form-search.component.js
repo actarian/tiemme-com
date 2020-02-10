@@ -1,58 +1,74 @@
 import { Component, getContext } from 'rxcomp';
+import { takeUntil } from 'rxjs/operators';
+import NaturalFormService from './natural-form.service';
 
 export default class NaturalFormSearchComponent extends Component {
 
 	onInit() {
-		console.log('NaturalFormSearchComponent.onInit');
-		const { node, module } = getContext(this);
+		// console.log('NaturalFormSearchComponent.onInit');
+		const { node } = getContext(this);
 		node.classList.add('natural-form-search');
+		NaturalFormService.form$.pipe(
+			takeUntil(this.unsubscribe$)
+		).subscribe(form => {
+			this.naturalForm = form;
+			this.phrase = NaturalFormService.phrase;
+		});
 	}
 
-	onChanges() {
-		console.log('NaturalFormSearchComponent.onChanges', this);
-		this.initControls();
-	}
-
-	initControls() {
-		if (!this.controls && this.filters) {
-			console.log('NaturalFormSearchComponent.initControls', this.filters);
+	set phrase(phrase) {
+		if (this.phrase_ !== phrase) {
+			this.phrase_ = phrase;
 			const { node, module } = getContext(this);
-			let html = node.innerHTML;
-			const keys = Object.keys(this.filters);
+			const contentNode = node.querySelector('.content');
+			if (this.instances_) {
+				module.remove(contentNode);
+			}
+			const form = NaturalFormService.form;
+			// console.log('NaturalFormSearchComponent.initControls', form);
+			let html = phrase;
+			const keys = Object.keys(this.naturalForm);
 			keys.forEach(x => {
 				// console.log(x);
-				html = html.replace(`$${x}$`, /* html */ `
-					<span class="natural-form__control" natural-form-control [filter]="filters.${x}" [label]="filters.${x}.label" (change)="onNaturalForm($event)"></span>
-				`);
+				html = html.replace(`$${x}$`, () => {
+					const item = this.naturalForm[x];
+					if (item.options) {
+						return /* html */ `
+					<span class="natural-form__control" natural-form-control [filter]="naturalForm.${x}" [label]="naturalForm.${x}.label" (change)="onNaturalForm($event)"></span>
+				`;
+					} else {
+						return /* html */ `<button type="button" class="btn--club" (click)="onClub($event)"><svg class="icon icon--user"><use xlink:href="#user"></use></svg> <span>Club Tiemme</span></button>`;
+					}
+				});
 			});
 			// console.log('MoodboardSearchDirective', html);
-			node.innerHTML = html;
-			this.controls = Array.from(node.childNodes).map(x => {
-				console.log(x);
-				return module.compile(x, this);
+			contentNode.innerHTML = html;
+			this.instances_ = [];
+			Array.from(contentNode.childNodes).forEach(x => {
+				this.instances_ = this.instances_.concat(module.compile(x, this));
 			});
-
 			/*
-			const hasFilter = Object.keys(scope.filters).map(x => scope.filters[x]).find(x => x.value !== null) !== undefined;
+			const hasFilter = Object.keys(scope.naturalForm).map(x => scope.naturalForm[x]).find(x => x.value !== null) !== undefined;
 			if (!hasFilter) {
-				this.animateUnderlines(node);
+				this.animateUnderlines_(node);
 			}
-			scope.animateOff = () => {
-				this.animateOff(node);
+			scope.animateOff_ = () => {
+				this.animateOff_(node);
 			};
 			*/
 		}
 	}
 
 	onNaturalForm(event) {
-		const values = {};
-		Object.keys(this.filters).forEach(key => {
-			values[key] = this.filters[key].value;
-		});
-		this.change.next(values);
+		const form = NaturalFormService.next();
+		this.change.next(form);
 	}
 
-	animateUnderlines(node) {
+	onClub(event) {
+		this.club.next(event);
+	}
+
+	animateUnderlines_(node) {
 		this.animated = true;
 		const values = [...node.querySelectorAll('.moodboard__underline')];
 		values.forEach(x => {
@@ -88,10 +104,10 @@ export default class NaturalFormSearchComponent extends Component {
 		animate();
 	}
 
-	animateOff(node) {
+	animateOff_(node) {
 		if (this.animated) {
 			this.animated = false;
-			// console.log('animateOff');
+			// console.log('animateOff_');
 			// gsap.killAll();
 			const values = [...node.querySelectorAll('.moodboard__underline')];
 			gsap.set(values, { transformOrigin: '0 50%', scaleX: 0 });
@@ -109,6 +125,6 @@ export default class NaturalFormSearchComponent extends Component {
 
 NaturalFormSearchComponent.meta = {
 	selector: '[natural-form-search]',
-	inputs: ['filters'],
-	outputs: ['change']
+	inputs: ['naturalForm'],
+	outputs: ['change', 'club']
 };
