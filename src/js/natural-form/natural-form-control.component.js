@@ -125,7 +125,7 @@ NaturalFormControlComponent.meta = {
 	inputs: ['filter', 'label'],
 	outputs: ['change'],
 	template: /* html */ `
-		<span [dropdown]="dropdownId" dropdown-trigger=".label" (dropped)="onDropped($event)">
+		<span [dropdown]="dropdownId" (dropped)="onDropped($event)">
 			<span class="label" [innerHTML]="getLabel()"></span>
 			<svg class="icon icon--caret-right"><use xlink:href="#caret-right"></use></svg>
 		</span>

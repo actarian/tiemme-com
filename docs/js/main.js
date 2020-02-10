@@ -1513,13 +1513,17 @@
 
     _proto.onClick = function onClick(event) {
       var _getContext2 = rxcomp.getContext(this),
-          node = _getContext2.node; // console.log(node.querySelector('[dropdown-item]'));
-
+          node = _getContext2.node;
 
       if (this.opened === null) {
         this.openDropdown();
-      } else if (this.trigger !== node) {
-        this.closeDropdown();
+      } else {
+        var dropdownItemNode = node.querySelector('[dropdown-item]'); // console.log('dropdownItemNode', dropdownItemNode);
+
+        if (!dropdownItemNode) {
+          // if (this.trigger !== node) {
+          this.closeDropdown();
+        }
       }
     };
 
@@ -2731,7 +2735,7 @@
     outputs: ['change'],
     template:
     /* html */
-    "\n\t\t<span [dropdown]=\"dropdownId\" dropdown-trigger=\".label\" (dropped)=\"onDropped($event)\">\n\t\t\t<span class=\"label\" [innerHTML]=\"getLabel()\"></span>\n\t\t\t<svg class=\"icon icon--caret-right\"><use xlink:href=\"#caret-right\"></use></svg>\n\t\t</span>\n\t\t<div class=\"dropdown\" [dropdown-item]=\"dropdownId\">\n\t\t\t<div class=\"category\" [innerHTML]=\"label\"></div>\n\t\t\t<ul class=\"nav--dropdown\" [class]=\"{ multiple: filter.multiple }\">\n\t\t\t\t<li *for=\"let item of filter.options\" (click)=\"setOption(item)\"><span [class]=\"{ active: hasOption(item) }\" [innerHTML]=\"item.name\"></span></li>\n\t\t\t</ul>\n\t\t</div>\n\t"
+    "\n\t\t<span [dropdown]=\"dropdownId\" (dropped)=\"onDropped($event)\">\n\t\t\t<span class=\"label\" [innerHTML]=\"getLabel()\"></span>\n\t\t\t<svg class=\"icon icon--caret-right\"><use xlink:href=\"#caret-right\"></use></svg>\n\t\t</span>\n\t\t<div class=\"dropdown\" [dropdown-item]=\"dropdownId\">\n\t\t\t<div class=\"category\" [innerHTML]=\"label\"></div>\n\t\t\t<ul class=\"nav--dropdown\" [class]=\"{ multiple: filter.multiple }\">\n\t\t\t\t<li *for=\"let item of filter.options\" (click)=\"setOption(item)\"><span [class]=\"{ active: hasOption(item) }\" [innerHTML]=\"item.name\"></span></li>\n\t\t\t</ul>\n\t\t</div>\n\t"
   };
 
   var NaturalFormNewsletterComponent =
