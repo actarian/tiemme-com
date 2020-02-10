@@ -22,7 +22,7 @@ export default class NaturalFormService {
 
 	static get phrase() {
 		const form = this.form;
-		console.log('NaturalFormService.set phrase form', form);
+		// console.log('NaturalFormService.set phrase form', form);
 		let action = form.action.options.find(x => x.id === form.action.value);
 		if (!action) {
 			action = form.action.options[0];

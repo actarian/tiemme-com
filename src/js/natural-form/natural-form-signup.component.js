@@ -62,7 +62,7 @@ export default class NaturalFormSignupComponent extends Component {
 
 	set countryId(countryId) {
 		if (this.countryId_ !== countryId) {
-			console.log('NaturalFormSignupComponent.set countryId', countryId);
+			// console.log('NaturalFormSignupComponent.set countryId', countryId);
 			this.countryId_ = countryId;
 			const provinces = this.data.provinces.filter(province => {
 				return String(province.idstato) === String(countryId);

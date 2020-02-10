@@ -83,7 +83,7 @@ export default class AgentsComponent extends Component {
 				label: x,
 			}
 		});
-		console.log(JSON.stringify(provinces));
+		// console.log(JSON.stringify(provinces));
 	}
 	*/
 

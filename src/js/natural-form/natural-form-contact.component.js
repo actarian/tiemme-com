@@ -61,7 +61,7 @@ export default class NaturalFormContactComponent extends Component {
 
 	set countryId(countryId) {
 		if (this.countryId_ !== countryId) {
-			console.log('NaturalFormContactComponent.set countryId', countryId);
+			// console.log('NaturalFormContactComponent.set countryId', countryId);
 			this.countryId_ = countryId;
 			const provinces = this.data.provinces.filter(province => {
 				return String(province.idstato) === String(countryId);

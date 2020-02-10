@@ -27,7 +27,7 @@ export default class ClubModalComponent extends ClubComponent {
 
 	/*
 	onDestroy() {
-		console.log('ClubModalComponent.onDestroy');
+		// console.log('ClubModalComponent.onDestroy');
 	}
 	*/
 

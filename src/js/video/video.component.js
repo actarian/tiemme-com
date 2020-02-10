@@ -59,7 +59,7 @@ export default class VideoComponent extends Component {
 	}
 
 	togglePlay() {
-		console.log('VideoComponent.togglePlay')
+		// console.log('VideoComponent.togglePlay')
 		const video = this.video;
 		if (video) {
 			if (video.paused) {

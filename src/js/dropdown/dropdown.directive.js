@@ -34,7 +34,7 @@ export default class DropdownDirective extends Directive {
 
 	onClick(event) {
 		const { node } = getContext(this);
-		console.log(node.querySelector('[dropdown-item]'));
+		// console.log(node.querySelector('[dropdown-item]'));
 		if (this.opened === null) {
 			this.openDropdown();
 		} else if (this.trigger !== node) {

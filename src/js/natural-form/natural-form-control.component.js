@@ -92,7 +92,7 @@ export default class NaturalFormControlComponent extends Component {
 	getLabel() {
 		let value = this.filter.value;
 		const items = this.filter.options || [];
-		console.log(value, this.filter);
+		// console.log(value, this.filter);
 		if (this.filter.multiple) {
 			value = value || [];
 			if (value.length) {

@@ -19,7 +19,7 @@ export default class SwiperListingDirective extends SwiperDirective {
 			},
 		};
 		this.init_();
-		console.log('SwiperListingDirective.onInit');
+		// console.log('SwiperListingDirective.onInit');
 	}
 
 }

@@ -32,7 +32,7 @@ export default class ControlFileComponent extends ControlComponent {
 		const content = event.target.result;
 		this.file.content = content;
 		this.control.value = this.file;
-		console.log('ControlFileComponent.onReaderComplete', this.file);
+		// console.log('ControlFileComponent.onReaderComplete', this.file);
 		// image/*,
 	}
 

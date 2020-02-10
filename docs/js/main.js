@@ -513,7 +513,7 @@
     			label: x,
     		}
     	});
-    	console.log(JSON.stringify(provinces));
+    	// console.log(JSON.stringify(provinces));
     }
     */
     ;
@@ -1088,7 +1088,7 @@
     }
     /*
     onDestroy() {
-    	console.log('ClubModalComponent.onDestroy');
+    	// console.log('ClubModalComponent.onDestroy');
     }
     */
     ;
@@ -1229,7 +1229,7 @@
       key: "countryId",
       set: function set(countryId) {
         if (this.countryId_ !== countryId) {
-          console.log('ClubProfileComponent.set countryId', countryId);
+          // console.log('ClubProfileComponent.set countryId', countryId);
           this.countryId_ = countryId;
           var provinces = this.data.provinces.filter(function (province) {
             return String(province.idstato) === String(countryId);
@@ -1455,7 +1455,7 @@
       key: "countryId",
       set: function set(countryId) {
         if (this.countryId_ !== countryId) {
-          console.log('ClubSignupComponent.set countryId', countryId);
+          // console.log('ClubSignupComponent.set countryId', countryId);
           this.countryId_ = countryId;
           var provinces = this.data.provinces.filter(function (province) {
             return String(province.idstato) === String(countryId);
@@ -1513,9 +1513,8 @@
 
     _proto.onClick = function onClick(event) {
       var _getContext2 = rxcomp.getContext(this),
-          node = _getContext2.node;
+          node = _getContext2.node; // console.log(node.querySelector('[dropdown-item]'));
 
-      console.log(node.querySelector('[dropdown-item]'));
 
       if (this.opened === null) {
         this.openDropdown();
@@ -1872,8 +1871,8 @@
     _proto.onReaderComplete = function onReaderComplete(event) {
       var content = event.target.result;
       this.file.content = content;
-      this.control.value = this.file;
-      console.log('ControlFileComponent.onReaderComplete', this.file); // image/*,
+      this.control.value = this.file; // console.log('ControlFileComponent.onReaderComplete', this.file);
+      // image/*,
     };
 
     return ControlFileComponent;
@@ -2093,7 +2092,7 @@
     };
 
     _proto.onDropped = function onDropped(id) {
-      console.log('HeaderComponent.onDropped', id);
+      // console.log('HeaderComponent.onDropped', id);
       this.submenu = id;
       this.pushChanges();
     };
@@ -2394,8 +2393,8 @@
     }, {
       key: "phrase",
       get: function get() {
-        var form = this.form;
-        console.log('NaturalFormService.set phrase form', form);
+        var form = this.form; // console.log('NaturalFormService.set phrase form', form);
+
         var action = form.action.options.find(function (x) {
           return x.id === form.action.value;
         });
@@ -2570,7 +2569,7 @@
       key: "countryId",
       set: function set(countryId) {
         if (this.countryId_ !== countryId) {
-          console.log('NaturalFormContactComponent.set countryId', countryId);
+          // console.log('NaturalFormContactComponent.set countryId', countryId);
           this.countryId_ = countryId;
           var provinces = this.data.provinces.filter(function (province) {
             return String(province.idstato) === String(countryId);
@@ -2691,8 +2690,7 @@
 
     _proto.getLabel = function getLabel() {
       var value = this.filter.value;
-      var items = this.filter.options || [];
-      console.log(value, this.filter);
+      var items = this.filter.options || []; // console.log(value, this.filter);
 
       if (this.filter.multiple) {
         value = value || [];
@@ -3136,7 +3134,7 @@
       key: "countryId",
       set: function set(countryId) {
         if (this.countryId_ !== countryId) {
-          console.log('NaturalFormSignupComponent.set countryId', countryId);
+          // console.log('NaturalFormSignupComponent.set countryId', countryId);
           this.countryId_ = countryId;
           var provinces = this.data.provinces.filter(function (province) {
             return String(province.idstato) === String(countryId);
@@ -3386,7 +3384,7 @@
       key: "countryId",
       set: function set(countryId) {
         if (this.countryId_ !== countryId) {
-          console.log('RequestInfoCommercialComponent.set countryId', countryId);
+          // console.log('RequestInfoCommercialComponent.set countryId', countryId);
           this.countryId_ = countryId;
           var provinces = this.data.provinces.filter(function (province) {
             return String(province.idstato) === String(countryId);
@@ -3627,8 +3625,7 @@
           onlyInViewport: true
         }
       };
-      this.init_();
-      console.log('SwiperListingDirective.onInit');
+      this.init_(); // console.log('SwiperListingDirective.onInit');
     };
 
     return SwiperListingDirective;
@@ -3770,7 +3767,7 @@
     };
 
     _proto.togglePlay = function togglePlay() {
-      console.log('VideoComponent.togglePlay');
+      // console.log('VideoComponent.togglePlay')
       var video = this.video;
 
       if (video) {
@@ -3967,7 +3964,7 @@
     };
 
     _proto.initPlayer = function initPlayer() {
-      console.log('VideoComponent.initPlayer');
+      // console.log('VideoComponent.initPlayer');
       this.player$().pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (player) {
         console.log('YoutubeComponent.player$', player);
       });
@@ -3983,10 +3980,9 @@
 
       var video = node.querySelector('.video');
       return this.id$.pipe(operators.switchMap(function (id) {
-        console.log('YoutubeComponent.videoId', id);
+        // console.log('YoutubeComponent.videoId', id);
         return YoutubeComponent.once$().pipe(operators.map(function (youtube) {
-          console.log('YoutubeComponent.once$', youtube);
-
+          // console.log('YoutubeComponent.once$', youtube);
           _this2.destroyPlayer();
 
           _this2.player = new youtube.Player(video, {
@@ -4059,8 +4055,7 @@
     };
 
     _proto.togglePlay = function togglePlay() {
-      console.log('VideoComponent.togglePlay');
-
+      // console.log('VideoComponent.togglePlay');
       if (this.playing) {
         this.pause();
       } else {
@@ -4069,8 +4064,7 @@
     };
 
     _proto.play = function play() {
-      console.log('VideoComponent.play');
-
+      // console.log('VideoComponent.play');
       if (!this.player) {
         this.initPlayer();
       } else {

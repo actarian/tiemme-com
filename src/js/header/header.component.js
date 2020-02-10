@@ -22,7 +22,7 @@ export default class HeaderComponent extends Component {
 	}
 
 	onDropped(id) {
-		console.log('HeaderComponent.onDropped', id);
+		// console.log('HeaderComponent.onDropped', id);
 		this.submenu = id;
 		this.pushChanges();
 	}

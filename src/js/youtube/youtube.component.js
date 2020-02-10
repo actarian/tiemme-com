@@ -44,7 +44,7 @@ export default class YoutubeComponent extends Component {
 	}
 
 	initPlayer() {
-		console.log('VideoComponent.initPlayer');
+		// console.log('VideoComponent.initPlayer');
 		this.player$().pipe(
 			takeUntil(this.unsubscribe$)
 		).subscribe(player => {
@@ -61,10 +61,10 @@ export default class YoutubeComponent extends Component {
 		const video = node.querySelector('.video');
 		return this.id$.pipe(
 			switchMap(id => {
-				console.log('YoutubeComponent.videoId', id);
+				// console.log('YoutubeComponent.videoId', id);
 				return YoutubeComponent.once$().pipe(
 					map(youtube => {
-						console.log('YoutubeComponent.once$', youtube);
+						// console.log('YoutubeComponent.once$', youtube);
 						this.destroyPlayer();
 						this.player = new youtube.Player(video, {
 							width: node.offsetWidth,
@@ -138,7 +138,7 @@ export default class YoutubeComponent extends Component {
 	}
 
 	togglePlay() {
-		console.log('VideoComponent.togglePlay');
+		// console.log('VideoComponent.togglePlay');
 		if (this.playing) {
 			this.pause();
 		} else {
@@ -147,7 +147,7 @@ export default class YoutubeComponent extends Component {
 	}
 
 	play() {
-		console.log('VideoComponent.play');
+		// console.log('VideoComponent.play');
 		if (!this.player) {
 			this.initPlayer();
 		} else {
