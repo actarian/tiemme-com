@@ -37,7 +37,7 @@ export default class NaturalFormSearchComponent extends Component {
 					<span class="natural-form__control" natural-form-control [filter]="naturalForm.${x}" [label]="naturalForm.${x}.label" (change)="onNaturalForm($event)"></span>
 				`;
 					} else {
-						return /* html */ `<button type="button" class="btn--club" (click)="onClub($event)"><svg class="icon icon--user"><use xlink:href="#user"></use></svg> <span>Club Tiemme</span></button>`;
+						return /* html */ `<button type="button" class="btn--club-form" (click)="onClub($event)"><span>Club Tiemme</span></button>`;
 					}
 				});
 			});

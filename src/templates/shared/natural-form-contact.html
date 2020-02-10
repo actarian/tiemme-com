@@ -1,6 +1,6 @@
 <section class="section--form background--tertiary" natural-form-contact (back)="onBack($event)">
 	<div class="container" *if="!submitted">
-		<div class="section--form__title" [innerHTML]="title"></div>
+		<div class="section--form__title"><svg class="icon icon--back" (click)="onBack($event)"><use xlink:href="#back"></use></svg> <span [innerHTML]="title"></span></div>
 		<form class="form" [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">
 			<div class="listing--form-compact">
 				<input name="checkField" [formControl]="controls.checkField" value="" type="text" style="display:none !important;" />
@@ -25,8 +25,8 @@
 		</form>
 	</div>
 	<div class="container" *if="submitted">
-		<div class="section--slides__title">Richiesta Inviata</div>
-		<div class="abstract">
+		<div class="section--form__title"><span>Richiesta Inviata</span></div>
+		<div class="section--form__abstract">
 			Grazie per averci contattato. La tua richiesta è stata inviata correttamente.
 		</div>
 	</div>

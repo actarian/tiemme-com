@@ -20,7 +20,8 @@ export default class NaturalFormControlComponent extends Component {
 
 	onChanges() {
 		if (!this.filter.value) {
-			this.filter.value = this.filter.options[0].id;
+			const firstId = this.filter.options[0].id;
+			this.filter.value = this.filter.multiple ? [firstId] : firstId;
 		}
 	}
 
@@ -57,10 +58,31 @@ export default class NaturalFormControlComponent extends Component {
 
 	setOption(item) {
 		// console.log('setOption', item);
-		this.filter.value = item.id;
+		if (this.filter.multiple) {
+			this.filter.value = this.filter.value || [];
+			const index = this.filter.value.indexOf(item.id);
+			if (index !== -1) {
+				if (this.filter.value.length > 1) {
+					this.filter.value.splice(index, 1);
+				}
+			} else {
+				this.filter.value.push(item.id);
+			}
+		} else {
+			this.filter.value = item.id;
+			DropdownDirective.dropdown$.next(null);
+		}
 		this.change.next(this.filter);
-		DropdownDirective.dropdown$.next(null);
 		this.pushChanges();
+	}
+
+	hasOption(item) {
+		if (this.filter.multiple) {
+			const values = this.filter.value || [];
+			return values.indexOf(item.id) !== -1;
+		} else {
+			return this.filter.value === item.id;
+		}
 	}
 
 	onDropped(id) {
@@ -68,13 +90,26 @@ export default class NaturalFormControlComponent extends Component {
 	}
 
 	getLabel() {
-		const value = this.filter.value;
+		let value = this.filter.value;
 		const items = this.filter.options || [];
-		const item = items.find(x => x.id === value || x.name === value);
-		if (item) {
-			return item.name;
+		console.log(value, this.filter);
+		if (this.filter.multiple) {
+			value = value || [];
+			if (value.length) {
+				return value.map(v => {
+					const item = items.find(x => x.id === v || x.name === v);
+					return item ? item.name : '';
+				}).join(', ');
+			} else {
+				return this.labels.select;
+			}
 		} else {
-			return this.labels.select;
+			const item = items.find(x => x.id === value || x.name === value);
+			if (item) {
+				return item.name;
+			} else {
+				return this.labels.select;
+			}
 		}
 	}
 
@@ -90,14 +125,14 @@ NaturalFormControlComponent.meta = {
 	inputs: ['filter', 'label'],
 	outputs: ['change'],
 	template: /* html */ `
-		<span [dropdown]="dropdownId" (dropped)="onDropped($event)">
+		<span [dropdown]="dropdownId" dropdown-trigger=".label" (dropped)="onDropped($event)">
 			<span class="label" [innerHTML]="getLabel()"></span>
 			<svg class="icon icon--caret-right"><use xlink:href="#caret-right"></use></svg>
 		</span>
 		<div class="dropdown" [dropdown-item]="dropdownId">
 			<div class="category" [innerHTML]="label"></div>
-			<ul class="nav--dropdown">
-				<li *for="let item of filter.options" (click)="setOption(item)"><span [innerHTML]="item.name"></span></li>
+			<ul class="nav--dropdown" [class]="{ multiple: filter.multiple }">
+				<li *for="let item of filter.options" (click)="setOption(item)"><span [class]="{ active: hasOption(item) }" [innerHTML]="item.name"></span></li>
 			</ul>
 		</div>
 	`

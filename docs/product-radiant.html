@@ -933,6 +933,9 @@
 	<symbol id="user" viewBox="0 0 24 24">
 		<path d="M20.822 18.096c-3.439-.794-6.64-1.49-5.09-4.418C20.452 4.766 16.983 0 12 0 6.918 0 3.536 4.949 8.268 13.678c1.597 2.945-1.725 3.641-5.09 4.418C.105 18.806-.01 20.332 0 23l.004 1h23.99l.004-.969c.012-2.688-.092-4.222-3.176-4.935z"></path>
 	</symbol>
+	<symbol id="back" viewBox="0 0 24 24">
+		<path d="M2.117 12l7.527 6.235L9 19l-9-7.521L9 4l.645.764L2.116 11H24v1H2.117z" fill-rule="evenodd" clip-rule="evenodd"></path>
+	</symbol>
 </svg>
 
 <!-- end svg.html-->
@@ -1523,11 +1526,12 @@
 		interest: {
 			label: 'Riguardo a',
 			placeholder: 'Seleziona',
+			multiple: true,
 			options: [
-				{ id: "Componenti Idraulici", name: "Componenti Idraulici" },
-				{ id: "Centrale Termica", name: "Centrale Termica" },
-				{ id: "Sistemi Radianti", name: "Sistemi Radianti" },
-				{ id: "Rubinetti", name: "Rubinetti" },
+				{ id: 1, name: "Componenti Idraulici" },
+				{ id: 2, name: "Centrale Termica" },
+				{ id: 3, name: "Sistemi Radianti" },
+				{ id: 4, name: "Rubinetti" },
 			]
 		},
 		newsletter: {
@@ -1561,7 +1565,7 @@
 <!-- start natural-form-contact.html-->
 <section class="section--form background--tertiary" natural-form-contact (back)="onBack($event)">
 	<div class="container" *if="!submitted">
-		<div class="section--form__title" [innerHTML]="title"></div>
+		<div class="section--form__title"><svg class="icon icon--back" (click)="onBack($event)"><use xlink:href="#back"></use></svg> <span [innerHTML]="title"></span></div>
 		<form class="form" [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">
 			<div class="listing--form-compact">
 				<input name="checkField" [formControl]="controls.checkField" value="" type="text" style="display:none !important;" />
@@ -1586,8 +1590,8 @@
 		</form>
 	</div>
 	<div class="container" *if="submitted">
-		<div class="section--slides__title">Richiesta Inviata</div>
-		<div class="abstract">
+		<div class="section--form__title"><span>Richiesta Inviata</span></div>
+		<div class="section--form__abstract">
 			Grazie per averci contattato. La tua richiesta è stata inviata correttamente.
 		</div>
 	</div>
@@ -1599,7 +1603,7 @@
 <!-- start natural-form-newsletter.html-->
 <section class="section--form background--tertiary" natural-form-newsletter (back)="onBack($event)">
 	<div class="container" *if="!submitted">
-		<div class="section--form__title" [innerHTML]="title"></div>
+		<div class="section--form__title"><svg class="icon icon--back" (click)="onBack($event)"><use xlink:href="#back"></use></svg> <span [innerHTML]="title"></span></div>
 		<form class="form" [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">
 			<div class="listing--form-compact">
 				<input name="checkField" [formControl]="controls.checkField" value="" type="text" style="display:none !important;" />
@@ -1608,6 +1612,7 @@
 				<div control-text [control]="controls.email" label="Email"></div>
 				<div control-text [control]="controls.company" label="Azienda"></div>
 				<div control-checkbox [control]="controls.privacy" label="Ho letto l&amp;#39;&amp;lt;a href=&amp;quot;/it/azienda/pagineinterne/informativa_sulla_privacy/&amp;quot; target=&amp;quot;_blank&amp;quot;&gt;informativa&amp;lt;/a&gt; e do il consenso al trattamento del dato"></div>
+				<div control-checkbox [control]="controls.newsletter" label="Voglio iscrivermi alla newsletter TIEMME"></div>
 			</div>
 			<div class="group--cta">
 				<button type="submit" class="btn--back" (click)="onBack($event)"><span>Indietro</span></button>
@@ -1620,8 +1625,8 @@
 		</form>
 	</div>
 	<div class="container" *if="submitted">
-		<div class="section--slides__title">Richiesta Inviata</div>
-		<div class="abstract">
+		<div class="section--form__title"><span>Richiesta Inviata</span></div>
+		<div class="section--form__abstract">
 			Grazie per averci contattato. La tua richiesta è stata inviata correttamente.
 		</div>
 	</div>
@@ -1633,7 +1638,7 @@
 <!-- start natural-form-signup.html-->
 <section class="section--form background--tertiary" natural-form-signup (back)="onBack($event)">
 	<div class="container" *if="!submitted">
-		<div class="section--form__title" [innerHTML]="title"></div>
+		<div class="section--form__title"><svg class="icon icon--back" (click)="onBack($event)"><use xlink:href="#back"></use></svg> <span [innerHTML]="title"></span></div>
 		<form class="form" [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">
 			<div class="listing--form-compact">
 				<input name="checkField" [formControl]="controls.checkField" value="" type="text" style="display:none !important;" />
@@ -1665,8 +1670,8 @@
 		</form>
 	</div>
 	<div class="container" *if="submitted">
-		<div class="section--slides__title">Richiesta Inviata</div>
-		<div class="abstract">
+		<div class="section--form__title"><span>Richiesta Inviata</span></div>
+		<div class="section--form__abstract">
 			Grazie per averci contattato. La tua richiesta è stata inviata correttamente.
 		</div>
 	</div>

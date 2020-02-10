@@ -31,20 +31,34 @@ export default class NaturalFormService {
 	}
 
 	static get title() {
-		let title = this.phrase;
+		let phrase = this.phrase;
 		const form = this.form;
 		Object.keys(form).forEach(key => {
+			let label;
 			const filter = this.form[key];
-			const value = filter.value;
+			let value = filter.value;
 			const items = filter.options || [];
-			const item = items.find(x => x.id === value || x.name === value);
-			if (item) {
-				title = title.replace(`$${key}$`, item.name);
+			if (filter.multiple) {
+				value = value || [];
+				if (value.length) {
+					label = value.map(v => {
+						const item = items.find(x => x.id === v || x.name === v);
+						return item ? item.name : '';
+					}).join(', ');
+				} else {
+					label = filter.label;
+				}
 			} else {
-				title = title.replace(`$${key}$`, filter.label);
+				const item = items.find(x => x.id === value || x.name === value);
+				if (item) {
+					label = item.name;
+				} else {
+					label = filter.label;
+				}
 			}
+			phrase = phrase.replace(`$${key}$`, label);
 		});
-		return title;
+		return phrase;
 	}
 
 	static get clubProfileUrl() {

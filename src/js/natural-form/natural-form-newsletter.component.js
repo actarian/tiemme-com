@@ -29,7 +29,7 @@ export default class NaturalFormNewsletterComponent extends Component {
 			email: new FormControl(null, [Validators.RequiredValidator(), Validators.EmailValidator()]),
 			company: new FormControl(null, Validators.RequiredValidator()),
 			privacy: new FormControl(null, Validators.RequiredTrueValidator()),
-			newsletter: true,
+			newsletter: new FormControl(true, Validators.RequiredTrueValidator()),
 			checkRequest: window.antiforgery,
 			checkField: '',
 		});

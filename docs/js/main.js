@@ -1515,6 +1515,8 @@
       var _getContext2 = rxcomp.getContext(this),
           node = _getContext2.node;
 
+      console.log(node.querySelector('[dropdown-item]'));
+
       if (this.opened === null) {
         this.openDropdown();
       } else if (this.trigger !== node) {
@@ -2409,23 +2411,42 @@
       get: function get() {
         var _this = this;
 
-        var title = this.phrase;
+        var phrase = this.phrase;
         var form = this.form;
         Object.keys(form).forEach(function (key) {
+          var label;
           var filter = _this.form[key];
           var value = filter.value;
           var items = filter.options || [];
-          var item = items.find(function (x) {
-            return x.id === value || x.name === value;
-          });
 
-          if (item) {
-            title = title.replace("$" + key + "$", item.name);
+          if (filter.multiple) {
+            value = value || [];
+
+            if (value.length) {
+              label = value.map(function (v) {
+                var item = items.find(function (x) {
+                  return x.id === v || x.name === v;
+                });
+                return item ? item.name : '';
+              }).join(', ');
+            } else {
+              label = filter.label;
+            }
           } else {
-            title = title.replace("$" + key + "$", filter.label);
+            var item = items.find(function (x) {
+              return x.id === value || x.name === value;
+            });
+
+            if (item) {
+              label = item.name;
+            } else {
+              label = filter.label;
+            }
           }
+
+          phrase = phrase.replace("$" + key + "$", label);
         });
-        return title;
+        return phrase;
       }
     }, {
       key: "clubProfileUrl",
@@ -2591,7 +2612,8 @@
 
     _proto.onChanges = function onChanges() {
       if (!this.filter.value) {
-        this.filter.value = this.filter.options[0].id;
+        var firstId = this.filter.options[0].id;
+        this.filter.value = this.filter.multiple ? [firstId] : firstId;
       }
     };
 
@@ -2635,10 +2657,33 @@
 
     _proto.setOption = function setOption(item) {
       // console.log('setOption', item);
-      this.filter.value = item.id;
+      if (this.filter.multiple) {
+        this.filter.value = this.filter.value || [];
+        var index = this.filter.value.indexOf(item.id);
+
+        if (index !== -1) {
+          if (this.filter.value.length > 1) {
+            this.filter.value.splice(index, 1);
+          }
+        } else {
+          this.filter.value.push(item.id);
+        }
+      } else {
+        this.filter.value = item.id;
+        DropdownDirective.dropdown$.next(null);
+      }
+
       this.change.next(this.filter);
-      DropdownDirective.dropdown$.next(null);
       this.pushChanges();
+    };
+
+    _proto.hasOption = function hasOption(item) {
+      if (this.filter.multiple) {
+        var values = this.filter.value || [];
+        return values.indexOf(item.id) !== -1;
+      } else {
+        return this.filter.value === item.id;
+      }
     };
 
     _proto.onDropped = function onDropped(id) {// console.log('NaturalFormControlComponent.onDropped', id);
@@ -2647,14 +2692,31 @@
     _proto.getLabel = function getLabel() {
       var value = this.filter.value;
       var items = this.filter.options || [];
-      var item = items.find(function (x) {
-        return x.id === value || x.name === value;
-      });
+      console.log(value, this.filter);
 
-      if (item) {
-        return item.name;
+      if (this.filter.multiple) {
+        value = value || [];
+
+        if (value.length) {
+          return value.map(function (v) {
+            var item = items.find(function (x) {
+              return x.id === v || x.name === v;
+            });
+            return item ? item.name : '';
+          }).join(', ');
+        } else {
+          return this.labels.select;
+        }
       } else {
-        return this.labels.select;
+        var item = items.find(function (x) {
+          return x.id === value || x.name === value;
+        });
+
+        if (item) {
+          return item.name;
+        } else {
+          return this.labels.select;
+        }
       }
     };
 
@@ -2671,7 +2733,7 @@
     outputs: ['change'],
     template:
     /* html */
-    "\n\t\t<span [dropdown]=\"dropdownId\" (dropped)=\"onDropped($event)\">\n\t\t\t<span class=\"label\" [innerHTML]=\"getLabel()\"></span>\n\t\t\t<svg class=\"icon icon--caret-right\"><use xlink:href=\"#caret-right\"></use></svg>\n\t\t</span>\n\t\t<div class=\"dropdown\" [dropdown-item]=\"dropdownId\">\n\t\t\t<div class=\"category\" [innerHTML]=\"label\"></div>\n\t\t\t<ul class=\"nav--dropdown\">\n\t\t\t\t<li *for=\"let item of filter.options\" (click)=\"setOption(item)\"><span [innerHTML]=\"item.name\"></span></li>\n\t\t\t</ul>\n\t\t</div>\n\t"
+    "\n\t\t<span [dropdown]=\"dropdownId\" dropdown-trigger=\".label\" (dropped)=\"onDropped($event)\">\n\t\t\t<span class=\"label\" [innerHTML]=\"getLabel()\"></span>\n\t\t\t<svg class=\"icon icon--caret-right\"><use xlink:href=\"#caret-right\"></use></svg>\n\t\t</span>\n\t\t<div class=\"dropdown\" [dropdown-item]=\"dropdownId\">\n\t\t\t<div class=\"category\" [innerHTML]=\"label\"></div>\n\t\t\t<ul class=\"nav--dropdown\" [class]=\"{ multiple: filter.multiple }\">\n\t\t\t\t<li *for=\"let item of filter.options\" (click)=\"setOption(item)\"><span [class]=\"{ active: hasOption(item) }\" [innerHTML]=\"item.name\"></span></li>\n\t\t\t</ul>\n\t\t</div>\n\t"
   };
 
   var NaturalFormNewsletterComponent =
@@ -2707,7 +2769,7 @@
         email: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator(), rxcompForm.Validators.EmailValidator()]),
         company: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
         privacy: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredTrueValidator()),
-        newsletter: true,
+        newsletter: new rxcompForm.FormControl(true, rxcompForm.Validators.RequiredTrueValidator()),
         checkRequest: window.antiforgery,
         checkField: ''
       });
@@ -2906,7 +2968,7 @@
               } else {
                 return (
                   /* html */
-                  "<button type=\"button\" class=\"btn--club\" (click)=\"onClub($event)\"><svg class=\"icon icon--user\"><use xlink:href=\"#user\"></use></svg> <span>Club Tiemme</span></button>"
+                  "<button type=\"button\" class=\"btn--club-form\" (click)=\"onClub($event)\"><span>Club Tiemme</span></button>"
                 );
               }
             });
