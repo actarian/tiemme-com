@@ -63,7 +63,7 @@
 			<div class="content"></div>
 		</div>
 		<div class="group--cta">
-			<button type="button" class="btn--back" (click)="onNext($event)"><span>Prosegui</span></button>
+			<button type="button" class="btn--back" [class]="{ disabled: values.action == undefined }" (click)="onNext($event)"><span>Prosegui</span></button>
 		</div>
 	</div>
 	<div *if="view == views.TECHNICAL || view == views.COMMERCIAL">

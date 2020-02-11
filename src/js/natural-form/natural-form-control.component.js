@@ -19,10 +19,12 @@ export default class NaturalFormControlComponent extends Component {
 	}
 
 	onChanges() {
+		/*
 		if (!this.filter.value) {
 			const firstId = this.filter.options[0].id;
 			this.filter.value = this.filter.multiple ? [firstId] : firstId;
 		}
+		*/
 	}
 
 	keyboard$() {
@@ -101,14 +103,14 @@ export default class NaturalFormControlComponent extends Component {
 					return item ? item.name : '';
 				}).join(', ');
 			} else {
-				return this.labels.select;
+				return '...'; // this.labels.select;
 			}
 		} else {
 			const item = items.find(x => x.id === value || x.name === value);
 			if (item) {
 				return item.name;
 			} else {
-				return this.labels.select;
+				return '...'; // this.labels.select;
 			}
 		}
 	}

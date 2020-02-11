@@ -160,6 +160,11 @@ button,
 	}
 }
 
+.disabled {
+	pointer-events: none;
+	opacity: 0.5;
+}
+
 .btn--sticky {
 	display: block;
 	width: 100%;

@@ -22,6 +22,13 @@ export default class NaturalFormComponent extends Component {
 			this.user = user;
 			this.pushChanges();
 		});
+		NaturalFormService.form$.pipe(
+			takeUntil(this.unsubscribe$)
+		).subscribe(form => {
+			console.log(NaturalFormService.values);
+			this.values = NaturalFormService.values;
+			this.pushChanges();
+		});
 		// console.log('NaturalFormComponent.onInit', this.naturalForm);
 	}
 

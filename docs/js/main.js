@@ -2379,8 +2379,11 @@
       get: function get() {
         var values = {};
         var form = this.form;
+        var phrase = this.phrase;
         Object.keys(this.form).forEach(function (key) {
-          values[key] = form[key].value;
+          if (phrase.indexOf("$" + key + "$") !== -1) {
+            values[key] = form[key].value;
+          }
         });
         return values;
       }
@@ -2612,10 +2615,12 @@
     };
 
     _proto.onChanges = function onChanges() {
+      /*
       if (!this.filter.value) {
-        var firstId = this.filter.options[0].id;
-        this.filter.value = this.filter.multiple ? [firstId] : firstId;
+      	const firstId = this.filter.options[0].id;
+      	this.filter.value = this.filter.multiple ? [firstId] : firstId;
       }
+      */
     };
 
     _proto.keyboard$ = function keyboard$() {
@@ -2705,7 +2710,7 @@
             return item ? item.name : '';
           }).join(', ');
         } else {
-          return this.labels.select;
+          return '...'; // this.labels.select;
         }
       } else {
         var item = items.find(function (x) {
@@ -2715,7 +2720,7 @@
         if (item) {
           return item.name;
         } else {
-          return this.labels.select;
+          return '...'; // this.labels.select;
         }
       }
     };
@@ -3179,6 +3184,12 @@
       this.view = this.views.NATURAL;
       UserService.user$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (user) {
         _this.user = user;
+
+        _this.pushChanges();
+      });
+      NaturalFormService.form$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (form) {
+        console.log(NaturalFormService.values);
+        _this.values = NaturalFormService.values;
 
         _this.pushChanges();
       }); // console.log('NaturalFormComponent.onInit', this.naturalForm);

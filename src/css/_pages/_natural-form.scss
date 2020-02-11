@@ -79,6 +79,10 @@
 		color: $foreground;
 	}
 
+	.label {
+		min-width: 100px;
+	}
+
 	.icon--caret-right {
 		margin-left: 10px;
 	}

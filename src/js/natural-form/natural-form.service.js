@@ -6,8 +6,11 @@ export default class NaturalFormService {
 	static get values() {
 		const values = {};
 		const form = this.form;
+		const phrase = this.phrase;
 		Object.keys(this.form).forEach(key => {
-			values[key] = form[key].value;
+			if (phrase.indexOf(`$${key}$`) !== -1) {
+				values[key] = form[key].value;
+			}
 		});
 		return values;
 	}
