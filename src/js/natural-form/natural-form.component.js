@@ -25,7 +25,7 @@ export default class NaturalFormComponent extends Component {
 		NaturalFormService.form$.pipe(
 			takeUntil(this.unsubscribe$)
 		).subscribe(form => {
-			console.log(NaturalFormService.values);
+			// console.log(NaturalFormService.values);
 			this.values = NaturalFormService.values;
 			this.pushChanges();
 		});

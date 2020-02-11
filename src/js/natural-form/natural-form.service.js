@@ -49,14 +49,14 @@ export default class NaturalFormService {
 						return item ? item.name : '';
 					}).join(', ');
 				} else {
-					label = filter.label;
+					label = items.length ? '...' : filter.label;
 				}
 			} else {
 				const item = items.find(x => x.id === value || x.name === value);
 				if (item) {
 					label = item.name;
 				} else {
-					label = filter.label;
+					label = items.length ? '...' : filter.label;
 				}
 			}
 			phrase = phrase.replace(`$${key}$`, label);

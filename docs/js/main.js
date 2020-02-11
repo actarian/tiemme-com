@@ -2434,7 +2434,7 @@
                 return item ? item.name : '';
               }).join(', ');
             } else {
-              label = filter.label;
+              label = items.length ? '...' : filter.label;
             }
           } else {
             var item = items.find(function (x) {
@@ -2444,7 +2444,7 @@
             if (item) {
               label = item.name;
             } else {
-              label = filter.label;
+              label = items.length ? '...' : filter.label;
             }
           }
 
@@ -3188,7 +3188,7 @@
         _this.pushChanges();
       });
       NaturalFormService.form$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (form) {
-        console.log(NaturalFormService.values);
+        // console.log(NaturalFormService.values);
         _this.values = NaturalFormService.values;
 
         _this.pushChanges();
