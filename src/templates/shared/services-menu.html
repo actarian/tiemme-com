@@ -1,0 +1,32 @@
+<div class="sticky--menu" main-menu>
+	<section class="section--menu" [class]="{ active: sticky }">
+		<div class="container-fluid">
+			<ul class="nav--menu nav--menu--primary">
+				<li>
+					<a href="/tiemme-com/news.html" class="<!--@@var=a-->">
+						<span>BIM</span>
+					</a>
+				</li>
+				<li>
+					<a href="/tiemme-com/events.html" class="<!--@@var=b-->">
+						<span>Experience</span>
+					</a>
+				</li>
+				<li>
+					<a href="/tiemme-com/achievements.html" class="<!--@@var=c-->">
+						<span>Tiemme Lab</span>
+					</a>
+				</li>
+				<li>
+					<a href="/tiemme-com/services-warranty.html" class="<!--@@var=d-->">
+						<span>Garanzia ZERO10</span>
+					</a>
+				</li>
+				<li class="group--search">
+					<svg class="icon icon--search"><use xlink:href="#search"></use></svg> <input class="form--control" placeholder="cerca..." />
+				</li>
+			</ul>
+			<button type="button" class="btn--sticky" (click)="onToggleSticky($event)"><span>Comunicazione</span></button>
+		</div>
+	</section>
+</div>

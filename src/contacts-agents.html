@@ -679,9 +679,9 @@
 							<div class="title" [innerHTML]="item.name"></div>
 							<div class="address" [innerHTML]="item.address"></div>
 						</div>
-						<div class="dati">
-							<div class="phone"><i class="fas fa-phone"></i> <span [innerHTML]="item.telephone"></span></div>
-							<div class="mail"><i class="fas fa-envelope"></i> <a [href]="'mailto:' + item.email" [innerHTML]="item.email"></a></div>
+						<div class="group--datas">
+							<div class="phone"><svg class="icon icon--telephone"><use xlink:href="#telephone"></use></svg> <span [innerHTML]="item.telephone"></span></div>
+							<div class="email"><svg class="icon icon--email"><use xlink:href="#email"></use></svg> <a class="btn--link" [href]="'mailto:' + item.email" [innerHTML]="item.email"></a></div>
 						</div>
 						<div>
 							<div class="location">

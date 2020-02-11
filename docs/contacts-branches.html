@@ -1226,97 +1226,119 @@
 <!-- start main -->
 <section class="section--hero-secondary">
 	<div class="background">
-		<img lazy="/tiemme-com/img/news/hero-news.jpg" />
+		<img lazy="/tiemme-com/img/contacts/work-with-us/hero-02.jpg" />
 	</div>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-10">
-				<div class="category">Comunicazione</div>
-				<div class="title">News</div>
+				<div class="category">Contatti</div>
+				<div class="title">Filiali</div>
 			</div>
 		</div>
 	</div>
 </section>
 
-<!-- start communication-menu.html-->
+<!-- start contacts-menu.html-->
 <div class="sticky--menu" main-menu>
 	<section class="section--menu" [class]="{ active: sticky }">
 		<div class="container-fluid">
 			<ul class="nav--menu nav--menu--primary">
 				<li>
-					<a href="/tiemme-com/news.html" class="active">
-						<span>News</span>
+					<a href="/tiemme-com/contacts-contact-us.html" class="">
+						<span>Contattaci</span>
 					</a>
 				</li>
 				<li>
-					<a href="/tiemme-com/events.html" class="">
-						<span>Eventi e Fiere</span>
+					<a href="/tiemme-com/contacts-branches.html" class="">
+						<span>Filiali</span>
 					</a>
 				</li>
 				<li>
-					<a href="/tiemme-com/achievements.html" class="">
-						<span>Realizzazioni</span>
+					<a href="/tiemme-com/contacts-agents.html" class="active">
+						<span>Cerca un agente</span>
+					</a>
+				</li>
+				<li>
+					<a href="/tiemme-com/contacts-work-with-us.html" class="">
+						<span>Lavora con noi</span>
 					</a>
 				</li>
 				<li class="group--search">
 					<svg class="icon icon--search"><use xlink:href="#search"></use></svg> <input class="form--control" placeholder="cerca..." />
 				</li>
 			</ul>
-			<button type="button" class="btn--sticky" (click)="onToggleSticky($event)"><span>Comunicazione</span></button>
+			<button type="button" class="btn--sticky" (click)="onToggleSticky($event)"><span>Contatti</span></button>
 		</div>
 	</section>
 </div>
 
-<!-- end communication-menu.html-->
+<!-- end contacts-menu.html-->
 
-<!-- start listing-news.html-->
-<section class="section--news">
+<section class="section--agents">
 	<div class="container">
-		<div class="listing--news">
-			<a href="/tiemme-com/news-detail.html" class="card--news" appear>
-				<div class="picture picture--news">
-					<img lazy="/tiemme-com/img/news/news-06.jpg" />
-					<div class="date">11 giu 2018</div>
-				</div>
-				<div class="content">
-					<div class="title">Raccordo a pressare serie 1650 “COBRAPRESS” per tubo multistrato Ø 90 mm</div>
-					<div class="abstract">
-						<p>Dopo l’introduzione, a marzo 2017, dei raccordi a pressare serie 1650 “COBRAPRESS” Ø 75 mm, Tiemme arricchisce ulteriormente la famiglia inserendo una gamma completa di figure...</p>
-						<button type="button" class="btn--link"><span>dettaglio</span></button>
+		<div class="row">
+			<div class="col-md-10 offset-md-1">
+				<!-- results -->
+				<div class="card--agent">
+					<div class="sx">
+						<div>
+							<div class="title">Filiale Spagna</div>
+							<div class="address"><b>SISTEMAS TIEMME S.L.U.</b><br />C/Mitjera, 4 (Pol. Ind. del Mediterráneo)<br />46550 Albuixech (Valencia) – Spagna</div>
+						</div>
+						<div class="group--datas">
+							<div class="phone"><svg class="icon icon--telephone"><use xlink:href="#telephone"></use></svg> <span>Tel. +34 961417570</span></div>
+							<div class="fax"><svg class="icon icon--fax"><use xlink:href="#fax"></use></svg> <span>Fax. +34961417573</span></div>
+							<div class="email"><svg class="icon icon--email"><use xlink:href="#email"></use></svg> <a class="btn--link" href="mailto:tiemme.sistemas@tiemme.com">tiemme.sistemas@tiemme.com</a></div>
+							<div class="map"><svg class="icon icon--map"><use xlink:href="#map"></use></svg> <a class="btn--link" href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d393635.38810893544!2d-0.2068022380565246!3d39.57591904309944!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd604714fed0ac3d%3A0xe3fbcd1a49408c8a!2sSistemas+Tiemme+S.L.!5e0!3m2!1sit!2sit!4v1396599541972" target="_blank">Visualizza sulla mappa</a></div>
+						</div>
+					</div>
+					<div class="dx">
+						<ul class="settori">
+						</ul>
+						<a href="mailto:tiemme.sistemas@tiemme.com" class="btn--cta link">Contatta Filiale</a>
 					</div>
 				</div>
-			</a>
-			<a href="/tiemme-com/news-detail.html" class="card--news" appear>
-				<div class="picture picture--news">
-					<img lazy="/tiemme-com/img/news/news-07.jpg" />
-					<div class="date">10 apr 2018</div>
-				</div>
-				<div class="content">
-					<div class="title">Miscelatori termostatici per impianti sanitari e solari art.473x e 473xSUN</div>
-					<div class="abstract">
-						<p>Nell’ottica di offrire un catalogo prodotti sempre più ampio e completo, Tiemme ha rivisto e incrementato la proposta di miscelatori termostatici, realizzando una nuova famiglia di articoli...</p>
-						<button type="button" class="btn--link"><span>dettaglio</span></button>
+				<div class="card--agent">
+					<div class="sx">
+						<div>
+							<div class="title">Filiale Romania</div>
+							<div class="address"><b>TIEMME SYSTEMS S.R.L.</b><br />Ieșire Autostrada Bucuresti-Pitesti KM 23<br />Str. Rasaritului nr. 7 Bolintin-Deal 087015,<br />Jud. Giurgiu – Romania</div>
+						</div>
+						<div class="group--datas">
+							<div class="phone"><svg class="icon icon--telephone"><use xlink:href="#telephone"></use></svg> <span>Tel. +40 0213115160</span></div>
+							<div class="email"><svg class="icon icon--email"><use xlink:href="#email"></use></svg> <a class="btn--link" href="mailto:tiemmesystems@tiemme.com">tiemmesystems@tiemme.com</a></div>
+							<div class="map"><svg class="icon icon--map"><use xlink:href="#map"></use></svg> <a class="btn--link" href="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d2960.7437588856824!2d25.845503399999785!3d44.46292097730898!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sen!2s!4v1404718375380" target="_blank">Visualizza sulla mappa</a></div>
+						</div>
+					</div>
+					<div class="dx">
+						<ul class="settori">
+						</ul>
+						<a href="mailto:tiemme.sistemas@tiemme.com" class="btn--cta link">Contatta Filiale</a>
 					</div>
 				</div>
-			</a>
-			<a href="/tiemme-com/news-detail.html" class="card--news" appear>
-				<div class="picture picture--news">
-					<img lazy="/tiemme-com/img/news/news-08.jpg" />
-					<div class="date">6 apr 2018</div>
-				</div>
-				<div class="content">
-					<div class="title">Nuova gamma riduttori di pressione per impianti domestici ed industriali art.3107N - 3108N e 3110N</div>
-					<div class="abstract">
-						<p>Normalmente la rete di distribuzione dell’acqua presenta una pressione del fluido troppo alta e variabile che necessita, di conseguenza, di una riduzione e una stabilizzazione per poter alimentare...</p>
-						<button type="button" class="btn--link"><span>dettaglio</span></button>
+				<div class="card--agent">
+					<div class="sx">
+						<div>
+							<div class="title">Filiale Grecia</div>
+							<div class="address"><b>TIEMME HELLAS S.A.</b><br />Thesi Drassaria<br /> 19300 Aspropyrgos – Grecia</div>
+						</div>
+						<div class="group--datas">
+							<div class="phone"><svg class="icon icon--telephone"><use xlink:href="#telephone"></use></svg> <span>Tel. +30 2105571500</span></div>
+							<div class="website"><svg class="icon icon--website"><use xlink:href="#website"></use></svg> <a class="btn--link" href="//www.tiemme.gr" target="_blank">www.tiemme.gr</a></div>
+							<div class="email"><svg class="icon icon--email"><use xlink:href="#email"></use></svg> <a class="btn--link" href="mailto:info@tiemme.gr">info@tiemme.gr</a></div>
+							<div class="map"><svg class="icon icon--map"><use xlink:href="#map"></use></svg> <a class="btn--link" href="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3140.3245379258715!2d23.633159999999997!3d38.086109!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14a1a425774548df%3A0xb53ff4ef5aac5403!2zVElFTU1FIEhFTExBUyDOkc6VzpLOlQ!5e0!3m2!1sel!2s!4v1430813706245" target="_blank">Visualizza sulla mappa</a></div>
+						</div>
+					</div>
+					<div class="dx">
+						<ul class="settori">
+						</ul>
+						<a href="mailto:info@tiemme.gr" class="btn--cta link">Contatta Filiale</a>
 					</div>
 				</div>
-			</a>
+			</div>
 		</div>
 	</div>
 </section>
-
-<!-- end listing-news.html-->
 
 
 <!-- end main -->

@@ -281,7 +281,6 @@ button,
   transition: all ease-in-out 350ms; }
   .btn--download .icon--download {
     margin-right: 8px;
-    fill: #16255b;
     -webkit-transition: all ease-in-out 350ms;
     transition: all ease-in-out 350ms; }
 
@@ -297,7 +296,6 @@ button,
   transition: all ease-in-out 350ms; }
   .btn--cta .icon--download {
     margin-right: 8px;
-    fill: #16255b;
     -webkit-transition: all ease-in-out 350ms;
     transition: all ease-in-out 350ms; }
   .btn--cta:hover {
@@ -3330,25 +3328,9 @@ errors-component {
   width: 8px;
   height: 5px; }
 
-.icon--languages {
-  width: 24px;
-  height: 24px; }
-
 .icon--caret-right {
   width: 8px;
   height: 12px; }
-
-.icon--facebook {
-  width: 8px;
-  height: 17px; }
-
-.icon--youtube {
-  width: 23px;
-  height: 17px; }
-
-.icon--linkedin {
-  width: 18px;
-  height: 17px; }
 
 .icon--websolute {
   width: 20px;
@@ -3370,25 +3352,46 @@ errors-component {
   width: 9px;
   height: 13px; }
 
-.icon--upload {
+/*
+.icon--facebook {
+	width: 8px;
+	height: 17px;
+}
+
+.icon--youtube {
+	width: 23px;
+	height: 17px;
+}
+
+.icon--linkedin {
+	width: 18px;
+	height: 17px;
+}
+*/
+.icon--languages,
+.icon--upload,
+.icon--insights,
+.icon--guides,
+.icon--user,
+.icon--back,
+.icon--whatsapp,
+.icon--twitter,
+.icon--linkedin,
+.icon--website-2,
+.icon--facebook,
+.icon--pin,
+.icon--map,
+.icon--website,
+.icon--email,
+.icon--fax,
+.icon--mobile,
+.icon--telephone,
+.icon--youtube {
   width: 24px;
   height: 24px; }
 
-.icon--insights {
-  width: 24px;
-  height: 24px; }
-
-.icon--guides {
-  width: 24px;
-  height: 24px; }
-
-.icon--user {
-  width: 24px;
-  height: 24px; }
-
-.icon--back {
-  width: 24px;
-  height: 24px; }
+[class^="icon"] {
+  fill: #16255b; }
 
 @media screen {
   .appear:not(.print) {
@@ -3527,7 +3530,7 @@ errors-component {
     -webkit-box-pack: end;
         -ms-flex-pack: end;
             justify-content: flex-end;
-    padding-bottom: 150px; }
+    padding-bottom: 130px; }
   @media screen {
     .section--hero .aspect, .section--hero-secondary .aspect, .section--hero-tertiary .aspect {
       height: 100%; }
@@ -3846,10 +3849,6 @@ ul {
       .nav--menu > li > span.active {
         background: #ffffff;
         color: #16255b; }
-        .nav--menu > li > a:hover .icon, .nav--menu > li > a.active .icon,
-        .nav--menu > li > span:hover .icon,
-        .nav--menu > li > span.active .icon {
-          fill: #16255b; }
       .nav--menu > li > a.empty span,
       .nav--menu > li > a.empty .icon,
       .nav--menu > li > span.empty span,
@@ -4129,7 +4128,6 @@ ul {
         margin-right: 10px;
         width: 40px;
         height: 40px;
-        fill: #16255b;
         -webkit-transition: ease-in-out 350ms;
         transition: ease-in-out 350ms;
         -webkit-transition-property: fill;
@@ -5332,20 +5330,36 @@ ul {
         font-size: 24px;
         padding-bottom: 10px; } }
   .card--agent .address,
-  .card--agent .phone,
-  .card--agent .mail,
   .card--agent .location {
     font-size: 14px; }
-  .card--agent .location b,
-  .card--agent .phone b {
+  .card--agent .location b {
     font-weight: 600; }
-  .card--agent .dati {
+  .card--agent .group--datas {
     -webkit-box-flex: 1;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto;
-    margin: 20px 0; }
-  .card--agent i {
-    padding-right: 10px; }
+    margin: 20px 0;
+    font-size: 14px; }
+    .card--agent .group--datas > div {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center; }
+  .card--agent [class^="icon"] {
+    margin-right: 10px;
+    height: 17px;
+    width: 17px; }
+  .card--agent .btn--link {
+    font-weight: 500;
+    -webkit-transition: -webkit-transform ease-in-out 350ms;
+    transition: -webkit-transform ease-in-out 350ms;
+    transition: transform ease-in-out 350ms;
+    transition: transform ease-in-out 350ms, -webkit-transform ease-in-out 350ms; }
+    .card--agent .btn--link:hover {
+      -webkit-transform: translateX(5px);
+              transform: translateX(5px); }
   .card--agent .settori {
     list-style: none;
     margin: 0;
@@ -5373,7 +5387,6 @@ ul {
         height: 48px;
         border-radius: 24px;
         background: #b9bdcd;
-        fill: #16255b;
         padding-bottom: 0; }
   .card--agent .link {
     text-align: center; }
@@ -5551,8 +5564,7 @@ ul {
     line-height: 1;
     font-family: "Barlow Condensed", sans-serif; }
   .btn--languages .icon {
-    margin: 0 10px;
-    fill: #16255b; }
+    margin: 0 10px; }
   @media (max-width: 1439.98px) {
     .btn--languages > span {
       font-size: 19px; } }
@@ -5609,8 +5621,7 @@ ul {
       display: block;
       margin: 0;
       width: 24px;
-      height: 24px;
-      fill: #16255b; } }
+      height: 24px; } }
 
 .group--language {
   line-height: 0; }
@@ -5731,7 +5742,6 @@ ul {
         margin-top: -5px;
         width: 8px;
         height: 12px;
-        fill: #16255b;
         opacity: 0;
         -webkit-transition: ease-in-out 350ms;
         transition: ease-in-out 350ms;
@@ -5889,7 +5899,6 @@ ul {
     display: flex;
     margin-bottom: 30px; }
     .section--club .group--advantage svg {
-      fill: #16255b;
       width: 30px;
       height: 30px;
       margin-right: 36px; }
@@ -5966,8 +5975,12 @@ ul {
           -ms-flex-align: center;
               align-items: center; } }
 
-.btn--social .icon {
-  fill: #16255b; }
+.btn--social {
+  width: 24px;
+  height: 24px;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 24px;
+          flex: 0 0 24px; }
 
 .group--social {
   display: -webkit-box;
@@ -6066,8 +6079,7 @@ ul {
               flex-direction: column; } }
 
 .nav--footer-horizontal .icon--websolute {
-  margin-left: 10px;
-  fill: #16255b; }
+  margin-left: 10px; }
 
 .nav--footer-horizontal > li > a,
 .nav--footer-horizontal > li > span {
@@ -6698,8 +6710,7 @@ img {
     .card--pdf .size .icon--insights {
       width: 16px;
       height: 16px;
-      margin: 0 5px;
-      fill: #16255b; }
+      margin: 0 5px; }
 
 .listing--media {
   display: -webkit-box;
@@ -6753,28 +6764,47 @@ img {
 
 .section--dettaglio {
   padding: 80px 0; }
-  .section--dettaglio .intro-text {
+  .section--dettaglio .group--content .title {
+    margin-bottom: 30px;
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 46px;
+    line-height: 1;
+    font-weight: 500;
+    text-transform: uppercase; }
+  .section--dettaglio .group--content .intro-text {
+    margin-bottom: 30px;
     font-size: 24px;
     font-weight: 500; }
-  .section--dettaglio .location {
+  .section--dettaglio .group--detail {
     margin-bottom: 50px; }
-    .section--dettaglio .location .title {
+    .section--dettaglio .group--detail .title {
+      line-height: 1.2;
+      font-weight: 700;
       text-transform: uppercase;
       margin: 0; }
-    .section--dettaglio .location i {
-      padding-right: 10px; }
-  .section--dettaglio .share .title {
+    .section--dettaglio .group--detail svg {
+      margin-right: 5px;
+      height: 17px;
+      width: 17px; }
+    .section--dettaglio .group--detail .btn--cta {
+      margin: 10px 0 40px 0; }
+  .section--dettaglio .group--share .title {
+    line-height: 1.2;
+    font-weight: 700;
     text-transform: uppercase;
     margin: 0; }
-  .section--dettaglio .share ul {
+  .section--dettaglio .group--share ul {
     list-style: none;
     margin: 0;
     padding: 0; }
-    .section--dettaglio .share ul li {
+    .section--dettaglio .group--share ul li {
       display: inline-block;
       padding: 0 5px; }
-      .section--dettaglio .share ul li:first-child {
+      .section--dettaglio .group--share ul li:first-child {
         padding-left: 0; }
+      .section--dettaglio .group--share ul li svg {
+        height: 17px;
+        width: 17px; }
   .section--dettaglio .link {
     display: inline; }
 
@@ -6877,7 +6907,6 @@ img {
       width: 40px;
       height: 40px;
       margin-right: 20px;
-      fill: #16255b;
       cursor: pointer; }
     .section--form__title > span {
       -webkit-box-flex: 1;
@@ -6983,8 +7012,7 @@ img {
     background: #b9bdcd;
     color: #16255b; }
   .natural-form__control .icon--caret-right {
-    margin-left: 10px;
-    fill: #16255b; }
+    margin-left: 10px; }
   .natural-form__control .dropdown {
     text-align: left; }
   @media (min-width: 1440px) {
@@ -7016,7 +7044,6 @@ img {
     transition: all ease-in-out .2s; }
 
 .section--advantages svg {
-  fill: #16255b;
   -webkit-box-flex: 0;
       -ms-flex: 0 0 30px;
           flex: 0 0 30px;

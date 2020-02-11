@@ -563,27 +563,40 @@
 	}
 
 	.address,
-	.phone,
-	.mail,
 	.location {
 		font-size: 14px;
 	}
 
-	.location,
-	.phone {
-
+	.location {
 		b {
 			font-weight: 600;
 		}
 	}
 
-	.dati {
+	.group--datas {
 		flex: 1 1 auto;
 		margin: 20px 0;
+		font-size: 14px;
+
+		&>div {
+			display: flex;
+			align-items: center;
+		}
 	}
 
-	i {
-		padding-right: 10px;
+	[class^="icon"] {
+		margin-right: 10px;
+		height: 17px;
+		width: 17px;
+	}
+
+	.btn--link {
+		font-weight: $font-medium;
+		transition: transform ease-in-out 350ms;
+
+		&:hover {
+			transform: translateX(5px);
+		}
 	}
 
 	.settori {
@@ -612,7 +625,6 @@
 				height: 48px;
 				border-radius: 24px;
 				background: $background-secondary;
-				fill: $foreground;
 				padding-bottom: 0;
 			}
 		}

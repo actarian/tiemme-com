@@ -1,29 +1,49 @@
 .section--dettaglio {
 	padding: 80px 0;
 
-	.intro-text {
-		font-size: 24px;
-		font-weight: 500;
+	.group--content {
+		.title {
+			margin-bottom: 30px;
+			font-family: $font-secondary;
+			font-size: 46px;
+			line-height: 1;
+			font-weight: $font-medium;
+			text-transform: uppercase;
+		}
+
+		.intro-text {
+			margin-bottom: 30px;
+			font-size: 24px;
+			font-weight: 500;
+		}
 	}
 
-	.location {
+	.group--detail {
 		margin-bottom: 50px;
 
 		.title {
+			line-height: 1.2;
+			font-weight: $font-bold;
 			text-transform: uppercase;
 			margin: 0;
-
-
 		}
 
-		i {
-			padding-right: 10px;
+		svg {
+			margin-right: 5px;
+			height: 17px;
+			width: 17px;
+		}
+
+		.btn--cta {
+			margin: 10px 0 40px 0;
 		}
 	}
 
-	.share {
+	.group--share {
 
 		.title {
+			line-height: 1.2;
+			font-weight: $font-bold;
 			text-transform: uppercase;
 			margin: 0;
 		}
@@ -39,6 +59,11 @@
 
 				&:first-child {
 					padding-left: 0;
+				}
+
+				svg {
+					height: 17px;
+					width: 17px;
 				}
 			}
 		}

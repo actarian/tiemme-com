@@ -136,7 +136,6 @@
 
 	.icon {
 		margin: 0 10px;
-		fill: $foreground;
 	}
 
 	&:hover,
@@ -247,8 +246,6 @@
 			margin: 0;
 			width: 24px;
 			height: 24px;
-			fill: $foreground;
-
 		}
 
 	}
@@ -356,7 +353,6 @@
 				margin-top: -5px;
 				width: 8px;
 				height: 12px;
-				fill: $foreground;
 				opacity: 0;
 				transition: ease-in-out 350ms;
 				transition-property: fill, opacity;
