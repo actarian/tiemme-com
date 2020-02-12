@@ -61,7 +61,7 @@ export default class HttpService {
 	}
 
 	static getError(object, response) {
-		let error = {};
+		let error = typeof object === 'object' ? object : {};
 		if (!error.statusCode) {
 			error.statusCode = response ? response.status : 0;
 		}

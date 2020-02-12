@@ -596,7 +596,7 @@
     };
 
     HttpService.getError = function getError(object, response) {
-      var error = {};
+      var error = typeof object === 'object' ? object : {};
 
       if (!error.statusCode) {
         error.statusCode = response ? response.status : 0;
