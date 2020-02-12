@@ -719,7 +719,7 @@
     UserService.login$ = function login$(payload) {
       var _this3 = this;
 
-      return HttpService.post$('/api/users/login__', payload).pipe(operators.map(function (user) {
+      return HttpService.post$('/api/users/login', payload).pipe(operators.map(function (user) {
         return _this3.mapStatic__(user, 'login');
       }));
     };
