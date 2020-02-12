@@ -18,8 +18,6 @@ Generazione Mail
 export default class RequestInfoCommercialComponent extends Component {
 
 	onInit() {
-
-		this.http = HttpService;
 		this.submitted = false;
 
 		const data = window.data || {
@@ -74,7 +72,9 @@ export default class RequestInfoCommercialComponent extends Component {
 			});
 			this.controls.province.options = provinces;
 			this.controls.province.hidden = provinces.length === 0;
-			this.controls.province.value = null;
+			if (!provinces.find(x => x.id === this.controls.province.value)) {
+				this.controls.province.value = null;
+			}
 		}
 	}
 
@@ -102,8 +102,8 @@ export default class RequestInfoCommercialComponent extends Component {
 		if (this.form.valid) {
 			// console.log('RequestInfoCommercialComponent.onSubmit', this.form.value);
 			this.form.submitted = true;
-			// this.http.post$('/WS/wsUsers.asmx/Contact', { data: this.form.value })
-			this.http.post$('/api/users/Contact', this.form.value)
+			// HttpService.post$('/WS/wsUsers.asmx/Contact', { data: this.form.value })
+			HttpService.post$('/api/users/Contact', this.form.value)
 				.subscribe(response => {
 					console.log('RequestInfoCommercialComponent.onSubmit', response);
 					this.form.reset();

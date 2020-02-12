@@ -37,6 +37,7 @@ import NaturalFormSignupComponent from './natural-form/natural-form-signup.compo
 import NaturalFormComponent from './natural-form/natural-form.component';
 import RegisterOrLoginComponent from './register-or-login/register-or-login.component';
 import RequestInfoCommercialComponent from './request-info-commercial/request-info-commercial.component';
+import ReservedAreaComponent from './reserved-area/reserved-area.component';
 import FileSizePipe from './size/size.pipe';
 import SwiperListingDirective from './swiper/swiper-listing.directive';
 import SwiperSlidesDirective from './swiper/swiper-slides.directive';
@@ -89,6 +90,7 @@ AppModule.meta = {
 		NaturalFormSignupComponent,
 		RequestInfoCommercialComponent,
 		RegisterOrLoginComponent,
+		ReservedAreaComponent,
 		SwiperDirective,
 		SwiperListingDirective,
 		SwiperSlidesDirective,

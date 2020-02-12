@@ -1,14 +1,11 @@
 import { Component } from 'rxcomp';
 import { FormControl, FormGroup, FormValidator, Validators } from 'rxcomp-form';
 import { takeUntil } from 'rxjs/operators';
-import HttpService from '../http/http.service';
+import UserService from '../user/user.service';
 
 export default class ClubSignupComponent extends Component {
 
 	onInit() {
-
-		this.http = HttpService;
-
 		const data = window.data || {
 			roles: [],
 			countries: [],
@@ -64,7 +61,9 @@ export default class ClubSignupComponent extends Component {
 			});
 			this.controls.province.options = provinces;
 			this.controls.province.hidden = provinces.length === 0;
-			this.controls.province.value = null;
+			if (!provinces.find(x => x.id === this.controls.province.value)) {
+				this.controls.province.value = null;
+			}
 		}
 	}
 
@@ -108,7 +107,8 @@ export default class ClubSignupComponent extends Component {
 		if (this.form.valid) {
 			// console.log('ClubSignupComponent.onSubmit', this.form.value);
 			this.form.submitted = true;
-			this.http.post$('/api/users/Register', this.form.value)
+			// HttpService.post$('/api/users/Register', this.form.value)
+			UserService.register$(this.form.value)
 				.subscribe(response => {
 					console.log('ClubSignupComponent.onSubmit', response);
 					this.signUp.next(this.form.value); // change to response!!!

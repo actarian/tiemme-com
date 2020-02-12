@@ -1,7 +1,7 @@
 import { Component } from 'rxcomp';
 import { FormControl, FormGroup, FormValidator, Validators } from 'rxcomp-form';
 import { takeUntil } from 'rxjs/operators';
-import HttpService from '../http/http.service';
+import UserService from '../user/user.service';
 import NaturalFormService from './natural-form.service';
 
 export default class NaturalFormSignupComponent extends Component {
@@ -10,7 +10,6 @@ export default class NaturalFormSignupComponent extends Component {
 		const values = NaturalFormService.values;
 		this.title = NaturalFormService.title;
 
-		this.http = HttpService;
 		this.submitted = false;
 
 		const data = window.data || {
@@ -69,7 +68,9 @@ export default class NaturalFormSignupComponent extends Component {
 			});
 			this.controls.province.options = provinces;
 			this.controls.province.hidden = provinces.length === 0;
-			this.controls.province.value = null;
+			if (!provinces.find(x => x.id === this.controls.province.value)) {
+				this.controls.province.value = null;
+			}
 		}
 	}
 
@@ -113,7 +114,8 @@ export default class NaturalFormSignupComponent extends Component {
 		if (this.form.valid) {
 			// console.log('NaturalFormSignupComponent.onSubmit', this.form.value);
 			this.form.submitted = true;
-			this.http.post$('/WS/wsUsers.asmx/Register', { data: this.form.value })
+			// HttpService.post$('/api/users/Register', this.form.value)
+			UserService.register$(this.form.value)
 				.subscribe(response => {
 					console.log('NaturalFormSignupComponent.onSubmit', response);
 					this.signUp.next(this.form.value); // change to response!!!

@@ -1,10 +1,16 @@
 import { from } from 'rxjs';
+import { STATIC } from '../environment/environment';
 
 export default class HttpService {
 
+	static getUrl(url) {
+		console.log(url);
+		return STATIC && url.indexOf('/') === 0 ? `.${url}.json` : url;
+	}
+
 	static http$(method, url, data) {
 		const methods = ['POST', 'PUT', 'PATCH'];
-		return from(fetch(url, {
+		return from(fetch(this.getUrl(url), {
 			method: method,
 			headers: {
 				'Accept': 'application/json',
@@ -13,7 +19,7 @@ export default class HttpService {
 			body: methods.indexOf(method) !== -1 ? JSON.stringify(data) : undefined
 		}).then(response => {
 			return response.json();
-		}).catch((error) => console.log('postData$', error)));
+		}).catch((error) => console.log('HttpService.http$.error', error))); // !!! catched
 	}
 
 	static get$(url, data) {

@@ -6,8 +6,6 @@ import HttpService from '../http/http.service';
 export default class ClubForgotComponent extends Component {
 
 	onInit() {
-
-		this.http = HttpService;
 		this.submitted = false;
 
 		const form = new FormGroup({
@@ -46,7 +44,7 @@ export default class ClubForgotComponent extends Component {
 		if (this.form.valid) {
 			// console.log('ClubForgotComponent.onSubmit', this.form.value);
 			this.form.submitted = true;
-			this.http.post$('/WS/wsUsers.asmx/Login', this.form.value)
+			HttpService.post$('/WS/wsUsers.asmx/Login', this.form.value)
 				.subscribe(response => {
 					console.log('ClubForgotComponent.onSubmit', response);
 					this.sent.next(true);

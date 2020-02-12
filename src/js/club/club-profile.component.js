@@ -2,13 +2,11 @@ import { Component } from 'rxcomp';
 import { FormControl, FormGroup, FormValidator, Validators } from 'rxcomp-form';
 import { takeUntil } from 'rxjs/operators';
 import HttpService from '../http/http.service';
+import UserService from '../user/user.service';
 
 export default class ClubProfileComponent extends Component {
 
 	onInit() {
-
-		this.http = HttpService;
-
 		const data = window.data || {
 			roles: [],
 			countries: [],
@@ -54,7 +52,11 @@ export default class ClubProfileComponent extends Component {
 		this.data = data;
 		this.form = form;
 
-		this.test();
+		UserService.me$().pipe(
+			takeUntil(this.unsubscribe$)
+		).subscribe(user => {
+			this.form.patch(user);
+		});
 	}
 
 	set countryId(countryId) {
@@ -66,7 +68,9 @@ export default class ClubProfileComponent extends Component {
 			});
 			this.controls.province.options = provinces;
 			this.controls.province.hidden = provinces.length === 0;
-			this.controls.province.value = null;
+			if (!provinces.find(x => x.id === this.controls.province.value)) {
+				this.controls.province.value = null;
+			}
 		}
 	}
 
@@ -110,7 +114,7 @@ export default class ClubProfileComponent extends Component {
 		if (this.form.valid) {
 			// console.log('ClubProfileComponent.onSubmit', this.form.value);
 			this.form.submitted = true;
-			this.http.post$('/WS/wsUsers.asmx/Update', { data: this.form.value })
+			HttpService.post$('/WS/wsUsers.asmx/Update', { data: this.form.value })
 				.subscribe(response => {
 					console.log('ClubProfileComponent.onSubmit', response);
 					this.update.next(this.form.value); // change to response!!!

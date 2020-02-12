@@ -10,7 +10,6 @@ export default class NaturalFormNewsletterComponent extends Component {
 		const values = NaturalFormService.values;
 		this.title = NaturalFormService.title;
 
-		this.http = HttpService;
 		this.submitted = false;
 
 		const data = window.data || {
@@ -73,8 +72,8 @@ export default class NaturalFormNewsletterComponent extends Component {
 		if (this.form.valid) {
 			// console.log('NaturalFormNewsletterComponent.onSubmit', this.form.value);
 			this.form.submitted = true;
-			//this.http.post$('/WS/wsUsers.asmx/Newsletter', { data: this.form.value })
-			this.http.post$('/api/users/Newsletter', this.form.value)
+			//HttpService.post$('/WS/wsUsers.asmx/Newsletter', { data: this.form.value })
+			HttpService.post$('/api/users/Newsletter', this.form.value)
 				.subscribe(response => {
 					console.log('NaturalFormNewsletterComponent.onSubmit', response);
 					this.form.reset();

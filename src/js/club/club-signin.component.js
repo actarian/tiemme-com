@@ -1,14 +1,11 @@
 import { Component } from 'rxcomp';
 import { FormControl, FormGroup, Validators } from 'rxcomp-form';
 import { takeUntil } from 'rxjs/operators';
-import HttpService from '../http/http.service';
+import UserService from '../user/user.service';
 
 export default class ClubSigninComponent extends Component {
 
 	onInit() {
-
-		this.http = HttpService;
-
 		const data = window.data || {
 			interests: []
 		};
@@ -51,7 +48,8 @@ export default class ClubSigninComponent extends Component {
 		if (this.form.valid) {
 			// console.log('ClubSigninComponent.onSubmit', this.form.value);
 			this.form.submitted = true;
-			this.http.post$('/api/users/Login', this.form.value)
+			// HttpService.post$('/api/users/Login', this.form.value)
+			UserService.login$(this.form.value)
 				.subscribe(response => {
 					console.log('ClubSigninComponent.onSubmit', response);
 					this.signIn.next(this.form.value); // change to response!!!

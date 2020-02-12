@@ -524,6 +524,150 @@
     selector: '[agents]'
   };
 
+  var STATIC = window.location.port === '41999' || window.location.host === 'actarian.github.io';
+  var DEVELOPMENT = window.location.host.indexOf('localhost') === 0;
+  var PRODUCTION = !DEVELOPMENT;
+  var ENV = {
+    STATIC: STATIC,
+    DEVELOPMENT: DEVELOPMENT,
+    PRODUCTION: PRODUCTION
+  };
+
+  var HttpService =
+  /*#__PURE__*/
+  function () {
+    function HttpService() {}
+
+    HttpService.getUrl = function getUrl(url) {
+      console.log(url);
+      return STATIC && url.indexOf('/') === 0 ? "." + url + ".json" : url;
+    };
+
+    HttpService.http$ = function http$(method, url, data) {
+      var methods = ['POST', 'PUT', 'PATCH'];
+      return rxjs.from(fetch(this.getUrl(url), {
+        method: method,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: methods.indexOf(method) !== -1 ? JSON.stringify(data) : undefined
+      }).then(function (response) {
+        return response.json();
+      }).catch(function (error) {
+        return console.log('HttpService.http$.error', error);
+      })); // !!! catched
+    };
+
+    HttpService.get$ = function get$(url, data) {
+      var query = this.query(data);
+      return this.http$('GET', "" + url + query);
+    };
+
+    HttpService.delete$ = function delete$(url) {
+      return this.http$('DELETE', url);
+    };
+
+    HttpService.post$ = function post$(url, data) {
+      return this.http$('POST', url, data);
+    };
+
+    HttpService.put$ = function put$(url, data) {
+      return this.http$('PUT', url, data);
+    };
+
+    HttpService.patch$ = function patch$(url, data) {
+      return this.http$('PATCH', url, data);
+    };
+
+    HttpService.query = function query(data) {
+      return ''; // todo
+    };
+
+    return HttpService;
+  }();
+
+  var LocalStorageService =
+  /*#__PURE__*/
+  function () {
+    function LocalStorageService() {}
+
+    LocalStorageService.delete = function _delete(name) {
+      if (this.isLocalStorageSupported()) {
+        window.localStorage.removeItem(name);
+      }
+    };
+
+    LocalStorageService.exist = function exist(name) {
+      if (this.isLocalStorageSupported()) {
+        return window.localStorage[name] !== undefined;
+      }
+    };
+
+    LocalStorageService.get = function get(name) {
+      var value = null;
+
+      if (this.isLocalStorageSupported() && window.localStorage[name] !== undefined) {
+        try {
+          value = JSON.parse(window.localStorage[name]);
+        } catch (e) {
+          console.log('LocalStorageService.get.error parsing', name, e);
+        }
+      }
+
+      return value;
+    };
+
+    LocalStorageService.set = function set(name, value) {
+      if (this.isLocalStorageSupported()) {
+        try {
+          var cache = [];
+          var json = JSON.stringify(value, function (key, value) {
+            if (typeof value === 'object' && value !== null) {
+              if (cache.indexOf(value) !== -1) {
+                // Circular reference found, discard key
+                return;
+              }
+
+              cache.push(value);
+            }
+
+            return value;
+          });
+          window.localStorage.setItem(name, json);
+        } catch (e) {
+          console.log('LocalStorageService.set.error serializing', name, value, e);
+        }
+      }
+    };
+
+    LocalStorageService.isLocalStorageSupported = function isLocalStorageSupported() {
+      if (this.supported) {
+        return true;
+      }
+
+      var supported = false;
+
+      try {
+        supported = 'localStorage' in window && window.localStorage !== null;
+
+        if (supported) {
+          window.localStorage.setItem('test', '1');
+          window.localStorage.removeItem('test');
+        } else {
+          supported = false;
+        }
+      } catch (e) {
+        supported = false;
+      }
+
+      this.supported = supported;
+      return supported;
+    };
+
+    return LocalStorageService;
+  }();
+
   var UserService =
   /*#__PURE__*/
   function () {
@@ -531,6 +675,74 @@
 
     UserService.setUser = function setUser(user) {
       this.user$.next(user);
+    };
+
+    UserService.me$ = function me$() {
+      var _this = this;
+
+      return HttpService.get$('/api/users/me').pipe(operators.map(function (user) {
+        return _this.mapStatic__(user, 'me');
+      }), operators.switchMap(function (user) {
+        _this.setUser(user);
+
+        return _this.user$;
+      }));
+    };
+
+    UserService.register$ = function register$(payload) {
+      var _this2 = this;
+
+      return HttpService.post$('/api/users/register', payload).pipe(operators.map(function (user) {
+        return _this2.mapStatic__(user, 'register');
+      }));
+    };
+
+    UserService.login$ = function login$(payload) {
+      var _this3 = this;
+
+      return HttpService.post$('/api/users/login', payload).pipe(operators.map(function (user) {
+        return _this3.mapStatic__(user, 'login');
+      }));
+    };
+
+    UserService.logout$ = function logout$() {
+      var _this4 = this;
+
+      return HttpService.get$('/api/users/logout').pipe(operators.map(function (user) {
+        return _this4.mapStatic__(user, 'logout');
+      }));
+    };
+
+    UserService.mapStatic__ = function mapStatic__(user, action) {
+      if (action === void 0) {
+        action = 'me';
+      }
+
+      if (!STATIC) {
+        return user;
+      }
+
+      switch (action) {
+        case 'me':
+          if (!LocalStorageService.exist('user')) {
+            user = null;
+          }
+          break;
+
+        case 'register':
+          LocalStorageService.set('user', user);
+          break;
+
+        case 'login':
+          LocalStorageService.set('user', user);
+          break;
+
+        case 'logout':
+          LocalStorageService.delete('user');
+          break;
+      }
+
+      return user;
     };
 
     return UserService;
@@ -715,55 +927,6 @@
     selector: "[(clickOutside)]"
   };
 
-  var HttpService =
-  /*#__PURE__*/
-  function () {
-    function HttpService() {}
-
-    HttpService.http$ = function http$(method, url, data) {
-      var methods = ['POST', 'PUT', 'PATCH'];
-      return rxjs.from(fetch(url, {
-        method: method,
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: methods.indexOf(method) !== -1 ? JSON.stringify(data) : undefined
-      }).then(function (response) {
-        return response.json();
-      }).catch(function (error) {
-        return console.log('postData$', error);
-      }));
-    };
-
-    HttpService.get$ = function get$(url, data) {
-      var query = this.query(data);
-      return this.http$('GET', "" + url + query);
-    };
-
-    HttpService.delete$ = function delete$(url) {
-      return this.http$('DELETE', url);
-    };
-
-    HttpService.post$ = function post$(url, data) {
-      return this.http$('POST', url, data);
-    };
-
-    HttpService.put$ = function put$(url, data) {
-      return this.http$('PUT', url, data);
-    };
-
-    HttpService.patch$ = function patch$(url, data) {
-      return this.http$('PATCH', url, data);
-    };
-
-    HttpService.query = function query(data) {
-      return ''; // todo
-    };
-
-    return HttpService;
-  }();
-
   var ClubForgotComponent =
   /*#__PURE__*/
   function (_Component) {
@@ -778,7 +941,6 @@
     _proto.onInit = function onInit() {
       var _this = this;
 
-      this.http = HttpService;
       this.submitted = false;
       var form = new rxcompForm.FormGroup({
         email: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator(), rxcompForm.Validators.EmailValidator()]),
@@ -813,7 +975,7 @@
       if (this.form.valid) {
         // console.log('ClubForgotComponent.onSubmit', this.form.value);
         this.form.submitted = true;
-        this.http.post$('/WS/wsUsers.asmx/Login', this.form.value).subscribe(function (response) {
+        HttpService.post$('/WS/wsUsers.asmx/Login', this.form.value).subscribe(function (response) {
           console.log('ClubForgotComponent.onSubmit', response);
 
           _this2.sent.next(true);
@@ -1117,7 +1279,6 @@
     _proto.onInit = function onInit() {
       var _this = this;
 
-      this.http = HttpService;
       var data = window.data || {
         roles: [],
         countries: [],
@@ -1157,7 +1318,9 @@
       });
       this.data = data;
       this.form = form;
-      this.test();
+      UserService.me$().pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (user) {
+        _this.form.patch(user);
+      });
     };
 
     _proto.test = function test() {
@@ -1211,7 +1374,7 @@
       if (this.form.valid) {
         // console.log('ClubProfileComponent.onSubmit', this.form.value);
         this.form.submitted = true;
-        this.http.post$('/WS/wsUsers.asmx/Update', {
+        HttpService.post$('/WS/wsUsers.asmx/Update', {
           data: this.form.value
         }).subscribe(function (response) {
           console.log('ClubProfileComponent.onSubmit', response);
@@ -1228,6 +1391,8 @@
     _createClass(ClubProfileComponent, [{
       key: "countryId",
       set: function set(countryId) {
+        var _this4 = this;
+
         if (this.countryId_ !== countryId) {
           // console.log('ClubProfileComponent.set countryId', countryId);
           this.countryId_ = countryId;
@@ -1236,7 +1401,12 @@
           });
           this.controls.province.options = provinces;
           this.controls.province.hidden = provinces.length === 0;
-          this.controls.province.value = null;
+
+          if (!provinces.find(function (x) {
+            return x.id === _this4.controls.province.value;
+          })) {
+            this.controls.province.value = null;
+          }
         }
       }
     }]);
@@ -1261,8 +1431,6 @@
 
     _proto.onInit = function onInit() {
       var _this = this;
-
-      this.http = HttpService;
       var form = new rxcompForm.FormGroup({
         username: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
         password: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
@@ -1297,8 +1465,9 @@
       // console.log('ClubSigninComponent.onSubmit', 'form.valid', valid);
       if (this.form.valid) {
         // console.log('ClubSigninComponent.onSubmit', this.form.value);
-        this.form.submitted = true;
-        this.http.post$('/api/users/Login', this.form.value).subscribe(function (response) {
+        this.form.submitted = true; // HttpService.post$('/api/users/Login', this.form.value)
+
+        UserService.login$(this.form.value).subscribe(function (response) {
           console.log('ClubSigninComponent.onSubmit', response);
 
           _this2.signIn.next(_this2.form.value); // change to response!!!
@@ -1339,7 +1508,6 @@
     _proto.onInit = function onInit() {
       var _this = this;
 
-      this.http = HttpService;
       var data = window.data || {
         roles: [],
         countries: [],
@@ -1431,8 +1599,9 @@
       // console.log('ClubSignupComponent.onSubmit', 'form.valid', valid);
       if (this.form.valid) {
         // console.log('ClubSignupComponent.onSubmit', this.form.value);
-        this.form.submitted = true;
-        this.http.post$('/api/users/Register', this.form.value).subscribe(function (response) {
+        this.form.submitted = true; // HttpService.post$('/api/users/Register', this.form.value)
+
+        UserService.register$(this.form.value).subscribe(function (response) {
           console.log('ClubSignupComponent.onSubmit', response);
 
           _this3.signUp.next(_this3.form.value); // change to response!!!
@@ -1451,6 +1620,8 @@
     _createClass(ClubSignupComponent, [{
       key: "countryId",
       set: function set(countryId) {
+        var _this4 = this;
+
         if (this.countryId_ !== countryId) {
           // console.log('ClubSignupComponent.set countryId', countryId);
           this.countryId_ = countryId;
@@ -1459,7 +1630,12 @@
           });
           this.controls.province.options = provinces;
           this.controls.province.hidden = provinces.length === 0;
-          this.controls.province.value = null;
+
+          if (!provinces.find(function (x) {
+            return x.id === _this4.controls.province.value;
+          })) {
+            this.controls.province.value = null;
+          }
         }
       }
     }]);
@@ -2020,15 +2196,6 @@
     "\n\t<div class=\"inner\" [style]=\"{ display: control.invalid && control.touched ? 'block' : 'none' }\">\n\t\t<div class=\"error\" *for=\"let [key, value] of control.errors\">\n\t\t\t<span [innerHTML]=\"getLabel(key, value)\"></span>\n\t\t\t<!-- <span class=\"key\" [innerHTML]=\"key\"></span> <span class=\"value\" [innerHTML]=\"value | json\"></span> -->\n\t\t</div>\n\t</div>\n\t"
   };
 
-  var STATIC = window.location.port === '41999' || window.location.host === 'actarian.github.io';
-  var DEVELOPMENT = window.location.host.indexOf('localhost') === 0;
-  var PRODUCTION = !DEVELOPMENT;
-  var ENV = {
-    STATIC: STATIC,
-    DEVELOPMENT: DEVELOPMENT,
-    PRODUCTION: PRODUCTION
-  };
-
   var TestComponent =
   /*#__PURE__*/
   function (_Component) {
@@ -2079,7 +2246,7 @@
 
       this.menu = null;
       this.submenu = null;
-      UserService.user$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (user) {
+      UserService.me$().pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (user) {
         _this.user = user;
 
         _this.pushChanges();
@@ -2484,7 +2651,6 @@
 
       var values = NaturalFormService.values;
       this.title = NaturalFormService.title;
-      this.http = HttpService;
       this.submitted = false;
       var data = window.data || {
         roles: [],
@@ -2552,9 +2718,9 @@
       // console.log('NaturalFormContactComponent.onSubmit', 'form.valid', valid);
       if (this.form.valid) {
         // console.log('NaturalFormContactComponent.onSubmit', this.form.value);
-        this.form.submitted = true; //this.http.post$('/WS/wsUsers.asmx/Contact', { data: this.form.value })
+        this.form.submitted = true; //HttpService.post$('/WS/wsUsers.asmx/Contact', { data: this.form.value })
 
-        this.http.post$('/api/users/Contact', this.form.value).subscribe(function (response) {
+        HttpService.post$('/api/users/Contact', this.form.value).subscribe(function (response) {
           console.log('NaturalFormContactComponent.onSubmit', response);
 
           _this2.form.reset();
@@ -2573,6 +2739,8 @@
     _createClass(NaturalFormContactComponent, [{
       key: "countryId",
       set: function set(countryId) {
+        var _this3 = this;
+
         if (this.countryId_ !== countryId) {
           // console.log('NaturalFormContactComponent.set countryId', countryId);
           this.countryId_ = countryId;
@@ -2581,7 +2749,12 @@
           });
           this.controls.province.options = provinces;
           this.controls.province.hidden = provinces.length === 0;
-          this.controls.province.value = null;
+
+          if (!provinces.find(function (x) {
+            return x.id === _this3.controls.province.value;
+          })) {
+            this.controls.province.value = null;
+          }
         }
       }
     }]);
@@ -2757,7 +2930,6 @@
 
       var values = NaturalFormService.values;
       this.title = NaturalFormService.title;
-      this.http = HttpService;
       this.submitted = false;
       var data = window.data || {
         roles: [],
@@ -2814,9 +2986,9 @@
       // console.log('NaturalFormNewsletterComponent.onSubmit', 'form.valid', valid);
       if (this.form.valid) {
         // console.log('NaturalFormNewsletterComponent.onSubmit', this.form.value);
-        this.form.submitted = true; //this.http.post$('/WS/wsUsers.asmx/Newsletter', { data: this.form.value })
+        this.form.submitted = true; //HttpService.post$('/WS/wsUsers.asmx/Newsletter', { data: this.form.value })
 
-        this.http.post$('/api/users/Newsletter', this.form.value).subscribe(function (response) {
+        HttpService.post$('/api/users/Newsletter', this.form.value).subscribe(function (response) {
           console.log('NaturalFormNewsletterComponent.onSubmit', response);
 
           _this2.form.reset();
@@ -3021,7 +3193,6 @@
 
       var values = NaturalFormService.values;
       this.title = NaturalFormService.title;
-      this.http = HttpService;
       this.submitted = false;
       var data = window.data || {
         roles: [],
@@ -3115,10 +3286,9 @@
       // console.log('NaturalFormSignupComponent.onSubmit', 'form.valid', valid);
       if (this.form.valid) {
         // console.log('NaturalFormSignupComponent.onSubmit', this.form.value);
-        this.form.submitted = true;
-        this.http.post$('/WS/wsUsers.asmx/Register', {
-          data: this.form.value
-        }).subscribe(function (response) {
+        this.form.submitted = true; // HttpService.post$('/api/users/Register', this.form.value)
+
+        UserService.register$(this.form.value).subscribe(function (response) {
           console.log('NaturalFormSignupComponent.onSubmit', response);
 
           _this3.signUp.next(_this3.form.value); // change to response!!!
@@ -3140,6 +3310,8 @@
     _createClass(NaturalFormSignupComponent, [{
       key: "countryId",
       set: function set(countryId) {
+        var _this4 = this;
+
         if (this.countryId_ !== countryId) {
           // console.log('NaturalFormSignupComponent.set countryId', countryId);
           this.countryId_ = countryId;
@@ -3148,7 +3320,12 @@
           });
           this.controls.province.options = provinces;
           this.controls.province.hidden = provinces.length === 0;
-          this.controls.province.value = null;
+
+          if (!provinces.find(function (x) {
+            return x.id === _this4.controls.province.value;
+          })) {
+            this.controls.province.value = null;
+          }
         }
       }
     }]);
@@ -3314,7 +3491,6 @@
     _proto.onInit = function onInit() {
       var _this = this;
 
-      this.http = HttpService;
       this.submitted = false;
       var data = window.data || {
         roles: [],
@@ -3379,9 +3555,9 @@
       // console.log('RequestInfoCommercialComponent.onSubmit', 'form.valid', valid);
       if (this.form.valid) {
         // console.log('RequestInfoCommercialComponent.onSubmit', this.form.value);
-        this.form.submitted = true; // this.http.post$('/WS/wsUsers.asmx/Contact', { data: this.form.value })
+        this.form.submitted = true; // HttpService.post$('/WS/wsUsers.asmx/Contact', { data: this.form.value })
 
-        this.http.post$('/api/users/Contact', this.form.value).subscribe(function (response) {
+        HttpService.post$('/api/users/Contact', this.form.value).subscribe(function (response) {
           console.log('RequestInfoCommercialComponent.onSubmit', response);
 
           _this2.form.reset();
@@ -3396,6 +3572,8 @@
     _createClass(RequestInfoCommercialComponent, [{
       key: "countryId",
       set: function set(countryId) {
+        var _this3 = this;
+
         if (this.countryId_ !== countryId) {
           // console.log('RequestInfoCommercialComponent.set countryId', countryId);
           this.countryId_ = countryId;
@@ -3404,7 +3582,12 @@
           });
           this.controls.province.options = provinces;
           this.controls.province.hidden = provinces.length === 0;
-          this.controls.province.value = null;
+
+          if (!provinces.find(function (x) {
+            return x.id === _this3.controls.province.value;
+          })) {
+            this.controls.province.value = null;
+          }
         }
       }
     }]);
@@ -3413,6 +3596,40 @@
   }(rxcomp.Component);
   RequestInfoCommercialComponent.meta = {
     selector: '[request-info-commercial]'
+  };
+
+  var ReservedAreaComponent =
+  /*#__PURE__*/
+  function (_Component) {
+    _inheritsLoose(ReservedAreaComponent, _Component);
+
+    function ReservedAreaComponent() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = ReservedAreaComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      var _this = this;
+
+      UserService.me$().pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (user) {
+        _this.user = user;
+      });
+    };
+
+    _proto.doLogout = function doLogout(event) {
+      var _this2 = this;
+
+      UserService.logout$().subscribe(function () {
+        _this2.user = null;
+        window.location.href = '/';
+      });
+    };
+
+    return ReservedAreaComponent;
+  }(rxcomp.Component);
+  ReservedAreaComponent.meta = {
+    selector: '[reserved-area]'
   };
 
   var FileSizePipe =
@@ -3858,7 +4075,6 @@
     _proto.onInit = function onInit() {
       var _this = this;
 
-      this.http = HttpService;
       this.submitted = false;
       var data = window.data || {
         departments: []
@@ -3916,7 +4132,7 @@
       if (this.form.valid) {
         // console.log('WorkWithUsComponent.onSubmit', this.form.value);
         this.form.submitted = true;
-        this.http.post$('/api/users/WorkWithUs', this.form.value).subscribe(function (response) {
+        HttpService.post$('/api/users/WorkWithUs', this.form.value).subscribe(function (response) {
           console.log('WorkWithUsComponent.onSubmit', response);
 
           _this2.form.reset();
@@ -4264,7 +4480,7 @@
   }(rxcomp.Module);
   AppModule.meta = {
     imports: [rxcomp.CoreModule, rxcompForm.FormModule],
-    declarations: [AgentsComponent, AppearDirective, ClickOutsideDirective, ClubComponent, ClubForgotComponent, ClubModalComponent, ClubProfileComponent, ClubSigninComponent, ClubSignupComponent, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlPasswordComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, FileSizePipe, HtmlPipe, HeaderComponent, LazyDirective, MainMenuComponent, MediaLibraryComponent, ModalOutletComponent, NaturalFormComponent, NaturalFormSearchComponent, NaturalFormContactComponent, NaturalFormControlComponent, NaturalFormNewsletterComponent, NaturalFormSignupComponent, RequestInfoCommercialComponent, RegisterOrLoginComponent, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, TestComponent, // ValueDirective,
+    declarations: [AgentsComponent, AppearDirective, ClickOutsideDirective, ClubComponent, ClubForgotComponent, ClubModalComponent, ClubProfileComponent, ClubSigninComponent, ClubSignupComponent, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlPasswordComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, FileSizePipe, HtmlPipe, HeaderComponent, LazyDirective, MainMenuComponent, MediaLibraryComponent, ModalOutletComponent, NaturalFormComponent, NaturalFormSearchComponent, NaturalFormContactComponent, NaturalFormControlComponent, NaturalFormNewsletterComponent, NaturalFormSignupComponent, RequestInfoCommercialComponent, RegisterOrLoginComponent, ReservedAreaComponent, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, TestComponent, // ValueDirective,
     VideoComponent, WorkWithUsComponent, YoutubeComponent, ZoomableDirective],
     bootstrap: AppComponent
   };

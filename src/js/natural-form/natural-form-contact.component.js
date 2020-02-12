@@ -10,7 +10,6 @@ export default class NaturalFormContactComponent extends Component {
 		const values = NaturalFormService.values;
 		this.title = NaturalFormService.title;
 
-		this.http = HttpService;
 		this.submitted = false;
 
 		const data = window.data || {
@@ -68,7 +67,9 @@ export default class NaturalFormContactComponent extends Component {
 			});
 			this.controls.province.options = provinces;
 			this.controls.province.hidden = provinces.length === 0;
-			this.controls.province.value = null;
+			if (!provinces.find(x => x.id === this.controls.province.value)) {
+				this.controls.province.value = null;
+			}
 		}
 	}
 
@@ -96,8 +97,8 @@ export default class NaturalFormContactComponent extends Component {
 		if (this.form.valid) {
 			// console.log('NaturalFormContactComponent.onSubmit', this.form.value);
 			this.form.submitted = true;
-			//this.http.post$('/WS/wsUsers.asmx/Contact', { data: this.form.value })
-			this.http.post$('/api/users/Contact', this.form.value)
+			//HttpService.post$('/WS/wsUsers.asmx/Contact', { data: this.form.value })
+			HttpService.post$('/api/users/Contact', this.form.value)
 				.subscribe(response => {
 					console.log('NaturalFormContactComponent.onSubmit', response);
 					this.form.reset();

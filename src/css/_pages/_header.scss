@@ -223,7 +223,7 @@
 			display: block;
 		}
 
-		.icon--user {
+		&.btn--icon>.icon--user {
 			display: none;
 		}
 	}

@@ -5613,7 +5613,7 @@ ul {
   @media (min-width: 1024px) {
     .btn--club span {
       display: block; }
-    .btn--club .icon--user {
+    .btn--club.btn--icon > .icon--user {
       display: none; } }
   @media (max-width: 1439.98px) {
     .btn--club span {

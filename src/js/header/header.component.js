@@ -7,7 +7,7 @@ export default class HeaderComponent extends Component {
 	onInit() {
 		this.menu = null;
 		this.submenu = null;
-		UserService.user$.pipe(
+		UserService.me$().pipe(
 			takeUntil(this.unsubscribe$)
 		).subscribe(user => {
 			this.user = user;
