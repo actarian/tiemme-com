@@ -7,6 +7,11 @@
 				<div control-text [control]="controls.username" label="Username"></div>
 				<div control-password [control]="controls.password" label="Password"></div>
 			</div>
+			<div class="group--error" *if="error">
+				<span class="status-code" [innerHTML]="error.statusCode"></span>
+				<span class="status-message" [innerHTML]="error.statusMessage"></span>
+				<span class="friendly-message" [innerHTML]="error.friendlyMessage"></span>
+			</div>
 			<div class="group--cta">
 				<button type="submit" class="btn--submit">
 					<span *if="!form.submitted">Accedi</span>

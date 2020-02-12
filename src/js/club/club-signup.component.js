@@ -50,6 +50,7 @@ export default class ClubSignupComponent extends Component {
 
 		this.data = data;
 		this.form = form;
+		this.error = null;
 	}
 
 	set countryId(countryId) {
@@ -113,6 +114,10 @@ export default class ClubSignupComponent extends Component {
 					console.log('ClubSignupComponent.onSubmit', response);
 					this.signUp.next(this.form.value); // change to response!!!
 					// this.form.reset();
+				}, error => {
+					console.log('ClubSignupComponent.error', error);
+					this.error = error;
+					this.pushChanges();
 				});
 		} else {
 			this.form.touched = true;

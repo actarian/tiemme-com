@@ -10,8 +10,6 @@ export default class NaturalFormContactComponent extends Component {
 		const values = NaturalFormService.values;
 		this.title = NaturalFormService.title;
 
-		this.submitted = false;
-
 		const data = window.data || {
 			roles: [],
 			interests: [],
@@ -54,6 +52,8 @@ export default class NaturalFormContactComponent extends Component {
 
 		this.data = data;
 		this.form = form;
+		this.error = null;
+		this.submitted = false;
 	}
 
 	onChanges(changes) {}
@@ -103,7 +103,11 @@ export default class NaturalFormContactComponent extends Component {
 					console.log('NaturalFormContactComponent.onSubmit', response);
 					this.form.reset();
 					this.submitted = true;
-				})
+				}, error => {
+					console.log('NaturalFormContactComponent.error', error);
+					this.error = error;
+					this.pushChanges();
+				});
 		} else {
 			this.form.touched = true;
 		}

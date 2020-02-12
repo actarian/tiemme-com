@@ -18,8 +18,6 @@ Generazione Mail
 export default class RequestInfoCommercialComponent extends Component {
 
 	onInit() {
-		this.submitted = false;
-
 		const data = window.data || {
 			roles: [],
 			interests: [],
@@ -61,6 +59,8 @@ export default class RequestInfoCommercialComponent extends Component {
 
 		this.data = data;
 		this.form = form;
+		this.error = null;
+		this.success = false;
 	}
 
 	set countryId(countryId) {
@@ -107,7 +107,11 @@ export default class RequestInfoCommercialComponent extends Component {
 				.subscribe(response => {
 					console.log('RequestInfoCommercialComponent.onSubmit', response);
 					this.form.reset();
-					this.submitted = true;
+					this.success = true;
+				}, error => {
+					console.log('RequestInfoCommercialComponent.error', error);
+					this.error = error;
+					this.pushChanges();
 				});
 		} else {
 			this.form.touched = true;

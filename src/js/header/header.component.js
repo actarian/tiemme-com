@@ -1,5 +1,6 @@
 import { Component } from 'rxcomp';
-import { takeUntil } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { catchError, takeUntil } from 'rxjs/operators';
 import UserService from '../user/user.service';
 
 export default class HeaderComponent extends Component {
@@ -8,6 +9,7 @@ export default class HeaderComponent extends Component {
 		this.menu = null;
 		this.submenu = null;
 		UserService.me$().pipe(
+			catchError(() => of (null)),
 			takeUntil(this.unsubscribe$)
 		).subscribe(user => {
 			this.user = user;

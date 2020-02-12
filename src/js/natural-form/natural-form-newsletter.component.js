@@ -10,8 +10,6 @@ export default class NaturalFormNewsletterComponent extends Component {
 		const values = NaturalFormService.values;
 		this.title = NaturalFormService.title;
 
-		this.submitted = false;
-
 		const data = window.data || {
 			roles: [],
 			interests: [],
@@ -47,6 +45,8 @@ export default class NaturalFormNewsletterComponent extends Component {
 
 		this.data = data;
 		this.form = form;
+		this.error = null;
+		this.success = false;
 	}
 
 	test() {
@@ -77,8 +77,12 @@ export default class NaturalFormNewsletterComponent extends Component {
 				.subscribe(response => {
 					console.log('NaturalFormNewsletterComponent.onSubmit', response);
 					this.form.reset();
-					this.submitted = true;
-				})
+					this.success = true;
+				}, error => {
+					console.log('NaturalFormNewsletterComponent.error', error);
+					this.error = error;
+					this.pushChanges();
+				});
 		} else {
 			this.form.touched = true;
 		}

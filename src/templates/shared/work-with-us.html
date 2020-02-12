@@ -1,5 +1,5 @@
 <section class="section--form background--tertiary" work-with-us>
-	<button class="container" *if="!submitted">
+	<button class="container" *if="!success">
 		<div class="section--slides__title">Inviaci il tuo curriculum</div>
 		<form class="form" [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">
 			<div class="listing--form">
@@ -15,6 +15,11 @@
 				<div control-checkbox [control]="controls.privacy" label="Ho letto l&amp;#39;&amp;lt;a href=&amp;quot;/it/azienda/pagineinterne/informativa_sulla_privacy/&amp;quot; target=&amp;quot;_blank&amp;quot;&gt;informativa&amp;lt;/a&gt; e do il consenso al trattamento del dato"></div>
 				<div control-file [control]="controls.curricula" label="CV Allegato"></div>
 			</div>
+			<div class="group--error" *if="error">
+				<span class="status-code" [innerHTML]="error.statusCode"></span>
+				<span class="status-message" [innerHTML]="error.statusMessage"></span>
+				<span class="friendly-message" [innerHTML]="error.friendlyMessage"></span>
+			</div>
 			<button class="group--cta">
 				<button type="submit" class="btn--submit">
 					<span *if="!form.submitted">Invia</span>
@@ -24,7 +29,7 @@
 			<test-component [form]="form" (test)="test($event)" (reset)="reset($event)"></test-component>
 		</form>
 	</button>
-	<div class="container" *if="submitted">
+	<div class="container" *if="success">
 		<div class="section--slides__title">Richiesta Inviata</div>
 		<div class="abstract">
 			Grazie per averci contattato. La tua richiesta è stata inviata correttamente.

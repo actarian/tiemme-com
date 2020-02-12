@@ -6,8 +6,6 @@ import HttpService from '../http/http.service';
 export default class ClubForgotComponent extends Component {
 
 	onInit() {
-		this.submitted = false;
-
 		const form = new FormGroup({
 			email: new FormControl(null, [Validators.RequiredValidator(), Validators.EmailValidator()]),
 			checkRequest: window.antiforgery,
@@ -25,6 +23,8 @@ export default class ClubForgotComponent extends Component {
 		});
 
 		this.form = form;
+		this.error = null;
+		this.success = false;
 	}
 
 	test() {
@@ -48,9 +48,13 @@ export default class ClubForgotComponent extends Component {
 				.subscribe(response => {
 					console.log('ClubForgotComponent.onSubmit', response);
 					this.sent.next(true);
-					this.submitted = true;
+					this.success = true;
 					// this.form.reset();
-				})
+				}, error => {
+					console.log('ClubForgotComponent.error', error);
+					this.error = error;
+					this.pushChanges();
+				});
 		} else {
 			this.form.touched = true;
 		}

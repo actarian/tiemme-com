@@ -538,13 +538,11 @@
   function () {
     function HttpService() {}
 
-    HttpService.getUrl = function getUrl(url) {
-      console.log(url);
-      return STATIC && url.indexOf('/') === 0 ? "." + url + ".json" : url;
-    };
-
     HttpService.http$ = function http$(method, url, data) {
+      var _this = this;
+
       var methods = ['POST', 'PUT', 'PATCH'];
+      var response_ = null;
       return rxjs.from(fetch(this.getUrl(url), {
         method: method,
         headers: {
@@ -553,10 +551,11 @@
         },
         body: methods.indexOf(method) !== -1 ? JSON.stringify(data) : undefined
       }).then(function (response) {
+        response_ = response;
         return response.json();
-      }).catch(function (error) {
-        return console.log('HttpService.http$.error', error);
-      })); // !!! catched
+      })).pipe(operators.catchError(function (error) {
+        return rxjs.throwError(_this.getError(error, response_));
+      }));
     };
 
     HttpService.get$ = function get$(url, data) {
@@ -582,6 +581,26 @@
 
     HttpService.query = function query(data) {
       return ''; // todo
+    };
+
+    HttpService.getUrl = function getUrl(url) {
+      // console.log(url);
+      return STATIC && url.indexOf('/') === 0 ? "." + url + ".json" : url;
+    };
+
+    HttpService.getError = function getError(object, response) {
+      var error = {};
+
+      if (!error.statusCode) {
+        error.statusCode = response ? response.status : 0;
+      }
+
+      if (!error.statusMessage) {
+        error.statusMessage = response ? response.statusText : object;
+      }
+
+      console.log('HttpService.getError', error, object);
+      return error;
     };
 
     return HttpService;
@@ -700,7 +719,7 @@
     UserService.login$ = function login$(payload) {
       var _this3 = this;
 
-      return HttpService.post$('/api/users/login', payload).pipe(operators.map(function (user) {
+      return HttpService.post$('/api/users/login__', payload).pipe(operators.map(function (user) {
         return _this3.mapStatic__(user, 'login');
       }));
     };
@@ -829,6 +848,24 @@
           target: node
         });
       }
+      /*
+      function observer() {
+      	if ('IntersectionObserver' in window) {
+      		return new IntersectionObserver(entries => {
+      			entries.forEach(function(entry) {
+      				if (entry.isIntersecting) {
+      					entry.target.classList.add('appear');
+      				}
+      			})
+      		});
+      	} else {
+      		return { observe: function(node) { node.classList.add('appear')}, unobserve: function() {} };
+      	}
+      }
+      observer.observe(node);
+      observer.unobserve(node);
+      */
+
     };
 
     return IntersectionService;
@@ -941,7 +978,6 @@
     _proto.onInit = function onInit() {
       var _this = this;
 
-      this.submitted = false;
       var form = new rxcompForm.FormGroup({
         email: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator(), rxcompForm.Validators.EmailValidator()]),
         checkRequest: window.antiforgery,
@@ -954,6 +990,8 @@
         _this.pushChanges();
       });
       this.form = form;
+      this.error = null;
+      this.success = false;
     };
 
     _proto.test = function test() {
@@ -980,7 +1018,12 @@
 
           _this2.sent.next(true);
 
-          _this2.submitted = true; // this.form.reset();
+          _this2.success = true; // this.form.reset();
+        }, function (error) {
+          console.log('ClubForgotComponent.error', error);
+          _this2.error = error;
+
+          _this2.pushChanges();
         });
       } else {
         this.form.touched = true;
@@ -1318,7 +1361,10 @@
       });
       this.data = data;
       this.form = form;
-      UserService.me$().pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (user) {
+      this.error = null;
+      UserService.me$().pipe(operators.catchError(function () {
+        return rxjs.of(null);
+      }), operators.takeUntil(this.unsubscribe$)).subscribe(function (user) {
         _this.form.patch(user);
       });
     };
@@ -1382,6 +1428,11 @@
           _this3.update.next(_this3.form.value); // change to response!!!
           // this.form.reset();
 
+        }, function (error) {
+          console.log('ClubProfileComponent.error', error);
+          _this3.error = error;
+
+          _this3.pushChanges();
         });
       } else {
         this.form.touched = true;
@@ -1444,6 +1495,7 @@
         _this.pushChanges();
       });
       this.form = form;
+      this.error = null;
     };
 
     _proto.test = function test() {
@@ -1468,11 +1520,13 @@
         this.form.submitted = true; // HttpService.post$('/api/users/Login', this.form.value)
 
         UserService.login$(this.form.value).subscribe(function (response) {
-          console.log('ClubSigninComponent.onSubmit', response);
-
-          _this2.signIn.next(_this2.form.value); // change to response!!!
+          console.log('ClubSigninComponent.onSubmit', response); // this.signIn.next(this.form.value); // change to response!!!
           // this.form.reset();
+        }, function (error) {
+          console.log('ClubSigninComponent.error', error);
+          _this2.error = error;
 
+          _this2.pushChanges();
         });
       } else {
         this.form.touched = true;
@@ -1547,6 +1601,7 @@
       });
       this.data = data;
       this.form = form;
+      this.error = null;
     };
 
     _proto.test = function test() {
@@ -1607,6 +1662,11 @@
           _this3.signUp.next(_this3.form.value); // change to response!!!
           // this.form.reset();
 
+        }, function (error) {
+          console.log('ClubSignupComponent.error', error);
+          _this3.error = error;
+
+          _this3.pushChanges();
         });
       } else {
         this.form.touched = true;
@@ -2246,7 +2306,9 @@
 
       this.menu = null;
       this.submenu = null;
-      UserService.me$().pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (user) {
+      UserService.me$().pipe(operators.catchError(function () {
+        return rxjs.of(null);
+      }), operators.takeUntil(this.unsubscribe$)).subscribe(function (user) {
         _this.user = user;
 
         _this.pushChanges();
@@ -2651,7 +2713,6 @@
 
       var values = NaturalFormService.values;
       this.title = NaturalFormService.title;
-      this.submitted = false;
       var data = window.data || {
         roles: [],
         interests: [],
@@ -2689,6 +2750,8 @@
       });
       this.data = data;
       this.form = form;
+      this.error = null;
+      this.submitted = false;
     };
 
     _proto.onChanges = function onChanges(changes) {};
@@ -2726,6 +2789,11 @@
           _this2.form.reset();
 
           _this2.submitted = true;
+        }, function (error) {
+          console.log('NaturalFormContactComponent.error', error);
+          _this2.error = error;
+
+          _this2.pushChanges();
         });
       } else {
         this.form.touched = true;
@@ -2930,7 +2998,6 @@
 
       var values = NaturalFormService.values;
       this.title = NaturalFormService.title;
-      this.submitted = false;
       var data = window.data || {
         roles: [],
         interests: [],
@@ -2960,6 +3027,8 @@
       });
       this.data = data;
       this.form = form;
+      this.error = null;
+      this.success = false;
     };
 
     _proto.test = function test() {
@@ -2993,7 +3062,12 @@
 
           _this2.form.reset();
 
-          _this2.submitted = true;
+          _this2.success = true;
+        }, function (error) {
+          console.log('NaturalFormNewsletterComponent.error', error);
+          _this2.error = error;
+
+          _this2.pushChanges();
         });
       } else {
         this.form.touched = true;
@@ -3193,7 +3267,6 @@
 
       var values = NaturalFormService.values;
       this.title = NaturalFormService.title;
-      this.submitted = false;
       var data = window.data || {
         roles: [],
         countries: [],
@@ -3234,6 +3307,8 @@
       });
       this.data = data;
       this.form = form;
+      this.error = null;
+      this.success = false;
     };
 
     _proto.test = function test() {
@@ -3296,7 +3371,12 @@
 
           _this3.form.reset();
 
-          _this3.submitted = true;
+          _this3.success = true;
+        }, function (error) {
+          console.log('NaturalFormSignupComponent.error', error);
+          _this3.error = error;
+
+          _this3.pushChanges();
         });
       } else {
         this.form.touched = true;
@@ -3491,7 +3571,6 @@
     _proto.onInit = function onInit() {
       var _this = this;
 
-      this.submitted = false;
       var data = window.data || {
         roles: [],
         interests: [],
@@ -3528,6 +3607,8 @@
       });
       this.data = data;
       this.form = form;
+      this.error = null;
+      this.success = false;
     };
 
     _proto.test = function test() {
@@ -3562,7 +3643,12 @@
 
           _this2.form.reset();
 
-          _this2.submitted = true;
+          _this2.success = true;
+        }, function (error) {
+          console.log('RequestInfoCommercialComponent.error', error);
+          _this2.error = error;
+
+          _this2.pushChanges();
         });
       } else {
         this.form.touched = true;
@@ -3612,7 +3698,9 @@
     _proto.onInit = function onInit() {
       var _this = this;
 
-      UserService.me$().pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (user) {
+      UserService.me$().pipe(operators.catchError(function () {
+        return rxjs.of(null);
+      }), operators.takeUntil(this.unsubscribe$)).subscribe(function (user) {
         _this.user = user;
       });
     };
@@ -4075,7 +4163,6 @@
     _proto.onInit = function onInit() {
       var _this = this;
 
-      this.submitted = false;
       var data = window.data || {
         departments: []
       };
@@ -4102,6 +4189,8 @@
       });
       this.data = data;
       this.form = form;
+      this.error = null;
+      this.success = false;
     };
 
     _proto.test = function test() {
@@ -4137,7 +4226,12 @@
 
           _this2.form.reset();
 
-          _this2.submitted = true;
+          _this2.success = true;
+        }, function (error) {
+          console.log('WorkWithUsComponent.error', error);
+          _this2.error = error;
+
+          _this2.pushChanges();
         });
       } else {
         this.form.touched = true;

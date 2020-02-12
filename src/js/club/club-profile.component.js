@@ -1,6 +1,7 @@
 import { Component } from 'rxcomp';
 import { FormControl, FormGroup, FormValidator, Validators } from 'rxcomp-form';
-import { takeUntil } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { catchError, takeUntil } from 'rxjs/operators';
 import HttpService from '../http/http.service';
 import UserService from '../user/user.service';
 
@@ -51,8 +52,10 @@ export default class ClubProfileComponent extends Component {
 
 		this.data = data;
 		this.form = form;
+		this.error = null;
 
 		UserService.me$().pipe(
+			catchError(() => of (null)),
 			takeUntil(this.unsubscribe$)
 		).subscribe(user => {
 			this.form.patch(user);
@@ -119,7 +122,11 @@ export default class ClubProfileComponent extends Component {
 					console.log('ClubProfileComponent.onSubmit', response);
 					this.update.next(this.form.value); // change to response!!!
 					// this.form.reset();
-				})
+				}, error => {
+					console.log('ClubProfileComponent.error', error);
+					this.error = error;
+					this.pushChanges();
+				});
 		} else {
 			this.form.touched = true;
 		}

@@ -1061,6 +1061,11 @@
 				<div control-text [control]="controls.username" label="Username"></div>
 				<div control-password [control]="controls.password" label="Password"></div>
 			</div>
+			<div class="group--error" *if="error">
+				<span class="status-code" [innerHTML]="error.statusCode"></span>
+				<span class="status-message" [innerHTML]="error.statusMessage"></span>
+				<span class="friendly-message" [innerHTML]="error.friendlyMessage"></span>
+			</div>
 			<div class="group--cta">
 				<button type="submit" class="btn--submit">
 					<span *if="!form.submitted">Accedi</span>
@@ -1103,6 +1108,11 @@
 				<div control-checkbox [control]="controls.privacy" label="Ho letto l&amp;#39;&amp;lt;a href=&amp;quot;/it/azienda/pagineinterne/informativa_sulla_privacy/&amp;quot; target=&amp;quot;_blank&amp;quot;&gt;informativa&amp;lt;/a&gt; e do il consenso al trattamento del dato"></div>
 				<div control-checkbox [control]="controls.newsletter" label="Voglio iscrivermi alla newsletter TIEMME"></div>
 			</div>
+			<div class="group--error" *if="error">
+				<span class="status-code" [innerHTML]="error.statusCode"></span>
+				<span class="status-message" [innerHTML]="error.statusMessage"></span>
+				<span class="friendly-message" [innerHTML]="error.friendlyMessage"></span>
+			</div>
 			<div class="group--cta">
 				<button type="submit" class="btn--submit">
 					<span *if="!form.submitted">Registrati</span>
@@ -1119,12 +1129,17 @@
 				<div *if="view == views.FORGOTTEN">
 <!-- start club-forgot.html-->
 <div club-forgot (sent)="onForgottenSent($event)" (login)="onLogin($event)">
-	<div class="container" *if="!submitted">
+	<div class="container" *if="!success">
 		<form class="form" [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">
 			<div class="title">Recupera Password</div>
 			<div class="fields">
 				<input name="checkField" [formControl]="controls.checkField" value="" type="text" style="display:none !important;" />
 				<div control-text [control]="controls.email" label="Email"></div>
+			</div>
+			<div class="group--error" *if="error">
+				<span class="status-code" [innerHTML]="error.statusCode"></span>
+				<span class="status-message" [innerHTML]="error.statusMessage"></span>
+				<span class="friendly-message" [innerHTML]="error.friendlyMessage"></span>
 			</div>
 			<div class="group--cta">
 				<button type="submit" class="btn--submit">
@@ -1137,7 +1152,7 @@
 			<test-component [form]="form" (test)="test($event)" (reset)="reset($event)"></test-component>
 		</form>
 	</div>
-	<div class="container" *if="submitted">
+	<div class="container" *if="success">
 		<div class="title">Password Inviata</div>
 		<div class="abstract">
 			Abbiamo inviato la password all'indirizzo email fornito.
@@ -1584,7 +1599,7 @@
 	<div *if="view == views.TECHNICAL || view == views.COMMERCIAL">
 <!-- start natural-form-contact.html-->
 <section class="section--form background--tertiary" natural-form-contact (back)="onBack($event)">
-	<div class="container" *if="!submitted">
+	<div class="container" *if="!success">
 		<div class="section--form__title"><svg class="icon icon--back" (click)="onBack($event)"><use xlink:href="#back"></use></svg> <span [innerHTML]="title"></span></div>
 		<form class="form" [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">
 			<div class="listing--form-compact">
@@ -1599,6 +1614,11 @@
 				<div control-checkbox [control]="controls.privacy" label="Ho letto l&amp;#39;&amp;lt;a href=&amp;quot;/it/azienda/pagineinterne/informativa_sulla_privacy/&amp;quot; target=&amp;quot;_blank&amp;quot;&gt;informativa&amp;lt;/a&gt; e do il consenso al trattamento del dato"></div>
 				<div control-checkbox [control]="controls.newsletter" label="Voglio iscrivermi alla newsletter TIEMME"></div>
 			</div>
+			<div class="group--error" *if="error">
+				<span class="status-code" [innerHTML]="error.statusCode"></span>
+				<span class="status-message" [innerHTML]="error.statusMessage"></span>
+				<span class="friendly-message" [innerHTML]="error.friendlyMessage"></span>
+			</div>
 			<div class="group--cta">
 				<button type="submit" class="btn--back" (click)="onBack($event)"><span>Indietro</span></button>
 				<button type="submit" class="btn--submit">
@@ -1609,7 +1629,7 @@
 			<test-component [form]="form" (test)="test($event)" (reset)="reset($event)"></test-component>
 		</form>
 	</div>
-	<div class="container" *if="submitted">
+	<div class="container" *if="success">
 		<div class="section--form__title"><span>Richiesta Inviata</span></div>
 		<div class="section--form__abstract">
 			Grazie per averci contattato. La tua richiesta è stata inviata correttamente.
@@ -1622,7 +1642,7 @@
 	<div *if="view == views.NEWSLETTER">
 <!-- start natural-form-newsletter.html-->
 <section class="section--form background--tertiary" natural-form-newsletter (back)="onBack($event)">
-	<div class="container" *if="!submitted">
+	<div class="container" *if="!success">
 		<div class="section--form__title"><svg class="icon icon--back" (click)="onBack($event)"><use xlink:href="#back"></use></svg> <span [innerHTML]="title"></span></div>
 		<form class="form" [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">
 			<div class="listing--form-compact">
@@ -1634,6 +1654,11 @@
 				<div control-checkbox [control]="controls.privacy" label="Ho letto l&amp;#39;&amp;lt;a href=&amp;quot;/it/azienda/pagineinterne/informativa_sulla_privacy/&amp;quot; target=&amp;quot;_blank&amp;quot;&gt;informativa&amp;lt;/a&gt; e do il consenso al trattamento del dato"></div>
 				<div control-checkbox [control]="controls.newsletter" label="Voglio iscrivermi alla newsletter TIEMME"></div>
 			</div>
+			<div class="group--error" *if="error">
+				<span class="status-code" [innerHTML]="error.statusCode"></span>
+				<span class="status-message" [innerHTML]="error.statusMessage"></span>
+				<span class="friendly-message" [innerHTML]="error.friendlyMessage"></span>
+			</div>
 			<div class="group--cta">
 				<button type="submit" class="btn--back" (click)="onBack($event)"><span>Indietro</span></button>
 				<button type="submit" class="btn--submit">
@@ -1644,7 +1669,7 @@
 			<test-component [form]="form" (test)="test($event)" (reset)="reset($event)"></test-component>
 		</form>
 	</div>
-	<div class="container" *if="submitted">
+	<div class="container" *if="success">
 		<div class="section--form__title"><span>Richiesta Inviata</span></div>
 		<div class="section--form__abstract">
 			Grazie per averci contattato. La tua richiesta è stata inviata correttamente.
@@ -1657,7 +1682,7 @@
 	<div *if="view == views.CLUB">
 <!-- start natural-form-signup.html-->
 <section class="section--form" natural-form-signup (back)="onBack($event)">
-	<div class="container" *if="!submitted">
+	<div class="container" *if="!success">
 		<div class="section--form__title"><svg class="icon icon--back" (click)="onBack($event)"><use xlink:href="#back"></use></svg> <span [innerHTML]="title"></span></div>
 		<form class="form" [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">
 			<div class="listing--form-compact">
@@ -1679,6 +1704,11 @@
 				<div control-checkbox [control]="controls.privacy" label="Ho letto l&amp;#39;&amp;lt;a href=&amp;quot;/it/azienda/pagineinterne/informativa_sulla_privacy/&amp;quot; target=&amp;quot;_blank&amp;quot;&gt;informativa&amp;lt;/a&gt; e do il consenso al trattamento del dato"></div>
 				<div control-checkbox [control]="controls.newsletter" label="Voglio iscrivermi alla newsletter TIEMME"></div>
 			</div>
+			<div class="group--error" *if="error">
+				<span class="status-code" [innerHTML]="error.statusCode"></span>
+				<span class="status-message" [innerHTML]="error.statusMessage"></span>
+				<span class="friendly-message" [innerHTML]="error.friendlyMessage"></span>
+			</div>
 			<div class="group--cta">
 				<button type="submit" class="btn--back" (click)="onBack($event)"><span>Indietro</span></button>
 				<button type="submit" class="btn--submit">
@@ -1689,7 +1719,7 @@
 			<test-component [form]="form" (test)="test($event)" (reset)="reset($event)"></test-component>
 		</form>
 	</div>
-	<div class="container" *if="submitted">
+	<div class="container" *if="success">
 		<div class="section--form__title"><span>Richiesta Inviata</span></div>
 		<div class="section--form__abstract">
 			Grazie per averci contattato. La tua richiesta è stata inviata correttamente.

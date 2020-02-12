@@ -28,6 +28,7 @@ export default class ClubSigninComponent extends Component {
 		});
 
 		this.form = form;
+		this.error = null;
 	}
 
 	test() {
@@ -52,8 +53,12 @@ export default class ClubSigninComponent extends Component {
 			UserService.login$(this.form.value)
 				.subscribe(response => {
 					console.log('ClubSigninComponent.onSubmit', response);
-					this.signIn.next(this.form.value); // change to response!!!
+					// this.signIn.next(this.form.value); // change to response!!!
 					// this.form.reset();
+				}, error => {
+					console.log('ClubSigninComponent.error', error);
+					this.error = error;
+					this.pushChanges();
 				});
 		} else {
 			this.form.touched = true;

@@ -29,6 +29,25 @@ export default class IntersectionService {
 		} else {
 			return of({ target: node });
 		}
+
+		/*
+		function observer() {
+			if ('IntersectionObserver' in window) {
+				return new IntersectionObserver(entries => {
+					entries.forEach(function(entry) {
+						if (entry.isIntersecting) {
+							entry.target.classList.add('appear');
+						}
+					})
+				});
+			} else {
+				return { observe: function(node) { node.classList.add('appear')}, unobserve: function() {} };
+			}
+		}
+		observer.observe(node);
+		observer.unobserve(node);
+		*/
+
 	}
 
 }

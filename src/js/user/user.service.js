@@ -27,7 +27,7 @@ export default class UserService {
 	}
 
 	static login$(payload) {
-		return HttpService.post$('/api/users/login', payload).pipe(
+		return HttpService.post$('/api/users/login__', payload).pipe(
 			map((user) => this.mapStatic__(user, 'login')),
 		);
 	}

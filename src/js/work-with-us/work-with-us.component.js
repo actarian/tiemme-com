@@ -6,8 +6,6 @@ import HttpService from '../http/http.service';
 export default class WorkWithUsComponent extends Component {
 
 	onInit() {
-		this.submitted = false;
-
 		const data = window.data || {
 			departments: []
 		};
@@ -40,6 +38,8 @@ export default class WorkWithUsComponent extends Component {
 
 		this.data = data;
 		this.form = form;
+		this.error = null;
+		this.success = false;
 	}
 
 	test() {
@@ -72,7 +72,11 @@ export default class WorkWithUsComponent extends Component {
 				.subscribe(response => {
 					console.log('WorkWithUsComponent.onSubmit', response);
 					this.form.reset();
-					this.submitted = true;
+					this.success = true;
+				}, error => {
+					console.log('WorkWithUsComponent.error', error);
+					this.error = error;
+					this.pushChanges();
 				});
 		} else {
 			this.form.touched = true;

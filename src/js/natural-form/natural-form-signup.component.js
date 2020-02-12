@@ -10,8 +10,6 @@ export default class NaturalFormSignupComponent extends Component {
 		const values = NaturalFormService.values;
 		this.title = NaturalFormService.title;
 
-		this.submitted = false;
-
 		const data = window.data || {
 			roles: [],
 			countries: [],
@@ -57,6 +55,8 @@ export default class NaturalFormSignupComponent extends Component {
 
 		this.data = data;
 		this.form = form;
+		this.error = null;
+		this.success = false;
 	}
 
 	set countryId(countryId) {
@@ -120,8 +120,12 @@ export default class NaturalFormSignupComponent extends Component {
 					console.log('NaturalFormSignupComponent.onSubmit', response);
 					this.signUp.next(this.form.value); // change to response!!!
 					this.form.reset();
-					this.submitted = true;
-				})
+					this.success = true;
+				}, error => {
+					console.log('NaturalFormSignupComponent.error', error);
+					this.error = error;
+					this.pushChanges();
+				});
 		} else {
 			this.form.touched = true;
 		}

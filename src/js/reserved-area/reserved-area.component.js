@@ -1,11 +1,13 @@
 import { Component } from 'rxcomp';
-import { takeUntil } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { catchError, takeUntil } from 'rxjs/operators';
 import UserService from '../user/user.service';
 
 export default class ReservedAreaComponent extends Component {
 
 	onInit() {
 		UserService.me$().pipe(
+			catchError(() => of (null)),
 			takeUntil(this.unsubscribe$)
 		).subscribe(user => {
 			this.user = user;
