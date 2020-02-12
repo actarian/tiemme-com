@@ -16,7 +16,13 @@ export default class HttpService {
 			body: methods.indexOf(method) !== -1 ? JSON.stringify(data) : undefined
 		}).then((response) => {
 			response_ = response;
-			return response.json();
+			if (response.ok) {
+				return response.json();
+			} else {
+				return response.json().then(json => {
+					return Promise.reject(json);
+				});
+			}
 		})).pipe(
 			catchError(error => {
 				return throwError(this.getError(error, response_));

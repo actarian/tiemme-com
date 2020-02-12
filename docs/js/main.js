@@ -552,7 +552,14 @@
         body: methods.indexOf(method) !== -1 ? JSON.stringify(data) : undefined
       }).then(function (response) {
         response_ = response;
-        return response.json();
+
+        if (response.ok) {
+          return response.json();
+        } else {
+          return response.json().then(function (json) {
+            return Promise.reject(json);
+          });
+        }
       })).pipe(operators.catchError(function (error) {
         return rxjs.throwError(_this.getError(error, response_));
       }));
