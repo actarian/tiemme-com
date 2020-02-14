@@ -25,9 +25,12 @@ export default class ClubSignupComponent extends Component {
 			telephone: new FormControl(null, Validators.RequiredValidator()),
 			fax: null,
 			email: new FormControl(null, [Validators.RequiredValidator(), Validators.EmailValidator()]),
+			/*
+			// password autogenerata
 			username: new FormControl(null, [Validators.RequiredValidator()]),
 			password: new FormControl(null, [Validators.RequiredValidator()]),
 			passwordConfirm: new FormControl(null, [Validators.RequiredValidator(), this.MatchValidator('password')]),
+			*/
 			privacy: new FormControl(null, Validators.RequiredTrueValidator()),
 			newsletter: null,
 			checkRequest: window.antiforgery,
@@ -51,6 +54,7 @@ export default class ClubSignupComponent extends Component {
 		this.data = data;
 		this.form = form;
 		this.error = null;
+		this.success = false;
 	}
 
 	set countryId(countryId) {
@@ -80,9 +84,11 @@ export default class ClubSignupComponent extends Component {
 			city: 'Pesaro',
 			telephone: '00390721411112',
 			email: 'jhonappleseed@gmail.com',
+			/*
 			username: 'username',
 			password: 'password',
 			passwordConfirm: 'password',
+			*/
 			privacy: true,
 			checkRequest: window.antiforgery,
 			checkField: ''
@@ -112,7 +118,8 @@ export default class ClubSignupComponent extends Component {
 			UserService.register$(this.form.value)
 				.subscribe(response => {
 					console.log('ClubSignupComponent.onSubmit', response);
-					this.signUp.next(this.form.value); // change to response!!!
+					this.signUp.next(response);
+					this.success = true;
 					// this.form.reset();
 				}, error => {
 					console.log('ClubSignupComponent.error', error);

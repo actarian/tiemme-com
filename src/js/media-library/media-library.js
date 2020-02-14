@@ -16,6 +16,16 @@ export default class MediaLibraryComponent extends Component {
 		filters.categories.mode = FilterMode.OR;
 		const filterService = new FilterService(filters, initialParams, (key, filter) => {
 			switch (key) {
+				case 'languages':
+					filter.filter = (item, value) => {
+						return item.languages.indexOf(value) !== -1;
+					};
+					break;
+				case 'categories':
+					filter.filter = (item, value) => {
+						return item.category === value;
+					};
+					break;
 				default:
 					filter.filter = (item, value) => {
 						return item.features.indexOf(value) !== -1;

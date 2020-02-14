@@ -27,9 +27,12 @@ export default class ClubProfileComponent extends Component {
 			telephone: new FormControl(null, Validators.RequiredValidator()),
 			fax: null,
 			email: new FormControl(null, [Validators.RequiredValidator(), Validators.EmailValidator()]),
-			// username: new FormControl(null, [Validators.RequiredValidator()]),
-			// password: new FormControl(null, [Validators.RequiredValidator()]),
-			// passwordConfirm: new FormControl(null, [Validators.RequiredValidator(), this.MatchValidator('password')]),
+			/*
+			// password autogenerata
+			username: new FormControl(null, [Validators.RequiredValidator()]),
+			password: new FormControl(null, [Validators.RequiredValidator()]),
+			passwordConfirm: new FormControl(null, [Validators.RequiredValidator(), this.MatchValidator('password')]),
+			*/
 			// privacy: new FormControl(null, Validators.RequiredTrueValidator()),
 			newsletter: null,
 			checkRequest: window.antiforgery,
@@ -53,6 +56,7 @@ export default class ClubProfileComponent extends Component {
 		this.data = data;
 		this.form = form;
 		this.error = null;
+		this.success = false;
 
 		UserService.me$().pipe(
 			catchError(() => of (null)),
@@ -89,9 +93,12 @@ export default class ClubProfileComponent extends Component {
 			city: 'Pesaro',
 			telephone: '00390721411112',
 			email: 'jhonappleseed@gmail.com',
-			// username: 'username',
-			// password: 'password',
-			// passwordConfirm: 'password',
+			/*
+			// password autogenerata
+			username: 'username',
+			password: 'password',
+			passwordConfirm: 'password',
+			*/
 			// privacy: true,
 			checkRequest: window.antiforgery,
 			checkField: ''
@@ -120,7 +127,8 @@ export default class ClubProfileComponent extends Component {
 			HttpService.post$('/WS/wsUsers.asmx/Update', { data: this.form.value })
 				.subscribe(response => {
 					console.log('ClubProfileComponent.onSubmit', response);
-					this.update.next(this.form.value); // change to response!!!
+					this.update.next(response);
+					this.success = true;
 					// this.form.reset();
 				}, error => {
 					console.log('ClubProfileComponent.error', error);

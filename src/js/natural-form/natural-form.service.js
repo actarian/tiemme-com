@@ -76,6 +76,38 @@ export default class NaturalFormService {
 		this.form = form || this.form; // setter & getter
 	}
 
+	static getDefaultValue() {
+		const form = window.naturalForm || {};
+		Object.keys(form).forEach(key => {
+			const filter = form[key];
+			switch (key) {
+				case 'club':
+				case 'newsletter':
+					break;
+				default:
+					const firstId = filter.options[0].id;
+					filter.value = filter.multiple ? [firstId] : firstId;
+			}
+		});
+		return form;
+	}
+
+	static get disabled() {
+		return false; // !!! return false until getDefaultValue set initial value
+		let disabled = false;
+		const values = this.values;
+		Object.keys(values).forEach(key => {
+			switch (key) {
+				case 'club':
+				case 'newsletter':
+					break;
+				default:
+					disabled = disabled || values[key] == undefined;
+			}
+		});
+		return disabled;
+	}
+
 }
 
-NaturalFormService.form$ = new BehaviorSubject(window.naturalForm || {}); // !!! static
+NaturalFormService.form$ = new BehaviorSubject(NaturalFormService.getDefaultValue()); // !!! static

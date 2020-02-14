@@ -141,21 +141,25 @@
 .listing--media {
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: space-between;
+	justify-content: flex-start;
 
 	.listing__item {
 		margin-bottom: 60px;
 	}
 
 	@include media-up(lg) {
+		$gutter: 30px;
+		margin-left: - $gutter / 2;
+		margin-right: - $gutter / 2;
+
 		.listing__item {
-			@include as-col(6, 12, 30px);
+			@include as-col(6, 12, $gutter);
 		}
 	}
 
 	@include media-down(md) {
 		.listing__item {
-			@include as-col(12, 12, 0px);
+			@include as-col(12, 12, 0);
 		}
 	}
 

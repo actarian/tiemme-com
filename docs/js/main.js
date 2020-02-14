@@ -6,7 +6,7 @@
 
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('rxcomp'), require('rxcomp-form'), require('rxjs/operators'), require('rxjs')) :
-  typeof define === 'function' && define.amd ? define('main', ['rxcomp', 'rxcomp-form', 'rxjs/operators', 'rxjs'], factory) :
+  typeof define === 'function' && define.amd ? define(['rxcomp', 'rxcomp-form', 'rxjs/operators', 'rxjs'], factory) :
   (global = global || self, factory(global.rxcomp, global['rxcomp-form'], global.rxjs.operators, global.rxjs));
 }(this, (function (rxcomp, rxcompForm, operators, rxjs) { 'use strict';
 
@@ -1347,9 +1347,13 @@
         telephone: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
         fax: null,
         email: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator(), rxcompForm.Validators.EmailValidator()]),
-        // username: new FormControl(null, [Validators.RequiredValidator()]),
-        // password: new FormControl(null, [Validators.RequiredValidator()]),
-        // passwordConfirm: new FormControl(null, [Validators.RequiredValidator(), this.MatchValidator('password')]),
+
+        /*
+        // password autogenerata
+        username: new FormControl(null, [Validators.RequiredValidator()]),
+        password: new FormControl(null, [Validators.RequiredValidator()]),
+        passwordConfirm: new FormControl(null, [Validators.RequiredValidator(), this.MatchValidator('password')]),
+        */
         // privacy: new FormControl(null, Validators.RequiredTrueValidator()),
         newsletter: null,
         checkRequest: window.antiforgery,
@@ -1369,6 +1373,7 @@
       this.data = data;
       this.form = form;
       this.error = null;
+      this.success = false;
       UserService.me$().pipe(operators.catchError(function () {
         return rxjs.of(null);
       }), operators.takeUntil(this.unsubscribe$)).subscribe(function (user) {
@@ -1388,9 +1393,13 @@
         city: 'Pesaro',
         telephone: '00390721411112',
         email: 'jhonappleseed@gmail.com',
-        // username: 'username',
-        // password: 'password',
-        // passwordConfirm: 'password',
+
+        /*
+        // password autogenerata
+        username: 'username',
+        password: 'password',
+        passwordConfirm: 'password',
+        */
         // privacy: true,
         checkRequest: window.antiforgery,
         checkField: ''
@@ -1432,9 +1441,9 @@
         }).subscribe(function (response) {
           console.log('ClubProfileComponent.onSubmit', response);
 
-          _this3.update.next(_this3.form.value); // change to response!!!
-          // this.form.reset();
+          _this3.update.next(response);
 
+          _this3.success = true; // this.form.reset();
         }, function (error) {
           console.log('ClubProfileComponent.error', error);
           _this3.error = error;
@@ -1503,6 +1512,7 @@
       });
       this.form = form;
       this.error = null;
+      this.success = false;
     };
 
     _proto.test = function test() {
@@ -1527,8 +1537,11 @@
         this.form.submitted = true; // HttpService.post$('/api/users/Login', this.form.value)
 
         UserService.login$(this.form.value).subscribe(function (response) {
-          console.log('ClubSigninComponent.onSubmit', response); // this.signIn.next(this.form.value); // change to response!!!
-          // this.form.reset();
+          console.log('ClubSigninComponent.onSubmit', response);
+
+          _this2.signIn.next(response);
+
+          _this2.success = true; // this.form.reset();
         }, function (error) {
           console.log('ClubSigninComponent.error', error);
           _this2.error = error;
@@ -1587,9 +1600,13 @@
         telephone: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
         fax: null,
         email: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator(), rxcompForm.Validators.EmailValidator()]),
-        username: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator()]),
-        password: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator()]),
-        passwordConfirm: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator(), this.MatchValidator('password')]),
+
+        /*
+        // password autogenerata
+        username: new FormControl(null, [Validators.RequiredValidator()]),
+        password: new FormControl(null, [Validators.RequiredValidator()]),
+        passwordConfirm: new FormControl(null, [Validators.RequiredValidator(), this.MatchValidator('password')]),
+        */
         privacy: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredTrueValidator()),
         newsletter: null,
         checkRequest: window.antiforgery,
@@ -1609,6 +1626,7 @@
       this.data = data;
       this.form = form;
       this.error = null;
+      this.success = false;
     };
 
     _proto.test = function test() {
@@ -1623,9 +1641,12 @@
         city: 'Pesaro',
         telephone: '00390721411112',
         email: 'jhonappleseed@gmail.com',
+
+        /*
         username: 'username',
         password: 'password',
         passwordConfirm: 'password',
+        */
         privacy: true,
         checkRequest: window.antiforgery,
         checkField: ''
@@ -1666,9 +1687,9 @@
         UserService.register$(this.form.value).subscribe(function (response) {
           console.log('ClubSignupComponent.onSubmit', response);
 
-          _this3.signUp.next(_this3.form.value); // change to response!!!
-          // this.form.reset();
+          _this3.signUp.next(response);
 
+          _this3.success = true; // this.form.reset();
         }, function (error) {
           console.log('ClubSignupComponent.error', error);
           _this3.error = error;
@@ -2090,6 +2111,7 @@
     _proto.onInit = function onInit() {
       this.label = 'label';
       this.labels = window.labels || {};
+      this.file = null;
       this.required = false;
       this.onReaderComplete = this.onReaderComplete.bind(this);
     };
@@ -2126,7 +2148,7 @@
     inputs: ['control', 'label'],
     template:
     /* html */
-    "\n\t\t<div class=\"group--form--file\" [class]=\"{ required: control.validators.length }\">\n\t\t\t<label for=\"file\" [innerHTML]=\"label\"></label>\n\t\t\t<span class=\"control--select\" [innerHTML]=\"labels.select_file\"></span>\n\t\t\t<svg class=\"icon icon--upload\"><use xlink:href=\"#upload\"></use></svg>\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t\t<input name=\"file\" type=\"file\" accept=\".pdf,.doc,.docx,*.txt\" class=\"control--file\" (change)=\"onInputDidChange($event)\" />\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
+    "\n\t\t<div class=\"group--form--file\" [class]=\"{ required: control.validators.length }\">\n\t\t\t<label for=\"file\" [innerHTML]=\"label\"></label>\n\t\t\t<span class=\"control--select\" [innerHTML]=\"file?.name || labels.select_file\"></span>\n\t\t\t<svg class=\"icon icon--upload\"><use xlink:href=\"#upload\"></use></svg>\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t\t<input name=\"file\" type=\"file\" accept=\".pdf,.doc,.docx,*.txt\" class=\"control--file\" (change)=\"onInputDidChange($event)\" />\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
   };
 
   var ControlPasswordComponent =
@@ -2571,6 +2593,20 @@
       filters.categories.mode = FilterMode.OR;
       var filterService = new FilterService(filters, initialParams, function (key, filter) {
         switch (key) {
+          case 'languages':
+            filter.filter = function (item, value) {
+              return item.languages.indexOf(value) !== -1;
+            };
+
+            break;
+
+          case 'categories':
+            filter.filter = function (item, value) {
+              return item.category === value;
+            };
+
+            break;
+
           default:
             filter.filter = function (item, value) {
               return item.features.indexOf(value) !== -1;
@@ -2608,6 +2644,24 @@
 
     NaturalFormService.next = function next(form) {
       this.form = form || this.form; // setter & getter
+    };
+
+    NaturalFormService.getDefaultValue = function getDefaultValue() {
+      var form = window.naturalForm || {};
+      Object.keys(form).forEach(function (key) {
+        var filter = form[key];
+
+        switch (key) {
+          case 'club':
+          case 'newsletter':
+            break;
+
+          default:
+            var firstId = filter.options[0].id;
+            filter.value = filter.multiple ? [firstId] : firstId;
+        }
+      });
+      return form;
     };
 
     _createClass(NaturalFormService, null, [{
@@ -2698,11 +2752,16 @@
       get: function get() {
         return STATIC ? '/tiemme-com/club-modal.html' : this.form.club.modalUrl;
       }
+    }, {
+      key: "disabled",
+      get: function get() {
+        return false; // !!! return false until getDefaultValue set initial value
+      }
     }]);
 
     return NaturalFormService;
   }();
-  NaturalFormService.form$ = new rxjs.BehaviorSubject(window.naturalForm || {}); // !!! static
+  NaturalFormService.form$ = new rxjs.BehaviorSubject(NaturalFormService.getDefaultValue()); // !!! static
 
   var NaturalFormContactComponent =
   /*#__PURE__*/
@@ -2758,7 +2817,7 @@
       this.data = data;
       this.form = form;
       this.error = null;
-      this.submitted = false;
+      this.success = false;
     };
 
     _proto.onChanges = function onChanges(changes) {};
@@ -2795,7 +2854,7 @@
 
           _this2.form.reset();
 
-          _this2.submitted = true;
+          _this2.success = true;
         }, function (error) {
           console.log('NaturalFormContactComponent.error', error);
           _this2.error = error;
@@ -3293,9 +3352,13 @@
         telephone: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
         fax: null,
         email: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator(), rxcompForm.Validators.EmailValidator()]),
-        username: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator()]),
-        password: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator()]),
-        passwordConfirm: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator(), this.MatchValidator('password')]),
+
+        /*
+        // password autogenerata
+        username: new FormControl(null, [Validators.RequiredValidator()]),
+        password: new FormControl(null, [Validators.RequiredValidator()]),
+        passwordConfirm: new FormControl(null, [Validators.RequiredValidator(), this.MatchValidator('password')]),
+        */
         privacy: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredTrueValidator()),
         newsletter: values.newsletter === 2 ? true : false,
         checkRequest: window.antiforgery,
@@ -3330,9 +3393,12 @@
         city: 'Pesaro',
         telephone: '00390721411112',
         email: 'jhonappleseed@gmail.com',
+
+        /*
         username: 'username',
         password: 'password',
         passwordConfirm: 'password',
+        */
         privacy: true,
         checkRequest: window.antiforgery,
         checkField: ''
@@ -3373,8 +3439,7 @@
         UserService.register$(this.form.value).subscribe(function (response) {
           console.log('NaturalFormSignupComponent.onSubmit', response);
 
-          _this3.signUp.next(_this3.form.value); // change to response!!!
-
+          _this3.signUp.next(response);
 
           _this3.form.reset();
 
@@ -3493,6 +3558,13 @@
       this.view = this.views.NATURAL;
       this.pushChanges();
     };
+
+    _createClass(NaturalFormComponent, [{
+      key: "disabled",
+      get: function get() {
+        return NaturalFormService.disabled;
+      }
+    }]);
 
     return NaturalFormComponent;
   }(rxcomp.Component);

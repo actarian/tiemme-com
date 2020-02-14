@@ -29,6 +29,7 @@ export default class ClubSigninComponent extends Component {
 
 		this.form = form;
 		this.error = null;
+		this.success = false;
 	}
 
 	test() {
@@ -53,7 +54,8 @@ export default class ClubSigninComponent extends Component {
 			UserService.login$(this.form.value)
 				.subscribe(response => {
 					console.log('ClubSigninComponent.onSubmit', response);
-					// this.signIn.next(this.form.value); // change to response!!!
+					this.signIn.next(response);
+					this.success = true;
 					// this.form.reset();
 				}, error => {
 					console.log('ClubSigninComponent.error', error);

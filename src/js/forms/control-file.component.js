@@ -5,6 +5,7 @@ export default class ControlFileComponent extends ControlComponent {
 	onInit() {
 		this.label = 'label';
 		this.labels = window.labels || {};
+		this.file = null;
 		this.required = false;
 		this.onReaderComplete = this.onReaderComplete.bind(this);
 	}
@@ -44,7 +45,7 @@ ControlFileComponent.meta = {
 	template: /* html */ `
 		<div class="group--form--file" [class]="{ required: control.validators.length }">
 			<label for="file" [innerHTML]="label"></label>
-			<span class="control--select" [innerHTML]="labels.select_file"></span>
+			<span class="control--select" [innerHTML]="file?.name || labels.select_file"></span>
 			<svg class="icon icon--upload"><use xlink:href="#upload"></use></svg>
 			<span class="required__badge">required</span>
 			<input name="file" type="file" accept=".pdf,.doc,.docx,*.txt" class="control--file" (change)="onInputDidChange($event)" />

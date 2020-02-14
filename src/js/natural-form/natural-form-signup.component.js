@@ -30,9 +30,12 @@ export default class NaturalFormSignupComponent extends Component {
 			telephone: new FormControl(null, Validators.RequiredValidator()),
 			fax: null,
 			email: new FormControl(null, [Validators.RequiredValidator(), Validators.EmailValidator()]),
+			/*
+			// password autogenerata
 			username: new FormControl(null, [Validators.RequiredValidator()]),
 			password: new FormControl(null, [Validators.RequiredValidator()]),
 			passwordConfirm: new FormControl(null, [Validators.RequiredValidator(), this.MatchValidator('password')]),
+			*/
 			privacy: new FormControl(null, Validators.RequiredTrueValidator()),
 			newsletter: values.newsletter === 2 ? true : false,
 			checkRequest: window.antiforgery,
@@ -86,9 +89,11 @@ export default class NaturalFormSignupComponent extends Component {
 			city: 'Pesaro',
 			telephone: '00390721411112',
 			email: 'jhonappleseed@gmail.com',
+			/*
 			username: 'username',
 			password: 'password',
 			passwordConfirm: 'password',
+			*/
 			privacy: true,
 			checkRequest: window.antiforgery,
 			checkField: ''
@@ -118,7 +123,7 @@ export default class NaturalFormSignupComponent extends Component {
 			UserService.register$(this.form.value)
 				.subscribe(response => {
 					console.log('NaturalFormSignupComponent.onSubmit', response);
-					this.signUp.next(this.form.value); // change to response!!!
+					this.signUp.next(response);
 					this.form.reset();
 					this.success = true;
 				}, error => {

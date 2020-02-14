@@ -53,7 +53,7 @@ export default class NaturalFormContactComponent extends Component {
 		this.data = data;
 		this.form = form;
 		this.error = null;
-		this.submitted = false;
+		this.success = false;
 	}
 
 	onChanges(changes) {}
@@ -102,7 +102,7 @@ export default class NaturalFormContactComponent extends Component {
 				.subscribe(response => {
 					console.log('NaturalFormContactComponent.onSubmit', response);
 					this.form.reset();
-					this.submitted = true;
+					this.success = true;
 				}, error => {
 					console.log('NaturalFormContactComponent.error', error);
 					this.error = error;

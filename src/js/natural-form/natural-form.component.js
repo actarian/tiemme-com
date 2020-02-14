@@ -60,6 +60,11 @@ export default class NaturalFormComponent extends Component {
 		this.view = this.views.NATURAL;
 		this.pushChanges();
 	}
+
+	get disabled() {
+		return NaturalFormService.disabled;
+	}
+
 }
 
 NaturalFormComponent.meta = {
