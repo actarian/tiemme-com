@@ -5,103 +5,163 @@
 	<div class="background"></div>
 </section>
 
-<section class="section--reserved-area" reserved-area>
+<script type="text/javascript">
+	window.filters = {
+		departments: {
+			label: 'Departments',
+			placeholder: 'all departments',
+			mode: 'or',
+			options: [{
+				label: 'Componenti Idraulici',
+				value: 101,
+				}, {
+				label: 'Rubinetti',
+				value: 102,
+				}, {
+				label: 'Sistemi Radianti',
+				value: 103,
+				}, {
+				label: 'Centrale Termica',
+				value: 104,
+				}]
+		},
+		categories: {
+			label: 'Category',
+			placeholder: 'all categories',
+			mode: 'or',
+			options: [{
+				label: 'Catalogues',
+				value: 302,
+				}, {
+				label: 'Price Tables',
+				value: 303,
+				}]
+		}
+	};
+
+	window.pricelists = [
+		/* CATALOGHI */
+		{
+			id: 1002,
+			type: 'pdf',
+			zoom: 'http://www.tiemme.com/_upload/catalogo/thumb/976_1200_1200_0.png',
+			image: 'http://www.tiemme.com/_upload/catalogo/thumb/976_185_250_0.png',
+			title: 'Catalogo Master N. 1122',
+			abstract: 'Nelle prime pagine sono presentate tutte le novità di prodotto. La proposta di Tiemme è sempre più ricca.',
+			url: 'http://www.tiemme.com/catalogo_master_n_1122_catalogo_d686.pdf',
+			fileSize: 45000,
+			category: 302,
+			features: [101, 102, 103, 104]
+		}, {
+			id: 1002,
+			type: 'pdf',
+			zoom: 'http://www.tiemme.com/_upload/catalogo/thumb/1045_1200_1200_0.png',
+			image: 'http://www.tiemme.com/_upload/catalogo/thumb/1045_185_250_0.png',
+			title: 'Sistemi Radianti N. 2112',
+			abstract: 'Scopri i nuovi sistemi radianti caldo/freddo sviluppati da Tiemme.',
+			url: 'http://www.tiemme.com/sistemi_radianti_n_2112_catalogo_d1046.pdf',
+			fileSize: 45000,
+			category: 302,
+			features: [103]
+		}, {
+			id: 1002,
+			type: 'pdf',
+			zoom: 'http://www.tiemme.com/_upload/catalogo/thumb/1052_1200_1200_0.png',
+			image: 'http://www.tiemme.com/_upload/catalogo/thumb/1052_185_250_0.png',
+			title: 'Catalogo Rubinetteria N. 192',
+			abstract: 'Il catalogo mostra la nuova proposta RUBINETTERIA di Tiemme.',
+			url: 'http://www.tiemme.com/catalogo_rubinetteria_n_192_catalogo_d1053.pdf',
+			fileSize: 45000,
+			category: 302,
+			features: [102]
+		}, {
+			id: 1002,
+			type: 'pdf',
+			zoom: 'http://www.tiemme.com/_upload/catalogo/thumb/1041_1200_1200_0.png',
+			image: 'http://www.tiemme.com/_upload/catalogo/thumb/1041_185_250_0.png',
+			title: 'Catalogo Centrale Termica e Contabilizzazione N. 3104',
+			abstract: 'La proposta di Tiemme è sempre più ricca.',
+			url: 'http://www.tiemme.com/catalogo_centrale_termica_e_contabilizzazione_n_3104_catalogo_d1043.pdf',
+			fileSize: 45000,
+			category: 302,
+			features: [104]
+		},
+		/* PRICE TABLES */
+		{
+			id: 1002,
+			type: 'download',
+			title: 'Listino Master n.1122 e Sistemi n.2112 (rev. 06-11-2019)',
+			abstract: '',
+			url: 'http://www.tiemme.com/listino_master_n_1122_e_sistemi_n_2112_28rev_06-11-2019_29_catalogoprezzitab_d350.xlsx',
+			fileSize: 58000,
+			category: 303,
+			features: [101, 102, 103, 104]
+		}, {
+			id: 1002,
+			type: 'download',
+			title: 'TIEMME CENTRALE TERMICA n°3104 - Angaisa6',
+			abstract: '',
+			url: 'http://www.tiemme.com/tiemme_centrale_termica_n_c2_b03104_-_angaisa6_catalogoprezzitab_d299.zip',
+			fileSize: 48000,
+			category: 303,
+			features: [104]
+		}, {
+			id: 1002,
+			type: 'download',
+			title: 'Listino Rubinetteria n. 192 (25-10-2019)',
+			abstract: '',
+			url: 'http://www.tiemme.com/listino_rubinetteria_n_192_2825-10-2019_29_catalogoprezzitab_d335.xlsx',
+			fileSize: 48000,
+			category: 303,
+			features: [104]
+		}
+	];
+
+</script>
+
+<section class="section--reserved-area" price-list>
 	<div class="container-fluid">
-		<div class="flex--row">
-			<div class="flex__item">
+		<div class="row">
+			<div class="col-md-4 col-lg-3">
 				<!-- @@include ./templates/shared/club-menu.html -->
-			</div>
-			<div class="flex__item">
-				<!-- @@include ./templates/shared/club-profile.html -->
-			</div>
-		</div>
-	</div>
-</section>
-
-
-<div media-library>
-
-	<div class="sticky--menu" main-menu>
-		<section class="section--menu" [class]="{ active: sticky }">
-			<div class="container-fluid">
-				<ul class="nav--menu nav--menu--primary">
-					<li>
-						<a href="/tiemme-com/media-corporate.html">
-							<span>Corporate</span>
-						</a>
-					</li>
-					<li>
-						<a href="/tiemme-com/media-catalogues.html">
-							<span>Cataloghi</span>
-						</a>
-					</li>
-					<li>
-						<a href="/tiemme-com/media-technical.html">
-							<span>Cataloghi tecnici</span>
-						</a>
-					</li>
-					<li>
-						<a href="/tiemme-com/media-brochure.html">
-							<span>Brochure</span>
-						</a>
-					</li>
-					<li class="group--search">
-						<svg class="icon icon--search"><use xlink:href="#search"></use></svg> <input class="form--control" placeholder="cerca..." />
+				<!-- filters -->
+				<ul class="nav--aside">
+					<li *for="let [key, filter] of filters">
+						<span class="label" [innerHTML]="filter.label"></span>
+						<ul class="nav--options">
+							<li *for="let item of filter.options">
+								<span class="label" [class]="{ active: filter.has(item), disabled: item.disabled }" (click)="filter.toggle(item)">
+									<span class="name" [innerHTML]="item.label"></span>
+									<span class="count" [innerHTML]="item.count || ''"></span>
+								</span>
+							</li>
+						</ul>
 					</li>
 				</ul>
-				<button type="button" class="btn--sticky" (click)="onToggleSticky($event)"><span>Media</span></button>
 			</div>
-		</section>
-	</div>
-
-	<section class="section--serp">
-		<div class="container-fluid">
-			<div class="flex--row">
-				<div class="flex__item">
-					<!-- @@include ./templates/shared/club-menu.html -->
-					<!-- filters -->
-					<ul class="nav--aside">
-						<li *for="let [key, filter] of filters">
-							<span class="label" [innerHTML]="filter.label"></span>
-							<ul class="nav--options">
-								<li *for="let item of filter.options">
-									<span class="label" [class]="{ active: filter.has(item), disabled: item.disabled }" (click)="filter.toggle(item)">
-										<span [innerHTML]="item.label"></span>
-									</span>
-								</li>
-							</ul>
-						</li>
-					</ul>
-				</div>
-				<div class="flex__item">
+			<div class="col-md-8 col-lg-9">
+				<div class="container">
+					<div class="section--reserved-area__title">Listini</div>
 					<!-- results -->
 					<div class="listing listing--media">
 						<div class="listing__item" *for="let item of items">
-							<div class="card--video" youtube [youtubeId]="item.youtubeId" [title]="item.title" *if="item.type == 'video'" zoomable=".icon--expand" appear>
-								<div class="picture picture--video" [class]="{ playing: playing }">
-									<div class="video"></div>
-									<div class="overlay" (click)="togglePlay($event)">
-										<img [src]="cover" />
-									</div>
-									<div class="btn--play">
-										<svg class="icon icon--play-progress-background"><use xlink:href="#play-progress"></use></svg>
-										<svg class="icon icon--play-progress" viewBox="0 0 196 196">
-											<path xmlns="http://www.w3.org/2000/svg" stroke-width="2px" stroke-dasharray="1" stroke-dashoffset="1" pathLength="1" stroke-linecap="square" d="M195.5,98c0,53.8-43.7,97.5-97.5,97.5S0.5,151.8,0.5,98S44.2,0.5,98,0.5S195.5,44.2,195.5,98z"/>
-										</svg>
-										<svg class="icon icon--play"><use xlink:href="#play"></use></svg>
-										<svg class="icon icon--pause"><use xlink:href="#pause"></use></svg>
-									</div>
-								</div>
-								<svg class="icon icon--expand"><use xlink:href="#expand"></use></svg>
-								<div class="content">
-									<div class="title" [innerHTML]="title"></div>
-								</div>
-							</div>
-							<!-- appear -->
 							<div class="card--pdf" *if="item.type == 'pdf'" appear>
 								<div class="picture">
 									<img [lazy]="item.image" />
 								</div>
+								<div class="content">
+									<div class="title" [innerHTML]="item.title"></div>
+									<div class="abstract" [innerHTML]="item.abstract" *if="item.abstract"></div>
+									<div class="group--cta">
+										<a [href]="item.url" class="btn--download" target="_blank" download><svg class="icon icon--download"><use xlink:href="#download"></use></svg> <span>Scarica il catalogo in formato pdf</span></a>
+									</div>
+									<div class="size">
+										<svg class="icon icon--insights"><use xlink:href="#insights"></use></svg>
+										<span [innerHTML]="item.fileSize | fileSize"></span>
+									</div>
+								</div>
+							</div>
+							<div class="card--download" *if="item.type == 'download'" appear>
 								<div class="content">
 									<div class="title" [innerHTML]="item.title"></div>
 									<div class="abstract" [innerHTML]="item.abstract" *if="item.abstract"></div>
@@ -119,8 +179,7 @@
 				</div>
 			</div>
 		</div>
-	</section>
-
-</div>
+	</div>
+</section>
 
 <!-- @@close-->

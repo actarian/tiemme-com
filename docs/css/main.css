@@ -189,7 +189,7 @@ strong {
   font-weight: 500;
   text-transform: uppercase; }
 
-.form .title, .section--club .title {
+.form .title, .section--club .title, .section--reserved-area__title {
   font-family: "Barlow Condensed", sans-serif;
   font-size: 40px;
   line-height: 1.15;
@@ -198,7 +198,7 @@ strong {
   padding-bottom: 30px;
   margin-bottom: 30px;
   border-bottom: 2px solid rgba(22, 37, 91, 0.2); }
-  .form .title .icon, .section--club .title .icon {
+  .form .title .icon, .section--club .title .icon, .section--reserved-area__title .icon {
     margin-right: 5px; }
 
 .section--technician .abstract {
@@ -5538,34 +5538,41 @@ ul {
   .card--agent .link {
     text-align: center; }
 
-.card--pdf {
+.card--pdf,
+.card--download {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   padding: 20px 0;
   background: #f3f4f6; }
-  .card--pdf .picture {
+  .card--pdf .picture,
+  .card--download .picture {
     -webkit-box-flex: 0;
         -ms-flex: 0 0 200px;
             flex: 0 0 200px;
     padding: 0 20px; }
-  .card--pdf .content {
+  .card--pdf .content,
+  .card--download .content {
     -webkit-box-flex: 1;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto;
     padding-right: 15px; }
-  .card--pdf .title {
+  .card--pdf .title,
+  .card--download .title {
     font-family: "Barlow Condensed", sans-serif;
     font-size: 24px;
     line-height: 1.1;
     font-weight: 500;
     margin-bottom: 20px; }
-  .card--pdf .abstract {
+  .card--pdf .abstract,
+  .card--download .abstract {
     font-size: 14px;
     line-height: 20px; }
-  .card--pdf .group--cta {
+  .card--pdf .group--cta,
+  .card--download .group--cta {
     padding: 20px 0; }
-  .card--pdf .btn--download {
+  .card--pdf .btn--download,
+  .card--download .btn--download {
     padding: 2px 8px;
     opacity: 1;
     font-family: "Barlow Condensed", sans-serif;
@@ -5573,12 +5580,15 @@ ul {
     text-transform: uppercase;
     background: #b9bdcd;
     color: #16255b; }
-    .card--pdf .btn--download:hover {
+    .card--pdf .btn--download:hover,
+    .card--download .btn--download:hover {
       background: #16255b;
       color: #ffffff; }
-      .card--pdf .btn--download:hover .icon {
+      .card--pdf .btn--download:hover .icon,
+      .card--download .btn--download:hover .icon {
         fill: #ffffff; }
-  .card--pdf .size {
+  .card--pdf .size,
+  .card--download .size {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -5587,10 +5597,14 @@ ul {
             align-items: center;
     font-family: "Barlow Condensed", sans-serif;
     font-size: 14px; }
-    .card--pdf .size .icon--insights {
+    .card--pdf .size .icon--insights,
+    .card--download .size .icon--insights {
       width: 16px;
       height: 16px;
       margin: 0 5px; }
+
+.card--download {
+  padding: 30px 0 30px 30px; }
 
 @media (max-width: 767.98px) {
   .hidden-xs-down {

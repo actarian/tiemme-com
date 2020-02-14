@@ -645,7 +645,8 @@
 	}
 }
 
-.card--pdf {
+.card--pdf,
+.card--download {
 	display: flex;
 	padding: 20px 0;
 	background: $background-tertiary;
@@ -710,4 +711,8 @@
 		}
 	}
 
+}
+
+.card--download {
+	padding: 30px 0 30px 30px;
 }

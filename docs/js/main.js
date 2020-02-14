@@ -2623,14 +2623,7 @@
       filterService.items$(items).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (items) {
         _this.items = items;
 
-        _this.pushChanges();
-        /*
-        setTimeout(() => {
-        	this.items = items;
-        	this.pushChanges();
-        }, 50);
-        */
-        // console.log('MediaLibraryComponent.items', items.length);
+        _this.pushChanges(); // console.log('MediaLibraryComponent.items', items.length);
 
       });
       this.filterService = filterService;
@@ -3577,6 +3570,57 @@
   NaturalFormComponent.meta = {
     selector: '[natural-form]',
     outputs: ['club']
+  };
+
+  var PriceListComponent =
+  /*#__PURE__*/
+  function (_Component) {
+    _inheritsLoose(PriceListComponent, _Component);
+
+    function PriceListComponent() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = PriceListComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      var _this = this;
+
+      var items = window.pricelists || [];
+      var filters = window.filters || {};
+      var initialParams = window.params || {};
+      filters.departments.mode = FilterMode.OR;
+      filters.categories.mode = FilterMode.OR;
+      var filterService = new FilterService(filters, initialParams, function (key, filter) {
+        switch (key) {
+          case 'categories':
+            filter.filter = function (item, value) {
+              return item.category === value;
+            };
+
+            break;
+
+          default:
+            filter.filter = function (item, value) {
+              return item.features.indexOf(value) !== -1;
+            };
+
+        }
+      });
+      filterService.items$(items).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (items) {
+        _this.items = items;
+
+        _this.pushChanges(); // console.log('PriceListComponent.items', items.length);
+
+      });
+      this.filterService = filterService;
+      this.filters = filterService.filters;
+    };
+
+    return PriceListComponent;
+  }(rxcomp.Component);
+  PriceListComponent.meta = {
+    selector: '[price-list]'
   };
 
   var src = STATIC ? '/tiemme-com/club-modal.html' : '/it/club-modal';
@@ -4659,7 +4703,7 @@
   }(rxcomp.Module);
   AppModule.meta = {
     imports: [rxcomp.CoreModule, rxcompForm.FormModule],
-    declarations: [AgentsComponent, AppearDirective, ClickOutsideDirective, ClubComponent, ClubForgotComponent, ClubModalComponent, ClubProfileComponent, ClubSigninComponent, ClubSignupComponent, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlPasswordComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, FileSizePipe, HtmlPipe, HeaderComponent, LazyDirective, MainMenuComponent, MediaLibraryComponent, ModalOutletComponent, NaturalFormComponent, NaturalFormSearchComponent, NaturalFormContactComponent, NaturalFormControlComponent, NaturalFormNewsletterComponent, NaturalFormSignupComponent, RequestInfoCommercialComponent, RegisterOrLoginComponent, ReservedAreaComponent, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, TestComponent, // ValueDirective,
+    declarations: [AgentsComponent, AppearDirective, ClickOutsideDirective, ClubComponent, ClubForgotComponent, ClubModalComponent, ClubProfileComponent, ClubSigninComponent, ClubSignupComponent, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlPasswordComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, FileSizePipe, HtmlPipe, HeaderComponent, LazyDirective, MainMenuComponent, MediaLibraryComponent, ModalOutletComponent, PriceListComponent, NaturalFormComponent, NaturalFormSearchComponent, NaturalFormContactComponent, NaturalFormControlComponent, NaturalFormNewsletterComponent, NaturalFormSignupComponent, RequestInfoCommercialComponent, RegisterOrLoginComponent, ReservedAreaComponent, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, TestComponent, // ValueDirective,
     VideoComponent, WorkWithUsComponent, YoutubeComponent, ZoomableDirective],
     bootstrap: AppComponent
   };

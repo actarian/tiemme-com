@@ -35,6 +35,7 @@ import NaturalFormNewsletterComponent from './natural-form/natural-form-newslett
 import NaturalFormSearchComponent from './natural-form/natural-form-search.component';
 import NaturalFormSignupComponent from './natural-form/natural-form-signup.component';
 import NaturalFormComponent from './natural-form/natural-form.component';
+import PriceListComponent from './price-list/price-list';
 import RegisterOrLoginComponent from './register-or-login/register-or-login.component';
 import RequestInfoCommercialComponent from './request-info-commercial/request-info-commercial.component';
 import ReservedAreaComponent from './reserved-area/reserved-area.component';
@@ -82,6 +83,7 @@ AppModule.meta = {
 		MainMenuComponent,
 		MediaLibraryComponent,
 		ModalOutletComponent,
+		PriceListComponent,
 		NaturalFormComponent,
 		NaturalFormSearchComponent,
 		NaturalFormContactComponent,
