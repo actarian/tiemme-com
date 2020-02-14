@@ -14,137 +14,13 @@
 	}
 }
 
-.nav--filters {
-	@extend %nav-reset;
-
-	&>li {
-		position: relative;
-		display: block;
-		margin-bottom: 40px;
-
-		&>.label {
-			@extend %category;
-		}
-	}
-}
-
-.nav--options {
-	@extend %nav-reset;
-
-	&>li {
-		position: relative;
-		display: block;
-		margin-bottom: 10px;
-
-		&>a,
-		&>span {
-			@extend %nav-item;
-			font-family: $font-secondary;
-
-			&:before {
-				content: '';
-				width: 11px;
-				height: 11px;
-				border-radius: 0;
-				margin: 0 10px 0 0;
-				border: 2px solid $foreground;
-				outline: 0;
-				cursor: pointer;
-			}
-
-			&.active {
-				&:before {
-					background: $foreground;
-				}
-			}
-
-		}
-
-		&:hover,
-		&.active {
-
-			&>a,
-			&>span {
-				box-shadow: 0 20px 20px -5px rgba(0, 0, 0, 0.2);
-			}
-		}
-	}
-}
-
-.card--pdf {
-	display: flex;
-	padding: 20px 0;
-	background: $background-tertiary;
-	box-shadow: 0 20px 20px -5px rgba(0, 0, 0, 0.2);
-
-	.picture {
-		flex: 0 0 200px;
-		padding: 0 20px;
-	}
-
-	.content {
-		flex: 1 1 auto;
-		padding-right: 15px;
-	}
-
-	.title {
-		font-family: $font-secondary;
-		font-size: 24px;
-		line-height: 1.1;
-		font-weight: $font-medium;
-		margin-bottom: 20px;
-	}
-
-	.abstract {
-		font-size: 14px;
-		line-height: 20px;
-	}
-
-	.group--cta {
-		padding: 20px 0;
-	}
-
-	.btn--download {
-		padding: 2px 8px;
-		opacity: 1;
-		font-family: $font-secondary;
-		font-size: 14px;
-		text-transform: uppercase;
-		background: $background-secondary;
-		color: $foreground;
-
-		&:hover {
-			background: $background-negative;
-			color: $foreground-negative;
-
-			.icon {
-				fill: $foreground-negative;
-			}
-		}
-	}
-
-	.size {
-		display: flex;
-		align-items: center;
-		font-family: $font-secondary;
-		font-size: 14px;
-
-		.icon--insights {
-			width: 16px;
-			height: 16px;
-			margin: 0 5px;
-		}
-	}
-
-}
-
 .listing--media {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: flex-start;
 
 	.listing__item {
-		margin-bottom: 60px;
+		margin-bottom: 30px;
 	}
 
 	@include media-up(lg) {

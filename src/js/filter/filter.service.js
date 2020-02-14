@@ -73,7 +73,8 @@ export default class FilterService {
 		return merge(...changes).pipe(
 			// tap(() => console.log(filters)),
 			tap(() => this.serialize(filters)),
-			map(() => this.filterItems(items))
+			map(() => this.filterItems(items)),
+			tap((items) => this.updateFilterStates(filters, items))
 		);
 	}
 
@@ -94,20 +95,23 @@ export default class FilterService {
 	updateFilterStates(filters, items) {
 		Object.keys(filters).forEach(x => {
 			const filter = filters[x];
-			const { filteredItems } = this.filterItems(items, filter);
+			const filteredItems = this.filterItems(items, filter);
 			filter.options.forEach(option => {
-				let has = false;
+				let count = 0;
 				if (option.value) {
 					let i = 0;
-					while (i < filteredItems.length && !has) {
+					while (i < filteredItems.length) {
 						const item = filteredItems[i];
-						has = filter.filter(item, option.value);
+						if (filter.filter(item, option.value)) {
+							count++;
+						}
 						i++;
 					}
 				} else {
-					has = true;
+					count = filteredItems.length;
 				}
-				option.disabled = !has;
+				option.count = count;
+				option.disabled = count === 0;
 			});
 		});
 	}

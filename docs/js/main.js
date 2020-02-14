@@ -362,6 +362,8 @@
         return _this.serialize(filters);
       }), operators.map(function () {
         return _this.filterItems(items);
+      }), operators.tap(function (items) {
+        return _this.updateFilterStates(filters, items);
       }));
     };
 
@@ -391,25 +393,29 @@
       Object.keys(filters).forEach(function (x) {
         var filter = filters[x];
 
-        var _this3$filterItems = _this3.filterItems(items, filter),
-            filteredItems = _this3$filterItems.filteredItems;
+        var filteredItems = _this3.filterItems(items, filter);
 
         filter.options.forEach(function (option) {
-          var has = false;
+          var count = 0;
 
           if (option.value) {
             var i = 0;
 
-            while (i < filteredItems.length && !has) {
+            while (i < filteredItems.length) {
               var item = filteredItems[i];
-              has = filter.filter(item, option.value);
+
+              if (filter.filter(item, option.value)) {
+                count++;
+              }
+
               i++;
             }
           } else {
-            has = true;
+            count = filteredItems.length;
           }
 
-          option.disabled = !has;
+          option.count = count;
+          option.disabled = count === 0;
         });
       });
     };

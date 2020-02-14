@@ -1,0 +1,126 @@
+<!-- @@master = ./templates/layout.html-->
+
+<!-- @@block = main-->
+<section class="section--hero-tertiary">
+	<div class="background"></div>
+</section>
+
+<section class="section--reserved-area" reserved-area>
+	<div class="container-fluid">
+		<div class="flex--row">
+			<div class="flex__item">
+				<!-- @@include ./templates/shared/club-menu.html -->
+			</div>
+			<div class="flex__item">
+				<!-- @@include ./templates/shared/club-profile.html -->
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<div media-library>
+
+	<div class="sticky--menu" main-menu>
+		<section class="section--menu" [class]="{ active: sticky }">
+			<div class="container-fluid">
+				<ul class="nav--menu nav--menu--primary">
+					<li>
+						<a href="/tiemme-com/media-corporate.html">
+							<span>Corporate</span>
+						</a>
+					</li>
+					<li>
+						<a href="/tiemme-com/media-catalogues.html">
+							<span>Cataloghi</span>
+						</a>
+					</li>
+					<li>
+						<a href="/tiemme-com/media-technical.html">
+							<span>Cataloghi tecnici</span>
+						</a>
+					</li>
+					<li>
+						<a href="/tiemme-com/media-brochure.html">
+							<span>Brochure</span>
+						</a>
+					</li>
+					<li class="group--search">
+						<svg class="icon icon--search"><use xlink:href="#search"></use></svg> <input class="form--control" placeholder="cerca..." />
+					</li>
+				</ul>
+				<button type="button" class="btn--sticky" (click)="onToggleSticky($event)"><span>Media</span></button>
+			</div>
+		</section>
+	</div>
+
+	<section class="section--serp">
+		<div class="container-fluid">
+			<div class="flex--row">
+				<div class="flex__item">
+					<!-- @@include ./templates/shared/club-menu.html -->
+					<!-- filters -->
+					<ul class="nav--aside">
+						<li *for="let [key, filter] of filters">
+							<span class="label" [innerHTML]="filter.label"></span>
+							<ul class="nav--options">
+								<li *for="let item of filter.options">
+									<span class="label" [class]="{ active: filter.has(item), disabled: item.disabled }" (click)="filter.toggle(item)">
+										<span [innerHTML]="item.label"></span>
+									</span>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<div class="flex__item">
+					<!-- results -->
+					<div class="listing listing--media">
+						<div class="listing__item" *for="let item of items">
+							<div class="card--video" youtube [youtubeId]="item.youtubeId" [title]="item.title" *if="item.type == 'video'" zoomable=".icon--expand" appear>
+								<div class="picture picture--video" [class]="{ playing: playing }">
+									<div class="video"></div>
+									<div class="overlay" (click)="togglePlay($event)">
+										<img [src]="cover" />
+									</div>
+									<div class="btn--play">
+										<svg class="icon icon--play-progress-background"><use xlink:href="#play-progress"></use></svg>
+										<svg class="icon icon--play-progress" viewBox="0 0 196 196">
+											<path xmlns="http://www.w3.org/2000/svg" stroke-width="2px" stroke-dasharray="1" stroke-dashoffset="1" pathLength="1" stroke-linecap="square" d="M195.5,98c0,53.8-43.7,97.5-97.5,97.5S0.5,151.8,0.5,98S44.2,0.5,98,0.5S195.5,44.2,195.5,98z"/>
+										</svg>
+										<svg class="icon icon--play"><use xlink:href="#play"></use></svg>
+										<svg class="icon icon--pause"><use xlink:href="#pause"></use></svg>
+									</div>
+								</div>
+								<svg class="icon icon--expand"><use xlink:href="#expand"></use></svg>
+								<div class="content">
+									<div class="title" [innerHTML]="title"></div>
+								</div>
+							</div>
+							<!-- appear -->
+							<div class="card--pdf" *if="item.type == 'pdf'" appear>
+								<div class="picture">
+									<img [lazy]="item.image" />
+								</div>
+								<div class="content">
+									<div class="title" [innerHTML]="item.title"></div>
+									<div class="abstract" [innerHTML]="item.abstract" *if="item.abstract"></div>
+									<div class="group--cta">
+										<a [href]="item.url" class="btn--download" target="_blank" download><svg class="icon icon--download"><use xlink:href="#download"></use></svg> <span>Scarica il catalogo in formato pdf</span></a>
+									</div>
+									<div class="size">
+										<svg class="icon icon--insights"><use xlink:href="#insights"></use></svg>
+										<span [innerHTML]="item.fileSize | fileSize"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+</div>
+
+<!-- @@close-->
