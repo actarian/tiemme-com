@@ -104,3 +104,28 @@ strong {
 	line-height: 1.5;
 	font-weight: $font-regular;
 }
+
+%title-detail {
+	font-family: $font-secondary;
+	font-size: 46px;
+	line-height: 1;
+	font-weight: $font-medium;
+	text-transform: uppercase;
+	margin-bottom: 30px;
+}
+
+%abstract-detail {
+	font-family: $font-primary;
+	font-size: 24px;
+	font-weight: $font-medium;
+	margin-bottom: 30px;
+}
+
+%description-detail {
+	margin-bottom: 20px;
+
+	p {
+		margin: 0;
+		padding-bottom: 15px;
+	}
+}

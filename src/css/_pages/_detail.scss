@@ -1,20 +1,17 @@
-.section--dettaglio {
+.section--detail {
 	padding: 80px 0;
 
 	.group--content {
 		.title {
-			margin-bottom: 30px;
-			font-family: $font-secondary;
-			font-size: 46px;
-			line-height: 1;
-			font-weight: $font-medium;
-			text-transform: uppercase;
+			@extend %title-detail;
 		}
 
-		.intro-text {
-			margin-bottom: 30px;
-			font-size: 24px;
-			font-weight: 500;
+		.abstract {
+			@extend %abstract-detail;
+		}
+
+		.description {
+			@extend %description-detail;
 		}
 	}
 
@@ -73,7 +70,6 @@
 		display: inline;
 	}
 }
-
 
 @include media-up(lg) {}
 

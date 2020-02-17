@@ -1,5 +1,5 @@
 <div club-signup (signUp)="onSignUp($event)" (login)="onLogin($event)">
-	<div class="container">
+	<div class="container" *if="!success">
 		<form class="form" [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">
 			<div class="title">Registrati per accedere ai servizi del club TIEMME</div>
 			<div class="fields">
@@ -37,5 +37,11 @@
 			</div>
 			<test-component [form]="form" (test)="test($event)" (reset)="reset($event)"></test-component>
 		</form>
+	</div>
+	<div class="container" *if="success">
+		<div class="section--slides__title">Richiesta Inviata</div>
+		<div class="abstract">
+			Grazie per la tua richiesta. Verificheremo i dati e riceverai una mail con le credenziali di accesso.
+		</div>
 	</div>
 </div>

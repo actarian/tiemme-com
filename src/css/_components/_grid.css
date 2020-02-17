@@ -29,13 +29,26 @@
 
 @include make-grid-columns();
 
-@include media-down(sm) {
-
+@include media-between(md, lg) {
 	@for $i from 1 through 20 {
+		.o-md-#{$i} {
+			order: $i;
+		}
+	}
+}
 
+@include media-between(sm, md) {
+	@for $i from 1 through 20 {
+		.o-sm-#{$i} {
+			order: $i;
+		}
+	}
+}
+
+@include media-down(sm) {
+	@for $i from 1 through 20 {
 		.o-#{$i} {
 			order: $i;
 		}
 	}
-
 }

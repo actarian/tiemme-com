@@ -27,41 +27,6 @@
 
 }
 
-.section--text-picture {
-	position: relative;
-	padding-bottom: 80px;
-
-	.abstract {
-		padding-bottom: 40px;
-
-		p {
-			margin: 0;
-			padding-bottom: 15px;
-		}
-	}
-
-	.picture--product {
-		box-shadow: 0 20px 20px -5px rgba(0, 0, 0, 0.2);
-	}
-
-	&.section--intro {
-		.row {
-			align-items: center;
-		}
-	}
-
-	&:not(.section--intro) {
-		margin-top: -80px;
-
-		&>.container>.row>div:first-child {
-			padding-top: 160px;
-		}
-
-
-	}
-
-}
-
 .section--dimensions {
 	padding-bottom: 80px;
 	font-size: 17px;
