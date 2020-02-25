@@ -54,10 +54,10 @@ export default class ClubSigninComponent extends Component {
 			UserService.login$(this.form.value)
 				.subscribe(response => {
 					console.log('ClubSigninComponent.onSubmit', response);
-					this.signIn.next(response);
 					this.success = true;
 					// this.form.reset();
 					this.pushChanges();
+					this.signIn.next(response);
 				}, error => {
 					console.log('ClubSigninComponent.error', error);
 					this.error = error;

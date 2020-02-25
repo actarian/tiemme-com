@@ -260,6 +260,11 @@ fieldset,
 		flex: 1 1 auto;
 	}
 
+	a {
+		font-weight: $font-semibold;
+		text-decoration: underline;
+	}
+
 	/*
 	label {
 		display: flex;

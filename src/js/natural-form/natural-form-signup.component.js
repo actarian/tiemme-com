@@ -123,10 +123,10 @@ export default class NaturalFormSignupComponent extends Component {
 			UserService.register$(this.form.value)
 				.subscribe(response => {
 					console.log('NaturalFormSignupComponent.onSubmit', response);
-					this.signUp.next(response);
 					this.success = true;
 					this.form.reset();
 					// this.pushChanges();
+					this.signUp.next(response);
 				}, error => {
 					console.log('NaturalFormSignupComponent.error', error);
 					this.error = error;

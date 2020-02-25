@@ -126,10 +126,10 @@ export default class ClubProfileComponent extends Component {
 			UserService.update(this.form.value)
 				.subscribe(response => {
 					console.log('ClubProfileComponent.onSubmit', response);
-					this.update.next(response);
 					this.success = true;
 					// this.form.reset();
 					this.pushChanges();
+					this.update.next(response);
 				}, error => {
 					console.log('ClubProfileComponent.error', error);
 					this.error = error;

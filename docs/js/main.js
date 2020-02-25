@@ -1408,11 +1408,11 @@
         // console.log('ClubPasswordComponent.onSubmit', this.form.value);
         this.form.submitted = true;
         HttpService.post$('/api/users/resetpassword', this.form.value).subscribe(function (response) {
-          console.log('ClubPasswordRecoveryComponent.onSubmit', response); //this.update.next(response);
-
+          console.log('ClubPasswordRecoveryComponent.onSubmit', response);
           _this3.success = true;
 
           _this3.form.reset(); // this.pushChanges();
+          // this.update.next(response);
 
         }, function (error) {
           console.log('ClubPasswordRecoveryComponent.error', error);
@@ -1506,11 +1506,11 @@
         // console.log('ClubPasswordEditComponent.onSubmit', this.form.value);
         this.form.submitted = true;
         HttpService.post$('/api/users/editpassword', this.form.value).subscribe(function (response) {
-          console.log('ClubPasswordEditComponent.onSubmit', response); //this.update.next(response);
-
+          console.log('ClubPasswordEditComponent.onSubmit', response);
           _this3.success = true;
 
           _this3.form.reset(); // this.pushChanges();
+          // this.update.next(response);
 
         }, function (error) {
           console.log('ClubPasswordEditComponent.error', error);
@@ -1653,12 +1653,11 @@
         this.form.submitted = true;
         UserService.update(this.form.value).subscribe(function (response) {
           console.log('ClubProfileComponent.onSubmit', response);
-
-          _this3.update.next(response);
-
           _this3.success = true; // this.form.reset();
 
           _this3.pushChanges();
+
+          _this3.update.next(response);
         }, function (error) {
           console.log('ClubProfileComponent.error', error);
           _this3.error = error;
@@ -1753,12 +1752,11 @@
 
         UserService.login$(this.form.value).subscribe(function (response) {
           console.log('ClubSigninComponent.onSubmit', response);
-
-          _this2.signIn.next(response);
-
           _this2.success = true; // this.form.reset();
 
           _this2.pushChanges();
+
+          _this2.signIn.next(response);
         }, function (error) {
           console.log('ClubSigninComponent.error', error);
           _this2.error = error;
@@ -1902,11 +1900,11 @@
         this.form.submitted = true; // HttpService.post$('/api/users/Register', this.form.value)
 
         UserService.register$(this.form.value).subscribe(function (response) {
-          console.log('ClubSignupComponent.onSubmit', response); //this.signUp.next(response);
-
+          console.log('ClubSignupComponent.onSubmit', response);
           _this3.success = true;
 
           _this3.form.reset(); // this.pushChanges();
+          // this.signUp.next(response);
 
         }, function (error) {
           console.log('ClubSignupComponent.error', error);
@@ -3710,13 +3708,12 @@
 
         UserService.register$(this.form.value).subscribe(function (response) {
           console.log('NaturalFormSignupComponent.onSubmit', response);
-
-          _this3.signUp.next(response);
-
           _this3.success = true;
 
           _this3.form.reset(); // this.pushChanges();
 
+
+          _this3.signUp.next(response);
         }, function (error) {
           console.log('NaturalFormSignupComponent.error', error);
           _this3.error = error;

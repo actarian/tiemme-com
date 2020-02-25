@@ -691,6 +691,9 @@ fieldset,
     -webkit-box-flex: 1;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto; }
+  .group--form--checkbox a {
+    font-weight: 600;
+    text-decoration: underline; }
 
 /* radio */
 .group--form--radio {
@@ -7524,6 +7527,7 @@ ul {
       text-transform: uppercase;
       text-align: center; }
   .section--form__abstract {
+    margin-bottom: 40px;
     text-align: center; }
   @media (min-width: 768px) {
     .section--form form > .group--cta {

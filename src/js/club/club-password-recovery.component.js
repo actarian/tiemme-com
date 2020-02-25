@@ -64,10 +64,10 @@ export default class ClubPasswordRecoveryComponent extends Component {
 			HttpService.post$('/api/users/resetpassword', this.form.value)
 				.subscribe(response => {
 					console.log('ClubPasswordRecoveryComponent.onSubmit', response);
-					//this.update.next(response);
 					this.success = true;
 					this.form.reset();
 					// this.pushChanges();
+					// this.update.next(response);
 				}, error => {
 					console.log('ClubPasswordRecoveryComponent.error', error);
 					this.error = error;

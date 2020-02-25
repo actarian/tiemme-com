@@ -118,10 +118,10 @@ export default class ClubSignupComponent extends Component {
 			UserService.register$(this.form.value)
 				.subscribe(response => {
 					console.log('ClubSignupComponent.onSubmit', response);
-					//this.signUp.next(response);
 					this.success = true;
 					this.form.reset();
 					// this.pushChanges();
+					// this.signUp.next(response);
 				}, error => {
 					console.log('ClubSignupComponent.error', error);
 					this.error = error;

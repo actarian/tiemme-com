@@ -63,10 +63,10 @@ export default class ClubPasswordEditComponent extends Component {
 			HttpService.post$('/api/users/editpassword', this.form.value)
 				.subscribe(response => {
 					console.log('ClubPasswordEditComponent.onSubmit', response);
-					//this.update.next(response);
 					this.success = true;
 					this.form.reset();
 					// this.pushChanges();
+					// this.update.next(response);
 				}, error => {
 					console.log('ClubPasswordEditComponent.error', error);
 					this.error = error;
