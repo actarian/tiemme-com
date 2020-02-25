@@ -3635,7 +3635,11 @@ errors-component {
 .icon--fax,
 .icon--mobile,
 .icon--telephone,
-.icon--youtube {
+.icon--youtube,
+.icon--company,
+.icon--world,
+.icon--export,
+.icon--branches {
   width: 24px;
   height: 24px; }
 
@@ -3921,7 +3925,7 @@ ul {
 .nav--slides > li > span, .nav--dropdown > li > a,
 .nav--dropdown > li > span, .nav--menu > li.group--search, .nav--aside-menu > li > a,
 .nav--aside-menu > li > span, .nav--options > li > a,
-.nav--options > li > span {
+.nav--options > li > span, .nav--info > li {
   position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -3938,7 +3942,7 @@ ul {
   transition: ease-in-out 350ms;
   -webkit-transition-property: background-color, color, border, opacity;
   transition-property: background-color, color, border, opacity; }
-  .nav--menu > li > a svg, .nav--breadcrumb > li > a svg, .nav--footer-horizontal > li > a svg, .nav--menu > li > span svg, .nav--breadcrumb > li > span svg, .nav--footer-horizontal > li > span svg, .nav--header > li > a svg, .nav--footer > li > a svg, .nav--header > li > span svg, .nav--footer > li > span svg, .nav--slides > li > a svg, .nav--slides > li > span svg, .nav--dropdown > li > a svg, .nav--dropdown > li > span svg, .nav--menu > li.group--search svg, .nav--aside-menu > li > a svg, .nav--aside-menu > li > span svg, .nav--options > li > a svg, .nav--options > li > span svg {
+  .nav--menu > li > a svg, .nav--breadcrumb > li > a svg, .nav--footer-horizontal > li > a svg, .nav--menu > li > span svg, .nav--breadcrumb > li > span svg, .nav--footer-horizontal > li > span svg, .nav--header > li > a svg, .nav--footer > li > a svg, .nav--header > li > span svg, .nav--footer > li > span svg, .nav--slides > li > a svg, .nav--slides > li > span svg, .nav--dropdown > li > a svg, .nav--dropdown > li > span svg, .nav--menu > li.group--search svg, .nav--aside-menu > li > a svg, .nav--aside-menu > li > span svg, .nav--options > li > a svg, .nav--options > li > span svg, .nav--info > li svg {
     -webkit-transition: ease-in-out 350ms;
     transition: ease-in-out 350ms;
     -webkit-transition-property: fill, opacity;
@@ -3952,10 +3956,10 @@ ul {
   .nav--slides > li > span:focus, .nav--dropdown > li > a:focus,
   .nav--dropdown > li > span:focus, .nav--menu > li.group--search:focus, .nav--aside-menu > li > a:focus,
   .nav--aside-menu > li > span:focus, .nav--options > li > a:focus,
-  .nav--options > li > span:focus {
+  .nav--options > li > span:focus, .nav--info > li:focus {
     outline: 0; }
 
-.nav--menu, .nav--breadcrumb, .nav--footer-horizontal, .nav--header, .nav--footer, .nav--slides, .nav--dropdown, .nav--aside, .nav--aside-menu, .nav--options {
+.nav--menu, .nav--breadcrumb, .nav--footer-horizontal, .nav--header, .nav--footer, .nav--slides, .nav--dropdown, .nav--aside, .nav--aside-menu, .nav--options, .nav--info {
   list-style: none;
   padding: 0;
   margin: 0; }
@@ -4694,6 +4698,14 @@ ul {
     width: 100%; }
   .nav--options > li:focus {
     outline: 0; }
+
+.nav--info > li {
+  margin-bottom: 20px; }
+
+.nav--info .icon {
+  width: 36px;
+  height: 36px;
+  margin-right: 20px; }
 
 @media screen {
   .section--hero .swiper-container, .section--hero-secondary .swiper-container, .section--hero-tertiary .swiper-container, .section--slides .swiper-container, .section--listing .swiper-container {

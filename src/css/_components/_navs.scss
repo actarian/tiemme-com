@@ -799,3 +799,19 @@ ul {
 		}
 	}
 }
+
+.nav--info {
+	@extend %nav-reset;
+
+	&>li {
+		@extend %nav-item;
+		margin-bottom: 20px;
+	}
+
+	.icon {
+		width: 36px;
+		height: 36px;
+		margin-right: 20px;
+	}
+
+}
