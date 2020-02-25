@@ -161,6 +161,17 @@
 	.flex--table {
 		@extend %flex--table-link;
 	}
+
+	&__title {
+		@extend %category;
+		margin-bottom: 30px;
+	}
+
+	@include media-down(sm) {
+		&__title {
+			padding: 0 30px;
+		}
+	}
 }
 
 .group--register-or-login {
@@ -318,8 +329,29 @@
 		white-space: nowrap;
 	}
 
+	&__title {
+		@extend %category;
+		margin-bottom: 30px;
+	}
+
+	@include media-down(sm) {
+		&__title {
+			padding: 0 30px;
+		}
+	}
 }
 
 .section--related {
 	padding: 80px 0;
+
+	&__title {
+		@extend %category;
+		margin-bottom: 30px;
+	}
+
+	@include media-down(sm) {
+		&__title {
+			padding: 0 30px;
+		}
+	}
 }

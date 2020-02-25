@@ -37,7 +37,6 @@ img {
 
 .sticky--menu {
 	position: absolute;
-	top: 160px;
 	width: 100%;
 	bottom: 0;
 
@@ -51,6 +50,10 @@ img {
 			margin-top: 0;
 			box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.2);
 		}
+	}
+
+	@include media-up(md) {
+		top: 160px;
 	}
 
 	@include media-down(sm) {
@@ -82,5 +85,11 @@ img {
 			}
 
 		}
+	}
+}
+
+.section--hero-tertiary+.sticky--menu {
+	@include media-up(md) {
+		top: 132px;
 	}
 }

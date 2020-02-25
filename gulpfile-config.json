@@ -13,16 +13,16 @@
 				"input": "src/js/main.js",
 				"output": {
 					"file": "docs/js/main.js",
-					"format": "umd",
-					"globals": {
-						"gsap": "gsap",
-						"rxjs": "rxjs",
-						"rxjs/operators": "rxjs.operators",
-						"rxcomp": "rxcomp",
-						"rxcomp-form": "rxcomp-form"
-					},
-					"external": ["gsap", "rxjs", "rxcomp", "rxcomp-form"]
+					"format": "umd"
 				},
+				"globals": {
+					"gsap": "gsap",
+					"rxjs": "rxjs",
+					"rxjs/operators": "rxjs.operators",
+					"rxcomp": "rxcomp",
+					"rxcomp-form": "rxcomp-form"
+				},
+				"external": ["gsap", "rxjs", "rxjs/operators", "rxcomp", "rxcomp-form"],
 				"minify": true
 			}, {
 				"input": "src/js/image/image.service.worker.js",

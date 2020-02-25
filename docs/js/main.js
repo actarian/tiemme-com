@@ -441,31 +441,24 @@
       var filters = window.filters || {};
       var initialParams = window.params || {};
       filters.countries.mode = FilterMode.SELECT;
-      filters.regions.mode = FilterMode.SELECT;
-      filters.provinces.mode = FilterMode.SELECT;
+      filters.regions.mode = FilterMode.SELECT; //filters.provinces.mode = FilterMode.SELECT;
+
       filters.categories.mode = FilterMode.SELECT;
       var filterService = new FilterService(filters, initialParams, function (key, filter) {
         switch (key) {
           case 'countries':
             filter.filter = function (item, value) {
-              return item.country === value;
+              return item.idCountry && item.idCountry.indexOf(value) !== -1;
             };
 
             break;
 
           case 'regions':
             filter.filter = function (item, value) {
-              return item.regions && item.regions.indexOf(value) !== -1;
+              return item.idsRegions && item.idsRegions.indexOf(value) !== -1;
             };
 
-            break;
-
-          case 'provinces':
-            filter.filter = function (item, value) {
-              return item.provinces && item.provinces.indexOf(value) !== -1;
-            };
-
-            break;
+            break; //case 'provinces':
 
           case 'categories':
             filter.filter = function (item, value) {
@@ -729,19 +722,35 @@
       }));
     };
 
-    UserService.login$ = function login$(payload) {
+    UserService.update = function update(payload) {
       var _this3 = this;
 
+      return HttpService.post$('/api/users/updateprofile', payload).pipe(operators.map(function (user) {
+        return _this3.mapStatic__(user, 'register');
+      }));
+    };
+
+    UserService.login$ = function login$(payload) {
+      var _this4 = this;
+
       return HttpService.post$('/api/users/login', payload).pipe(operators.map(function (user) {
-        return _this3.mapStatic__(user, 'login');
+        return _this4.mapStatic__(user, 'login');
       }));
     };
 
     UserService.logout$ = function logout$() {
-      var _this4 = this;
+      var _this5 = this;
 
-      return HttpService.get$('/api/users/logout').pipe(operators.map(function (user) {
-        return _this4.mapStatic__(user, 'logout');
+      return HttpService.post$('/api/users/logout').pipe(operators.map(function (user) {
+        return _this5.mapStatic__(user, 'logout');
+      }));
+    };
+
+    UserService.retrieve$ = function retrieve$(payload) {
+      var _this6 = this;
+
+      return HttpService.post$('/api/users/retrievepassword', payload).pipe(operators.map(function (user) {
+        return _this6.mapStatic__(user, 'retrieve');
       }));
     };
 
@@ -1026,7 +1035,7 @@
       if (this.form.valid) {
         // console.log('ClubForgotComponent.onSubmit', this.form.value);
         this.form.submitted = true;
-        HttpService.post$('/WS/wsUsers.asmx/Login', this.form.value).subscribe(function (response) {
+        UserService.retrieve$(this.form.value).subscribe(function (response) {
           console.log('ClubForgotComponent.onSubmit', response);
 
           _this2.sent.next(true);
@@ -1321,6 +1330,202 @@
     selector: '[club-modal]'
   };
 
+  var ClubPasswordRecoveryComponent =
+  /*#__PURE__*/
+  function (_Component) {
+    _inheritsLoose(ClubPasswordRecoveryComponent, _Component);
+
+    function ClubPasswordRecoveryComponent() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = ClubPasswordRecoveryComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      var _this = this;
+
+      var form = new rxcompForm.FormGroup({
+        email: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator(), rxcompForm.Validators.EmailValidator()]),
+        newPassword: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator()]),
+        newPasswordConfirm: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator(), this.MatchValidator('newPassword')]),
+        tokenEncoded: window.tokenEncoded,
+        checkRequest: window.antiforgery,
+        checkField: ''
+      });
+      var controls = form.controls;
+      this.controls = controls;
+      form.changes$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (changes) {
+        // console.log('ClubPasswordComponent.form.changes$', changes, form.valid);
+        _this.pushChanges();
+      });
+      this.form = form;
+      this.error = null;
+      this.success = false;
+    };
+
+    _proto.test = function test() {
+      // user 'rpiemonti@websolute.it'
+      this.form.patch({
+        email: 'jhonappleseed@gmail.com',
+        newPassword: 'npword',
+        newPasswordConfirm: 'npword',
+        tokenEncoded: 'TESTLOCAL',
+        checkRequest: window.antiforgery,
+        checkField: ''
+      });
+    };
+
+    _proto.MatchValidator = function MatchValidator(fieldName) {
+      var _this2 = this;
+
+      return new rxcompForm.FormValidator(function (value) {
+        var field = _this2.form ? _this2.form.get(fieldName) : null;
+
+        if (!value || !field) {
+          return null;
+        }
+
+        return value !== field.value ? {
+          match: {
+            value: value,
+            match: field.value
+          }
+        } : null;
+      });
+    };
+
+    _proto.reset = function reset() {
+      this.form.reset();
+    };
+
+    _proto.onSubmit = function onSubmit() {
+      var _this3 = this;
+
+      // console.log('ClubPasswordComponent.onSubmit', 'form.valid', valid);
+      if (this.form.valid) {
+        // console.log('ClubPasswordComponent.onSubmit', this.form.value);
+        this.form.submitted = true;
+        HttpService.post$('/api/users/resetpassword', this.form.value).subscribe(function (response) {
+          console.log('ClubPasswordRecoveryComponent.onSubmit', response); //this.update.next(response);
+
+          _this3.form.reset();
+
+          _this3.success = true; // this.form.reset();
+        }, function (error) {
+          console.log('ClubPasswordRecoveryComponent.error', error);
+          _this3.error = error;
+
+          _this3.pushChanges();
+        });
+      } else {
+        this.form.touched = true;
+      }
+    };
+
+    return ClubPasswordRecoveryComponent;
+  }(rxcomp.Component);
+  ClubPasswordRecoveryComponent.meta = {
+    selector: '[club-password-recovery]' //outputs: ['update'],
+
+  };
+
+  var ClubPasswordEditComponent =
+  /*#__PURE__*/
+  function (_Component) {
+    _inheritsLoose(ClubPasswordEditComponent, _Component);
+
+    function ClubPasswordEditComponent() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = ClubPasswordEditComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      var _this = this;
+
+      var form = new rxcompForm.FormGroup({
+        password: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator()]),
+        newPassword: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator()]),
+        newPasswordConfirm: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator(), this.MatchValidator('newPassword')]),
+        checkRequest: window.antiforgery,
+        checkField: ''
+      });
+      var controls = form.controls;
+      this.controls = controls;
+      form.changes$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (changes) {
+        // console.log('ClubPasswordEditComponent.form.changes$', changes, form.valid);
+        _this.pushChanges();
+      });
+      this.form = form;
+      this.error = null;
+      this.success = false;
+    };
+
+    _proto.test = function test() {
+      // user 'rpiemonti@websolute.it'
+      this.form.patch({
+        password: 'pword',
+        newPassword: 'npword',
+        newPasswordConfirm: 'npword',
+        checkRequest: window.antiforgery,
+        checkField: ''
+      });
+    };
+
+    _proto.MatchValidator = function MatchValidator(fieldName) {
+      var _this2 = this;
+
+      return new rxcompForm.FormValidator(function (value) {
+        var field = _this2.form ? _this2.form.get(fieldName) : null;
+
+        if (!value || !field) {
+          return null;
+        }
+
+        return value !== field.value ? {
+          match: {
+            value: value,
+            match: field.value
+          }
+        } : null;
+      });
+    };
+
+    _proto.reset = function reset() {
+      this.form.reset();
+    };
+
+    _proto.onSubmit = function onSubmit() {
+      var _this3 = this;
+
+      // console.log('ClubPasswordEditComponent.onSubmit', 'form.valid', valid);
+      if (this.form.valid) {
+        // console.log('ClubPasswordEditComponent.onSubmit', this.form.value);
+        this.form.submitted = true;
+        HttpService.post$('/api/users/editpassword', this.form.value).subscribe(function (response) {
+          console.log('ClubPasswordEditComponent.onSubmit', response); //this.update.next(response);
+
+          _this3.form.reset();
+
+          _this3.success = true; // this.form.reset();
+        }, function (error) {
+          console.log('ClubPasswordEditComponent.error', error);
+          _this3.error = error;
+
+          _this3.pushChanges();
+        });
+      } else {
+        this.form.touched = true;
+      }
+    };
+
+    return ClubPasswordEditComponent;
+  }(rxcomp.Component);
+  ClubPasswordEditComponent.meta = {
+    selector: '[club-password-edit]' //outputs: ['update'],
+
+  };
+
   var ClubProfileComponent =
   /*#__PURE__*/
   function (_Component) {
@@ -1442,9 +1647,7 @@
       if (this.form.valid) {
         // console.log('ClubProfileComponent.onSubmit', this.form.value);
         this.form.submitted = true;
-        HttpService.post$('/WS/wsUsers.asmx/Update', {
-          data: this.form.value
-        }).subscribe(function (response) {
+        UserService.update(this.form.value).subscribe(function (response) {
           console.log('ClubProfileComponent.onSubmit', response);
 
           _this3.update.next(response);
@@ -1505,7 +1708,7 @@
     _proto.onInit = function onInit() {
       var _this = this;
       var form = new rxcompForm.FormGroup({
-        username: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        email: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator(), rxcompForm.Validators.EmailValidator()]),
         password: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
         checkRequest: window.antiforgery,
         checkField: ''
@@ -1523,7 +1726,7 @@
 
     _proto.test = function test() {
       this.form.patch({
-        username: 'username',
+        email: 'jhonappleseed@gmail.com',
         password: 'password',
         checkRequest: window.antiforgery,
         checkField: ''
@@ -1691,9 +1894,9 @@
         this.form.submitted = true; // HttpService.post$('/api/users/Register', this.form.value)
 
         UserService.register$(this.form.value).subscribe(function (response) {
-          console.log('ClubSignupComponent.onSubmit', response);
+          console.log('ClubSignupComponent.onSubmit', response); //this.signUp.next(response);
 
-          _this3.signUp.next(response);
+          _this3.form.reset();
 
           _this3.success = true; // this.form.reset();
         }, function (error) {
@@ -1737,8 +1940,8 @@
     return ClubSignupComponent;
   }(rxcomp.Component);
   ClubSignupComponent.meta = {
-    selector: '[club-signup]',
-    outputs: ['signUp', 'login']
+    selector: '[club-signup]' //outputs: ['signUp', 'login'],
+
   };
 
   var DROPDOWN_ID = 1000000;
@@ -1966,6 +2169,47 @@
     "\n\t\t<div class=\"group--form--checkbox\" [class]=\"{ required: control.validators.length }\">\n\t\t\t<input type=\"checkbox\" class=\"control--checkbox\" [formControl]=\"control\" [value]=\"true\"/>\n\t\t\t<label><span [innerHTML]=\"label | html\"></span></label>\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
   };
 
+  var KeyboardService =
+  /*#__PURE__*/
+  function () {
+    function KeyboardService() {}
+
+    KeyboardService.keydown$ = function keydown$() {
+      return rxjs.fromEvent(window, 'keydown').pipe(operators.shareReplay(1));
+    };
+
+    KeyboardService.keyup$ = function keyup$() {
+      return rxjs.fromEvent(window, 'keyup').pipe(operators.shareReplay(1));
+    };
+
+    KeyboardService.typing$ = function typing$() {
+      var typing = '',
+          to;
+      return this.key$().pipe(operators.map(function (key) {
+        if (to) {
+          clearTimeout(to);
+        }
+
+        typing += key;
+        to = setTimeout(function () {
+          typing = '';
+        }, 1500);
+        return typing;
+      }), operators.shareReplay(1));
+    };
+
+    KeyboardService.key$ = function key$() {
+      var regexp = /\w/;
+      return this.keydown$().pipe(operators.filter(function (event) {
+        return event.key.match(regexp);
+      }), operators.map(function (event) {
+        return event.key;
+      }), operators.shareReplay(1));
+    };
+
+    return KeyboardService;
+  }();
+
   var ControlCustomSelectComponent =
   /*#__PURE__*/
   function (_ControlComponent) {
@@ -1978,36 +2222,34 @@
     var _proto = ControlCustomSelectComponent.prototype;
 
     _proto.onInit = function onInit() {
+      var _this = this;
+
       this.label = 'label';
       this.labels = window.labels || {};
       this.dropped = false;
       this.dropdownId = DropdownDirective.nextId();
-      this.keyboard$().pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (key) {// console.log(key);
+      KeyboardService.typing$().pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (word) {
+        _this.scrollToWord(word);
       });
+      /*
+      KeyboardService.key$().pipe(
+      	takeUntil(this.unsubscribe$)
+      ).subscribe(key => {
+      	this.scrollToKey(key);
+      });
+      */
     };
 
-    _proto.keyboard$ = function keyboard$() {
-      var _this = this;
-
-      var r = /\w/;
-      return rxjs.fromEvent(document, 'keydown').pipe(operators.filter(function (event) {
-        return _this.dropped && event.key.match(r);
-      }), // tap(event => console.log(event)),
-      operators.map(function (event) {
-        return event.key.toLowerCase();
-      }), operators.tap(function (key) {
-        _this.scrollToKey(key);
-      }));
-    };
-
-    _proto.scrollToKey = function scrollToKey(key) {
+    _proto.scrollToWord = function scrollToWord(word) {
+      // console.log('ControlCustomSelectComponent.scrollToWord', word);
       var items = this.control.options || [];
       var index = -1;
 
       for (var i = 0; i < items.length; i++) {
         var x = items[i];
 
-        if (x.name.toLowerCase().substr(0, 1) === key) {
+        if (x.name.toLowerCase().indexOf(word.toLowerCase()) === 0) {
+          // console.log(word, x.name);
           index = i;
           break;
         }
@@ -2022,7 +2264,28 @@
         var item = navDropdown.children[index];
         dropdown.scroll(0, item.offsetTop);
       }
-    };
+    }
+    /*
+    scrollToKey(key) {
+    	const items = this.control.options || [];
+    	let index = -1;
+    	for (let i = 0; i < items.length; i++) {
+    		const x = items[i];
+    		if (x.name.toLowerCase().substr(0, 1) === key) {
+    			index = i;
+    			break;
+    		}
+    	}
+    	if (index !== -1) {
+    		const { node } = getContext(this);
+    		const dropdown = node.querySelector('.dropdown');
+    		const navDropdown = node.querySelector('.nav--dropdown');
+    		const item = navDropdown.children[index];
+    		dropdown.scroll(0, item.offsetTop);
+    	}
+    }
+    */
+    ;
 
     _proto.setOption = function setOption(item) {
       this.control.value = item.id;
@@ -2571,6 +2834,11 @@
       this.pushChanges();
     };
 
+    _proto.onSearch = function onSearch(url, query) {
+      console.log(query);
+      window.location.href = url + "?txtSiteSearch=" + query;
+    };
+
     return MainMenuComponent;
   }(rxcomp.Component);
   MainMenuComponent.meta = {
@@ -2911,46 +3179,42 @@
     var _proto = NaturalFormControlComponent.prototype;
 
     _proto.onInit = function onInit() {
+      var _this = this;
+
       // console.log('NaturalFormControlComponent.onInit');
       this.label = 'label';
       this.labels = window.labels || {};
       this.dropped = false;
       this.dropdownId = DropdownDirective.nextId();
-      this.keyboard$().pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (key) {// console.log(key);
+      KeyboardService.typing$().pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (word) {
+        _this.scrollToWord(word);
       });
-    };
-
-    _proto.onChanges = function onChanges() {
       /*
-      if (!this.filter.value) {
-      	const firstId = this.filter.options[0].id;
-      	this.filter.value = this.filter.multiple ? [firstId] : firstId;
-      }
+      KeyboardService.key$().pipe(
+      	takeUntil(this.unsubscribe$)
+      ).subscribe(key => {
+      	this.scrollToKey(key);
+      });
       */
-    };
+    }
+    /*
+    onChanges() {
+    	if (!this.filter.value) {
+    		const firstId = this.filter.options[0].id;
+    		this.filter.value = this.filter.multiple ? [firstId] : firstId;
+    	}
+    }
+    */
+    ;
 
-    _proto.keyboard$ = function keyboard$() {
-      var _this = this;
-
-      var r = /\w/;
-      return rxjs.fromEvent(document, 'keydown').pipe(operators.filter(function (event) {
-        return _this.dropped && event.key.match(r);
-      }), // tap(event => console.log(event)),
-      operators.map(function (event) {
-        return event.key.toLowerCase();
-      }), operators.tap(function (key) {
-        _this.scrollToKey(key);
-      }));
-    };
-
-    _proto.scrollToKey = function scrollToKey(key) {
+    _proto.scrollToWord = function scrollToWord(word) {
       var items = this.filter.options || [];
       var index = -1;
 
       for (var i = 0; i < items.length; i++) {
         var x = items[i];
 
-        if (x.name.toLowerCase().substr(0, 1) === key) {
+        if (x.name.toLowerCase().indexOf(word.toLowerCase()) === 0) {
           index = i;
           break;
         }
@@ -3623,7 +3887,7 @@
     selector: '[price-list]'
   };
 
-  var src = STATIC ? '/tiemme-com/club-modal.html' : '/it/club-modal';
+  var src = STATIC ? '/tiemme-com/club-modal.html' : '/Viewdoc.cshtml?co_id=23649';
 
   var RegisterOrLoginComponent =
   /*#__PURE__*/
@@ -3842,6 +4106,10 @@
         window.location.href = '/';
       });
     };
+
+    _proto.onProfileUpdate = function onProfileUpdate(event) {};
+
+    _proto.onPasswordUpdate = function onPasswordUpdate(event) {};
 
     return ReservedAreaComponent;
   }(rxcomp.Component);
@@ -4703,7 +4971,7 @@
   }(rxcomp.Module);
   AppModule.meta = {
     imports: [rxcomp.CoreModule, rxcompForm.FormModule],
-    declarations: [AgentsComponent, AppearDirective, ClickOutsideDirective, ClubComponent, ClubForgotComponent, ClubModalComponent, ClubProfileComponent, ClubSigninComponent, ClubSignupComponent, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlPasswordComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, FileSizePipe, HtmlPipe, HeaderComponent, LazyDirective, MainMenuComponent, MediaLibraryComponent, ModalOutletComponent, PriceListComponent, NaturalFormComponent, NaturalFormSearchComponent, NaturalFormContactComponent, NaturalFormControlComponent, NaturalFormNewsletterComponent, NaturalFormSignupComponent, RequestInfoCommercialComponent, RegisterOrLoginComponent, ReservedAreaComponent, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, TestComponent, // ValueDirective,
+    declarations: [AgentsComponent, AppearDirective, ClickOutsideDirective, ClubComponent, ClubForgotComponent, ClubModalComponent, ClubPasswordRecoveryComponent, ClubPasswordEditComponent, ClubProfileComponent, ClubSigninComponent, ClubSignupComponent, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlPasswordComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, FileSizePipe, HtmlPipe, HeaderComponent, LazyDirective, MainMenuComponent, MediaLibraryComponent, ModalOutletComponent, PriceListComponent, NaturalFormComponent, NaturalFormSearchComponent, NaturalFormContactComponent, NaturalFormControlComponent, NaturalFormNewsletterComponent, NaturalFormSignupComponent, RequestInfoCommercialComponent, RegisterOrLoginComponent, ReservedAreaComponent, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, TestComponent, // ValueDirective,
     VideoComponent, WorkWithUsComponent, YoutubeComponent, ZoomableDirective],
     bootstrap: AppComponent
   };

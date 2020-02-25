@@ -124,7 +124,7 @@ export default class ClubProfileComponent extends Component {
 		if (this.form.valid) {
 			// console.log('ClubProfileComponent.onSubmit', this.form.value);
 			this.form.submitted = true;
-			HttpService.post$('/WS/wsUsers.asmx/Update', { data: this.form.value })
+			UserService.update(this.form.value)
 				.subscribe(response => {
 					console.log('ClubProfileComponent.onSubmit', response);
 					this.update.next(response);

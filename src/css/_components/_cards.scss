@@ -733,3 +733,69 @@
 .card--download {
 	padding: 30px 0 30px 30px;
 }
+
+.card--search {
+	margin-bottom: 80px;
+
+	.picture {
+		@include aspect-clip(450, 307);
+		margin-bottom: 25px;
+
+		img {
+			transition: 700ms 0ms cubic-bezier(0.320, 0.000, 0.290, 0.990);
+			transition-property: transform, opacity;
+		}
+
+		.date {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			background: $background-secondary;
+			height: 26px;
+			z-index: 100;
+			font-size: 14px;
+			font-family: $font-secondary;
+			font-weight: $font-medium;
+			text-transform: uppercase;
+			display: flex;
+			align-items: center;
+			padding: 0 10px;
+		}
+	}
+
+	.title {
+		font-family: $font-secondary;
+		font-size: 22px;
+		line-height: 30px;
+		font-weight: $font-medium;
+		text-transform: uppercase;
+		margin-bottom: 25px;
+	}
+
+	.abstract {
+		font-size: 16px;
+		line-height: 25px;
+		font-weight: $font-light;
+
+		&>p {
+			display: inline;
+			margin-right: 20px;
+		}
+	}
+
+	&:hover {
+		.picture {
+			img {
+				transform: scale(1.2);
+			}
+		}
+
+		.btn--link {
+			span {
+				background: $background-secondary;
+				color: $foreground;
+			}
+		}
+	}
+
+}

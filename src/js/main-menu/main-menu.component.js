@@ -10,6 +10,11 @@ export default class MainMenuComponent extends Component {
 		this.sticky = !this.sticky;
 		this.pushChanges();
 	}
+
+	onSearch(url,query) {
+		console.log(query);
+		window.location.href = `${url}?txtSiteSearch=${query}`;
+	}
 }
 
 MainMenuComponent.meta = {

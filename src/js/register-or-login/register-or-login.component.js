@@ -4,7 +4,7 @@ import { STATIC } from '../environment/environment';
 import ModalService, { ModalResolveEvent } from '../modal/modal.service';
 import UserService from '../user/user.service';
 
-const src = STATIC ? '/tiemme-com/club-modal.html' : '/it/club-modal';
+const src = STATIC ? '/tiemme-com/club-modal.html' : '/Viewdoc.cshtml?co_id=23649';
 
 export default class RegisterOrLoginComponent extends Component {
 

@@ -1,7 +1,7 @@
 import { Component } from 'rxcomp';
-import { FormControl, FormGroup, Validators } from 'rxcomp-form';
+import { FormControl, FormGroup, FormValidator, Validators } from 'rxcomp-form';
 import { takeUntil } from 'rxjs/operators';
-import HttpService from '../http/http.service';
+import UserService from '../user/user.service';
 
 export default class ClubForgotComponent extends Component {
 
@@ -44,7 +44,7 @@ export default class ClubForgotComponent extends Component {
 		if (this.form.valid) {
 			// console.log('ClubForgotComponent.onSubmit', this.form.value);
 			this.form.submitted = true;
-			HttpService.post$('/WS/wsUsers.asmx/Login', this.form.value)
+			UserService.retrieve$(this.form.value)
 				.subscribe(response => {
 					console.log('ClubForgotComponent.onSubmit', response);
 					this.sent.next(true);

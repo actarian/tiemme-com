@@ -1,5 +1,20 @@
 .section--listing {
-	padding: 0 0 80px 0;
+	padding: 80px 0 60px 0;
+
+	&__title {
+		@extend %category;
+		margin-bottom: 30px;
+	}
+
+	@include media-down(sm) {
+		&__title {
+			padding: 0 30px;
+		}
+	}
+}
+
+.section--slides+.section--listing {
+	padding-top: 0;
 }
 
 .section--news {
@@ -146,6 +161,58 @@
 
 		@include media-down(xs) {
 			.card--product {
+				@include as-col(12, 12, 0);
+			}
+		}
+	}
+}
+
+.section--search {
+	padding: 80px 0;
+
+	&>.container>.content {
+		.title {
+			@extend %title-detail;
+		}
+
+		.abstract {
+			@extend %abstract-detail;
+		}
+
+		.description {
+			@extend %description-detail;
+		}
+	}
+
+	.listing--search {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-start;
+		padding-top: 30px;
+		border-top: 1px solid rgba(#16255b, 0.15);
+
+		@include media-up(lg) {
+			$gutter: 30px;
+			margin-left: - $gutter / 2;
+			margin-right: - $gutter / 2;
+
+			.card--search {
+				@include as-col(4, 12, $gutter);
+			}
+		}
+
+		@include media-down(md) {
+			$gutter: 30px;
+			margin-left: - $gutter / 2;
+			margin-right: - $gutter / 2;
+
+			.card--search {
+				@include as-col(6, 12, $gutter);
+			}
+		}
+
+		@include media-down(xs) {
+			.card--search {
 				@include as-col(12, 12, 0);
 			}
 		}

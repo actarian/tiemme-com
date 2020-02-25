@@ -1,7 +1,7 @@
 import { getContext } from 'rxcomp';
-import { fromEvent } from 'rxjs';
-import { filter, map, takeUntil, tap } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import DropdownDirective from '../dropdown/dropdown.directive';
+import KeyboardService from '../keyboard/keyboard.service';
 import ControlComponent from './control.component';
 
 export default class ControlCustomSelectComponent extends ControlComponent {
@@ -11,25 +11,42 @@ export default class ControlCustomSelectComponent extends ControlComponent {
 		this.labels = window.labels || {};
 		this.dropped = false;
 		this.dropdownId = DropdownDirective.nextId();
-		this.keyboard$().pipe(
+		KeyboardService.typing$().pipe(
+			takeUntil(this.unsubscribe$)
+		).subscribe(word => {
+			this.scrollToWord(word);
+		});
+		/*
+		KeyboardService.key$().pipe(
 			takeUntil(this.unsubscribe$)
 		).subscribe(key => {
-			// console.log(key);
+			this.scrollToKey(key);
 		});
+		*/
 	}
 
-	keyboard$() {
-		const r = /\w/;
-		return fromEvent(document, 'keydown').pipe(
-			filter(event => this.dropped && event.key.match(r)),
-			// tap(event => console.log(event)),
-			map(event => event.key.toLowerCase()),
-			tap(key => {
-				this.scrollToKey(key);
-			})
-		)
+	scrollToWord(word) {
+		// console.log('ControlCustomSelectComponent.scrollToWord', word);
+		const items = this.control.options || [];
+		let index = -1;
+		for (let i = 0; i < items.length; i++) {
+			const x = items[i];
+			if (x.name.toLowerCase().indexOf(word.toLowerCase()) === 0) {
+				// console.log(word, x.name);
+				index = i;
+				break;
+			}
+		}
+		if (index !== -1) {
+			const { node } = getContext(this);
+			const dropdown = node.querySelector('.dropdown');
+			const navDropdown = node.querySelector('.nav--dropdown');
+			const item = navDropdown.children[index];
+			dropdown.scroll(0, item.offsetTop);
+		}
 	}
 
+	/*
 	scrollToKey(key) {
 		const items = this.control.options || [];
 		let index = -1;
@@ -48,6 +65,7 @@ export default class ControlCustomSelectComponent extends ControlComponent {
 			dropdown.scroll(0, item.offsetTop);
 		}
 	}
+	*/
 
 	setOption(item) {
 		this.control.value = item.id;

@@ -21,6 +21,14 @@ export default class ReservedAreaComponent extends Component {
 		});
 	}
 
+	onProfileUpdate(event) {
+
+	}
+
+	onPasswordUpdate(event) {
+
+	}
+
 }
 
 ReservedAreaComponent.meta = {

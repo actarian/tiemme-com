@@ -26,6 +26,12 @@ export default class UserService {
 		);
 	}
 
+	static update(payload) {
+		return HttpService.post$('/api/users/updateprofile', payload).pipe(
+			map((user) => this.mapStatic__(user, 'register')),
+		);
+	}
+
 	static login$(payload) {
 		return HttpService.post$('/api/users/login', payload).pipe(
 			map((user) => this.mapStatic__(user, 'login')),
@@ -33,8 +39,13 @@ export default class UserService {
 	}
 
 	static logout$() {
-		return HttpService.get$('/api/users/logout').pipe(
+		return HttpService.post$('/api/users/logout').pipe(
 			map((user) => this.mapStatic__(user, 'logout')),
+		);
+	}
+	static retrieve$(payload) {
+		return HttpService.post$('/api/users/retrievepassword', payload).pipe(
+			map((user) => this.mapStatic__(user, 'retrieve')),
 		);
 	}
 

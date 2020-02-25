@@ -118,7 +118,8 @@ export default class ClubSignupComponent extends Component {
 			UserService.register$(this.form.value)
 				.subscribe(response => {
 					console.log('ClubSignupComponent.onSubmit', response);
-					this.signUp.next(response);
+					//this.signUp.next(response);
+					this.form.reset();
 					this.success = true;
 					// this.form.reset();
 				}, error => {
@@ -139,5 +140,5 @@ export default class ClubSignupComponent extends Component {
 
 ClubSignupComponent.meta = {
 	selector: '[club-signup]',
-	outputs: ['signUp', 'login'],
+	//outputs: ['signUp', 'login'],
 };

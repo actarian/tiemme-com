@@ -1,7 +1,7 @@
 import { Component, getContext } from 'rxcomp';
-import { fromEvent } from 'rxjs';
-import { filter, map, takeUntil, tap } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import DropdownDirective from '../dropdown/dropdown.directive';
+import KeyboardService from '../keyboard/keyboard.service';
 
 export default class NaturalFormControlComponent extends Component {
 
@@ -11,40 +11,35 @@ export default class NaturalFormControlComponent extends Component {
 		this.labels = window.labels || {};
 		this.dropped = false;
 		this.dropdownId = DropdownDirective.nextId();
-		this.keyboard$().pipe(
+		KeyboardService.typing$().pipe(
+			takeUntil(this.unsubscribe$)
+		).subscribe(word => {
+			this.scrollToWord(word);
+		});
+		/*
+		KeyboardService.key$().pipe(
 			takeUntil(this.unsubscribe$)
 		).subscribe(key => {
-			// console.log(key);
+			this.scrollToKey(key);
 		});
+		*/
 	}
 
+	/*
 	onChanges() {
-		/*
 		if (!this.filter.value) {
 			const firstId = this.filter.options[0].id;
 			this.filter.value = this.filter.multiple ? [firstId] : firstId;
 		}
-		*/
 	}
+	*/
 
-	keyboard$() {
-		const r = /\w/;
-		return fromEvent(document, 'keydown').pipe(
-			filter(event => this.dropped && event.key.match(r)),
-			// tap(event => console.log(event)),
-			map(event => event.key.toLowerCase()),
-			tap(key => {
-				this.scrollToKey(key);
-			})
-		)
-	}
-
-	scrollToKey(key) {
+	scrollToWord(word) {
 		const items = this.filter.options || [];
 		let index = -1;
 		for (let i = 0; i < items.length; i++) {
 			const x = items[i];
-			if (x.name.toLowerCase().substr(0, 1) === key) {
+			if (x.name.toLowerCase().indexOf(word.toLowerCase()) === 0) {
 				index = i;
 				break;
 			}
