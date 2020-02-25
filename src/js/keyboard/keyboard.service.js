@@ -36,7 +36,7 @@ export default class KeyboardService {
 	static key$() {
 		const regexp = /\w/;
 		return this.keydown$().pipe(
-			filter(event => event.key.match(regexp)),
+			filter(event => event.key && event.key.match(regexp)),
 			map(event => event.key),
 			shareReplay(1)
 		)

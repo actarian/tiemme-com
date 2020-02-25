@@ -101,8 +101,9 @@ export default class NaturalFormContactComponent extends Component {
 			HttpService.post$('/api/users/Contact', this.form.value)
 				.subscribe(response => {
 					console.log('NaturalFormContactComponent.onSubmit', response);
-					this.form.reset();
 					this.success = true;
+					this.form.reset();
+					// this.pushChanges();
 				}, error => {
 					console.log('NaturalFormContactComponent.error', error);
 					this.error = error;

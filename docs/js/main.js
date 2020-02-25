@@ -1041,6 +1041,8 @@
           _this2.sent.next(true);
 
           _this2.success = true; // this.form.reset();
+
+          _this2.pushChanges();
         }, function (error) {
           console.log('ClubForgotComponent.error', error);
           _this2.error = error;
@@ -1408,9 +1410,10 @@
         HttpService.post$('/api/users/resetpassword', this.form.value).subscribe(function (response) {
           console.log('ClubPasswordRecoveryComponent.onSubmit', response); //this.update.next(response);
 
-          _this3.form.reset();
+          _this3.success = true;
 
-          _this3.success = true; // this.form.reset();
+          _this3.form.reset(); // this.pushChanges();
+
         }, function (error) {
           console.log('ClubPasswordRecoveryComponent.error', error);
           _this3.error = error;
@@ -1505,9 +1508,10 @@
         HttpService.post$('/api/users/editpassword', this.form.value).subscribe(function (response) {
           console.log('ClubPasswordEditComponent.onSubmit', response); //this.update.next(response);
 
-          _this3.form.reset();
+          _this3.success = true;
 
-          _this3.success = true; // this.form.reset();
+          _this3.form.reset(); // this.pushChanges();
+
         }, function (error) {
           console.log('ClubPasswordEditComponent.error', error);
           _this3.error = error;
@@ -1653,6 +1657,8 @@
           _this3.update.next(response);
 
           _this3.success = true; // this.form.reset();
+
+          _this3.pushChanges();
         }, function (error) {
           console.log('ClubProfileComponent.error', error);
           _this3.error = error;
@@ -1751,6 +1757,8 @@
           _this2.signIn.next(response);
 
           _this2.success = true; // this.form.reset();
+
+          _this2.pushChanges();
         }, function (error) {
           console.log('ClubSigninComponent.error', error);
           _this2.error = error;
@@ -1896,9 +1904,10 @@
         UserService.register$(this.form.value).subscribe(function (response) {
           console.log('ClubSignupComponent.onSubmit', response); //this.signUp.next(response);
 
-          _this3.form.reset();
+          _this3.success = true;
 
-          _this3.success = true; // this.form.reset();
+          _this3.form.reset(); // this.pushChanges();
+
         }, function (error) {
           console.log('ClubSignupComponent.error', error);
           _this3.error = error;
@@ -2201,7 +2210,7 @@
     KeyboardService.key$ = function key$() {
       var regexp = /\w/;
       return this.keydown$().pipe(operators.filter(function (event) {
-        return event.key.match(regexp);
+        return event.key && event.key.match(regexp);
       }), operators.map(function (event) {
         return event.key;
       }), operators.shareReplay(1));
@@ -3118,10 +3127,10 @@
 
         HttpService.post$('/api/users/Contact', this.form.value).subscribe(function (response) {
           console.log('NaturalFormContactComponent.onSubmit', response);
-
-          _this2.form.reset();
-
           _this2.success = true;
+
+          _this2.form.reset(); // this.pushChanges();
+
         }, function (error) {
           console.log('NaturalFormContactComponent.error', error);
           _this2.error = error;
@@ -3388,10 +3397,10 @@
 
         HttpService.post$('/api/users/Newsletter', this.form.value).subscribe(function (response) {
           console.log('NaturalFormNewsletterComponent.onSubmit', response);
-
-          _this2.form.reset();
-
           _this2.success = true;
+
+          _this2.form.reset(); // this.pushChanges();
+
         }, function (error) {
           console.log('NaturalFormNewsletterComponent.error', error);
           _this2.error = error;
@@ -3704,9 +3713,10 @@
 
           _this3.signUp.next(response);
 
-          _this3.form.reset();
-
           _this3.success = true;
+
+          _this3.form.reset(); // this.pushChanges();
+
         }, function (error) {
           console.log('NaturalFormSignupComponent.error', error);
           _this3.error = error;
@@ -4033,10 +4043,10 @@
 
         HttpService.post$('/api/users/Contact', this.form.value).subscribe(function (response) {
           console.log('RequestInfoCommercialComponent.onSubmit', response);
-
-          _this2.form.reset();
-
           _this2.success = true;
+
+          _this2.form.reset(); // this.pushChanges();
+
         }, function (error) {
           console.log('RequestInfoCommercialComponent.error', error);
           _this2.error = error;
@@ -4620,10 +4630,10 @@
         this.form.submitted = true;
         HttpService.post$('/api/users/WorkWithUs', this.form.value).subscribe(function (response) {
           console.log('WorkWithUsComponent.onSubmit', response);
-
-          _this2.form.reset();
-
           _this2.success = true;
+
+          _this2.form.reset(); // this.pushChanges();
+
         }, function (error) {
           console.log('WorkWithUsComponent.error', error);
           _this2.error = error;

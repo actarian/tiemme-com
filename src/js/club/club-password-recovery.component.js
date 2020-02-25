@@ -65,9 +65,9 @@ export default class ClubPasswordRecoveryComponent extends Component {
 				.subscribe(response => {
 					console.log('ClubPasswordRecoveryComponent.onSubmit', response);
 					//this.update.next(response);
-					this.form.reset();
 					this.success = true;
-					// this.form.reset();
+					this.form.reset();
+					// this.pushChanges();
 				}, error => {
 					console.log('ClubPasswordRecoveryComponent.error', error);
 					this.error = error;

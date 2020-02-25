@@ -106,8 +106,9 @@ export default class RequestInfoCommercialComponent extends Component {
 			HttpService.post$('/api/users/Contact', this.form.value)
 				.subscribe(response => {
 					console.log('RequestInfoCommercialComponent.onSubmit', response);
-					this.form.reset();
 					this.success = true;
+					this.form.reset();
+					// this.pushChanges();
 				}, error => {
 					console.log('RequestInfoCommercialComponent.error', error);
 					this.error = error;

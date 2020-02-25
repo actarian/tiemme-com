@@ -2,7 +2,6 @@ import { Component } from 'rxcomp';
 import { FormControl, FormGroup, FormValidator, Validators } from 'rxcomp-form';
 import { of } from 'rxjs';
 import { catchError, takeUntil } from 'rxjs/operators';
-import HttpService from '../http/http.service';
 import UserService from '../user/user.service';
 
 export default class ClubProfileComponent extends Component {
@@ -130,6 +129,7 @@ export default class ClubProfileComponent extends Component {
 					this.update.next(response);
 					this.success = true;
 					// this.form.reset();
+					this.pushChanges();
 				}, error => {
 					console.log('ClubProfileComponent.error', error);
 					this.error = error;

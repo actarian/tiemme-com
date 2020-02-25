@@ -124,8 +124,9 @@ export default class NaturalFormSignupComponent extends Component {
 				.subscribe(response => {
 					console.log('NaturalFormSignupComponent.onSubmit', response);
 					this.signUp.next(response);
-					this.form.reset();
 					this.success = true;
+					this.form.reset();
+					// this.pushChanges();
 				}, error => {
 					console.log('NaturalFormSignupComponent.error', error);
 					this.error = error;

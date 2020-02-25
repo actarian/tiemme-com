@@ -119,9 +119,9 @@ export default class ClubSignupComponent extends Component {
 				.subscribe(response => {
 					console.log('ClubSignupComponent.onSubmit', response);
 					//this.signUp.next(response);
-					this.form.reset();
 					this.success = true;
-					// this.form.reset();
+					this.form.reset();
+					// this.pushChanges();
 				}, error => {
 					console.log('ClubSignupComponent.error', error);
 					this.error = error;

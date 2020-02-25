@@ -13,7 +13,8 @@
 			</div>
 			<div class="group--cta">
 				<button type="submit" class="btn--submit">
-					<span>Invia</span>
+					<span *if="!form.submitted">Invia</span>
+					<span *if="form.submitted">Inviato!</span>
 				</button>
 			</div>
 			<div class="group--info">
@@ -23,8 +24,8 @@
 		</form>
 	</div>
 	<div class="container" *if="success">
-		<div class="title">Password Inviata</div>
-		<div class="abstract">
+		<div class="section--form__title"><span>Password Inviata</span></div>
+		<div class="section--form__abstract">
 			Abbiamo inviato la password all'indirizzo email fornito.
 		</div>
 		<div class="group--info">

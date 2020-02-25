@@ -1,5 +1,5 @@
 import { Component } from 'rxcomp';
-import { FormControl, FormGroup, FormValidator, Validators } from 'rxcomp-form';
+import { FormControl, FormGroup, Validators } from 'rxcomp-form';
 import { takeUntil } from 'rxjs/operators';
 import UserService from '../user/user.service';
 
@@ -50,6 +50,7 @@ export default class ClubForgotComponent extends Component {
 					this.sent.next(true);
 					this.success = true;
 					// this.form.reset();
+					this.pushChanges();
 				}, error => {
 					console.log('ClubForgotComponent.error', error);
 					this.error = error;

@@ -71,8 +71,9 @@ export default class WorkWithUsComponent extends Component {
 			HttpService.post$('/api/users/WorkWithUs', this.form.value)
 				.subscribe(response => {
 					console.log('WorkWithUsComponent.onSubmit', response);
-					this.form.reset();
 					this.success = true;
+					this.form.reset();
+					// this.pushChanges();
 				}, error => {
 					console.log('WorkWithUsComponent.error', error);
 					this.error = error;

@@ -237,6 +237,9 @@ strong {
     margin: 0;
     padding-bottom: 15px; }
 
+.text--center {
+  text-align: center; }
+
 button {
   font: inherit; }
 
@@ -323,7 +326,8 @@ button,
   text-transform: uppercase;
   opacity: 1;
   -webkit-transition: all ease-in-out 350ms;
-  transition: all ease-in-out 350ms; }
+  transition: all ease-in-out 350ms;
+  line-height: 1; }
   .btn--cta .icon--download {
     margin-right: 8px;
     -webkit-transition: all ease-in-out 350ms;
@@ -3851,6 +3855,12 @@ errors-component {
     color: #16255b; }
   .section--hero .abstract, .section--hero-secondary .abstract {
     color: #16255b; } }
+
+.section--hero .group--cta {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 15px; }
 
 @media screen and (min-width: 1024px) {
   .section--hero {

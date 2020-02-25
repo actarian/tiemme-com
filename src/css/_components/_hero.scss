@@ -144,6 +144,11 @@
 	@extend %section--hero;
 	@extend %section--hero-title;
 
+	.group--cta {
+		display: flex;
+		margin-top: 15px;
+	}
+
 	@media screen {
 
 		@include media-up(md) {

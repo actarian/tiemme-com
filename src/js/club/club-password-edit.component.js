@@ -64,9 +64,9 @@ export default class ClubPasswordEditComponent extends Component {
 				.subscribe(response => {
 					console.log('ClubPasswordEditComponent.onSubmit', response);
 					//this.update.next(response);
-					this.form.reset();
 					this.success = true;
-					// this.form.reset();
+					this.form.reset();
+					// this.pushChanges();
 				}, error => {
 					console.log('ClubPasswordEditComponent.error', error);
 					this.error = error;

@@ -76,8 +76,9 @@ export default class NaturalFormNewsletterComponent extends Component {
 			HttpService.post$('/api/users/Newsletter', this.form.value)
 				.subscribe(response => {
 					console.log('NaturalFormNewsletterComponent.onSubmit', response);
-					this.form.reset();
 					this.success = true;
+					this.form.reset();
+					// this.pushChanges();
 				}, error => {
 					console.log('NaturalFormNewsletterComponent.error', error);
 					this.error = error;
