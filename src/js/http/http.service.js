@@ -4,10 +4,10 @@ import { STATIC } from '../environment/environment';
 
 export default class HttpService {
 
-	static http$(method, url, data) {
+	static http$(method, url, data, format = 'json') {
 		const methods = ['POST', 'PUT', 'PATCH'];
 		let response_ = null;
-		return from(fetch(this.getUrl(url), {
+		return from(fetch(this.getUrl(url, format), {
 			method: method,
 			headers: {
 				'Accept': 'application/json',
@@ -16,8 +16,9 @@ export default class HttpService {
 			body: methods.indexOf(method) !== -1 ? JSON.stringify(data) : undefined
 		}).then((response) => {
 			response_ = response;
+			// console.log(response);
 			if (response.ok) {
-				return response.json();
+				return response[format]();
 			} else {
 				return response.json().then(json => {
 					return Promise.reject(json);
@@ -30,9 +31,9 @@ export default class HttpService {
 		);
 	}
 
-	static get$(url, data) {
+	static get$(url, data, format) {
 		const query = this.query(data);
-		return this.http$('GET', `${url}${query}`);
+		return this.http$('GET', `${url}${query}`, undefined, format);
 	}
 
 	static delete$(url) {
@@ -55,9 +56,9 @@ export default class HttpService {
 		return ''; // todo
 	}
 
-	static getUrl(url) {
+	static getUrl(url, format = 'json') {
 		// console.log(url);
-		return STATIC && url.indexOf('/') === 0 ? `.${url}.json` : url;
+		return STATIC && format === 'json' && url.indexOf('/') === 0 ? `.${url}.json` : url;
 	}
 
 	static getError(object, response) {

@@ -537,12 +537,16 @@
   function () {
     function HttpService() {}
 
-    HttpService.http$ = function http$(method, url, data) {
+    HttpService.http$ = function http$(method, url, data, format) {
       var _this = this;
+
+      if (format === void 0) {
+        format = 'json';
+      }
 
       var methods = ['POST', 'PUT', 'PATCH'];
       var response_ = null;
-      return rxjs.from(fetch(this.getUrl(url), {
+      return rxjs.from(fetch(this.getUrl(url, format), {
         method: method,
         headers: {
           'Accept': 'application/json',
@@ -550,10 +554,10 @@
         },
         body: methods.indexOf(method) !== -1 ? JSON.stringify(data) : undefined
       }).then(function (response) {
-        response_ = response;
+        response_ = response; // console.log(response);
 
         if (response.ok) {
-          return response.json();
+          return response[format]();
         } else {
           return response.json().then(function (json) {
             return Promise.reject(json);
@@ -564,9 +568,9 @@
       }));
     };
 
-    HttpService.get$ = function get$(url, data) {
+    HttpService.get$ = function get$(url, data, format) {
       var query = this.query(data);
-      return this.http$('GET', "" + url + query);
+      return this.http$('GET', "" + url + query, undefined, format);
     };
 
     HttpService.delete$ = function delete$(url) {
@@ -589,9 +593,13 @@
       return ''; // todo
     };
 
-    HttpService.getUrl = function getUrl(url) {
+    HttpService.getUrl = function getUrl(url, format) {
+      if (format === void 0) {
+        format = 'json';
+      }
+
       // console.log(url);
-      return STATIC && url.indexOf('/') === 0 ? "." + url + ".json" : url;
+      return STATIC && format === 'json' && url.indexOf('/') === 0 ? "." + url + ".json" : url;
     };
 
     HttpService.getError = function getError(object, response) {
@@ -1230,12 +1238,15 @@
     var _proto = ClubComponent.prototype;
 
     _proto.onInit = function onInit() {
+      var _getContext = rxcomp.getContext(this),
+          node = _getContext.node;
+
       this.views = {
         SIGN_IN: 1,
         SIGN_UP: 2,
         FORGOTTEN: 3
       };
-      this.view = this.views.SIGN_IN;
+      this.view = node.hasAttribute('view') ? parseInt(node.getAttribute('view')) : this.views.SIGN_IN;
     };
 
     _proto.onForgot = function onForgot(event) {
@@ -1330,6 +1341,104 @@
   }(ClubComponent);
   ClubModalComponent.meta = {
     selector: '[club-modal]'
+  };
+
+  var ClubPasswordEditComponent =
+  /*#__PURE__*/
+  function (_Component) {
+    _inheritsLoose(ClubPasswordEditComponent, _Component);
+
+    function ClubPasswordEditComponent() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = ClubPasswordEditComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      var _this = this;
+
+      var form = new rxcompForm.FormGroup({
+        password: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator()]),
+        newPassword: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator()]),
+        newPasswordConfirm: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator(), this.MatchValidator('newPassword')]),
+        checkRequest: window.antiforgery,
+        checkField: ''
+      });
+      var controls = form.controls;
+      this.controls = controls;
+      form.changes$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (changes) {
+        // console.log('ClubPasswordEditComponent.form.changes$', changes, form.valid);
+        _this.pushChanges();
+      });
+      this.form = form;
+      this.error = null;
+      this.success = false;
+    };
+
+    _proto.test = function test() {
+      // user 'rpiemonti@websolute.it'
+      this.form.patch({
+        password: 'pword',
+        newPassword: 'npword',
+        newPasswordConfirm: 'npword',
+        checkRequest: window.antiforgery,
+        checkField: ''
+      });
+    };
+
+    _proto.MatchValidator = function MatchValidator(fieldName) {
+      var _this2 = this;
+
+      return new rxcompForm.FormValidator(function (value) {
+        var field = _this2.form ? _this2.form.get(fieldName) : null;
+
+        if (!value || !field) {
+          return null;
+        }
+
+        return value !== field.value ? {
+          match: {
+            value: value,
+            match: field.value
+          }
+        } : null;
+      });
+    };
+
+    _proto.reset = function reset() {
+      this.form.reset();
+    };
+
+    _proto.onSubmit = function onSubmit() {
+      var _this3 = this;
+
+      // console.log('ClubPasswordEditComponent.onSubmit', 'form.valid', valid);
+      if (this.form.valid) {
+        // console.log('ClubPasswordEditComponent.onSubmit', this.form.value);
+        this.form.submitted = true;
+        HttpService.post$('/api/users/editpassword', this.form.value).subscribe(function (response) {
+          console.log('ClubPasswordEditComponent.onSubmit', response);
+          _this3.success = true;
+
+          _this3.form.reset(); // this.pushChanges();
+          // this.update.next(response);
+
+        }, function (error) {
+          console.log('ClubPasswordEditComponent.error', error);
+          _this3.error = error;
+
+          _this3.pushChanges();
+        });
+      } else {
+        this.form.touched = true;
+      }
+    };
+
+    return ClubPasswordEditComponent;
+  }(rxcomp.Component);
+  ClubPasswordEditComponent.meta = {
+    selector: '[club-password-edit]' //outputs: ['update'],
+
   };
 
   var ClubPasswordRecoveryComponent =
@@ -1429,104 +1538,6 @@
   }(rxcomp.Component);
   ClubPasswordRecoveryComponent.meta = {
     selector: '[club-password-recovery]' //outputs: ['update'],
-
-  };
-
-  var ClubPasswordEditComponent =
-  /*#__PURE__*/
-  function (_Component) {
-    _inheritsLoose(ClubPasswordEditComponent, _Component);
-
-    function ClubPasswordEditComponent() {
-      return _Component.apply(this, arguments) || this;
-    }
-
-    var _proto = ClubPasswordEditComponent.prototype;
-
-    _proto.onInit = function onInit() {
-      var _this = this;
-
-      var form = new rxcompForm.FormGroup({
-        password: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator()]),
-        newPassword: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator()]),
-        newPasswordConfirm: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator(), this.MatchValidator('newPassword')]),
-        checkRequest: window.antiforgery,
-        checkField: ''
-      });
-      var controls = form.controls;
-      this.controls = controls;
-      form.changes$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (changes) {
-        // console.log('ClubPasswordEditComponent.form.changes$', changes, form.valid);
-        _this.pushChanges();
-      });
-      this.form = form;
-      this.error = null;
-      this.success = false;
-    };
-
-    _proto.test = function test() {
-      // user 'rpiemonti@websolute.it'
-      this.form.patch({
-        password: 'pword',
-        newPassword: 'npword',
-        newPasswordConfirm: 'npword',
-        checkRequest: window.antiforgery,
-        checkField: ''
-      });
-    };
-
-    _proto.MatchValidator = function MatchValidator(fieldName) {
-      var _this2 = this;
-
-      return new rxcompForm.FormValidator(function (value) {
-        var field = _this2.form ? _this2.form.get(fieldName) : null;
-
-        if (!value || !field) {
-          return null;
-        }
-
-        return value !== field.value ? {
-          match: {
-            value: value,
-            match: field.value
-          }
-        } : null;
-      });
-    };
-
-    _proto.reset = function reset() {
-      this.form.reset();
-    };
-
-    _proto.onSubmit = function onSubmit() {
-      var _this3 = this;
-
-      // console.log('ClubPasswordEditComponent.onSubmit', 'form.valid', valid);
-      if (this.form.valid) {
-        // console.log('ClubPasswordEditComponent.onSubmit', this.form.value);
-        this.form.submitted = true;
-        HttpService.post$('/api/users/editpassword', this.form.value).subscribe(function (response) {
-          console.log('ClubPasswordEditComponent.onSubmit', response);
-          _this3.success = true;
-
-          _this3.form.reset(); // this.pushChanges();
-          // this.update.next(response);
-
-        }, function (error) {
-          console.log('ClubPasswordEditComponent.error', error);
-          _this3.error = error;
-
-          _this3.pushChanges();
-        });
-      } else {
-        this.form.touched = true;
-      }
-    };
-
-    return ClubPasswordEditComponent;
-  }(rxcomp.Component);
-  ClubPasswordEditComponent.meta = {
-    selector: '[club-password-edit]' //outputs: ['update'],
 
   };
 
@@ -3421,6 +3432,143 @@
     outputs: ['back']
   };
 
+  var NaturalFormRequestInfoComponent =
+  /*#__PURE__*/
+  function (_Component) {
+    _inheritsLoose(NaturalFormRequestInfoComponent, _Component);
+
+    function NaturalFormRequestInfoComponent() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = NaturalFormRequestInfoComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      var _this = this;
+
+      var values = NaturalFormService.values;
+      this.title = NaturalFormService.title;
+      var data = window.data || {
+        roles: [],
+        interests: [],
+        countries: [],
+        provinces: []
+      };
+      var form = new rxcompForm.FormGroup({
+        role: new rxcompForm.FormControl(values.role, rxcompForm.Validators.RequiredValidator()),
+        interests: new rxcompForm.FormControl(values.interest, rxcompForm.Validators.RequiredValidator()),
+        //
+        firstName: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        lastName: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        email: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator(), rxcompForm.Validators.EmailValidator()]),
+        company: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        country: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        province: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredValidator()),
+        message: null,
+        privacy: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredTrueValidator()),
+        newsletter: values.newsletter === 2 ? true : false,
+        scope: 'www.website.com',
+        checkRequest: window.antiforgery,
+        checkField: ''
+      });
+      var controls = form.controls;
+      controls.role.options = data.roles;
+      controls.interests.options = data.interests;
+      controls.country.options = data.countries;
+      controls.province.options = [];
+      this.controls = controls;
+      form.changes$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (changes) {
+        // console.log('NaturalFormRequestInfoComponent.form.changes$', changes, form.valid);
+        _this.countryId = changes.country;
+
+        _this.pushChanges();
+      });
+      this.data = data;
+      this.form = form;
+      this.error = null;
+      this.success = false;
+    };
+
+    _proto.onChanges = function onChanges(changes) {};
+
+    _proto.test = function test() {
+      this.form.patch({
+        firstName: 'Jhon',
+        lastName: 'Appleseed',
+        email: 'jhonappleseed@gmail.com',
+        company: 'Websolute',
+        role: this.controls.role.options[0].id,
+        interests: this.controls.interests.options[0].id,
+        country: this.controls.country.options[0].id,
+        privacy: true,
+        checkRequest: window.antiforgery,
+        checkField: ''
+      });
+    };
+
+    _proto.reset = function reset() {
+      this.form.reset();
+    };
+
+    _proto.onSubmit = function onSubmit() {
+      var _this2 = this;
+
+      // console.log('NaturalFormRequestInfoComponent.onSubmit', 'form.valid', valid);
+      if (this.form.valid) {
+        // console.log('NaturalFormRequestInfoComponent.onSubmit', this.form.value);
+        this.form.submitted = true; //HttpService.post$('/WS/wsUsers.asmx/Contact', { data: this.form.value })
+
+        HttpService.post$('/api/users/RequestInfo', this.form.value).subscribe(function (response) {
+          console.log('NaturalFormRequestInfoComponent.onSubmit', response);
+
+          _this2.form.reset();
+
+          _this2.success = true;
+        }, function (error) {
+          console.log('NaturalFormRequestInfoComponent.error', error);
+          _this2.error = error;
+
+          _this2.pushChanges();
+        });
+      } else {
+        this.form.touched = true;
+      }
+    };
+
+    _proto.onBack = function onBack() {
+      this.back.next();
+    };
+
+    _createClass(NaturalFormRequestInfoComponent, [{
+      key: "countryId",
+      set: function set(countryId) {
+        var _this3 = this;
+
+        if (this.countryId_ !== countryId) {
+          // console.log('NaturalFormRequestInfoComponent.set countryId', countryId);
+          this.countryId_ = countryId;
+          var provinces = this.data.provinces.filter(function (province) {
+            return String(province.idstato) === String(countryId);
+          });
+          this.controls.province.options = provinces;
+          this.controls.province.hidden = provinces.length === 0;
+
+          if (!provinces.find(function (x) {
+            return x.id === _this3.controls.province.value;
+          })) {
+            this.controls.province.value = null;
+          }
+        }
+      }
+    }]);
+
+    return NaturalFormRequestInfoComponent;
+  }(rxcomp.Component);
+  NaturalFormRequestInfoComponent.meta = {
+    selector: '[natural-form-request-info]',
+    outputs: ['back']
+  };
+
   var NaturalFormSearchComponent =
   /*#__PURE__*/
   function (_Component) {
@@ -4122,6 +4270,133 @@
   }(rxcomp.Component);
   ReservedAreaComponent.meta = {
     selector: '[reserved-area]'
+  };
+
+  var DownloadService =
+  /*#__PURE__*/
+  function () {
+    function DownloadService() {}
+
+    DownloadService.download = function download(blob, fileName) {
+      if (fileName === void 0) {
+        fileName = 'download.txt';
+      }
+
+      // var json = JSON.stringify(data),
+      // blob = new Blob([json], {type: "octet/stream"}),
+      var url = window.URL.createObjectURL(blob);
+      var a = this.a;
+      a.href = url;
+      a.download = fileName;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    };
+
+    _createClass(DownloadService, null, [{
+      key: "a",
+      get: function get() {
+        var a = this.a_;
+
+        if (!a) {
+          a = document.createElement("a");
+          a.style = "display: none";
+          document.body.appendChild(a);
+          this.a_ = a;
+        }
+
+        return a;
+      }
+    }]);
+
+    return DownloadService;
+  }();
+
+  var src$1 = STATIC ? '/tiemme-com/club-modal.html' : '/Viewdoc.cshtml?co_id=23649';
+
+  var SecureDirective =
+  /*#__PURE__*/
+  function (_Directive) {
+    _inheritsLoose(SecureDirective, _Directive);
+
+    function SecureDirective() {
+      return _Directive.apply(this, arguments) || this;
+    }
+
+    var _proto = SecureDirective.prototype;
+
+    _proto.onInit = function onInit() {
+      var _this = this;
+
+      var _getContext = rxcomp.getContext(this),
+          node = _getContext.node;
+
+      this.href = node.getAttribute('href');
+      rxjs.fromEvent(node, 'click').pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (event) {
+        event.preventDefault();
+
+        _this.tryDownloadHref();
+      });
+    };
+
+    _proto.onChanges = function onChanges() {
+      var _getContext2 = rxcomp.getContext(this),
+          node = _getContext2.node;
+
+      this.href = node.getAttribute('href');
+    };
+
+    _proto.tryDownloadHref = function tryDownloadHref() {
+      var _this2 = this;
+
+      HttpService.get$(this.href, undefined, 'blob').pipe(operators.first()).subscribe(function (blob) {
+        DownloadService.download(blob, _this2.href.split('/').pop());
+      }, function (error) {
+        console.log(error);
+
+        _this2.onLogin(event);
+      });
+    };
+
+    _proto.onLogin = function onLogin(event) {
+      var _this3 = this;
+
+      // console.log('SecureDirective.onLogin');
+      // event.preventDefault();
+      ModalService.open$({
+        src: src$1,
+        data: {
+          view: 1
+        }
+      }).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (event) {
+        // console.log('SecureDirective.onLogin', event);
+        if (event instanceof ModalResolveEvent) {
+          UserService.setUser(event.data);
+
+          _this3.tryDownloadHref();
+        }
+      }); // this.pushChanges();
+    }
+    /*
+    onRegister(event) {
+    	// console.log('SecureDirective.onRegister');
+    	// event.preventDefault();
+    	ModalService.open$({ src: src, data: { view: 2 } }).pipe(
+    		takeUntil(this.unsubscribe$)
+    	).subscribe(event => {
+    		// console.log('SecureDirective.onRegister', event);
+    		if (event instanceof ModalResolveEvent) {
+    			UserService.setUser(event.data);
+    		}
+    	});
+    	// this.pushChanges();
+    }
+    */
+    ;
+
+    return SecureDirective;
+  }(rxcomp.Directive);
+  SecureDirective.meta = {
+    selector: '[secure]'
   };
 
   var FileSizePipe =
@@ -4978,7 +5253,7 @@
   }(rxcomp.Module);
   AppModule.meta = {
     imports: [rxcomp.CoreModule, rxcompForm.FormModule],
-    declarations: [AgentsComponent, AppearDirective, ClickOutsideDirective, ClubComponent, ClubForgotComponent, ClubModalComponent, ClubPasswordRecoveryComponent, ClubPasswordEditComponent, ClubProfileComponent, ClubSigninComponent, ClubSignupComponent, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlPasswordComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, FileSizePipe, HtmlPipe, HeaderComponent, LazyDirective, MainMenuComponent, MediaLibraryComponent, ModalOutletComponent, PriceListComponent, NaturalFormComponent, NaturalFormSearchComponent, NaturalFormContactComponent, NaturalFormControlComponent, NaturalFormNewsletterComponent, NaturalFormSignupComponent, RequestInfoCommercialComponent, RegisterOrLoginComponent, ReservedAreaComponent, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, TestComponent, // ValueDirective,
+    declarations: [AgentsComponent, AppearDirective, ClickOutsideDirective, ClubComponent, ClubForgotComponent, ClubModalComponent, ClubPasswordRecoveryComponent, ClubPasswordEditComponent, ClubProfileComponent, ClubSigninComponent, ClubSignupComponent, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlPasswordComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, FileSizePipe, HtmlPipe, HeaderComponent, LazyDirective, MainMenuComponent, MediaLibraryComponent, ModalOutletComponent, PriceListComponent, NaturalFormComponent, NaturalFormSearchComponent, NaturalFormContactComponent, NaturalFormRequestInfoComponent, NaturalFormControlComponent, NaturalFormNewsletterComponent, NaturalFormSignupComponent, RequestInfoCommercialComponent, RegisterOrLoginComponent, ReservedAreaComponent, SecureDirective, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, TestComponent, // ValueDirective,
     VideoComponent, WorkWithUsComponent, YoutubeComponent, ZoomableDirective],
     bootstrap: AppComponent
   };

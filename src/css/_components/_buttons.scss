@@ -60,6 +60,7 @@ button,
 	&:active,
 	&:visited {
 		span {
+			background: $background-tertiary;
 			color: $foreground;
 			transition: all ease-in-out .2s;
 		}
@@ -90,7 +91,7 @@ button,
 
 .btn--cta {
 	display: block;
-	padding: 3px 10px;
+	padding: 5px 10px;
 	background: $background-secondary;
 	font-weight: $font-medium;
 	font-family: $font-secondary;

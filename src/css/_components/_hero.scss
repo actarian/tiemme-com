@@ -185,6 +185,12 @@
 
 .section--hero-tertiary {
 	@extend %section--hero;
+	@extend %section--hero-title;
+
+	.container {
+		padding-top: 110px;
+		padding-bottom: 10px;
+	}
 
 	@media screen {
 

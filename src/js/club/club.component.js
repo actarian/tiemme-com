@@ -1,15 +1,16 @@
-import { Component } from 'rxcomp';
+import { Component, getContext } from 'rxcomp';
 import UserService from '../user/user.service';
 
 export default class ClubComponent extends Component {
 
 	onInit() {
+		const { node } = getContext(this);
 		this.views = {
 			SIGN_IN: 1,
 			SIGN_UP: 2,
 			FORGOTTEN: 3,
 		};
-		this.view = this.views.SIGN_IN;
+		this.view = node.hasAttribute('view') ? parseInt(node.getAttribute('view')) : this.views.SIGN_IN;
 	}
 
 	onForgot(event) {

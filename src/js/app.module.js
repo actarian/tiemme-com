@@ -6,8 +6,8 @@ import AppearDirective from './appear/appear.directive';
 import ClickOutsideDirective from './click-outside/click-outside.directive';
 import ClubForgotComponent from './club/club-forgot.component';
 import ClubModalComponent from './club/club-modal.component';
-import ClubPasswordRecoveryComponent from './club/club-password-recovery.component';
 import ClubPasswordEditComponent from './club/club-password-edit.component';
+import ClubPasswordRecoveryComponent from './club/club-password-recovery.component';
 import ClubProfileComponent from './club/club-profile.component';
 import ClubSigninComponent from './club/club-signin.component';
 import ClubSignupComponent from './club/club-signup.component';
@@ -34,6 +34,7 @@ import ModalOutletComponent from './modal/modal-outlet.component';
 import NaturalFormContactComponent from './natural-form/natural-form-contact.component';
 import NaturalFormControlComponent from './natural-form/natural-form-control.component';
 import NaturalFormNewsletterComponent from './natural-form/natural-form-newsletter.component';
+import NaturalFormRequestInfoComponent from './natural-form/natural-form-request-info.component';
 import NaturalFormSearchComponent from './natural-form/natural-form-search.component';
 import NaturalFormSignupComponent from './natural-form/natural-form-signup.component';
 import NaturalFormComponent from './natural-form/natural-form.component';
@@ -41,6 +42,7 @@ import PriceListComponent from './price-list/price-list';
 import RegisterOrLoginComponent from './register-or-login/register-or-login.component';
 import RequestInfoCommercialComponent from './request-info-commercial/request-info-commercial.component';
 import ReservedAreaComponent from './reserved-area/reserved-area.component';
+import SecureDirective from './secure/secure.directive';
 import FileSizePipe from './size/size.pipe';
 import SwiperListingDirective from './swiper/swiper-listing.directive';
 import SwiperSlidesDirective from './swiper/swiper-slides.directive';
@@ -91,12 +93,14 @@ AppModule.meta = {
 		NaturalFormComponent,
 		NaturalFormSearchComponent,
 		NaturalFormContactComponent,
+		NaturalFormRequestInfoComponent,
 		NaturalFormControlComponent,
 		NaturalFormNewsletterComponent,
 		NaturalFormSignupComponent,
 		RequestInfoCommercialComponent,
 		RegisterOrLoginComponent,
 		ReservedAreaComponent,
+		SecureDirective,
 		SwiperDirective,
 		SwiperListingDirective,
 		SwiperSlidesDirective,
