@@ -8,7 +8,6 @@ export default class ClubPasswordEditComponent extends Component {
 	onInit() {
 
 		const form = new FormGroup({
-			password: new FormControl(null, [Validators.RequiredValidator()]),
 			newPassword: new FormControl(null, [Validators.RequiredValidator()]),
 			newPasswordConfirm: new FormControl(null, [Validators.RequiredValidator(), this.MatchValidator('newPassword')]),
 			checkRequest: window.antiforgery,
@@ -33,7 +32,6 @@ export default class ClubPasswordEditComponent extends Component {
 	test() {
 		// user 'rpiemonti@websolute.it'
 		this.form.patch({
-			password: 'pword',
 			newPassword: 'npword',
 			newPasswordConfirm: 'npword',
 			checkRequest: window.antiforgery,
@@ -58,6 +56,11 @@ export default class ClubPasswordEditComponent extends Component {
 	onSubmit() {
 		// console.log('ClubPasswordEditComponent.onSubmit', 'form.valid', valid);
 		if (this.form.valid) {
+			 // Lo ri-imposto perché essendoci il campo password Chrome fa l'autocomplete dei dati, e riempie il campo checkField con l'username
+			this.form.patch({
+				checkRequest: window.antiforgery,
+				checkField: ''
+			});
 			// console.log('ClubPasswordEditComponent.onSubmit', this.form.value);
 			this.form.submitted = true;
 			HttpService.post$('/api/users/editpassword', this.form.value)

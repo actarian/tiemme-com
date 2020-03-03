@@ -87,9 +87,7 @@
     OR: 'or'
   };
 
-  var FilterItem =
-  /*#__PURE__*/
-  function () {
+  var FilterItem = /*#__PURE__*/function () {
     function FilterItem(filter) {
       this.change$ = new rxjs.BehaviorSubject();
       this.mode = FilterMode.SELECT;
@@ -196,9 +194,7 @@
     return FilterItem;
   }();
 
-  var LocationService =
-  /*#__PURE__*/
-  function () {
+  var LocationService = /*#__PURE__*/function () {
     function LocationService() {}
 
     LocationService.get = function get(key) {
@@ -271,9 +267,7 @@
     return LocationService;
   }();
 
-  var FilterService =
-  /*#__PURE__*/
-  function () {
+  var FilterService = /*#__PURE__*/function () {
     function FilterService(options, initialParams, callback) {
       var filters = {};
 
@@ -423,9 +417,7 @@
     return FilterService;
   }();
 
-  var AgentsComponent =
-  /*#__PURE__*/
-  function (_Component) {
+  var AgentsComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(AgentsComponent, _Component);
 
     function AgentsComponent() {
@@ -532,9 +524,7 @@
     PRODUCTION: PRODUCTION
   };
 
-  var HttpService =
-  /*#__PURE__*/
-  function () {
+  var HttpService = /*#__PURE__*/function () {
     function HttpService() {}
 
     HttpService.http$ = function http$(method, url, data, format) {
@@ -620,9 +610,7 @@
     return HttpService;
   }();
 
-  var LocalStorageService =
-  /*#__PURE__*/
-  function () {
+  var LocalStorageService = /*#__PURE__*/function () {
     function LocalStorageService() {}
 
     LocalStorageService.delete = function _delete(name) {
@@ -701,9 +689,7 @@
     return LocalStorageService;
   }();
 
-  var UserService =
-  /*#__PURE__*/
-  function () {
+  var UserService = /*#__PURE__*/function () {
     function UserService() {}
 
     UserService.setUser = function setUser(user) {
@@ -798,9 +784,7 @@
   }();
   UserService.user$ = new rxjs.BehaviorSubject(null);
 
-  var AppComponent =
-  /*#__PURE__*/
-  function (_Component) {
+  var AppComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(AppComponent, _Component);
 
     function AppComponent() {
@@ -838,9 +822,7 @@
     selector: '[app-component]'
   };
 
-  var IntersectionService =
-  /*#__PURE__*/
-  function () {
+  var IntersectionService = /*#__PURE__*/function () {
     function IntersectionService() {}
 
     IntersectionService.observer = function observer() {
@@ -901,9 +883,7 @@
     return IntersectionService;
   }();
 
-  var AppearDirective =
-  /*#__PURE__*/
-  function (_Directive) {
+  var AppearDirective = /*#__PURE__*/function (_Directive) {
     _inheritsLoose(AppearDirective, _Directive);
 
     function AppearDirective() {
@@ -938,9 +918,7 @@
     selector: '[appear]'
   };
 
-  var ClickOutsideDirective =
-  /*#__PURE__*/
-  function (_Directive) {
+  var ClickOutsideDirective = /*#__PURE__*/function (_Directive) {
     _inheritsLoose(ClickOutsideDirective, _Directive);
 
     function ClickOutsideDirective() {
@@ -994,9 +972,7 @@
     selector: "[(clickOutside)]"
   };
 
-  var ClubForgotComponent =
-  /*#__PURE__*/
-  function (_Component) {
+  var ClubForgotComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(ClubForgotComponent, _Component);
 
     function ClubForgotComponent() {
@@ -1080,9 +1056,7 @@
   var ModalEvent = function ModalEvent(data) {
     this.data = data;
   };
-  var ModalResolveEvent =
-  /*#__PURE__*/
-  function (_ModalEvent) {
+  var ModalResolveEvent = /*#__PURE__*/function (_ModalEvent) {
     _inheritsLoose(ModalResolveEvent, _ModalEvent);
 
     function ModalResolveEvent() {
@@ -1091,9 +1065,7 @@
 
     return ModalResolveEvent;
   }(ModalEvent);
-  var ModalRejectEvent =
-  /*#__PURE__*/
-  function (_ModalEvent2) {
+  var ModalRejectEvent = /*#__PURE__*/function (_ModalEvent2) {
     _inheritsLoose(ModalRejectEvent, _ModalEvent2);
 
     function ModalRejectEvent() {
@@ -1103,9 +1075,7 @@
     return ModalRejectEvent;
   }(ModalEvent);
 
-  var ModalService =
-  /*#__PURE__*/
-  function () {
+  var ModalService = /*#__PURE__*/function () {
     function ModalService() {}
 
     ModalService.open$ = function open$(modal) {
@@ -1154,9 +1124,7 @@
   ModalService.modal$ = new rxjs.Subject();
   ModalService.events$ = new rxjs.Subject();
 
-  var ModalOutletComponent =
-  /*#__PURE__*/
-  function (_Component) {
+  var ModalOutletComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(ModalOutletComponent, _Component);
 
     function ModalOutletComponent() {
@@ -1226,9 +1194,7 @@
     "\n\t<div class=\"modal-outlet__container\" [class]=\"{ active: modal }\">\n\t\t<div class=\"modal-outlet__background\" (click)=\"reject($event)\"></div>\n\t\t<div class=\"modal-outlet__modal\"></div>\n\t</div>\n\t"
   };
 
-  var ClubComponent =
-  /*#__PURE__*/
-  function (_Component) {
+  var ClubComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(ClubComponent, _Component);
 
     function ClubComponent() {
@@ -1294,9 +1260,7 @@
     inputs: ['club']
   };
 
-  var ClubModalComponent =
-  /*#__PURE__*/
-  function (_ClubComponent) {
+  var ClubModalComponent = /*#__PURE__*/function (_ClubComponent) {
     _inheritsLoose(ClubModalComponent, _ClubComponent);
 
     function ClubModalComponent() {
@@ -1343,9 +1307,7 @@
     selector: '[club-modal]'
   };
 
-  var ClubPasswordEditComponent =
-  /*#__PURE__*/
-  function (_Component) {
+  var ClubPasswordEditComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(ClubPasswordEditComponent, _Component);
 
     function ClubPasswordEditComponent() {
@@ -1358,7 +1320,6 @@
       var _this = this;
 
       var form = new rxcompForm.FormGroup({
-        password: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator()]),
         newPassword: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator()]),
         newPasswordConfirm: new rxcompForm.FormControl(null, [rxcompForm.Validators.RequiredValidator(), this.MatchValidator('newPassword')]),
         checkRequest: window.antiforgery,
@@ -1378,7 +1339,6 @@
     _proto.test = function test() {
       // user 'rpiemonti@websolute.it'
       this.form.patch({
-        password: 'pword',
         newPassword: 'npword',
         newPasswordConfirm: 'npword',
         checkRequest: window.antiforgery,
@@ -1414,7 +1374,12 @@
 
       // console.log('ClubPasswordEditComponent.onSubmit', 'form.valid', valid);
       if (this.form.valid) {
-        // console.log('ClubPasswordEditComponent.onSubmit', this.form.value);
+        // Lo ri-imposto perché essendoci il campo password Chrome fa l'autocomplete dei dati, e riempie il campo checkField con l'username
+        this.form.patch({
+          checkRequest: window.antiforgery,
+          checkField: ''
+        }); // console.log('ClubPasswordEditComponent.onSubmit', this.form.value);
+
         this.form.submitted = true;
         HttpService.post$('/api/users/editpassword', this.form.value).subscribe(function (response) {
           console.log('ClubPasswordEditComponent.onSubmit', response);
@@ -1441,9 +1406,7 @@
 
   };
 
-  var ClubPasswordRecoveryComponent =
-  /*#__PURE__*/
-  function (_Component) {
+  var ClubPasswordRecoveryComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(ClubPasswordRecoveryComponent, _Component);
 
     function ClubPasswordRecoveryComponent() {
@@ -1541,9 +1504,7 @@
 
   };
 
-  var ClubProfileComponent =
-  /*#__PURE__*/
-  function (_Component) {
+  var ClubProfileComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(ClubProfileComponent, _Component);
 
     function ClubProfileComponent() {
@@ -1710,9 +1671,7 @@
     outputs: ['update']
   };
 
-  var ClubSigninComponent =
-  /*#__PURE__*/
-  function (_Component) {
+  var ClubSigninComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(ClubSigninComponent, _Component);
 
     function ClubSigninComponent() {
@@ -1794,9 +1753,7 @@
     outputs: ['signIn', 'forgot', 'register']
   };
 
-  var ClubSignupComponent =
-  /*#__PURE__*/
-  function (_Component) {
+  var ClubSignupComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(ClubSignupComponent, _Component);
 
     function ClubSignupComponent() {
@@ -1920,6 +1877,7 @@
         }, function (error) {
           console.log('ClubSignupComponent.error', error);
           _this3.error = error;
+          _this3.form.submitted = false;
 
           _this3.pushChanges();
         });
@@ -1964,9 +1922,7 @@
 
   var DROPDOWN_ID = 1000000;
 
-  var DropdownDirective =
-  /*#__PURE__*/
-  function (_Directive) {
+  var DropdownDirective = /*#__PURE__*/function (_Directive) {
     _inheritsLoose(DropdownDirective, _Directive);
 
     function DropdownDirective() {
@@ -2088,9 +2044,7 @@
   };
   DropdownDirective.dropdown$ = new rxjs.BehaviorSubject(null);
 
-  var DropdownItemDirective =
-  /*#__PURE__*/
-  function (_Directive) {
+  var DropdownItemDirective = /*#__PURE__*/function (_Directive) {
     _inheritsLoose(DropdownItemDirective, _Directive);
 
     function DropdownItemDirective() {
@@ -2130,9 +2084,7 @@
     inputs: ['dropdown-item']
   };
 
-  var ControlComponent =
-  /*#__PURE__*/
-  function (_Component) {
+  var ControlComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(ControlComponent, _Component);
 
     function ControlComponent() {
@@ -2162,9 +2114,7 @@
     inputs: ['control']
   };
 
-  var ControlCheckboxComponent =
-  /*#__PURE__*/
-  function (_ControlComponent) {
+  var ControlCheckboxComponent = /*#__PURE__*/function (_ControlComponent) {
     _inheritsLoose(ControlCheckboxComponent, _ControlComponent);
 
     function ControlCheckboxComponent() {
@@ -2184,12 +2134,10 @@
     inputs: ['control', 'label'],
     template:
     /* html */
-    "\n\t\t<div class=\"group--form--checkbox\" [class]=\"{ required: control.validators.length }\">\n\t\t\t<input type=\"checkbox\" class=\"control--checkbox\" [formControl]=\"control\" [value]=\"true\"/>\n\t\t\t<label><span [innerHTML]=\"label | html\"></span></label>\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
+    "\n\t\t<div class=\"group--form--checkbox\" [class]=\"{ required: control.validators.length }\">\n\t\t\t<label>\n\t\t\t\t<input type=\"checkbox\" class=\"control--checkbox\" [formControl]=\"control\" [value]=\"true\"/>\n\t\t\t\t<span [innerHTML]=\"label | html\"></span>\n\t\t\t</label>\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
   };
 
-  var KeyboardService =
-  /*#__PURE__*/
-  function () {
+  var KeyboardService = /*#__PURE__*/function () {
     function KeyboardService() {}
 
     KeyboardService.keydown$ = function keydown$() {
@@ -2228,9 +2176,7 @@
     return KeyboardService;
   }();
 
-  var ControlCustomSelectComponent =
-  /*#__PURE__*/
-  function (_ControlComponent) {
+  var ControlCustomSelectComponent = /*#__PURE__*/function (_ControlComponent) {
     _inheritsLoose(ControlCustomSelectComponent, _ControlComponent);
 
     function ControlCustomSelectComponent() {
@@ -2284,29 +2230,40 @@
       }
     }
     /*
-    scrollToKey(key) {
-    	const items = this.control.options || [];
-    	let index = -1;
-    	for (let i = 0; i < items.length; i++) {
-    		const x = items[i];
-    		if (x.name.toLowerCase().substr(0, 1) === key) {
-    			index = i;
-    			break;
-    		}
-    	}
-    	if (index !== -1) {
-    		const { node } = getContext(this);
-    		const dropdown = node.querySelector('.dropdown');
-    		const navDropdown = node.querySelector('.nav--dropdown');
-    		const item = navDropdown.children[index];
-    		dropdown.scroll(0, item.offsetTop);
-    	}
+    setOption(item) {
+    	this.control.value = item.id;
+    	// DropdownDirective.dropdown$.next(null);
     }
     */
     ;
 
     _proto.setOption = function setOption(item) {
-      this.control.value = item.id;
+      console.log('setOption', item, this.isMultiple);
+
+      if (this.isMultiple) {
+        var value = this.control.value || [];
+        var index = value.indexOf(item.id);
+
+        if (index !== -1) {
+          // if (value.length > 1) {
+          value.splice(index, 1); // }
+        } else {
+          value.push(item.id);
+        }
+
+        this.control.value = value.length ? value.slice() : null;
+      } else {
+        this.control.value = item.id; // DropdownDirective.dropdown$.next(null);
+      }
+    };
+
+    _proto.hasOption = function hasOption(item) {
+      if (this.isMultiple) {
+        var values = this.control.value || [];
+        return values.indexOf(item.id) !== -1;
+      } else {
+        return this.control.value === item.id;
+      }
     };
 
     _proto.onDropped = function onDropped(id) {// console.log('ControlCustomSelectComponent.onDropped', id);
@@ -2315,14 +2272,30 @@
     _proto.getLabel = function getLabel() {
       var value = this.control.value;
       var items = this.control.options || [];
-      var item = items.find(function (x) {
-        return x.id === value || x.name === value;
-      });
 
-      if (item) {
-        return item.name;
+      if (this.isMultiple) {
+        value = value || [];
+
+        if (value.length) {
+          return value.map(function (v) {
+            var item = items.find(function (x) {
+              return x.id === v || x.name === v;
+            });
+            return item ? item.name : '';
+          }).join(', ');
+        } else {
+          return this.labels.select;
+        }
       } else {
-        return this.labels.select;
+        var item = items.find(function (x) {
+          return x.id === value || x.name === value;
+        });
+
+        if (item) {
+          return item.name;
+        } else {
+          return this.labels.select;
+        }
       }
     };
 
@@ -2345,23 +2318,28 @@
     */
     ;
 
+    _createClass(ControlCustomSelectComponent, [{
+      key: "isMultiple",
+      get: function get() {
+        return this.multiple && this.multiple !== false && this.multiple !== 'false';
+      }
+    }]);
+
     return ControlCustomSelectComponent;
   }(ControlComponent);
   ControlCustomSelectComponent.meta = {
     selector: '[control-custom-select]',
-    inputs: ['control', 'label'],
+    inputs: ['control', 'label', 'multiple'],
     template:
     /* html */
-    "\n\t\t<div class=\"group--form--select\" [class]=\"{ required: control.validators.length }\" [dropdown]=\"dropdownId\" (dropped)=\"onDropped($event)\">\n\t\t\t<label [innerHTML]=\"label\"></label>\n\t\t\t<span class=\"control--select\" [innerHTML]=\"getLabel()\"></span>\n\t\t\t<svg class=\"icon icon--caret-down\"><use xlink:href=\"#caret-down\"></use></svg>\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t\t<div class=\"dropdown\" [dropdown-item]=\"dropdownId\">\n\t\t\t<div class=\"category\" [innerHTML]=\"label\"></div>\n\t\t\t<ul class=\"nav--dropdown\">\n\t\t\t\t<li *for=\"let item of control.options\" (click)=\"setOption(item)\"><span [innerHTML]=\"item.name\"></span></li>\n\t\t\t</ul>\n\t\t</div>\n\t"
+    "\n\t\t<div class=\"group--form--select\" [class]=\"{ required: control.validators.length, multiple: isMultiple }\" [dropdown]=\"dropdownId\" (dropped)=\"onDropped($event)\">\n\t\t\t<label [innerHTML]=\"label\"></label>\n\t\t\t<span class=\"control--select\" [innerHTML]=\"getLabel()\"></span>\n\t\t\t<svg class=\"icon icon--caret-down\"><use xlink:href=\"#caret-down\"></use></svg>\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t\t<div class=\"dropdown\" [dropdown-item]=\"dropdownId\">\n\t\t\t<div class=\"category\" [innerHTML]=\"label\"></div>\n\t\t\t<ul class=\"nav--dropdown\" [class]=\"{ multiple: isMultiple }\">\n\t\t\t<li *for=\"let item of control.options\" (click)=\"setOption(item)\"><span [class]=\"{ active: hasOption(item) }\" [innerHTML]=\"item.name\"></span></li>\n\t\t\t</ul>\n\t\t</div>\n\t"
     /*  (click)="onClick($event)" (clickOutside)="onClickOutside($event)" */
 
     /*  <!-- <div class="dropdown" [class]="{ dropped: dropped }"> --> */
 
   };
 
-  var ControlEmailComponent =
-  /*#__PURE__*/
-  function (_ControlComponent) {
+  var ControlEmailComponent = /*#__PURE__*/function (_ControlComponent) {
     _inheritsLoose(ControlEmailComponent, _ControlComponent);
 
     function ControlEmailComponent() {
@@ -2384,9 +2362,7 @@
     "\n\t\t<div class=\"group--form\" [class]=\"{ required: control.validators.length }\">\n\t\t\t<label [innerHTML]=\"label\"></label>\n\t\t\t<input type=\"text\" class=\"control--text\" [formControl]=\"control\" [placeholder]=\"label\" required email />\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
   };
 
-  var ControlFileComponent =
-  /*#__PURE__*/
-  function (_ControlComponent) {
+  var ControlFileComponent = /*#__PURE__*/function (_ControlComponent) {
     _inheritsLoose(ControlFileComponent, _ControlComponent);
 
     function ControlFileComponent() {
@@ -2438,9 +2414,7 @@
     "\n\t\t<div class=\"group--form--file\" [class]=\"{ required: control.validators.length }\">\n\t\t\t<label for=\"file\" [innerHTML]=\"label\"></label>\n\t\t\t<span class=\"control--select\" [innerHTML]=\"file?.name || labels.select_file\"></span>\n\t\t\t<svg class=\"icon icon--upload\"><use xlink:href=\"#upload\"></use></svg>\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t\t<input name=\"file\" type=\"file\" accept=\".pdf,.doc,.docx,*.txt\" class=\"control--file\" (change)=\"onInputDidChange($event)\" />\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
   };
 
-  var ControlPasswordComponent =
-  /*#__PURE__*/
-  function (_ControlComponent) {
+  var ControlPasswordComponent = /*#__PURE__*/function (_ControlComponent) {
     _inheritsLoose(ControlPasswordComponent, _ControlComponent);
 
     function ControlPasswordComponent() {
@@ -2464,9 +2438,7 @@
     "\n\t\t<div class=\"group--form\" [class]=\"{ required: control.validators.length }\">\n\t\t\t<label [innerHTML]=\"label\"></label>\n\t\t\t<input type=\"password\" class=\"control--text\" [formControl]=\"control\" [placeholder]=\"label\" />\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
   };
 
-  var ControlSelectComponent =
-  /*#__PURE__*/
-  function (_ControlComponent) {
+  var ControlSelectComponent = /*#__PURE__*/function (_ControlComponent) {
     _inheritsLoose(ControlSelectComponent, _ControlComponent);
 
     function ControlSelectComponent() {
@@ -2490,9 +2462,7 @@
     "\n\t\t<div class=\"group--form--select\" [class]=\"{ required: control.validators.length }\">\n\t\t\t<label [innerHTML]=\"label\"></label>\n\t\t\t<select class=\"control--select\" [formControl]=\"control\" required>\n\t\t\t\t<option value=\"\">{{labels.select}}</option>\n\t\t\t\t<option [value]=\"item.id\" *for=\"let item of control.options\" [innerHTML]=\"item.name\"></option>\n\t\t\t</select>\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t\t<svg class=\"icon icon--caret-down\"><use xlink:href=\"#caret-down\"></use></svg>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
   };
 
-  var ControlTextComponent =
-  /*#__PURE__*/
-  function (_ControlComponent) {
+  var ControlTextComponent = /*#__PURE__*/function (_ControlComponent) {
     _inheritsLoose(ControlTextComponent, _ControlComponent);
 
     function ControlTextComponent() {
@@ -2516,9 +2486,7 @@
     "\n\t\t<div class=\"group--form\" [class]=\"{ required: control.validators.length }\">\n\t\t\t<label [innerHTML]=\"label\"></label>\n\t\t\t<input type=\"text\" class=\"control--text\" [formControl]=\"control\" [placeholder]=\"label\" />\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
   };
 
-  var ControlTextareaComponent =
-  /*#__PURE__*/
-  function (_ControlComponent) {
+  var ControlTextareaComponent = /*#__PURE__*/function (_ControlComponent) {
     _inheritsLoose(ControlTextareaComponent, _ControlComponent);
 
     function ControlTextareaComponent() {
@@ -2542,9 +2510,7 @@
     "\n\t\t<div class=\"group--form--textarea\" [class]=\"{ required: control.validators.length }\">\n\t\t\t<label [innerHTML]=\"label\"></label>\n\t\t\t<textarea class=\"control--text\" [formControl]=\"control\" [innerHTML]=\"label\" rows=\"4\"></textarea>\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
   };
 
-  var ErrorsComponent =
-  /*#__PURE__*/
-  function (_ControlComponent) {
+  var ErrorsComponent = /*#__PURE__*/function (_ControlComponent) {
     _inheritsLoose(ErrorsComponent, _ControlComponent);
 
     function ErrorsComponent() {
@@ -2572,9 +2538,7 @@
     "\n\t<div class=\"inner\" [style]=\"{ display: control.invalid && control.touched ? 'block' : 'none' }\">\n\t\t<div class=\"error\" *for=\"let [key, value] of control.errors\">\n\t\t\t<span [innerHTML]=\"getLabel(key, value)\"></span>\n\t\t\t<!-- <span class=\"key\" [innerHTML]=\"key\"></span> <span class=\"value\" [innerHTML]=\"value | json\"></span> -->\n\t\t</div>\n\t</div>\n\t"
   };
 
-  var TestComponent =
-  /*#__PURE__*/
-  function (_Component) {
+  var TestComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(TestComponent, _Component);
 
     function TestComponent() {
@@ -2606,9 +2570,7 @@
     "\n\t<div class=\"group--form--results\" *if=\"env.DEVELOPMENT\">\n\t\t<code [innerHTML]=\"form.value | json\"></code>\n\t\t<button type=\"button\" class=\"btn--link\" (click)=\"onTest($event)\"><span>test</span></button>\n\t\t<button type=\"button\" class=\"btn--link\" (click)=\"onReset($event)\"><span>reset</span></button>\n\t</div>\n\t"
   };
 
-  var HeaderComponent =
-  /*#__PURE__*/
-  function (_Component) {
+  var HeaderComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(HeaderComponent, _Component);
 
     function HeaderComponent() {
@@ -2654,9 +2616,7 @@
   ['"', '&', ''', '<', '>', ' ', '¡', '¢', '£', '¤', '¥', '¦', '§', '¨', '©', 'ª', '«', '¬', '­', '®', '¯', '°', '±', '²', '³', '´', 'µ', '¶', '·', '¸', '¹', 'º', '»', '¼', '½', '¾', '¿', 'À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Æ', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ð', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', '×', 'Ø', 'Ù', 'Ú', 'Û', 'Ü', 'Ý', 'Þ', 'ß', 'à', 'á', 'ã', 'ä', 'å', 'æ', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ð', 'ñ', 'ò', 'ó', 'ô', 'õ', 'ö', '÷', 'ø', 'ù', 'ú', 'û', 'ü', 'ý', 'þ', 'ÿ', '&', '•', '°', '∞', '‰', '⋅', '±', '†', '—', '¬', 'µ', '⊥', '∥', '€', '£', '¥', '¢', '©', '®', '™', 'α', 'β', 'γ', 'δ', 'ε', 'ζ', 'η', 'θ', 'ι', 'κ', 'λ', 'μ', 'ν', 'ξ', 'ο', 'π', 'ρ', 'σ', 'τ', 'υ', 'φ', 'χ', 'ψ', 'ω', 'Α', 'Β', 'Γ', 'Δ', 'Ε', 'Ζ', 'Η', 'Θ', 'Ι', 'Κ', 'Λ', 'Μ', 'Ν', 'Ξ', 'Ο', 'Π', 'Ρ', 'Σ', 'Τ', 'Υ', 'Φ', 'Χ', 'Ψ', 'Ω'];
   */
 
-  var HtmlPipe =
-  /*#__PURE__*/
-  function (_Pipe) {
+  var HtmlPipe = /*#__PURE__*/function (_Pipe) {
     _inheritsLoose(HtmlPipe, _Pipe);
 
     function HtmlPipe() {
@@ -2693,9 +2653,7 @@
   var PATH = STATIC ? './' : '/Client/docs/';
   var UID = 0;
 
-  var ImageService =
-  /*#__PURE__*/
-  function () {
+  var ImageService = /*#__PURE__*/function () {
     function ImageService() {}
 
     ImageService.worker = function worker() {
@@ -2726,7 +2684,10 @@
         worker.postMessage({
           id: id
         });
-        URL.revokeObjectURL(url);
+
+        if (url) {
+          URL.revokeObjectURL(url);
+        }
       }));
     };
 
@@ -2741,9 +2702,7 @@
     return ImageService;
   }();
 
-  var LazyCache =
-  /*#__PURE__*/
-  function () {
+  var LazyCache = /*#__PURE__*/function () {
     function LazyCache() {}
 
     LazyCache.get = function get(src) {
@@ -2777,9 +2736,7 @@
     return LazyCache;
   }();
 
-  var LazyDirective =
-  /*#__PURE__*/
-  function (_Directive) {
+  var LazyDirective = /*#__PURE__*/function (_Directive) {
     _inheritsLoose(LazyDirective, _Directive);
 
     function LazyDirective() {
@@ -2832,9 +2789,7 @@
     inputs: ['lazy']
   };
 
-  var MainMenuComponent =
-  /*#__PURE__*/
-  function (_Component) {
+  var MainMenuComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(MainMenuComponent, _Component);
 
     function MainMenuComponent() {
@@ -2863,9 +2818,7 @@
     selector: '[main-menu]'
   };
 
-  var MediaLibraryComponent =
-  /*#__PURE__*/
-  function (_Component) {
+  var MediaLibraryComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(MediaLibraryComponent, _Component);
 
     function MediaLibraryComponent() {
@@ -2922,9 +2875,7 @@
     selector: '[media-library]'
   };
 
-  var NaturalFormService =
-  /*#__PURE__*/
-  function () {
+  var NaturalFormService = /*#__PURE__*/function () {
     function NaturalFormService() {}
 
     NaturalFormService.next = function next(form) {
@@ -3048,9 +2999,7 @@
   }();
   NaturalFormService.form$ = new rxjs.BehaviorSubject(NaturalFormService.getDefaultValue()); // !!! static
 
-  var NaturalFormContactComponent =
-  /*#__PURE__*/
-  function (_Component) {
+  var NaturalFormContactComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(NaturalFormContactComponent, _Component);
 
     function NaturalFormContactComponent() {
@@ -3185,9 +3134,7 @@
     outputs: ['back']
   };
 
-  var NaturalFormControlComponent =
-  /*#__PURE__*/
-  function (_Component) {
+  var NaturalFormControlComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(NaturalFormControlComponent, _Component);
 
     function NaturalFormControlComponent() {
@@ -3329,9 +3276,7 @@
     "\n\t\t<span [dropdown]=\"dropdownId\" (dropped)=\"onDropped($event)\">\n\t\t\t<span class=\"label\" [innerHTML]=\"getLabel()\"></span>\n\t\t\t<svg class=\"icon icon--caret-right\"><use xlink:href=\"#caret-right\"></use></svg>\n\t\t</span>\n\t\t<div class=\"dropdown\" [dropdown-item]=\"dropdownId\">\n\t\t\t<div class=\"category\" [innerHTML]=\"label\"></div>\n\t\t\t<ul class=\"nav--dropdown\" [class]=\"{ multiple: filter.multiple }\">\n\t\t\t\t<li *for=\"let item of filter.options\" (click)=\"setOption(item)\"><span [class]=\"{ active: hasOption(item) }\" [innerHTML]=\"item.name\"></span></li>\n\t\t\t</ul>\n\t\t</div>\n\t"
   };
 
-  var NaturalFormNewsletterComponent =
-  /*#__PURE__*/
-  function (_Component) {
+  var NaturalFormNewsletterComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(NaturalFormNewsletterComponent, _Component);
 
     function NaturalFormNewsletterComponent() {
@@ -3432,9 +3377,7 @@
     outputs: ['back']
   };
 
-  var NaturalFormRequestInfoComponent =
-  /*#__PURE__*/
-  function (_Component) {
+  var NaturalFormRequestInfoComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(NaturalFormRequestInfoComponent, _Component);
 
     function NaturalFormRequestInfoComponent() {
@@ -3569,9 +3512,7 @@
     outputs: ['back']
   };
 
-  var NaturalFormSearchComponent =
-  /*#__PURE__*/
-  function (_Component) {
+  var NaturalFormSearchComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(NaturalFormSearchComponent, _Component);
 
     function NaturalFormSearchComponent() {
@@ -3735,9 +3676,7 @@
     outputs: ['change', 'club']
   };
 
-  var NaturalFormSignupComponent =
-  /*#__PURE__*/
-  function (_Component) {
+  var NaturalFormSignupComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(NaturalFormSignupComponent, _Component);
 
     function NaturalFormSignupComponent() {
@@ -3907,9 +3846,7 @@
     outputs: ['signUp', 'back']
   };
 
-  var NaturalFormComponent =
-  /*#__PURE__*/
-  function (_Component) {
+  var NaturalFormComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(NaturalFormComponent, _Component);
 
     function NaturalFormComponent() {
@@ -3991,9 +3928,7 @@
     outputs: ['club']
   };
 
-  var PriceListComponent =
-  /*#__PURE__*/
-  function (_Component) {
+  var PriceListComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(PriceListComponent, _Component);
 
     function PriceListComponent() {
@@ -4044,9 +3979,7 @@
 
   var src = STATIC ? '/tiemme-com/club-modal.html' : '/Viewdoc.cshtml?co_id=23649';
 
-  var RegisterOrLoginComponent =
-  /*#__PURE__*/
-  function (_Component) {
+  var RegisterOrLoginComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(RegisterOrLoginComponent, _Component);
 
     function RegisterOrLoginComponent() {
@@ -4105,9 +4038,7 @@
   •	Tutti gli altri > info@tiemme.com
   */
 
-  var RequestInfoCommercialComponent =
-  /*#__PURE__*/
-  function (_Component) {
+  var RequestInfoCommercialComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(RequestInfoCommercialComponent, _Component);
 
     function RequestInfoCommercialComponent() {
@@ -4232,9 +4163,7 @@
     selector: '[request-info-commercial]'
   };
 
-  var ReservedAreaComponent =
-  /*#__PURE__*/
-  function (_Component) {
+  var ReservedAreaComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(ReservedAreaComponent, _Component);
 
     function ReservedAreaComponent() {
@@ -4272,9 +4201,7 @@
     selector: '[reserved-area]'
   };
 
-  var DownloadService =
-  /*#__PURE__*/
-  function () {
+  var DownloadService = /*#__PURE__*/function () {
     function DownloadService() {}
 
     DownloadService.download = function download(blob, fileName) {
@@ -4313,9 +4240,7 @@
 
   var src$1 = STATIC ? '/tiemme-com/club-modal.html' : '/Viewdoc.cshtml?co_id=23649';
 
-  var SecureDirective =
-  /*#__PURE__*/
-  function (_Directive) {
+  var SecureDirective = /*#__PURE__*/function (_Directive) {
     _inheritsLoose(SecureDirective, _Directive);
 
     function SecureDirective() {
@@ -4399,9 +4324,7 @@
     selector: '[secure]'
   };
 
-  var FileSizePipe =
-  /*#__PURE__*/
-  function (_Pipe) {
+  var FileSizePipe = /*#__PURE__*/function (_Pipe) {
     _inheritsLoose(FileSizePipe, _Pipe);
 
     function FileSizePipe() {
@@ -4437,9 +4360,7 @@
     name: 'fileSize'
   };
 
-  var SwiperDirective =
-  /*#__PURE__*/
-  function (_Component) {
+  var SwiperDirective = /*#__PURE__*/function (_Component) {
     _inheritsLoose(SwiperDirective, _Component);
 
     function SwiperDirective() {
@@ -4595,9 +4516,7 @@
     inputs: ['consumer']
   };
 
-  var SwiperListingDirective =
-  /*#__PURE__*/
-  function (_SwiperDirective) {
+  var SwiperListingDirective = /*#__PURE__*/function (_SwiperDirective) {
     _inheritsLoose(SwiperListingDirective, _SwiperDirective);
 
     function SwiperListingDirective() {
@@ -4631,9 +4550,7 @@
     selector: '[swiper-listing]'
   };
 
-  var SwiperSlidesDirective =
-  /*#__PURE__*/
-  function (_SwiperDirective) {
+  var SwiperSlidesDirective = /*#__PURE__*/function (_SwiperDirective) {
     _inheritsLoose(SwiperSlidesDirective, _SwiperDirective);
 
     function SwiperSlidesDirective() {
@@ -4688,9 +4605,7 @@
     console.log('GtmService.dataLayer', event);
   }
 
-  var GtmService =
-  /*#__PURE__*/
-  function () {
+  var GtmService = /*#__PURE__*/function () {
     function GtmService() {}
 
     GtmService.push = function push(event) {
@@ -4700,9 +4615,7 @@
     return GtmService;
   }();
 
-  var VideoComponent =
-  /*#__PURE__*/
-  function (_Component) {
+  var VideoComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(VideoComponent, _Component);
 
     function VideoComponent() {
@@ -4828,9 +4741,7 @@
     inputs: ['item']
   };
 
-  var WorkWithUsComponent =
-  /*#__PURE__*/
-  function (_Component) {
+  var WorkWithUsComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(WorkWithUsComponent, _Component);
 
     function WorkWithUsComponent() {
@@ -4923,9 +4834,7 @@
     selector: '[work-with-us]'
   };
 
-  var YoutubeComponent =
-  /*#__PURE__*/
-  function (_Component) {
+  var YoutubeComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(YoutubeComponent, _Component);
 
     function YoutubeComponent() {
@@ -5128,9 +5037,7 @@
     inputs: ['youtubeId', 'title']
   };
 
-  var ZoomableDirective =
-  /*#__PURE__*/
-  function (_Directive) {
+  var ZoomableDirective = /*#__PURE__*/function (_Directive) {
     _inheritsLoose(ZoomableDirective, _Directive);
 
     function ZoomableDirective() {
@@ -5240,9 +5147,7 @@
     selector: '[zoomable]'
   };
 
-  var AppModule =
-  /*#__PURE__*/
-  function (_Module) {
+  var AppModule = /*#__PURE__*/function (_Module) {
     _inheritsLoose(AppModule, _Module);
 
     function AppModule() {

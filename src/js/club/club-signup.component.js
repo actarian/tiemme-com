@@ -124,7 +124,8 @@ export default class ClubSignupComponent extends Component {
 					// this.signUp.next(response);
 				}, error => {
 					console.log('ClubSignupComponent.error', error);
-					this.error = error;
+						this.error = error;
+						this.form.submitted = false;
 					this.pushChanges();
 				});
 		} else {

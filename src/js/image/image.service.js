@@ -31,7 +31,9 @@ export default class ImageService {
 			first(),
 			finalize(url => {
 				worker.postMessage({ id });
-				URL.revokeObjectURL(url);
+				if (url) {
+					URL.revokeObjectURL(url);
+				}
 			})
 		);
 	}

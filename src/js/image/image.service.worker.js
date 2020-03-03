@@ -11,25 +11,44 @@ self.addEventListener("message", function(event) {
 		return;
 	}
 	let options;
-	if (self.AbortController) {
-		const controller = new AbortController();
-		options = {
-			signal: controller.signal,
-		};
-		controllers[id] = controller;
-	}
-
-	const response = fetch(src, options)
-		.then(function(response) {
-			return response.blob();
-		})
-		.then(function(blob) {
-			delete controllers[id];
-			self.postMessage({
-				src: src,
-				blob: blob
+	if (typeof fetch === 'function') {
+		if (self.AbortController) {
+			const controller = new AbortController();
+			options = {
+				signal: controller.signal,
+			};
+			controllers[id] = controller;
+		}
+		const response = fetch(src, options)
+			.then(function(response) {
+				return response.blob();
+			})
+			.then(function(blob) {
+				delete controllers[id];
+				self.postMessage({
+					src: src,
+					blob: blob
+				});
 			});
-		});
+	} else {
+		const request = new XMLHttpRequest();
+		request.open('GET', src);
+		request.responseType = 'blob';
+		request.onload = function() {
+			if (request.status < 300) {
+				self.postMessage({
+					src: src,
+					blob: request.response
+				});
+			} else {
+				// new Error('Image didn\'t load successfully; error code:' + request.statusText);
+			}
+		};
+		request.onerror = function() {
+			// new Error('There was a network error.');
+		};
+		request.send();
+	}
 });
 
 /*

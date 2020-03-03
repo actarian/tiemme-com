@@ -1,5 +1,23 @@
 <script type="text/javascript">
 	window.filters = {
+		categories: {
+			label: 'Category',
+			placeholder: 'all categories',
+			mode: 'or',
+			options: [{
+				label: 'Corporate',
+				value: 301,
+				}, {
+				label: 'Catalogues',
+				value: 302,
+				}, {
+				label: 'Technical Catalogues',
+				value: 303,
+				}, {
+				label: 'Brochures',
+				value: 304,
+				}]
+		},
 		departments: {
 			label: 'Departments',
 			placeholder: 'all departments',
@@ -54,24 +72,6 @@
 				value: 210,
 				}]
 		},
-		categories: {
-			label: 'Category',
-			placeholder: 'all categories',
-			mode: 'or',
-			options: [{
-				label: 'Corporate',
-				value: 301,
-				}, {
-				label: 'Catalogues',
-				value: 302,
-				}, {
-				label: 'Technical Catalogues',
-				value: 303,
-				}, {
-				label: 'Brochures',
-				value: 304,
-				}]
-		}
 	};
 
 	window.medias = [

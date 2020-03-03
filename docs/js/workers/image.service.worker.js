@@ -26,24 +26,44 @@
 
 	  var options;
 
-	  if (self.AbortController) {
-	    var _controller = new AbortController();
+	  if (typeof fetch === 'function') {
+	    if (self.AbortController) {
+	      var _controller = new AbortController();
 
-	    options = {
-	      signal: _controller.signal
-	    };
-	    controllers[id] = _controller;
-	  }
+	      options = {
+	        signal: _controller.signal
+	      };
+	      controllers[id] = _controller;
+	    }
 
-	  var response = fetch(src, options).then(function (response) {
-	    return response.blob();
-	  }).then(function (blob) {
-	    delete controllers[id];
-	    self.postMessage({
-	      src: src,
-	      blob: blob
+	    var response = fetch(src, options).then(function (response) {
+	      return response.blob();
+	    }).then(function (blob) {
+	      delete controllers[id];
+	      self.postMessage({
+	        src: src,
+	        blob: blob
+	      });
 	    });
-	  });
+	  } else {
+	    var request = new XMLHttpRequest();
+	    request.open('GET', src);
+	    request.responseType = 'blob';
+
+	    request.onload = function () {
+	      if (request.status < 300) {
+	        self.postMessage({
+	          src: src,
+	          blob: request.response
+	        });
+	      }
+	    };
+
+	    request.onerror = function () {// new Error('There was a network error.');
+	    };
+
+	    request.send();
+	  }
 	});
 	/*
 	self.addEventListener('message', function(event) {

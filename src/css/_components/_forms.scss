@@ -149,8 +149,12 @@ $invalid: #dc1216;
 	}
 
 	[control-custom-select] .dropdown {
-		top: 63px;
-		left: 0px;
+		// top: 63px;
+		// left: 0px;
+		top: 100%;
+		width: 100%;
+		margin-top: -14px;
+		left: 0;
 	}
 
 }
@@ -226,6 +230,13 @@ fieldset,
 	font-size: 28px;
 	text-transform: uppercase;
 	line-height: 1;
+
+	.multiple>& {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		max-width: calc(100% - 23px);
+	}
 }
 
 /* checkbox */
@@ -258,6 +269,7 @@ fieldset,
 
 	label {
 		flex: 1 1 auto;
+		cursor: pointer;
 	}
 
 	a {

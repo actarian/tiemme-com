@@ -47,28 +47,38 @@ export default class ControlCustomSelectComponent extends ControlComponent {
 	}
 
 	/*
-	scrollToKey(key) {
-		const items = this.control.options || [];
-		let index = -1;
-		for (let i = 0; i < items.length; i++) {
-			const x = items[i];
-			if (x.name.toLowerCase().substr(0, 1) === key) {
-				index = i;
-				break;
-			}
-		}
-		if (index !== -1) {
-			const { node } = getContext(this);
-			const dropdown = node.querySelector('.dropdown');
-			const navDropdown = node.querySelector('.nav--dropdown');
-			const item = navDropdown.children[index];
-			dropdown.scroll(0, item.offsetTop);
-		}
+	setOption(item) {
+		this.control.value = item.id;
+		// DropdownDirective.dropdown$.next(null);
 	}
 	*/
 
 	setOption(item) {
-		this.control.value = item.id;
+		console.log('setOption', item, this.isMultiple);
+		if (this.isMultiple) {
+			const value = this.control.value || [];
+			const index = value.indexOf(item.id);
+			if (index !== -1) {
+				// if (value.length > 1) {
+				value.splice(index, 1);
+				// }
+			} else {
+				value.push(item.id);
+			}
+			this.control.value = value.length ? value.slice() : null;
+		} else {
+			this.control.value = item.id;
+			// DropdownDirective.dropdown$.next(null);
+		}
+	}
+
+	hasOption(item) {
+		if (this.isMultiple) {
+			const values = this.control.value || [];
+			return values.indexOf(item.id) !== -1;
+		} else {
+			return this.control.value === item.id;
+		}
 	}
 
 	onDropped(id) {
@@ -76,13 +86,25 @@ export default class ControlCustomSelectComponent extends ControlComponent {
 	}
 
 	getLabel() {
-		const value = this.control.value;
+		let value = this.control.value;
 		const items = this.control.options || [];
-		const item = items.find(x => x.id === value || x.name === value);
-		if (item) {
-			return item.name;
+		if (this.isMultiple) {
+			value = value || [];
+			if (value.length) {
+				return value.map(v => {
+					const item = items.find(x => x.id === v || x.name === v);
+					return item ? item.name : '';
+				}).join(', ');
+			} else {
+				return this.labels.select;
+			}
 		} else {
-			return this.labels.select;
+			const item = items.find(x => x.id === value || x.name === value);
+			if (item) {
+				return item.name;
+			} else {
+				return this.labels.select;
+			}
 		}
 	}
 
@@ -105,13 +127,17 @@ export default class ControlCustomSelectComponent extends ControlComponent {
 	}
 	*/
 
+	get isMultiple() {
+		return this.multiple && this.multiple !== false && this.multiple !== 'false';
+	}
+
 }
 
 ControlCustomSelectComponent.meta = {
 	selector: '[control-custom-select]',
-	inputs: ['control', 'label'],
+	inputs: ['control', 'label', 'multiple'],
 	template: /* html */ `
-		<div class="group--form--select" [class]="{ required: control.validators.length }" [dropdown]="dropdownId" (dropped)="onDropped($event)">
+		<div class="group--form--select" [class]="{ required: control.validators.length, multiple: isMultiple }" [dropdown]="dropdownId" (dropped)="onDropped($event)">
 			<label [innerHTML]="label"></label>
 			<span class="control--select" [innerHTML]="getLabel()"></span>
 			<svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
@@ -120,8 +146,8 @@ ControlCustomSelectComponent.meta = {
 		<errors-component [control]="control"></errors-component>
 		<div class="dropdown" [dropdown-item]="dropdownId">
 			<div class="category" [innerHTML]="label"></div>
-			<ul class="nav--dropdown">
-				<li *for="let item of control.options" (click)="setOption(item)"><span [innerHTML]="item.name"></span></li>
+			<ul class="nav--dropdown" [class]="{ multiple: isMultiple }">
+			<li *for="let item of control.options" (click)="setOption(item)"><span [class]="{ active: hasOption(item) }" [innerHTML]="item.name"></span></li>
 			</ul>
 		</div>
 	`
