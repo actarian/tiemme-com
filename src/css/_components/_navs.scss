@@ -456,6 +456,8 @@ ul {
 				white-space: nowrap;
 				overflow: hidden;
 				text-overflow: ellipsis;
+				width: 100%;
+				box-sizing: border-box;
 
 				&::placeholder {
 					font-size: 19px;

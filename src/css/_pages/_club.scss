@@ -38,7 +38,8 @@
 		}
 
 		.left {
-			max-height: calc(100vh - 180px);
+			max-height: calc(100vh - 180px); // Fallback for browsers that do not support Custom Properties
+			max-height: calc(var(--vh, 1vh) * 100 - 180px);
 			overflow-x: hidden;
 			overflow-y: auto;
 			@include scrollbar();

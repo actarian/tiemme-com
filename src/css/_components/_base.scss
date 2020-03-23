@@ -5,6 +5,7 @@ html {
 	overflow-x: hidden;
 	overscroll-behavior: none;
 	scroll-behavior: smooth;
+	--vh: 1vh;
 }
 
 body {
@@ -84,9 +85,10 @@ img {
 				opacity: 1;
 				visibility: visible;
 				pointer-events: auto;
-				height: calc(100vh - 103px);
 				background: #34447d;
 				transition: all ease-in-out 400ms;
+				height: calc(100vh - 103px); // Fallback for browsers that do not support Custom Properties
+				height: calc(var(--vh, 1vh) * 100 - 103px);
 			}
 
 		}

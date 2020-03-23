@@ -77,7 +77,8 @@
 		background: white;
 
 		.dropdown--menu {
-			height: calc(100vh - 55px);
+			height: calc(100vh - 55px); // Fallback for browsers that do not support Custom Properties
+			height: calc(var(--vh, 1vh) * 100 - 55px);
 			top: 55px;
 		}
 	}

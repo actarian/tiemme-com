@@ -2625,6 +2625,24 @@
     "\n\t<div class=\"group--form--results\" *if=\"env.DEVELOPMENT\">\n\t\t<code [innerHTML]=\"form.value | json\"></code>\n\t\t<button type=\"button\" class=\"btn--link\" (click)=\"onTest($event)\"><span>test</span></button>\n\t\t<button type=\"button\" class=\"btn--link\" (click)=\"onReset($event)\"><span>reset</span></button>\n\t</div>\n\t"
   };
 
+  var CssService = /*#__PURE__*/function () {
+    function CssService() {}
+
+    CssService.height$ = function height$() {
+      var style = document.documentElement.style;
+      return rxjs.fromEvent(window, 'resize').pipe(operators.map(function (event) {
+        return window.innerHeight;
+      }), operators.startWith(window.innerHeight), operators.tap(function (height) {
+        // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
+        var vh = height * 0.01; // Then we set the value in the --vh custom property to the root of the document
+
+        style.setProperty('--vh', vh + "px");
+      }));
+    };
+
+    return CssService;
+  }();
+
   var HeaderComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(HeaderComponent, _Component);
 
@@ -2645,6 +2663,8 @@
         _this.user = user;
 
         _this.pushChanges();
+      });
+      CssService.height$().pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (height) {// console.log('HeaderComponent.height$', height);
       });
     };
 

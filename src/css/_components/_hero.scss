@@ -35,7 +35,8 @@
 		}
 
 		@include media-down(sm) {
-			height: calc(100vh - 48px);
+			height: calc(100vh - 48px); // Fallback for browsers that do not support Custom Properties
+			height: calc(var(--vh, 1vh) * 100 - 48px);
 
 			.container {
 				padding: 120px 30px 65px 30px;

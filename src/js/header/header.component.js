@@ -1,6 +1,7 @@
 import { Component } from 'rxcomp';
 import { of } from 'rxjs';
 import { catchError, takeUntil } from 'rxjs/operators';
+import CssService from '../css/css.service';
 import UserService from '../user/user.service';
 
 export default class HeaderComponent extends Component {
@@ -14,6 +15,11 @@ export default class HeaderComponent extends Component {
 		).subscribe(user => {
 			this.user = user;
 			this.pushChanges();
+		});
+		CssService.height$().pipe(
+			takeUntil(this.unsubscribe$)
+		).subscribe(height => {
+			// console.log('HeaderComponent.height$', height);
 		});
 	}
 

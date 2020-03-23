@@ -43,7 +43,8 @@ html {
   overflow-x: hidden;
   -ms-scroll-chaining: none;
       overscroll-behavior: none;
-  scroll-behavior: smooth; }
+  scroll-behavior: smooth;
+  --vh: 1vh; }
 
 body {
   width: 100%;
@@ -123,9 +124,10 @@ img {
         opacity: 1;
         visibility: visible;
         pointer-events: auto;
-        height: calc(100vh - 103px);
         background: #34447d;
-        transition: all ease-in-out 400ms; } }
+        transition: all ease-in-out 400ms;
+        height: calc(100vh - 103px);
+        height: calc(var(--vh, 1vh) * 100 - 103px); } }
 
 @media (min-width: 1024px) {
   .section--hero-tertiary + .sticky--menu {
@@ -878,10 +880,10 @@ errors-component {
       padding-left: 20px; } }
   @media (min-width: 768px) {
     .container-fluid {
-      max-width: calc(100vw - 80px); } }
+      max-width: calc(100vw - 40px); } }
   @media (min-width: 1024px) {
     .container-fluid {
-      max-width: calc(100vw - 120px); } }
+      max-width: calc(100vw - 70px); } }
   @media (min-width: 1440px) {
     .container-fluid {
       max-width: calc(100vw - 160px); } }
@@ -3271,7 +3273,8 @@ errors-component {
 
 @media screen and (max-width: 1023.98px) {
   .section--hero, .section--hero-secondary, .section--hero-tertiary {
-    height: calc(100vh - 48px); }
+    height: calc(100vh - 48px);
+    height: calc(var(--vh, 1vh) * 100 - 48px); }
     .section--hero .container, .section--hero-secondary .container, .section--hero-tertiary .container {
       padding: 120px 30px 65px 30px; } }
   @media print {
@@ -3798,7 +3801,9 @@ ul {
         color: white;
         white-space: nowrap;
         overflow: hidden;
-        text-overflow: ellipsis; }
+        text-overflow: ellipsis;
+        width: 100%;
+        box-sizing: border-box; }
         .nav--menu > li.group--search .form--control:-ms-input-placeholder {
           font-size: 19px;
           font-weight: 500;
@@ -4401,11 +4406,12 @@ ul {
 .modal-outlet__modal {
   position: relative;
   max-width: 700px;
-  max-height: calc(100vh - 200px);
   padding: 0 0 30px 0;
   overflow-x: hidden;
   overflow-y: auto;
-  background: white; }
+  background: white;
+  max-height: calc(100vh - 200px);
+  max-height: calc(var(--vh, 1vh) * 100 - 200px); }
   .modal-outlet__modal::-webkit-scrollbar {
     width: 6px;
     border-radius: 3px; }
@@ -5288,6 +5294,7 @@ ul {
       background: white; }
       .section--header .dropdown--menu {
         height: calc(100vh - 55px);
+        height: calc(var(--vh, 1vh) * 100 - 55px);
         top: 55px; } }
 
 .flex--header {
@@ -5612,6 +5619,7 @@ ul {
       padding: 50px 35px; }
     .section--club .left {
       max-height: calc(100vh - 180px);
+      max-height: calc(var(--vh, 1vh) * 100 - 180px);
       overflow-x: hidden;
       overflow-y: auto; }
       .section--club .left::-webkit-scrollbar {
