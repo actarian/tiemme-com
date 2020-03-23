@@ -10,7 +10,13 @@
 		padding: 40px 0 10px 0;
 
 		&__title {
-			padding: 0 30px;
+			padding: 0;
+		}
+	}
+
+	@include media-down(xs) {
+		&__title {
+			text-align: center;
 		}
 	}
 }
