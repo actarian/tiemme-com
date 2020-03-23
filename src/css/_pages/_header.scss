@@ -460,6 +460,27 @@
 		}
 	}
 
+	@include media-down(xs) {
+
+		&,
+		&:first-child {
+			border-top: none;
+			border-bottom: none;
+		}
+
+		&>li {
+
+			&>a,
+			&>span {
+				font-size: 36px;
+				padding: 10px;
+				margin-bottom: 0;
+				justify-content: center;
+				text-align: center;
+			}
+		}
+	}
+
 	@include animation-delay(li, 10);
 }
 

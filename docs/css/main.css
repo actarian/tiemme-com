@@ -5592,6 +5592,17 @@ ul {
           margin-top: -5px;
           width: 8px;
           height: 12px; } }
+  @media (max-width: 767.98px) {
+    .nav--header, .nav--header:first-child {
+      border-top: none;
+      border-bottom: none; }
+    .nav--header > li > a,
+    .nav--header > li > span {
+      font-size: 36px;
+      padding: 10px;
+      margin-bottom: 0;
+      justify-content: center;
+      text-align: center; } }
   .nav--header li:nth-of-type(1) > a,
   .nav--header li:nth-of-type(1) > span {
     animation-delay: 40ms;
@@ -5742,6 +5753,7 @@ ul {
       color: #ffffff; }
   @media (max-width: 1023.98px) {
     .section--footer {
+      line-height: 1.7;
       text-align: center;
       padding: 30px 0; } }
 
@@ -5770,6 +5782,9 @@ ul {
   align-items: center; }
   .group--social > .btn--social + .btn--social {
     margin-left: 20px; }
+  @media (max-width: 767.98px) {
+    .group--social {
+      margin-top: 20px; } }
 
 .btn--brand {
   font-size: 18px;

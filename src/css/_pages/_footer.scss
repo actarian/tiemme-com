@@ -30,6 +30,7 @@
 	}
 
 	@include media-down(sm) {
+		line-height: 1.7;
 		text-align: center;
 		padding: 30px 0;
 	}
@@ -66,6 +67,10 @@
 
 	&>.btn--social+.btn--social {
 		margin-left: 20px;
+	}
+
+	@include media-down(xs) {
+		margin-top: 20px;
 	}
 }
 
