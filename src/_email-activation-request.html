@@ -1,0 +1,20 @@
+<!-- master = ./templates/layout-email.html { "host": "@Utils.HttpHost()" } -->
+<!-- @@master = ./templates/layout-email.html { "host": "https://tiemmeraccorderie.wslabs.it/" } -->
+
+<!-- @@block = main-->
+<table>
+	<tr>
+		<td width="520" align="left" valign="top">
+			<font face="Arial, Helvetica, sans-serif" color="#828282" size="2" style="font-size:22px;">@Model.User["ut_nome"] @Model.User["ut_cognome"] (@Model.User["ut_email"]), ha inviato una richiesta di iscrizione al club Tiemme</font>
+		</td>
+	</tr>
+	<tr>
+		<td width="520" height="50" align="left" valign="top"></td>
+	</tr>
+	<tr>
+		<td width="520" align="left" valign="top">
+			<a href="@Model.Link">Verifica account</a>
+		</td>
+	</tr>
+</table>
+<!-- @@close-->

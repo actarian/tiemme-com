@@ -165,8 +165,9 @@ ul {
 	position: absolute;
 	max-height: 350px;
 	top: -22px;
-	overflow-y: auto;
 	overflow-x: hidden;
+	overflow-y: auto;
+	@include scrollbar();
 	z-index: 10;
 
 	background: white;
@@ -175,8 +176,6 @@ ul {
 	&.dropped {
 		display: block;
 	}
-
-	@include scrollbar();
 
 	&>.category {
 		position: relative;
@@ -544,7 +543,9 @@ ul {
 	padding-bottom: 10px;
 	margin: 0;
 	max-height: 408px;
+	overflow-x: hidden;
 	overflow-y: auto;
+	@include scrollbar();
 	-webkit-overflow-scrolling: touch;
 
 	&>li {
@@ -806,6 +807,7 @@ ul {
 
 .nav--info {
 	@extend %nav-reset;
+	margin-bottom: 30px;
 
 	&>li {
 		@extend %nav-item;

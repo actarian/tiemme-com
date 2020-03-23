@@ -109,6 +109,11 @@ export default class RequestInfoCommercialComponent extends Component {
 					this.success = true;
 					this.form.reset();
 					// this.pushChanges();
+					dataLayer.push({
+						'event': 'formSubmission',
+						'form type': 'Contatti'
+					});
+
 				}, error => {
 					console.log('RequestInfoCommercialComponent.error', error);
 					this.error = error;

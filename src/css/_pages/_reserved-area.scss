@@ -4,4 +4,8 @@
 	&__title {
 		@extend %subtitle;
 	}
+
+	@include media-down(sm) {
+		padding: 40px 0;
+	}
 }

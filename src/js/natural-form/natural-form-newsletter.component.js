@@ -79,6 +79,10 @@ export default class NaturalFormNewsletterComponent extends Component {
 					this.success = true;
 					this.form.reset();
 					// this.pushChanges();
+					dataLayer.push({
+						'event': 'formSubmission',
+						'form type': 'Iscrizione alla Newsletter'
+					});
 				}, error => {
 					console.log('NaturalFormNewsletterComponent.error', error);
 					this.error = error;

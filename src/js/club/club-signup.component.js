@@ -122,6 +122,10 @@ export default class ClubSignupComponent extends Component {
 					this.form.reset();
 					// this.pushChanges();
 					// this.signUp.next(response);
+					dataLayer.push({
+						'event': 'formSubmission',
+						'form type': 'Registrazione Club Tiemme'
+					});
 				}, error => {
 					console.log('ClubSignupComponent.error', error);
 						this.error = error;

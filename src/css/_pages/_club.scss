@@ -14,7 +14,7 @@
 
 	.group--advantage {
 		display: flex;
-		margin-bottom: 30px;
+		margin-bottom: 20px;
 
 		svg {
 			width: 30px;
@@ -38,9 +38,10 @@
 		}
 
 		.left {
-			max-height: calc(100vh - 240px);
+			max-height: calc(100vh - 180px);
 			overflow-x: hidden;
 			overflow-y: auto;
+			@include scrollbar();
 		}
 	}
 

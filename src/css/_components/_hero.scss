@@ -31,17 +31,16 @@
 		}
 
 		@include media-up(md) {
-			height: calc(100vh - 35px);
+			height: 770px;
 		}
 
 		@include media-down(sm) {
-			height: auto;
+			height: calc(100vh - 48px);
 
 			.container {
-				padding: 120px 30px 30px 30px;
+				padding: 120px 30px 65px 30px;
 			}
 		}
-
 	}
 
 	@media print {
@@ -148,18 +147,6 @@
 		display: flex;
 		margin-top: 15px;
 	}
-
-	@media screen {
-
-		@include media-up(md) {
-			height: 770px;
-		}
-
-		@include media-down(sm) {
-			height: auto;
-		}
-	}
-
 }
 
 .section--hero-secondary {
@@ -171,13 +158,8 @@
 	}
 
 	@media screen {
-
 		@include media-up(md) {
 			height: 560px;
-		}
-
-		@include media-down(sm) {
-			height: auto;
 		}
 	}
 

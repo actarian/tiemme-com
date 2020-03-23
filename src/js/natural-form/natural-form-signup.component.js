@@ -127,6 +127,10 @@ export default class NaturalFormSignupComponent extends Component {
 					this.form.reset();
 					// this.pushChanges();
 					this.signUp.next(response);
+					dataLayer.push({
+						'event': 'formSubmission',
+						'form type': 'Registrazione Club Tiemme'
+					});
 				}, error => {
 					console.log('NaturalFormSignupComponent.error', error);
 					this.error = error;

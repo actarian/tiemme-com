@@ -13,6 +13,8 @@
 	}
 
 	@include media-down(sm) {
+		padding: 40px 0;
+
 		.group--cta {
 			flex-direction: column;
 		}

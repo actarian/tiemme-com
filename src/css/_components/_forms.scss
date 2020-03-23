@@ -1,5 +1,5 @@
 $family: $font-secondary;
-$size: 40px;
+$size: 34px;
 $weight: $font-medium;
 $spacing: 0;
 $line: 1; // always
@@ -35,7 +35,7 @@ $invalid: #dc1216;
 %group--form {
 	display: flex;
 	flex-wrap: wrap;
-	padding: 6px 1px;
+	padding: 3px 1px;
 	border-bottom: 2px solid $foreground;
 	margin-bottom: 15px;
 

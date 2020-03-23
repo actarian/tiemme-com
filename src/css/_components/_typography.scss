@@ -80,16 +80,21 @@ strong {
 	line-height: 0.88;
 	font-weight: $font-medium;
 	text-transform: uppercase;
+
+	@include media-down(sm) {
+		font-size: 40px;
+		word-break: break-word;
+	}
 }
 
 %subtitle {
 	font-family: $font-secondary;
-	font-size: 40px;
+	font-size: 38px;
 	line-height: 1.15;
 	font-weight: $font-medium;
 	text-transform: uppercase;
 
-	padding-bottom: 30px;
+	padding-bottom: 20px;
 	margin-bottom: 30px;
 	border-bottom: 2px solid rgba(#16255b, 0.2);
 
@@ -112,6 +117,11 @@ strong {
 	font-weight: $font-medium;
 	text-transform: uppercase;
 	margin-bottom: 30px;
+
+	@include media-down(sm) {
+		font-size: 36px;
+		word-break: break-word;
+	}
 }
 
 %abstract-detail {
@@ -119,6 +129,11 @@ strong {
 	font-size: 24px;
 	font-weight: $font-medium;
 	margin-bottom: 30px;
+
+	@include media-down(sm) {
+		font-size: 20px;
+		line-height: 1.5;
+	}
 }
 
 %description-detail {

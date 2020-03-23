@@ -18,19 +18,14 @@
 		&,
 		&:active,
 		&:visited {
-			span {
-				color: $foreground;
-			}
+			color: $foreground;
 		}
 
 		&:focus,
 		&:hover {
-			span {
-				background: $foreground;
-				color: $foreground-negative;
-			}
+			background: $foreground;
+			color: $foreground-negative;
 		}
-
 	}
 }
 

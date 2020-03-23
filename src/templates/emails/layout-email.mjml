@@ -1,0 +1,439 @@
+<mjml>
+  <mj-head>
+    <mj-font name="Barlow Condensed" href="https://fonts.googleapis.com/css?family=Barlow+Condensed:500" />
+    <mj-font name="Hind Madurai" href="https://fonts.googleapis.com/css?family=Hind+Madurai:300,400,600" />
+  </mj-head>
+  <mj-body background-color="#ffffff">
+    <mj-section padding="20px 0px 0px 0px" background-color="#ffffff">
+      <mj-column>
+        <mj-image width="250px" src="https://tiemmeraccorderie.wslabs.it/client/docs/img/email/logo-email.jpg"></mj-image>
+      </mj-column>
+    </mj-section>
+    <mj-section padding="0px" background-color="#ffffff">
+      <mj-column width="100%">
+        <mj-divider border-color="#b9bdcd" border-style="solid" border-width="1px"></mj-divider>
+      </mj-column>
+    </mj-section>
+    <!-- Body Activation Activate -->
+    <mj-section padding="40px 0px 0px 0px" background-color="#ffffff">
+      <mj-column>
+        <mj-text align="center" font-size="28px" color="#16255b" font-family="'Barlow Condensed'" line-height="34px">
+          <strong style="text-transform:uppercase;">Richiesta di Attivazione</strong>
+        </mj-text>
+        <mj-text align="justify" font-size="15px" color="#16255b" font-family="'Hind Madurai', Helvetica, Arial" line-height="22px">
+          @Model.User["ut_nome"] @Model.User["ut_cognome"] ha inviato una richiesta di iscrizione al club Tiemme
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column>
+        <mj-table>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Nome</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.User["ut_nome"]</td>
+          </tr>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Cognome</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.User["ut_cognome"]</td>
+          </tr>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Email</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.User["ut_email"]</td>
+          </tr>
+        </mj-table>
+      </mj-column>
+    </mj-section>
+    <mj-section padding="0px 0px 40px 0px" background-color="#ffffff">
+      <mj-column>
+        <mj-button href="@Model.Link" align="center" background-color="#16255b" color="#ffffff" border-radius="0px" font-family="'Barlow Condensed'" font-size="13px" text-transform="uppercase">
+          Verifica account
+        </mj-button>
+      </mj-column>
+    </mj-section>
+    <!-- Body Activation Request -->
+    <mj-section padding="40px 0px 0px 0px" background-color="#ffffff">
+      <mj-column>
+        <mj-text align="center" font-size="28px" color="#16255b" font-family="'Barlow Condensed'" line-height="34px">
+          <strong style="text-transform:uppercase;">Richiesta di iscrizione al Club Tiemme</strong>
+          <br>abbiamo ricevuto la tua richiesta di iscrizione al Club Tiemme.
+        </mj-text>
+        <mj-text align="justify" font-size="15px" color="#16255b" font-family="'Hind Madurai', Helvetica, Arial" line-height="22px">
+          <strong>Da questo momento potrai</strong><br>Accedere alla documentazione tecnica, al listino prezzi e al nuovissimo portale BIM Restare costantemente aggiornato sui prodotti di tuo interesse e ottenere l'invito ai nostri eventi Accedere ai percorsi di aggiornamento e formazione professionale Tiemme
+        </mj-text>
+        <mj-text align="justify" font-size="15px" color="#16255b" font-family="'Hind Madurai', Helvetica, Arial">
+          Riceverai presto la mail di benvenuto e le credenziali di accesso necessarie!
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section padding="0px 0px 40px 0px" background-color="#ffffff">
+      <mj-column>
+        <mj-text align="center" font-size="28px" color="#16255b" font-family="'Barlow Condensed'" line-height="28px">
+          <strong>Serve altro aiuto?</strong>
+        </mj-text>
+        <mj-text align="center" font-size="15px" color="#16255b" font-family="'Hind Madurai', Helvetica, Arial">
+          Contatta il nostro Servizio Clienti Tiemme
+        </mj-text>
+        <mj-text padding="7px 0" text-transform="uppercase" font-family="'Barlow Condensed'" font-size="16px" text-decoration="none" align="center">
+          <a href="tel:00390302142254" style="text-decoration:none; color:#16255b" class="apple-link-black">
+            <strong>servizio clienti</strong>
+            <br>+39 030 21.42.254
+          </a>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <!-- Body Activation Confirm -->
+    <mj-section padding="40px 0px 0px 0px" background-color="#ffffff">
+      <mj-column>
+        <mj-text align="center" font-size="28px" color="#16255b" font-family="'Barlow Condensed'" line-height="34px">
+          <strong style="text-transform:uppercase;">Gentile @Model.User["ut_nome"] @Model.User["ut_cognome"],</strong>
+          <br>benvenuto nel Club Tiemme!
+        </mj-text>
+        <mj-text align="justify" font-size="15px" color="#16255b" font-family="'Hind Madurai', Helvetica, Arial" line-height="22px">
+          <strong>Da questo momento potrai</strong><br>Accedere alla documentazione tecnica, al listino prezzi e al nuovissimo portale BIM Restare costantemente aggiornato sui prodotti di tuo interesse e ottenere l'invito ai nostri eventi Accedere ai percorsi di aggiornamento e formazione professionale Tiemme
+        </mj-text>
+        <mj-text align="justify" font-size="15px" color="#16255b" font-family="'Hind Madurai', Helvetica, Arial">
+          Ecco i tuoi dati di accesso:
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column>
+        <mj-table>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Username</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.User.EMail</td>
+          </tr>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Password</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.User.Password</td>
+          </tr>
+        </mj-table>
+      </mj-column>
+    </mj-section>
+    <mj-section padding="0px 0px 40px 0px" background-color="#ffffff">
+      <mj-column>
+        <mj-button href="@Model.Link" align="center" background-color="#dc1216" color="#ffffff" border-radius="0px" font-family="'Barlow Condensed'" font-size="13px" text-transform="uppercase">
+          Accedi subito al Club Tiemme
+        </mj-button>
+      </mj-column>
+    </mj-section>
+    <mj-section padding="0px 0px 40px 0px" background-color="#ffffff">
+      <mj-column>
+        <mj-text align="center" font-size="28px" color="#16255b" font-family="'Barlow Condensed'" line-height="28px">
+          <strong>Serve altro aiuto?</strong>
+        </mj-text>
+        <mj-text align="center" font-size="15px" color="#16255b" font-family="'Hind Madurai', Helvetica, Arial">
+          Contatta il nostro Servizio Clienti Tiemme
+        </mj-text>
+        <mj-text padding="7px 0" text-transform="uppercase" font-family="'Barlow Condensed'" font-size="16px" text-decoration="none" align="center">
+          <a href="tel:00390302142254" style="text-decoration:none; color:#16255b" class="apple-link-black">
+            <strong>servizio clienti</strong>
+            <br>+39 030 21.42.254
+          </a>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <!-- Body Activation Refused -->
+    <mj-section padding="40px 0px 0px 0px" background-color="#ffffff">
+      <mj-column>
+        <mj-text align="center" font-size="28px" color="#16255b" font-family="'Barlow Condensed'" line-height="34px">
+          <strong style="text-transform:uppercase;">Gentile @Model.User["ut_nome"] @Model.User["ut_cognome"],</strong>
+          <br>Ci dispiace, la tua richiesta di iscrizione al Club Tiemme non è andata a buon fine.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section padding="0px 0px 40px 0px" background-color="#ffffff">
+      <mj-column>
+        <mj-text align="center" font-size="28px" color="#16255b" font-family="'Barlow Condensed'" line-height="28px">
+          <strong>Serve altro aiuto?</strong>
+        </mj-text>
+        <mj-text align="center" font-size="15px" color="#16255b" font-family="'Hind Madurai', Helvetica, Arial">
+          Contatta il nostro Servizio Clienti Tiemme
+        </mj-text>
+        <mj-text padding="7px 0" text-transform="uppercase" font-family="'Barlow Condensed'" font-size="16px" text-decoration="none" align="center">
+          <a href="tel:00390302142254" style="text-decoration:none; color:#16255b" class="apple-link-black">
+            <strong>servizio clienti</strong>
+            <br>+39 030 21.42.254
+          </a>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <!-- Body Password Update -->
+    <mj-section padding="40px 0px 0px 0px" background-color="#ffffff">
+      <mj-column>
+        <mj-text align="center" font-size="28px" color="#16255b" font-family="'Barlow Condensed'" line-height="34px">
+          <strong style="text-transform:uppercase;">Gentile @Model.User["ut_nome"] @Model.User["ut_cognome"],</strong>
+          <br>Abbiamo ricevuto la sua notifica di smarrimento dei propri dati di accesso.
+        </mj-text>
+        <mj-text align="center" font-size="15px" color="#16255b" font-family="'Hind Madurai', Helvetica, Arial">
+          Segua questo link per modificare la sua password:
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section padding="0px 0px 40px 0px" background-color="#ffffff">
+      <mj-column>
+        <mj-button href="@Model.Link" align="center" background-color="#16255b" color="#ffffff" border-radius="0px" font-family="'Barlow Condensed'" font-size="13px" text-transform="uppercase">
+          Modifica password
+        </mj-button>
+      </mj-column>
+    </mj-section>
+    <mj-section padding="0px 0px 40px 0px" background-color="#ffffff">
+      <mj-column>
+        <mj-text align="center" font-size="15px" color="#16255b" font-family="'Hind Madurai', Helvetica, Arial">
+          o copi/incolli questo indirizzo: <strong>@Model.Link</strong>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section padding="0px 0px 40px 0px" background-color="#ffffff">
+      <mj-column>
+        <mj-text align="center" font-size="28px" color="#16255b" font-family="'Barlow Condensed'" line-height="28px">
+          <strong>Serve altro aiuto?</strong>
+        </mj-text>
+        <mj-text align="center" font-size="15px" color="#16255b" font-family="'Hind Madurai', Helvetica, Arial">
+          Contatta il nostro Servizio Clienti Tiemme
+        </mj-text>
+        <mj-text padding="7px 0" text-transform="uppercase" font-family="'Barlow Condensed'" font-size="16px" text-decoration="none" align="center">
+          <a href="tel:00390302142254" style="text-decoration:none; color:#16255b" class="apple-link-black">
+            <strong>servizio clienti</strong>
+            <br>+39 030 21.42.254
+          </a>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <!-- Body Request Commercial Info -->
+    <mj-section padding="40px 0px 0px 0px" background-color="#ffffff">
+      <mj-column>
+        <mj-text align="center" font-size="28px" color="#16255b" font-family="'Barlow Condensed'" line-height="34px">
+          <strong style="text-transform:uppercase;">Richiesta Informazioni</strong>
+          <br>@Model.Data.firstName @Model.Data.lastName desidera ricevere informazioni
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column>
+        <mj-table>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Nome</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.firstName</td>
+          </tr>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Cognome</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.lastName</td>
+          </tr>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Email</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.email</td>
+          </tr>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Azienda</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.company</td>
+          </tr>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Ruolo</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Role</td>
+          </tr>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Interessi</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Interests</td>
+          </tr>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Nazione</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Country</td>
+          </tr>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Provincia</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Provincia</td>
+          </tr>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Newsletter</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Newsletter</td>
+          </tr>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Messaggio</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.message</td>
+          </tr>
+        </mj-table>
+      </mj-column>
+    </mj-section>
+    <!-- Body Request Technical Info -->
+    <mj-section padding="40px 0px 0px 0px" background-color="#ffffff">
+      <mj-column>
+        <mj-text align="center" font-size="28px" color="#16255b" font-family="'Barlow Condensed'" line-height="34px">
+          <strong style="text-transform:uppercase;">Richiesta Contatto</strong>
+          <br>@Model.Data.firstName @Model.Data.lastName desidera essere contattato
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column>
+        <mj-table>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Nome</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.firstName</td>
+          </tr>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Cognome</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.lastName</td>
+          </tr>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Email</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.email</td>
+          </tr>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Azienda</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.company</td>
+          </tr>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Ruolo</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Role</td>
+          </tr>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Interessi</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Interests</td>
+          </tr>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Nazione</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Country</td>
+          </tr>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Provincia</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Provincia</td>
+          </tr>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Newsletter</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Newsletter</td>
+          </tr>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Messaggio</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.message</td>
+          </tr>
+        </mj-table>
+      </mj-column>
+    </mj-section>
+    <!-- Body Request Work With Us -->
+    <mj-section padding="40px 0px 0px 0px" background-color="#ffffff">
+      <mj-column>
+        <mj-text align="center" font-size="28px" color="#16255b" font-family="'Barlow Condensed'" line-height="34px">
+          <strong style="text-transform:uppercase;">Lavora con noi</strong>
+          <br>@Model.Data.firstName @Model.Data.lastName ha inviato una richiesta di lavoro
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column>
+        <mj-table>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Nome</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.firstName</td>
+          </tr>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Cognome</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.lastName</td>
+          </tr>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Email</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.email</td>
+          </tr>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Telefono</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.telephone</td>
+          </tr>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Settore di interesse</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Interesse</td>
+          </tr>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Esperienza all'estero</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Esperienza</td>
+          </tr>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Dove</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.company</td>
+          </tr>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Messaggio</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.introduction</td>
+          </tr>
+          <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
+            <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Curriculum</th>
+            <td style="padding: 10px 0 10px 15px;text-align:right;"><a href="@Model.LinkFile" style="text-decoration:none; color:#16255b;" class="apple-link-black">
+                <strong>vedi curriculum</strong>
+              </a></td>
+          </tr>
+        </mj-table>
+      </mj-column>
+    </mj-section>
+    <!-- Body -->
+    <mj-section padding="10px 0px 0px 0px" background-color="#b9bdcd">
+      <mj-group>
+        <mj-column>
+          <mj-image alt="facebook" href="https://www.facebook.com/tiemmeraccorderie" width="30px" src="https://tiemmeraccorderie.wslabs.it/client/docs/img/email/facebook.jpg"></mj-image>
+        </mj-column>
+        <mj-column>
+          <mj-image alt="youtube" href="https://www.youtube.com/user/tiemmeitaly/" width="30px" src="https://tiemmeraccorderie.wslabs.it/client/docs/img/email/youtube.jpg"></mj-image>
+        </mj-column>
+        <mj-column>
+          <mj-image alt="twitter" href="https://www.linkedin.com/company/tiemme-raccorderie-spa" width="30px" src="https://tiemmeraccorderie.wslabs.it/client/docs/img/email/linkedin.jpg"></mj-image>
+        </mj-column>
+      </mj-group>
+    </mj-section>
+    <mj-section padding="0px" background-color="#b9bdcd">
+      <mj-column width="100%">
+        <mj-divider border-color="#8d94ae" border-style="solid" border-width="1px"></mj-divider>
+      </mj-column>
+    </mj-section>
+    <mj-section padding="0px" background-color="#b9bdcd">
+      <mj-group>
+        <mj-column>
+          <mj-text padding="7px 0" text-transform="uppercase" font-family="'Barlow Condensed'" font-size="10px" text-decoration="none" align="center">
+            <a href="tel:00390302142254" style="text-decoration:none; color:#16255b" class="apple-link-black">
+              <strong>servizio clienti</strong>
+              <br>+39 030 21.42.254
+            </a>
+          </mj-text>
+        </mj-column>
+      </mj-group>
+    </mj-section>
+    <mj-section padding="0px" background-color="#b9bdcd">
+      <mj-group>
+        <mj-column>
+          <mj-text padding="7px 0" text-transform="uppercase" font-family="'Barlow Condensed'" font-size="10px" text-decoration="none" align="center">
+            <a href="mailto:customerservice@tiemme.com" style="text-decoration:none; color:#16255b;" class="apple-link-black">
+              <strong>scrivici</strong>
+              <br>customerservice@tiemme.com
+            </a>
+          </mj-text>
+        </mj-column>
+      </mj-group>
+    </mj-section>
+    <mj-section padding="0px" background-color="#b9bdcd">
+      <mj-column width="100%">
+        <mj-divider border-color="#8d94ae" border-style="solid" border-width="1px"></mj-divider>
+      </mj-column>
+    </mj-section>
+    <mj-section padding="0px 0px 10px 0px" background-color="#b9bdcd">
+      <mj-column>
+        <mj-text mj-class="footer-text" align="center" padding="0 10px">
+          <p style="Margin:0; padding-bottom:10px; font-size:10px; line-height:15px; Margin-bottom:10px; color:#16255b; font-family: 'Hind Madurai', Helvetica, Arial, sans-serif;">
+            <span style="color:#16255b !important; text-decoration:none;">
+              <strong style="font-family:'Barlow Condensed'">© TIEMME RACCORDERIE S.P.A.</strong>
+              <br>Via Cavallera, 6/A - (loc. Barco) - 25045 - Castegnato (BS) - Italia
+              <br>Tel. +39 030 21.42.211 - Fax: +39 030 21.42.206 <a href="mailto:info@tiemme.com" style="color:#16255b; text-decoration:underline;">info@tiemme.com</a>
+              <br><br>P.Iva / CF: 02852520176 - Cap. Sociale: € 5.200.000,00 i.v. Registro imprese: 02852520176 - Rea: BS-298978
+            </span>
+            <br>
+            <a href="https://tiemmeraccorderie.wslabs.it/it/azienda/pagineinterne/informativa_sulla_privacy/" style="text-decoration:underline; color:#16255b;">
+              <strong>Privacy</strong>
+            </a>&nbsp;&nbsp;|&nbsp;&nbsp;
+            <a href="https://tiemmeraccorderie.wslabs.it/unsubscribe" style="text-decoration:underline; color:#16255b;">
+              <strong>Cancellami</strong>
+            </a>&nbsp;&nbsp;|&nbsp;&nbsp;
+            <a href="https://tiemmeraccorderie.wslabs.it/" style="text-decoration:underline; color:#16255b;">
+              Apri nel browser
+            </a>
+          </p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

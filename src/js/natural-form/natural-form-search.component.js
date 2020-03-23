@@ -24,18 +24,19 @@ export default class NaturalFormSearchComponent extends Component {
 			if (this.instances_) {
 				module.remove(contentNode);
 			}
-			const form = NaturalFormService.form;
+			this.instances_ = [];
+			// const form = NaturalFormService.form;
 			// console.log('NaturalFormSearchComponent.initControls', form);
 			let html = phrase;
 			const keys = Object.keys(this.naturalForm);
-			keys.forEach(x => {
-				// console.log(x);
-				html = html.replace(`$${x}$`, () => {
-					const item = this.naturalForm[x];
+			keys.forEach(key => {
+				// console.log(key);
+				html = html.replace(`$${key}$`, () => {
+					const item = this.naturalForm[key];
 					if (item.options) {
 						return /* html */ `
-					<span class="natural-form__control" natural-form-control [filter]="naturalForm.${x}" [label]="naturalForm.${x}.label" (change)="onNaturalForm($event)"></span>
-				`;
+							<span class="natural-form__control" natural-form-control [filter]="naturalForm.${key}" [label]="naturalForm.${key}.label" (change)="onNaturalForm($event)"></span>
+						`;
 					} else {
 						return /* html */ `<button type="button" class="btn--club-form" (click)="onClub($event)"><span>Club Tiemme</span></button>`;
 					}
@@ -43,9 +44,8 @@ export default class NaturalFormSearchComponent extends Component {
 			});
 			// console.log('MoodboardSearchDirective', html);
 			contentNode.innerHTML = html;
-			this.instances_ = [];
-			Array.from(contentNode.childNodes).forEach(x => {
-				this.instances_ = this.instances_.concat(module.compile(x, this));
+			Array.from(contentNode.childNodes).forEach(node => {
+				this.instances_ = this.instances_.concat(module.compile(node, this));
 			});
 			/*
 			const hasFilter = Object.keys(scope.naturalForm).map(x => scope.naturalForm[x]).find(x => x.value !== null) !== undefined;

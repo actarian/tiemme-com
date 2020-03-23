@@ -1,15 +1,25 @@
 .card--slide {
 	position: relative;
 
-	.picture {
-		@include aspect-clip(1152, 600);
-	}
-
 	.picture--video {
 		@include aspect-clip(16, 9);
 	}
 
 	.picture--slide {
+		@include aspect-clip(1152, 600);
+		background: transparent;
+		// background: rgba($background-tertiary, 0.5);
+		transition: background-color ease-in-out 350ms;
+
+		&>img {
+			position: absolute;
+			top: 0;
+			left: 50%;
+			width: auto;
+			height: 100%;
+			transform: translateX(-50%);
+		}
+
 		&:after {
 			content: '';
 			position: absolute;
@@ -23,10 +33,28 @@
 
 	&.card--slide-text {
 		.picture--slide {
+			background: $background-tertiary;
+
+			&>img {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				transform: translateZ(0);
+			}
+
 			&:after {
 				background: linear-gradient(to bottom, rgba(25, 37, 90, 0.15) 0%, rgba(25, 37, 90, 0.95) 100%);
 				// filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2619255a', endColorstr='#f219255a',GradientType=0 );
 			}
+		}
+	}
+
+	&.zoomed {
+		.picture--slide {
+			background: $background-tertiary;
 		}
 	}
 
@@ -100,6 +128,7 @@
 	.icon--expand {
 		fill: $foreground-negative;
 		transition: transform 350ms 700ms cubic-bezier(0.320, 0.000, 0.290, 0.990);
+		filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .25));
 	}
 
 	&.zoomable {
@@ -129,6 +158,7 @@
 				max-height: 100%;
 				overflow-x: hidden;
 				overflow-y: auto;
+				@include scrollbar();
 
 				&>.description {
 					transition: all 700ms 150ms cubic-bezier(0.320, 0.000, 0.290, 0.990);
@@ -281,27 +311,10 @@
 		}
 
 		.btn--link {
-			span {
-				background: $background-secondary;
-				color: $foreground;
-			}
+			background: $background-secondary;
+			color: $foreground;
 		}
 	}
-
-	/*
-	.picture--product {
-		&:after {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background: linear-gradient(to bottom, rgba(25, 37, 90, 0.15) 0%, rgba(25, 37, 90, 0.95) 100%);
-			// filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2619255a', endColorstr='#f219255a',GradientType=0 );
-		}
-	}
-	*/
 
 	@include media-down(md) {
 		.picture {
@@ -369,13 +382,14 @@
 		}
 
 		.btn--link {
-			span {
-				background: $background-secondary;
-				color: $foreground;
-			}
+			background: $background-secondary;
+			color: $foreground;
 		}
 	}
 
+	@include media-down(sm) {
+		margin-bottom: 40px;
+	}
 }
 
 .card--event {
@@ -461,13 +475,14 @@
 		}
 
 		.btn--link {
-			span {
-				background: $background-secondary;
-				color: $foreground;
-			}
+			background: $background-secondary;
+			color: $foreground;
 		}
 	}
 
+	@include media-down(sm) {
+		margin-bottom: 40px;
+	}
 }
 
 .card--achievement {
@@ -527,13 +542,14 @@
 		}
 
 		.btn--link {
-			span {
-				background: $background-secondary;
-				color: $foreground;
-			}
+			background: $background-secondary;
+			color: $foreground;
 		}
 	}
 
+	@include media-down(sm) {
+		margin-bottom: 40px;
+	}
 }
 
 .card--agent {
@@ -670,8 +686,8 @@
 	// box-shadow: 0 20px 20px -5px rgba(0, 0, 0, 0.2);
 
 	.picture {
-		flex: 0 0 200px;
-		padding: 0 20px;
+		flex: 0 0 38%;
+		padding: 0 3%;
 	}
 
 	.content {
@@ -728,6 +744,19 @@
 		}
 	}
 
+}
+
+.card--pdf {
+	height: 100%;
+
+	.content {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.abstract {
+		flex: 1 1 auto;
+	}
 }
 
 .card--download {
@@ -791,11 +820,12 @@
 		}
 
 		.btn--link {
-			span {
-				background: $background-secondary;
-				color: $foreground;
-			}
+			background: $background-secondary;
+			color: $foreground;
 		}
 	}
 
+	@include media-down(sm) {
+		margin-bottom: 40px;
+	}
 }

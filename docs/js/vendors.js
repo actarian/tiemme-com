@@ -9293,16 +9293,13 @@
 
 
 /**
- * @license rxcomp v1.0.0-beta.5
+ * @license rxcomp v1.0.0-beta.8
  * (c) 2020 Luca Zampetti <lzampetti@gmail.com>
  * License: MIT
  */
 
-(function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('rxjs'), require('rxjs/operators')) :
-  typeof define === 'function' && define.amd ? define('rxcomp', ['exports', 'rxjs', 'rxjs/operators'], factory) :
-  (global = global || self, factory(global.rxcomp = {}, global.rxjs, global.rxjs.operators));
-}(this, (function (exports, rxjs, operators) { 'use strict';
+var rxcomp = (function (exports, rxjs, operators) {
+  'use strict';
 
   function _defineProperties(target, props) {
     for (var i = 0; i < props.length; i++) {
@@ -9373,15 +9370,177 @@
     return self;
   }
 
-  var Directive = function Directive() {};
+  var CONTEXTS = {};
+  var NODES = {};
 
-  var Component = function Component() {};
+  var Factory = function () {
+    function Factory() {
+      this.rxcompId = -1;
+      this.unsubscribe$ = new rxjs.Subject();
+      this.changes$ = new rxjs.ReplaySubject(1);
+    }
+
+    var _proto = Factory.prototype;
+
+    _proto.onInit = function onInit() {};
+
+    _proto.onChanges = function onChanges(changes) {};
+
+    _proto.onView = function onView() {};
+
+    _proto.onDestroy = function onDestroy() {};
+
+    _proto.pushChanges = function pushChanges() {
+      this.changes$.next(this);
+      this.onView();
+    };
+
+    return Factory;
+  }();
+  function getContext(instance) {
+    return CONTEXTS[instance.rxcompId];
+  }
+
+  var Directive = function (_Factory) {
+    _inheritsLoose(Directive, _Factory);
+
+    function Directive() {
+      return _Factory.apply(this, arguments) || this;
+    }
+
+    return Directive;
+  }(Factory);
+
+  var ClassDirective = function (_Directive) {
+    _inheritsLoose(ClassDirective, _Directive);
+
+    function ClassDirective() {
+      var _this;
+
+      _this = _Directive.apply(this, arguments) || this;
+      _this.class = '';
+      _this.keys = [];
+      return _this;
+    }
+
+    var _proto = ClassDirective.prototype;
+
+    _proto.onInit = function onInit() {
+      var _this2 = this;
+
+      var _getContext = getContext(this),
+          node = _getContext.node;
+
+      node.classList.forEach(function (x) {
+        return _this2.keys.push(x);
+      });
+    };
+
+    _proto.onChanges = function onChanges() {
+      var _getContext2 = getContext(this),
+          node = _getContext2.node;
+
+      var keys = [];
+      var object = this.class;
+
+      if (typeof object === 'object') {
+        for (var key in object) {
+          if (object[key]) {
+            keys.push(key);
+          }
+        }
+      } else if (typeof object === 'string') {
+        keys = object.split(/\s+/);
+      }
+
+      keys = keys.concat(this.keys);
+      node.setAttribute('class', keys.join(' '));
+    };
+
+    return ClassDirective;
+  }(Directive);
+  ClassDirective.meta = {
+    selector: "[[class]]",
+    inputs: ['class']
+  };
+
+  var EVENTS = ['mousedown', 'mouseup', 'mousemove', 'click', 'dblclick', 'mouseover', 'mouseout', 'mouseenter', 'mouseleave', 'contextmenu', 'touchstart', 'touchmove', 'touchend', 'keydown', 'keyup', 'input', 'change', 'loaded'];
+
+  var EventDirective = function (_Directive) {
+    _inheritsLoose(EventDirective, _Directive);
+
+    function EventDirective() {
+      var _this;
+
+      _this = _Directive.apply(this, arguments) || this;
+      _this.event = '';
+      return _this;
+    }
+
+    var _proto = EventDirective.prototype;
+
+    _proto.onInit = function onInit() {
+      var _getContext = getContext(this),
+          module = _getContext.module,
+          node = _getContext.node,
+          parentInstance = _getContext.parentInstance,
+          selector = _getContext.selector;
+
+      var event = this.event = selector.replace(/\[|\]|\(|\)/g, '');
+      var event$ = rxjs.fromEvent(node, event).pipe(operators.shareReplay(1));
+      var expression = node.getAttribute("(" + event + ")");
+
+      if (expression) {
+        var outputFunction = module.makeFunction(expression, ['$event']);
+        event$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (event) {
+          module.resolve(outputFunction, parentInstance, event);
+        });
+      } else {
+        parentInstance[event + "$"] = event$;
+      }
+    };
+
+    return EventDirective;
+  }(Directive);
+  EventDirective.meta = {
+    selector: "[(" + EVENTS.join(')],[(') + ")]"
+  };
+
+  var Structure = function (_Factory) {
+    _inheritsLoose(Structure, _Factory);
+
+    function Structure() {
+      return _Factory.apply(this, arguments) || this;
+    }
+
+    return Structure;
+  }(Factory);
+
+  var Component = function (_Factory) {
+    _inheritsLoose(Component, _Factory);
+
+    function Component() {
+      return _Factory.apply(this, arguments) || this;
+    }
+
+    var _proto = Component.prototype;
+
+    _proto.pushChanges = function pushChanges() {
+      var _getContext = getContext(this),
+          module = _getContext.module,
+          node = _getContext.node;
+
+      this.changes$.next(this);
+      module.parse(node, this);
+      this.onView();
+    };
+
+    return Component;
+  }(Factory);
 
   var RESERVED_PROPERTIES = ['constructor', 'rxcompId', 'onInit', 'onChanges', 'onDestroy', 'pushChanges', 'changes$', 'unsubscribe$'];
 
-  var Context =
-  /*#__PURE__*/
-  function (_Component) {
+  var Context = function (_Component) {
     _inheritsLoose(Context, _Component);
 
     function Context(instance, descriptors) {
@@ -9394,21 +9553,6 @@
       _this = _Component.call(this) || this;
       descriptors = Context.mergeDescriptors(instance, instance, descriptors);
       descriptors = Context.mergeDescriptors(Object.getPrototypeOf(instance), instance, descriptors);
-      /*
-      const subjects = {
-      	changes$: {
-      		value: new BehaviorSubject(this),
-      		writable: false,
-      		enumerable: false,
-      	},
-      	unsubscribe$: {
-      		value: new Subject(),
-      		writable: false,
-      		enumerable: false,
-      	}
-      };
-      */
-
       Object.defineProperties(_assertThisInitialized(_this), descriptors);
       return _this;
     }
@@ -9424,10 +9568,9 @@
         var key = properties.shift();
 
         if (RESERVED_PROPERTIES.indexOf(key) === -1 && !descriptors.hasOwnProperty(key)) {
-          // console.log('Context.mergeDescriptors', key, source[key]);
           var descriptor = Object.getOwnPropertyDescriptor(source, key);
 
-          if (typeof descriptor.value == "function") {
+          if (typeof descriptor.value == 'function') {
             descriptor.value = function () {
               for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
                 args[_key] = arguments[_key];
@@ -9451,15 +9594,304 @@
     return Context;
   }(Component);
 
-  var Structure = function Structure() {};
+  var ForItem = function (_Context) {
+    _inheritsLoose(ForItem, _Context);
+
+    function ForItem(key, $key, value, $value, index, count, parentInstance) {
+      var _this;
+
+      _this = _Context.call(this, parentInstance) || this;
+      _this[key] = $key;
+      _this[value] = $value;
+      _this.index = index;
+      _this.count = count;
+      return _this;
+    }
+
+    _createClass(ForItem, [{
+      key: "first",
+      get: function get() {
+        return this.index === 0;
+      }
+    }, {
+      key: "last",
+      get: function get() {
+        return this.index === this.count - 1;
+      }
+    }, {
+      key: "even",
+      get: function get() {
+        return this.index % 2 === 0;
+      }
+    }, {
+      key: "odd",
+      get: function get() {
+        return !this.even;
+      }
+    }]);
+
+    return ForItem;
+  }(Context);
+
+  var ForStructure = function (_Structure) {
+    _inheritsLoose(ForStructure, _Structure);
+
+    function ForStructure() {
+      var _this;
+
+      _this = _Structure.apply(this, arguments) || this;
+      _this.instances = [];
+      return _this;
+    }
+
+    var _proto = ForStructure.prototype;
+
+    _proto.onInit = function onInit() {
+      var _getContext = getContext(this),
+          module = _getContext.module,
+          node = _getContext.node;
+
+      var forbegin = document.createComment("*for begin");
+      forbegin.rxcompId = node.rxcompId;
+      node.parentNode.replaceChild(forbegin, node);
+      var forend = this.forend = document.createComment("*for end");
+      forbegin.parentNode.insertBefore(forend, forbegin.nextSibling);
+      var expression = node.getAttribute('*for');
+      node.removeAttribute('*for');
+      var token = this.token = this.getExpressionToken(expression);
+      this.forFunction = module.makeFunction(token.iterable);
+    };
+
+    _proto.onChanges = function onChanges(changes) {
+      var context = getContext(this);
+      var module = context.module;
+      var node = context.node;
+      var token = this.token;
+      var result = module.resolve(this.forFunction, changes, this) || [];
+      var isArray = Array.isArray(result);
+      var array = isArray ? result : Object.keys(result);
+      var total = array.length;
+      var previous = this.instances.length;
+
+      for (var i = 0; i < Math.max(previous, total); i++) {
+        if (i < total) {
+          var key = isArray ? i : array[i];
+          var value = isArray ? array[key] : result[key];
+
+          if (i < previous) {
+            var instance = this.instances[i];
+            instance[token.key] = key;
+            instance[token.value] = value;
+          } else {
+            var clonedNode = node.cloneNode(true);
+            delete clonedNode.rxcompId;
+            this.forend.parentNode.insertBefore(clonedNode, this.forend);
+            var args = [token.key, key, token.value, value, i, total, context.parentInstance];
+
+            var _instance = module.makeInstance(clonedNode, ForItem, context.selector, context.parentInstance, args);
+
+            if (_instance) {
+              var forItemContext = getContext(_instance);
+              module.compile(clonedNode, forItemContext.instance);
+              this.instances.push(_instance);
+            }
+          }
+        } else {
+          var _instance2 = this.instances[i];
+
+          var _getContext2 = getContext(_instance2),
+              _node = _getContext2.node;
+
+          _node.parentNode.removeChild(_node);
+
+          module.remove(_node);
+        }
+      }
+
+      this.instances.length = array.length;
+    };
+
+    _proto.getExpressionToken = function getExpressionToken(expression) {
+      if (expression === null) {
+        throw 'invalid for';
+      }
+
+      if (expression.trim().indexOf('let ') === -1 || expression.trim().indexOf(' of ') === -1) {
+        throw 'invalid for';
+      }
+
+      var expressions = expression.split(';').map(function (x) {
+        return x.trim();
+      }).filter(function (x) {
+        return x !== '';
+      });
+      var forExpressions = expressions[0].split(' of ').map(function (x) {
+        return x.trim();
+      });
+      var value = forExpressions[0].replace(/\s*let\s*/, '');
+      var iterable = forExpressions[1];
+      var key = 'index';
+      var keyValueMatches = value.match(/\[(.+)\s*,\s*(.+)\]/);
+
+      if (keyValueMatches) {
+        key = keyValueMatches[1];
+        value = keyValueMatches[2];
+      }
+
+      if (expressions.length > 1) {
+        var indexExpressions = expressions[1].split(/\s*let\s*|\s*=\s*index/).map(function (x) {
+          return x.trim();
+        });
+
+        if (indexExpressions.length === 3) {
+          key = indexExpressions[1];
+        }
+      }
+
+      return {
+        key: key,
+        value: value,
+        iterable: iterable
+      };
+    };
+
+    return ForStructure;
+  }(Structure);
+  ForStructure.meta = {
+    selector: '[*for]'
+  };
+
+  var HrefDirective = function (_Directive) {
+    _inheritsLoose(HrefDirective, _Directive);
+
+    function HrefDirective() {
+      return _Directive.apply(this, arguments) || this;
+    }
+
+    var _proto = HrefDirective.prototype;
+
+    _proto.onChanges = function onChanges() {
+      var _getContext = getContext(this),
+          node = _getContext.node;
+
+      node.setAttribute('href', this.href || '');
+    };
+
+    return HrefDirective;
+  }(Directive);
+  HrefDirective.meta = {
+    selector: '[[href]]',
+    inputs: ['href']
+  };
+
+  var IfStructure = function (_Structure) {
+    _inheritsLoose(IfStructure, _Structure);
+
+    function IfStructure() {
+      return _Structure.apply(this, arguments) || this;
+    }
+
+    var _proto = IfStructure.prototype;
+
+    _proto.onInit = function onInit() {
+      var _getContext = getContext(this),
+          module = _getContext.module,
+          node = _getContext.node;
+
+      var ifbegin = this.ifbegin = document.createComment("*if begin");
+      ifbegin.rxcompId = node.rxcompId;
+      node.parentNode.replaceChild(ifbegin, node);
+      var ifend = this.ifend = document.createComment("*if end");
+      ifbegin.parentNode.insertBefore(ifend, ifbegin.nextSibling);
+      var expression = node.getAttribute('*if');
+      this.ifFunction = module.makeFunction(expression);
+      var clonedNode = node.cloneNode(true);
+      clonedNode.removeAttribute('*if');
+      this.clonedNode = clonedNode;
+      this.element = clonedNode.cloneNode(true);
+    };
+
+    _proto.onChanges = function onChanges(changes) {
+      var _getContext2 = getContext(this),
+          module = _getContext2.module;
+
+      var value = module.resolve(this.ifFunction, changes, this);
+      var element = this.element;
+
+      if (value) {
+        if (!element.parentNode) {
+          var ifend = this.ifend;
+          ifend.parentNode.insertBefore(element, ifend);
+          module.compile(element);
+        }
+      } else {
+        if (element.parentNode) {
+          module.remove(element, this);
+          element.parentNode.removeChild(element);
+          this.element = this.clonedNode.cloneNode(true);
+        }
+      }
+    };
+
+    return IfStructure;
+  }(Structure);
+  IfStructure.meta = {
+    selector: '[*if]'
+  };
+
+  var InnerHtmlDirective = function (_Directive) {
+    _inheritsLoose(InnerHtmlDirective, _Directive);
+
+    function InnerHtmlDirective() {
+      return _Directive.apply(this, arguments) || this;
+    }
+
+    var _proto = InnerHtmlDirective.prototype;
+
+    _proto.onChanges = function onChanges() {
+      var _getContext = getContext(this),
+          node = _getContext.node;
+
+      node.innerHTML = this.innerHTML == undefined ? '' : this.innerHTML;
+    };
+
+    return InnerHtmlDirective;
+  }(Directive);
+  InnerHtmlDirective.meta = {
+    selector: "[innerHTML]",
+    inputs: ['innerHTML']
+  };
+
+  var Pipe = function () {
+    function Pipe() {}
+
+    Pipe.transform = function transform(value) {
+      return value;
+    };
+
+    return Pipe;
+  }();
+
+  var JsonPipe = function (_Pipe) {
+    _inheritsLoose(JsonPipe, _Pipe);
+
+    function JsonPipe() {
+      return _Pipe.apply(this, arguments) || this;
+    }
+
+    JsonPipe.transform = function transform(value) {
+      return JSON.stringify(value, null, '\t');
+    };
+
+    return JsonPipe;
+  }(Pipe);
+  JsonPipe.meta = {
+    name: 'json'
+  };
 
   var ID = 0;
-  var CONTEXTS = {};
-  var NODES = {};
 
-  var Module =
-  /*#__PURE__*/
-  function () {
+  var Module = function () {
     function Module() {}
 
     var _proto = Module.prototype;
@@ -9481,9 +9913,8 @@
 
         return instance;
       }).filter(function (x) {
-        return x;
-      }); // console.log('compile', instances, node, parentInstance);
-
+        return x !== undefined;
+      });
       return instances;
     };
 
@@ -9491,100 +9922,44 @@
       var _this2 = this;
 
       if (parentInstance || node.parentNode) {
-        var isComponent = factory.prototype instanceof Component;
-        var meta = factory.meta; // collect parentInstance scope
-
+        var meta = factory.meta;
         parentInstance = parentInstance || this.getParentInstance(node.parentNode);
 
         if (!parentInstance) {
-          return;
-        } // creating factory instance
+          return undefined;
+        }
 
+        var instance = _construct(factory, args || []);
 
-        var instance = _construct(factory, args || []); // creating instance context
-
-
-        var context = Module.makeContext(this, instance, parentInstance, node, factory, selector); // injecting changes$ and unsubscribe$ subjects
-
-        Object.defineProperties(instance, {
-          changes$: {
-            value: new rxjs.BehaviorSubject(instance),
-            writable: false,
-            enumerable: false
-          },
-          unsubscribe$: {
-            value: new rxjs.Subject(),
-            writable: false,
-            enumerable: false
-          }
-        });
-        var initialized; // injecting instance pushChanges method
-
-        var module = this;
-
-        instance.pushChanges = function () {
-          // console.log(new Error(`pushChanges ${instance.constructor.name}`).stack);
-          this.changes$.next(this); // parse component text nodes
-
-          if (isComponent) {
-            // console.log('Module.parse', instance.constructor.name);
-            initialized ? module.parse(node, instance) : setTimeout(function () {
-              module.parse(node, instance);
-            });
-          } // calling onView event
-
-
-          if (typeof instance.onView === 'function') {
-            // console.log('onView', instance.constructor.name);
-            instance.onView();
-          }
-        }; // creating component input and outputs
-        // if (isComponent && meta) {
-
+        var context = Module.makeContext(this, instance, parentInstance, node, factory, selector);
 
         if (meta) {
           this.makeHosts(meta, instance, node);
           context.inputs = this.makeInputs(meta, instance);
           context.outputs = this.makeOutputs(meta, instance);
-        } // calling onInit event
 
-
-        if (typeof instance.onInit === 'function') {
-          instance.onInit();
+          if (parentInstance instanceof Factory) {
+            this.resolveInputsOutputs(instance, parentInstance);
+          }
         }
 
-        initialized = true; // subscribe to parent changes
+        instance.onInit();
 
-        if (parentInstance.changes$) {
-          parentInstance.changes$.pipe( // filter(() => node.parentNode),
-          // debounceTime(1),
-          operators.takeUntil(instance.unsubscribe$)).subscribe(function (changes) {
-            // resolve component input outputs
-            // if (isComponent && meta) {
+        if (parentInstance instanceof Factory) {
+          parentInstance.changes$.pipe(operators.takeUntil(instance.unsubscribe$)).subscribe(function (changes) {
             if (meta) {
               _this2.resolveInputsOutputs(instance, changes);
-            } // calling onChanges event with parentInstance
+            }
 
-
-            if (typeof instance.onChanges === 'function') {
-              // console.log('onChanges', instance.constructor.name);
-              // console.log('onChanges', instance.constructor.meta.selector, changes);
-              instance.onChanges(changes);
-            } // push instance changes for subscribers
-
-
+            instance.onChanges(changes);
             instance.pushChanges();
           });
         }
 
         return instance;
+      } else {
+        return undefined;
       }
-    };
-
-    _proto.makeContext = function makeContext(instance, parentInstance, node, selector) {
-      var context = Module.makeContext(this, instance, parentInstance, node, instance.constructor, selector); // console.log('Module.makeContext', context, context.instance, context.node);
-
-      return context;
     };
 
     _proto.makeFunction = function makeFunction(expression, params) {
@@ -9593,16 +9968,258 @@
       }
 
       if (expression) {
-        expression = Module.parseExpression(expression); // console.log(expression);
-
+        expression = Module.parseExpression(expression);
         var args = params.join(',');
-        var expression_func = new Function("with(this) {\n\t\t\t\treturn (function (" + args + ", $$module) {\n\t\t\t\t\tconst $$pipes = $$module.meta.pipes;\n\t\t\t\t\treturn " + expression + ";\n\t\t\t\t}.bind(this)).apply(this, arguments);\n\t\t\t}"); // console.log(expression_func);
-
+        var expression_func = new Function("with(this) {\n\t\t\t\treturn (function (" + args + ", $$module) {\n\t\t\t\t\tconst $$pipes = $$module.meta.pipes;\n\t\t\t\t\treturn " + expression + ";\n\t\t\t\t}.bind(this)).apply(this, arguments);\n\t\t\t}");
         return expression_func;
       } else {
         return function () {
           return null;
         };
+      }
+    };
+
+    _proto.resolve = function resolve(expression, parentInstance, payload) {
+      return expression.apply(parentInstance, [payload, this]);
+    };
+
+    _proto.parse = function parse(node, instance) {
+      for (var i = 0; i < node.childNodes.length; i++) {
+        var child = node.childNodes[i];
+
+        if (child.nodeType === 1) {
+          var element = child;
+          var context = getContextByNode(element);
+
+          if (!context) {
+            this.parse(element, instance);
+          }
+        } else if (child.nodeType === 3) {
+          var text = child;
+          this.parseTextNode(text, instance);
+        }
+      }
+    };
+
+    _proto.remove = function remove(node, keepInstance) {
+      var keepContext = keepInstance ? getContext(keepInstance) : undefined;
+      Module.traverseDown(node, function (node) {
+        var rxcompId = node.rxcompId;
+
+        if (rxcompId) {
+          var keepContexts = Module.deleteContext(rxcompId, keepContext);
+
+          if (keepContexts.length === 0) {
+            delete node.rxcompId;
+          }
+        }
+      });
+      return node;
+    };
+
+    _proto.destroy = function destroy() {
+      this.remove(this.meta.node);
+      this.meta.node.innerHTML = this.meta.nodeInnerHTML;
+    };
+
+    _proto.makeContext = function makeContext(instance, parentInstance, node, selector) {
+      var context = Module.makeContext(this, instance, parentInstance, node, instance.constructor, selector);
+      return context;
+    };
+
+    _proto.getInstance = function getInstance(node) {
+      if (node instanceof Document) {
+        return window;
+      }
+
+      var context = getContextByNode(node);
+
+      if (context) {
+        return context.instance;
+      } else {
+        return undefined;
+      }
+    };
+
+    _proto.getParentInstance = function getParentInstance(node) {
+      var _this3 = this;
+
+      return Module.traverseUp(node, function (node) {
+        return _this3.getInstance(node);
+      });
+    };
+
+    _proto.parseTextNode = function parseTextNode(node, instance) {
+      var _this4 = this;
+
+      var expressions = node.nodeExpressions;
+
+      if (!expressions) {
+        expressions = this.parseTextNodeExpression(node.wholeText);
+      }
+
+      var replacedText = expressions.reduce(function (p, c) {
+        var text;
+
+        if (typeof c === 'function') {
+          text = _this4.resolve(c, instance, instance);
+
+          if (text == undefined) {
+            text = '';
+          }
+        } else {
+          text = c;
+        }
+
+        return p + text;
+      }, '');
+
+      if (node.nodeValue !== replacedText) {
+        var textNode = document.createTextNode(replacedText);
+        textNode.nodeExpressions = expressions;
+        node.parentNode.replaceChild(textNode, node);
+      }
+    };
+
+    _proto.pushFragment = function pushFragment(nodeValue, from, to, expressions) {
+      var fragment = nodeValue.substring(from, to);
+      expressions.push(fragment);
+    };
+
+    _proto.parseTextNodeExpression = function parseTextNodeExpression(nodeValue) {
+      var expressions = [];
+      var regex = /\{{2}((([^{}])|(\{([^{}]|(\{.*?\}))+?\}))*?)\}{2}/g;
+      var lastIndex = 0,
+          matches;
+
+      while ((matches = regex.exec(nodeValue)) !== null) {
+        var index = regex.lastIndex - matches[0].length;
+
+        if (index > lastIndex) {
+          this.pushFragment(nodeValue, index, lastIndex, expressions);
+        }
+
+        lastIndex = regex.lastIndex;
+        var expression = this.makeFunction(matches[1]);
+        expressions.push(expression);
+      }
+
+      var length = nodeValue.length;
+
+      if (length > lastIndex) {
+        this.pushFragment(nodeValue, lastIndex, length, expressions);
+      }
+
+      return expressions;
+    };
+
+    _proto.makeHosts = function makeHosts(meta, instance, node) {
+      if (meta.hosts) {
+        Object.keys(meta.hosts).forEach(function (key) {
+          var factory = meta.hosts[key];
+          instance[key] = getHost(instance, factory, node);
+        });
+      }
+    };
+
+    _proto.makeInput = function makeInput(instance, key) {
+      var _getContext = getContext(instance),
+          node = _getContext.node;
+
+      var input = null,
+          expression = null;
+
+      if (node.hasAttribute("[" + key + "]")) {
+        expression = node.getAttribute("[" + key + "]");
+      } else if (node.hasAttribute(key)) {
+        var attribute = node.getAttribute(key).replace(/({{)|(}})|(")/g, function (substring, a, b, c) {
+          if (a) {
+            return '"+';
+          }
+
+          if (b) {
+            return '+"';
+          }
+
+          if (c) {
+            return '\"';
+          }
+
+          return '';
+        });
+        expression = "\"" + attribute + "\"";
+      }
+
+      if (expression) {
+        input = this.makeFunction(expression);
+      }
+
+      return input;
+    };
+
+    _proto.makeInputs = function makeInputs(meta, instance) {
+      var _this5 = this;
+
+      var inputs = {};
+
+      if (meta.inputs) {
+        meta.inputs.forEach(function (key, i) {
+          var input = _this5.makeInput(instance, key);
+
+          if (input) {
+            inputs[key] = input;
+          }
+        });
+      }
+
+      return inputs;
+    };
+
+    _proto.makeOutput = function makeOutput(instance, key) {
+      var _this6 = this;
+
+      var context = getContext(instance);
+      var node = context.node;
+      var parentInstance = context.parentInstance;
+      var expression = node.getAttribute("(" + key + ")");
+      var outputFunction = expression ? this.makeFunction(expression, ['$event']) : null;
+      var output$ = new rxjs.Subject().pipe(operators.tap(function (event) {
+        if (outputFunction) {
+          _this6.resolve(outputFunction, parentInstance, event);
+        }
+      }));
+      output$.pipe(operators.takeUntil(instance.unsubscribe$)).subscribe();
+      instance[key] = output$;
+      return output$;
+    };
+
+    _proto.makeOutputs = function makeOutputs(meta, instance) {
+      var _this7 = this;
+
+      var outputs = {};
+
+      if (meta.outputs) {
+        meta.outputs.forEach(function (key) {
+          var output = _this7.makeOutput(instance, key);
+
+          if (output) {
+            outputs[key] = output;
+          }
+        });
+      }
+
+      return outputs;
+    };
+
+    _proto.resolveInputsOutputs = function resolveInputsOutputs(instance, changes) {
+      var context = getContext(instance);
+      var parentInstance = context.parentInstance;
+      var inputs = context.inputs;
+
+      for (var key in inputs) {
+        var inputFunction = inputs[key];
+        var value = this.resolve(inputFunction, parentInstance, instance);
+        instance[key] = value;
       }
     };
 
@@ -9612,31 +10229,33 @@
       var rx1 = /(\()([^\(\)]*)(\))/;
 
       while (expression.match(rx1)) {
-        expression = expression.replace(rx1, function () {
+        expression = expression.replace(rx1, function (substring) {
           return "" + l + Module.parsePipes(arguments.length <= 2 ? undefined : arguments[2]) + r;
         });
       }
 
       expression = Module.parsePipes(expression);
-      expression = expression.replace(/(┌)|(┘)/g, function () {
+      expression = expression.replace(/(┌)|(┘)/g, function (substring) {
         return (arguments.length <= 1 ? undefined : arguments[1]) ? '(' : ')';
       });
       return Module.parseOptionalChaining(expression);
     };
 
     Module.parsePipes = function parsePipes(expression) {
+      var l = '┌';
+      var r = '┘';
       var rx1 = /(.*?[^\|])\|([^\|]+)/;
 
       while (expression.match(rx1)) {
-        expression = expression.replace(rx1, function () {
-          for (var _len = arguments.length, g1 = new Array(_len), _key = 0; _key < _len; _key++) {
-            g1[_key] = arguments[_key];
+        expression = expression.replace(rx1, function (substring) {
+          for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+            args[_key - 1] = arguments[_key];
           }
 
-          var value = g1[1].trim();
-          var params = Module.parsePipeParams(g1[2]);
+          var value = args[0].trim();
+          var params = Module.parsePipeParams(args[1]);
           var func = params.shift().trim();
-          return "$$pipes." + func + ".transform\u250C" + [value].concat(params) + "\u2518";
+          return "$$pipes." + func + ".transform" + l + [value].concat(params) + r;
         });
       }
 
@@ -9684,12 +10303,8 @@
     Module.parseOptionalChaining = function parseOptionalChaining(expression) {
       var regex = /(\w+(\?\.))+([\.|\w]+)/g;
       var previous;
-      expression = expression.replace(regex, function () {
-        for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-          args[_key2] = arguments[_key2];
-        }
-
-        var tokens = args[0].split('?.');
+      expression = expression.replace(regex, function (substring) {
+        var tokens = substring.split('?.');
 
         for (var i = 0; i < tokens.length - 1; i++) {
           var a = i > 0 ? "(" + tokens[i] + " = " + previous + ")" : tokens[i];
@@ -9700,245 +10315,6 @@
         return previous || '';
       });
       return expression;
-    };
-
-    _proto.getInstance = function getInstance(node) {
-      if (node === document) {
-        return window;
-      }
-
-      var context = getContextByNode(node);
-
-      if (context) {
-        return context.instance;
-      }
-    };
-
-    _proto.getParentInstance = function getParentInstance(node) {
-      var _this3 = this;
-
-      return Module.traverseUp(node, function (node) {
-        return _this3.getInstance(node);
-      });
-    };
-
-    _proto.parse = function parse(node, instance) {
-      for (var i = 0; i < node.childNodes.length; i++) {
-        var child = node.childNodes[i];
-
-        if (child.nodeType === 1) {
-          var context = getContextByNode(child);
-
-          if (!context) {
-            this.parse(child, instance);
-          }
-        } else if (child.nodeType === 3) {
-          this.parseTextNode(child, instance);
-        }
-      }
-    };
-
-    _proto.parseTextNode = function parseTextNode(node, instance) {
-      var _this4 = this;
-
-      var expressions = node.nodeExpressions;
-
-      if (!expressions) {
-        expressions = this.parseTextNodeExpression(node.nodeValue);
-      }
-
-      var replacedText = expressions.reduce(function (p, c) {
-        var text;
-
-        if (typeof c === 'function') {
-          text = _this4.resolve(c, instance, instance);
-
-          if (text == undefined) {
-            // !!! keep == loose equality
-            text = '';
-          }
-        } else {
-          text = c;
-        }
-
-        return p + text;
-      }, '');
-
-      if (node.nodeValue !== replacedText) {
-        var textNode = document.createTextNode(replacedText);
-        textNode.nodeExpressions = expressions;
-        node.parentNode.replaceChild(textNode, node);
-      }
-    };
-
-    _proto.parseTextNodeExpression = function parseTextNodeExpression(expression) {
-      var expressions = [];
-      var regex = /\{{2}((([^{}])|(\{([^{}]|(\{.*?\}))+?\}))*?)\}{2}/g;
-      var lastIndex = 0,
-          matches;
-
-      var pushFragment = function pushFragment(from, to) {
-        var fragment = expression.substring(from, to);
-        expressions.push(fragment);
-      };
-
-      while ((matches = regex.exec(expression)) !== null) {
-        var index = regex.lastIndex - matches[0].length;
-
-        if (index > lastIndex) {
-          pushFragment(index, lastIndex);
-        }
-
-        lastIndex = regex.lastIndex;
-        var fragment = this.makeFunction(matches[1]);
-        expressions.push(fragment);
-      }
-
-      var length = expression.length;
-
-      if (length > lastIndex) {
-        pushFragment(lastIndex, length);
-      }
-
-      return expressions;
-    };
-
-    _proto.resolve = function resolve(expressionFunc, changes, payload) {
-      // console.log(expressionFunc, changes, payload);
-      return expressionFunc.apply(changes, [payload, this]);
-    };
-
-    _proto.makeHosts = function makeHosts(meta, instance, node) {
-      if (meta.hosts) {
-        Object.keys(meta.hosts).forEach(function (key) {
-          var factory = meta.hosts[key];
-          instance[key] = getHost(instance, factory, node);
-        });
-      }
-    };
-
-    _proto.makeInput = function makeInput(instance, key) {
-      var _getContext = getContext(instance),
-          node = _getContext.node;
-
-      var input,
-          expression = null;
-
-      if (node.hasAttribute(key)) {
-        // const attribute = node.getAttribute(key).replace(/{{/g, '"+').replace(/}}/g, '+"');
-        var attribute = node.getAttribute(key).replace(/({{)|(}})|(")/g, function (match, a, b, c) {
-          if (a) {
-            return '"+';
-          }
-
-          if (b) {
-            return '+"';
-          }
-
-          if (c) {
-            return '\"';
-          }
-        });
-        expression = "\"" + attribute + "\"";
-      } else if (node.hasAttribute("[" + key + "]")) {
-        expression = node.getAttribute("[" + key + "]");
-      }
-
-      if (expression !== null) {
-        input = this.makeFunction(expression);
-      }
-
-      return input;
-    };
-
-    _proto.makeInputs = function makeInputs(meta, instance) {
-      var _this5 = this;
-
-      var inputs = {};
-
-      if (meta.inputs) {
-        meta.inputs.forEach(function (key, i) {
-          var input = _this5.makeInput(instance, key);
-
-          if (input) {
-            inputs[key] = input;
-          }
-        });
-      }
-
-      return inputs;
-    };
-
-    _proto.makeOutput = function makeOutput(instance, key) {
-      var _this6 = this;
-
-      var context = getContext(instance);
-      var node = context.node;
-      var parentInstance = context.parentInstance;
-      var expression = node.getAttribute("(" + key + ")");
-      var outputFunction = this.makeFunction(expression, ['$event']);
-      var output$ = new rxjs.Subject().pipe(operators.tap(function (event) {
-        _this6.resolve(outputFunction, parentInstance, event);
-      }));
-      output$.pipe(operators.takeUntil(instance.unsubscribe$)).subscribe();
-      instance[key] = output$;
-      return outputFunction;
-    };
-
-    _proto.makeOutputs = function makeOutputs(meta, instance) {
-      var _this7 = this;
-
-      var outputs = {};
-
-      if (meta.outputs) {
-        meta.outputs.forEach(function (key, i) {
-          return outputs[key] = _this7.makeOutput(instance, key);
-        });
-      }
-
-      return outputs;
-    };
-
-    _proto.resolveInputsOutputs = function resolveInputsOutputs(instance, changes) {
-      var context = getContext(instance);
-      var parentInstance = context.parentInstance;
-      var inputs = context.inputs;
-
-      for (var key in inputs) {
-        var inputFunction = inputs[key];
-        var value = this.resolve(inputFunction, parentInstance, instance);
-        instance[key] = value;
-      }
-      /*
-      const outputs = context.outputs;
-      for (let key in outputs) {
-      	const inpuoutputFunctiontFunction = outputs[key];
-      	const value = this.resolve(outputFunction, parentInstance, null);
-      	// console.log(`setted -> ${key}`, value);
-      }
-      */
-
-    };
-
-    _proto.destroy = function destroy() {
-      this.remove(this.meta.node);
-      this.meta.node.innerHTML = this.meta.nodeInnerHTML;
-    };
-
-    _proto.remove = function remove(node, keepInstance) {
-      var keepContext = keepInstance ? getContext(keepInstance) : undefined;
-      Module.traverseDown(node, function (node) {
-        var rxcompId = node.rxcompId;
-
-        if (rxcompId) {
-          var keepContexts = Module.deleteContext(rxcompId, keepContext);
-
-          if (keepContexts.length === 0) {
-            delete node.rxcompId;
-          }
-        }
-      });
-      return node;
     };
 
     Module.makeContext = function makeContext(module, instance, parentInstance, node, factory, selector) {
@@ -9954,7 +10330,8 @@
       var rxcompNodeId = node.rxcompId = node.rxcompId || instance.rxcompId;
       var nodeContexts = NODES[rxcompNodeId] || (NODES[rxcompNodeId] = []);
       nodeContexts.push(context);
-      return CONTEXTS[instance.rxcompId] = context;
+      CONTEXTS[instance.rxcompId] = context;
+      return context;
     };
 
     Module.deleteContext = function deleteContext(id, keepContext) {
@@ -9969,11 +10346,8 @@
             var instance = context.instance;
             instance.unsubscribe$.next();
             instance.unsubscribe$.complete();
-
-            if (typeof instance.onDestroy === 'function') {
-              instance.onDestroy();
-              delete CONTEXTS[instance.rxcompId];
-            }
+            instance.onDestroy();
+            delete CONTEXTS[instance.rxcompId];
           }
         });
 
@@ -9989,19 +10363,18 @@
 
     Module.matchSelectors = function matchSelectors(node, selectors, results) {
       for (var i = 0; i < selectors.length; i++) {
-        var match = selectors[i](node);
+        var selectorResult = selectors[i](node);
 
-        if (match) {
-          var factory = match.factory;
+        if (selectorResult) {
+          var factory = selectorResult.factory;
 
           if (factory.prototype instanceof Component && factory.meta.template) {
             node.innerHTML = factory.meta.template;
           }
 
-          results.push(match);
+          results.push(selectorResult);
 
           if (factory.prototype instanceof Structure) {
-            // console.log('Structure', node);
             break;
           }
         }
@@ -10012,9 +10385,9 @@
 
     Module.querySelectorsAll = function querySelectorsAll(node, selectors, results) {
       if (node.nodeType === 1) {
-        var matches = this.matchSelectors(node, selectors, []);
-        results = results.concat(matches);
-        var structure = matches.find(function (x) {
+        var selectorResults = this.matchSelectors(node, selectors, []);
+        results = results.concat(selectorResults);
+        var structure = selectorResults.find(function (x) {
           return x.factory.prototype instanceof Structure;
         });
 
@@ -10116,23 +10489,24 @@
 
     return Module;
   }();
-  function getContext(instance) {
-    return CONTEXTS[instance.rxcompId];
-  }
   function getContextByNode(node) {
     var context;
-    var nodeContexts = NODES[node.rxcompId];
+    var rxcompId = node.rxcompId;
 
-    if (nodeContexts) {
-      context = nodeContexts.reduce(function (previous, current) {
-        if (current.factory.prototype instanceof Component) {
-          return current;
-        } else if (current.factory.prototype instanceof Context) {
-          return previous ? previous : current;
-        } else {
-          return previous;
-        }
-      }, null); // console.log(node.rxcompId, context);
+    if (rxcompId) {
+      var nodeContexts = NODES[rxcompId];
+
+      if (nodeContexts) {
+        context = nodeContexts.reduce(function (previous, current) {
+          if (current.factory.prototype instanceof Component) {
+            return current;
+          } else if (current.factory.prototype instanceof Context) {
+            return previous ? previous : current;
+          } else {
+            return previous;
+          }
+        }, undefined);
+      }
     }
 
     return context;
@@ -10146,12 +10520,10 @@
       var nodeContexts = NODES[node.rxcompId];
 
       if (nodeContexts) {
-        // console.log(nodeContexts);
         for (var i = 0; i < nodeContexts.length; i++) {
           var context = nodeContexts[i];
 
           if (context.instance !== instance) {
-            // console.log(context.instance, instance);
             if (context.instance instanceof factory) {
               return context.instance;
             }
@@ -10162,436 +10534,12 @@
 
     if (node.parentNode) {
       return getHost(instance, factory, node.parentNode);
+    } else {
+      return undefined;
     }
   }
 
-  var ClassDirective =
-  /*#__PURE__*/
-  function (_Directive) {
-    _inheritsLoose(ClassDirective, _Directive);
-
-    function ClassDirective() {
-      return _Directive.apply(this, arguments) || this;
-    }
-
-    var _proto = ClassDirective.prototype;
-
-    _proto.onInit = function onInit() {
-      var _getContext = getContext(this),
-          module = _getContext.module,
-          node = _getContext.node;
-
-      var expression = node.getAttribute('[class]');
-      this.classFunction = module.makeFunction(expression); // console.log('ClassDirective.onInit', this.classList, expression);
-    };
-
-    _proto.onChanges = function onChanges(changes) {
-      var _getContext2 = getContext(this),
-          module = _getContext2.module,
-          node = _getContext2.node;
-
-      var classList = module.resolve(this.classFunction, changes, this);
-
-      for (var key in classList) {
-        classList[key] ? node.classList.add(key) : node.classList.remove(key);
-      } // console.log('ClassDirective.onChanges', classList);
-
-    };
-
-    return ClassDirective;
-  }(Directive);
-  ClassDirective.meta = {
-    selector: "[[class]]"
-  };
-
-  var EVENTS = ['mousedown', 'mouseup', 'mousemove', 'click', 'dblclick', 'mouseover', 'mouseout', 'mouseenter', 'mouseleave', 'contextmenu', 'touchstart', 'touchmove', 'touchend', 'keydown', 'keyup', 'input', 'change', 'loaded'];
-
-  var EventDirective =
-  /*#__PURE__*/
-  function (_Directive) {
-    _inheritsLoose(EventDirective, _Directive);
-
-    function EventDirective() {
-      return _Directive.apply(this, arguments) || this;
-    }
-
-    var _proto = EventDirective.prototype;
-
-    _proto.onInit = function onInit() {
-      var _getContext = getContext(this),
-          module = _getContext.module,
-          node = _getContext.node,
-          parentInstance = _getContext.parentInstance,
-          selector = _getContext.selector;
-
-      var event = this.event = selector.replace(/\[|\]|\(|\)/g, '');
-      var event$ = this.event$ = rxjs.fromEvent(node, event).pipe(operators.shareReplay(1));
-      var expression = node.getAttribute("(" + event + ")");
-
-      if (expression) {
-        var outputFunction = module.makeFunction(expression, ['$event']);
-        event$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (event) {
-          // console.log(parentInstance);
-          module.resolve(outputFunction, parentInstance, event);
-        });
-      } else {
-        parentInstance[event + "$"] = event$;
-      } // console.log('EventDirective.onInit', 'selector', selector, 'event', event);
-
-    };
-
-    return EventDirective;
-  }(Directive);
-  EventDirective.meta = {
-    selector: "[(" + EVENTS.join(')],[(') + ")]"
-  };
-
-  var ForItem =
-  /*#__PURE__*/
-  function (_Context) {
-    _inheritsLoose(ForItem, _Context);
-
-    // !!! try with payload options { key, $key, value, $value, index, count } or use onInit()
-    function ForItem(key, $key, value, $value, index, count, parentInstance) {
-      var _this;
-
-      // console.log('ForItem', arguments);
-      _this = _Context.call(this, parentInstance) || this;
-      /*
-      super(parentInstance, {
-      	[key]: {
-      		get: function() {
-      			return this.$key;
-      		},
-      		set: function(key) {
-      			this.$key = key;
-      		}
-      	},
-      	[value]: {
-      		get: function() {
-      			return this.$value;
-      		},
-      		set: function(value) {
-      			this.$value = value;
-      		}
-      	}
-      });
-      */
-
-      _this[key] = $key;
-      _this[value] = $value;
-      _this.index = index;
-      _this.count = count;
-      return _this;
-    }
-
-    _createClass(ForItem, [{
-      key: "first",
-      get: function get() {
-        return this.index === 0;
-      }
-    }, {
-      key: "last",
-      get: function get() {
-        return this.index === this.count - 1;
-      }
-    }, {
-      key: "even",
-      get: function get() {
-        return this.index % 2 === 0;
-      }
-    }, {
-      key: "odd",
-      get: function get() {
-        return !this.even;
-      }
-    }]);
-
-    return ForItem;
-  }(Context);
-
-  var ForStructure =
-  /*#__PURE__*/
-  function (_Structure) {
-    _inheritsLoose(ForStructure, _Structure);
-
-    function ForStructure() {
-      return _Structure.apply(this, arguments) || this;
-    }
-
-    var _proto = ForStructure.prototype;
-
-    _proto.onInit = function onInit() {
-      var _getContext = getContext(this),
-          module = _getContext.module,
-          node = _getContext.node;
-
-      var forbegin = this.forbegin = document.createComment("*for begin");
-      forbegin.rxcompId = node.rxcompId;
-      node.parentNode.replaceChild(forbegin, node);
-      var forend = this.forend = document.createComment("*for end");
-      forbegin.parentNode.insertBefore(forend, forbegin.nextSibling);
-      var expression = node.getAttribute('*for'); // this.expression = expression;
-
-      node.removeAttribute('*for');
-      var tokens = this.tokens = this.getExpressionTokens(expression);
-      this.forFunction = module.makeFunction(tokens.iterable);
-      this.instances = [];
-    };
-
-    _proto.onChanges = function onChanges(changes) {
-      var context = getContext(this);
-      var module = context.module;
-      var node = context.node; // resolve
-
-      var tokens = this.tokens;
-      var result = module.resolve(this.forFunction, changes, this) || [];
-      var isArray = Array.isArray(result);
-      var array = isArray ? result : Object.keys(result);
-      var total = array.length;
-      var previous = this.instances.length; // let nextSibling = this.forbegin.nextSibling;
-
-      for (var i = 0; i < Math.max(previous, total); i++) {
-        if (i < total) {
-          var key = isArray ? i : array[i];
-          var value = isArray ? array[key] : result[key];
-
-          if (i < previous) {
-            // update
-            var instance = this.instances[i];
-            instance[tokens.key] = key;
-            instance[tokens.value] = value;
-            /*
-            if (!nextSibling) {
-            	const context = getContext(instance);
-            	const node = context.node;
-            	this.forend.parentNode.insertBefore(node, this.forend);
-            } else {
-            	nextSibling = nextSibling.nextSibling;
-            }
-            */
-          } else {
-            // create
-            var clonedNode = node.cloneNode(true);
-            delete clonedNode.rxcompId;
-            this.forend.parentNode.insertBefore(clonedNode, this.forend);
-            var args = [tokens.key, key, tokens.value, value, i, total, context.parentInstance]; // !!! context.parentInstance unused?
-
-            var _instance = module.makeInstance(clonedNode, ForItem, context.selector, context.parentInstance, args);
-
-            var forItemContext = getContext(_instance); // console.log('ForStructure', clonedNode, forItemContext.instance.constructor.name);
-
-            module.compile(clonedNode, forItemContext.instance); // nextSibling = clonedNode.nextSibling;
-
-            this.instances.push(_instance);
-          }
-        } else {
-          // remove
-          var _instance2 = this.instances[i];
-
-          var _getContext2 = getContext(_instance2),
-              _node = _getContext2.node;
-
-          _node.parentNode.removeChild(_node);
-
-          module.remove(_node);
-        }
-      }
-
-      this.instances.length = array.length; // console.log('ForStructure', this.instances, tokens);
-    };
-
-    _proto.getExpressionTokens = function getExpressionTokens(expression) {
-      if (expression === null) {
-        throw 'invalid for';
-      }
-
-      if (expression.trim().indexOf('let ') === -1 || expression.trim().indexOf(' of ') === -1) {
-        throw 'invalid for';
-      }
-
-      var expressions = expression.split(';').map(function (x) {
-        return x.trim();
-      }).filter(function (x) {
-        return x !== '';
-      });
-      var forExpressions = expressions[0].split(' of ').map(function (x) {
-        return x.trim();
-      });
-      var value = forExpressions[0].replace(/\s*let\s*/, '');
-      var iterable = forExpressions[1];
-      var key = 'index';
-      var keyValueMatches = value.match(/\[(.+)\s*,\s*(.+)\]/);
-
-      if (keyValueMatches) {
-        key = keyValueMatches[1];
-        value = keyValueMatches[2];
-      }
-
-      if (expressions.length > 1) {
-        var indexExpressions = expressions[1].split(/\s*let\s*|\s*=\s*index/).map(function (x) {
-          return x.trim();
-        });
-
-        if (indexExpressions.length === 3) {
-          key = indexExpressions[1];
-        }
-      }
-
-      return {
-        key: key,
-        value: value,
-        iterable: iterable
-      };
-    };
-
-    return ForStructure;
-  }(Structure);
-  ForStructure.meta = {
-    selector: '[*for]'
-  };
-
-  var HrefDirective =
-  /*#__PURE__*/
-  function (_Directive) {
-    _inheritsLoose(HrefDirective, _Directive);
-
-    function HrefDirective() {
-      return _Directive.apply(this, arguments) || this;
-    }
-
-    var _proto = HrefDirective.prototype;
-
-    _proto.onChanges = function onChanges(changes) {
-      var _getContext = getContext(this),
-          node = _getContext.node;
-
-      node.setAttribute('href', this.href);
-    };
-
-    return HrefDirective;
-  }(Directive);
-  HrefDirective.meta = {
-    selector: '[[href]]',
-    inputs: ['href']
-  };
-
-  var IfStructure =
-  /*#__PURE__*/
-  function (_Structure) {
-    _inheritsLoose(IfStructure, _Structure);
-
-    function IfStructure() {
-      return _Structure.apply(this, arguments) || this;
-    }
-
-    var _proto = IfStructure.prototype;
-
-    _proto.onInit = function onInit() {
-      var _getContext = getContext(this),
-          module = _getContext.module,
-          node = _getContext.node;
-
-      var ifbegin = this.ifbegin = document.createComment("*if begin");
-      ifbegin.rxcompId = node.rxcompId;
-      node.parentNode.replaceChild(ifbegin, node);
-      var ifend = this.ifend = document.createComment("*if end");
-      ifbegin.parentNode.insertBefore(ifend, ifbegin.nextSibling);
-      var expression = node.getAttribute('*if');
-      this.ifFunction = module.makeFunction(expression);
-      var clonedNode = node.cloneNode(true);
-      clonedNode.removeAttribute('*if');
-      this.clonedNode = clonedNode;
-      this.node = clonedNode.cloneNode(true); // console.log('IfStructure.expression', expression);
-    };
-
-    _proto.onChanges = function onChanges(changes) {
-      var _getContext2 = getContext(this),
-          module = _getContext2.module; // console.log('IfStructure.onChanges', changes);
-
-
-      var value = module.resolve(this.ifFunction, changes, this);
-      var node = this.node;
-
-      if (value) {
-        if (!node.parentNode) {
-          this.ifend.parentNode.insertBefore(node, this.ifend);
-          module.compile(node);
-        }
-      } else {
-        if (node.parentNode) {
-          module.remove(node, this);
-          node.parentNode.removeChild(node);
-          this.node = this.clonedNode.cloneNode(true);
-        }
-      }
-    };
-
-    return IfStructure;
-  }(Structure);
-  IfStructure.meta = {
-    selector: '[*if]'
-  };
-
-  var InnerHtmlDirective =
-  /*#__PURE__*/
-  function (_Directive) {
-    _inheritsLoose(InnerHtmlDirective, _Directive);
-
-    function InnerHtmlDirective() {
-      return _Directive.apply(this, arguments) || this;
-    }
-
-    var _proto = InnerHtmlDirective.prototype;
-
-    _proto.onChanges = function onChanges(changes) {
-      var _getContext = getContext(this),
-          node = _getContext.node;
-
-      node.innerHTML = this.innerHTML == undefined ? '' : this.innerHTML; // !!! keep == loose equality
-    };
-
-    return InnerHtmlDirective;
-  }(Directive);
-  InnerHtmlDirective.meta = {
-    selector: "[innerHTML]",
-    inputs: ['innerHTML']
-  };
-
-  var Pipe =
-  /*#__PURE__*/
-  function () {
-    function Pipe() {}
-
-    Pipe.transform = function transform(value) {
-      return value;
-    };
-
-    return Pipe;
-  }();
-
-  var JsonPipe =
-  /*#__PURE__*/
-  function (_Pipe) {
-    _inheritsLoose(JsonPipe, _Pipe);
-
-    function JsonPipe() {
-      return _Pipe.apply(this, arguments) || this;
-    }
-
-    JsonPipe.transform = function transform(value) {
-      return JSON.stringify(value, null, '\t');
-    };
-
-    return JsonPipe;
-  }(Pipe);
-  JsonPipe.meta = {
-    name: 'json'
-  };
-
-  var SrcDirective =
-  /*#__PURE__*/
-  function (_Directive) {
+  var SrcDirective = function (_Directive) {
     _inheritsLoose(SrcDirective, _Directive);
 
     function SrcDirective() {
@@ -10600,11 +10548,15 @@
 
     var _proto = SrcDirective.prototype;
 
-    _proto.onChanges = function onChanges(changes) {
+    _proto.onChanges = function onChanges() {
       var _getContext = getContext(this),
           node = _getContext.node;
 
-      node.setAttribute('src', this.src);
+      if (this.src) {
+        node.setAttribute('src', this.src);
+      } else {
+        node.removeAttribute('src');
+      }
     };
 
     return SrcDirective;
@@ -10614,9 +10566,7 @@
     inputs: ['src']
   };
 
-  var StyleDirective =
-  /*#__PURE__*/
-  function (_Directive) {
+  var StyleDirective = function (_Directive) {
     _inheritsLoose(StyleDirective, _Directive);
 
     function StyleDirective() {
@@ -10625,37 +10575,50 @@
 
     var _proto = StyleDirective.prototype;
 
-    _proto.onInit = function onInit() {
+    _proto.onChanges = function onChanges() {
       var _getContext = getContext(this),
-          module = _getContext.module,
           node = _getContext.node;
 
-      var expression = node.getAttribute('[style]');
-      this.styleFunction = module.makeFunction(expression); // console.log('StyleDirective.onInit', expression);
-    };
+      var style = this.style;
+      var previousStyle = this.previousStyle;
 
-    _proto.onChanges = function onChanges(changes) {
-      var _getContext2 = getContext(this),
-          module = _getContext2.module,
-          node = _getContext2.node;
+      if (previousStyle) {
+        for (var key in previousStyle) {
+          if (!style || !style[key]) {
+            var splitted = key.split('.');
+            var propertyName = splitted.shift();
+            node.style.removeProperty(propertyName);
+          }
+        }
+      }
 
-      var style = module.resolve(this.styleFunction, changes, this);
+      if (style) {
+        for (var _key in style) {
+          if (!previousStyle || previousStyle[_key] !== style[_key]) {
+            var _splitted = _key.split('.');
 
-      for (var key in style) {
-        node.style.setProperty(key, style[key]);
-      } // console.log('StyleDirective.onChanges', changes, style);
+            var _propertyName = _splitted.shift();
 
+            var value = style[_key] + (_splitted.length ? _splitted[0] : '');
+            node.style.setProperty(_propertyName, value);
+          }
+        }
+      }
+
+      this.previousStyle = style;
     };
 
     return StyleDirective;
   }(Directive);
   StyleDirective.meta = {
-    selector: "[[style]]"
+    selector: "[[style]]",
+    inputs: ['style']
   };
 
-  var CoreModule =
-  /*#__PURE__*/
-  function (_Module) {
+  var factories = [ClassDirective, EventDirective, ForStructure, HrefDirective, IfStructure, InnerHtmlDirective, SrcDirective, StyleDirective];
+  var pipes = [JsonPipe];
+
+  var CoreModule = function (_Module) {
     _inheritsLoose(CoreModule, _Module);
 
     function CoreModule() {
@@ -10664,8 +10627,6 @@
 
     return CoreModule;
   }(Module);
-  var factories = [ClassDirective, EventDirective, ForStructure, HrefDirective, IfStructure, InnerHtmlDirective, SrcDirective, StyleDirective];
-  var pipes = [JsonPipe];
   CoreModule.meta = {
     declarations: [].concat(factories, pipes),
     exports: [].concat(factories, pipes)
@@ -10673,39 +10634,41 @@
 
   var ORDER = [Structure, Component, Directive];
 
-  var Platform =
-  /*#__PURE__*/
-  function () {
+  var Platform = function () {
     function Platform() {}
 
     Platform.bootstrap = function bootstrap(moduleFactory) {
-      var meta = this.resolveMeta(moduleFactory);
-      var bootstrap = meta.bootstrap;
+      if (!moduleFactory) {
+        throw 'missing moduleFactory';
+      }
 
-      if (!bootstrap) {
+      if (!moduleFactory.meta) {
+        throw 'missing moduleFactory meta';
+      }
+
+      if (!moduleFactory.meta.bootstrap) {
         throw 'missing bootstrap';
       }
 
-      var node = meta.node = this.querySelector(bootstrap.meta.selector);
-
-      if (!node) {
-        throw "missing node " + bootstrap.meta.selector;
+      if (!moduleFactory.meta.bootstrap.meta) {
+        throw 'missing bootstrap meta';
       }
 
-      meta.nodeInnerHTML = node.innerHTML;
-      var pipes = meta.pipes = this.resolvePipes(meta);
-      var factories = meta.factories = this.resolveFactories(meta);
-      this.sortFactories(factories);
-      factories.unshift(bootstrap);
-      var selectors = meta.selectors = this.unwrapSelectors(factories);
+      if (!moduleFactory.meta.bootstrap.meta.selector) {
+        throw 'missing bootstrap meta selector';
+      }
+
+      var meta = this.resolveMeta(moduleFactory);
       var module = new moduleFactory();
       module.meta = meta;
-      var instances = module.compile(node, window);
-      var root = instances[0]; // if (root instanceof module.meta.bootstrap) {
-
-      root.pushChanges(); // }
-
+      var instances = module.compile(meta.node, window);
+      var root = instances[0];
+      root.pushChanges();
       return module;
+    };
+
+    Platform.isBrowser = function isBrowser() {
+      return Boolean(window);
     };
 
     Platform.querySelector = function querySelector(selector) {
@@ -10713,6 +10676,31 @@
     };
 
     Platform.resolveMeta = function resolveMeta(moduleFactory) {
+      var meta = this.resolveImportedMeta(moduleFactory);
+      var bootstrap = moduleFactory.meta.bootstrap;
+      var node = this.querySelector(bootstrap.meta.selector);
+
+      if (!node) {
+        throw "missing node " + bootstrap.meta.selector;
+      }
+
+      var nodeInnerHTML = node.innerHTML;
+      var pipes = this.resolvePipes(meta);
+      var factories = this.resolveFactories(meta);
+      this.sortFactories(factories);
+      factories.unshift(bootstrap);
+      var selectors = this.unwrapSelectors(factories);
+      return {
+        factories: factories,
+        pipes: pipes,
+        selectors: selectors,
+        bootstrap: bootstrap,
+        node: node,
+        nodeInnerHTML: nodeInnerHTML
+      };
+    };
+
+    Platform.resolveImportedMeta = function resolveImportedMeta(moduleFactory) {
       var _this = this;
 
       var meta = Object.assign({
@@ -10721,8 +10709,8 @@
         pipes: [],
         exports: []
       }, moduleFactory.meta);
-      meta.imports = meta.imports.map(function (moduleFactory) {
-        return _this.resolveMeta(moduleFactory);
+      meta.imports = (moduleFactory.meta.imports || []).map(function (moduleFactory) {
+        return _this.resolveImportedMeta(moduleFactory);
       });
       return meta;
     };
@@ -10730,8 +10718,8 @@
     Platform.resolvePipes = function resolvePipes(meta, exported) {
       var _this2 = this;
 
-      var importedPipes = meta.imports.map(function (meta) {
-        return _this2.resolvePipes(meta, true);
+      var importedPipes = meta.imports.map(function (importMeta) {
+        return _this2.resolvePipes(importMeta, true);
       });
       var pipes = {};
       var pipeList = (exported ? meta.exports : meta.declarations).filter(function (x) {
@@ -10747,11 +10735,11 @@
       var _this3 = this,
           _Array$prototype$conc;
 
-      var importedFactories = meta.imports.map(function (meta) {
-        return _this3.resolveFactories(meta, true);
+      var importedFactories = meta.imports.map(function (importMeta) {
+        return _this3.resolveFactories(importMeta, true);
       });
       var factoryList = (exported ? meta.exports : meta.declarations).filter(function (x) {
-        return x.prototype instanceof Structure || x.prototype instanceof Component || x.prototype instanceof Directive;
+        return x.prototype instanceof Factory;
       });
       return (_Array$prototype$conc = Array.prototype.concat).call.apply(_Array$prototype$conc, [factoryList].concat(importedFactories));
     };
@@ -10763,8 +10751,7 @@
         }, -1);
         var bi = ORDER.reduce(function (p, c, i) {
           return b.prototype instanceof c ? i : p;
-        }, -1); // return ai - bi;
-
+        }, -1);
         var o = ai - bi;
 
         if (o === 0) {
@@ -10801,6 +10788,8 @@
             return node.nodeName.toLowerCase() === e6.toLowerCase();
           });
         }
+
+        return '';
       });
       return matchers;
     };
@@ -10810,50 +10799,45 @@
 
       var selectors = [];
       factories.forEach(function (factory) {
-        factory.meta.selector.split(',').forEach(function (selector) {
-          selector = selector.trim();
-          var excludes = [];
-          var matchSelector = selector.replace(/\:not\((.+?)\)/g, function (value, unmatchSelector) {
-            excludes = _this4.getExpressions(unmatchSelector);
-            return '';
+        if (factory.meta && factory.meta.selector) {
+          factory.meta.selector.split(',').forEach(function (selector) {
+            selector = selector.trim();
+            var excludes = [];
+            var matchSelector = selector.replace(/\:not\((.+?)\)/g, function (value, unmatchSelector) {
+              excludes = _this4.getExpressions(unmatchSelector);
+              return '';
+            });
+
+            var includes = _this4.getExpressions(matchSelector);
+
+            selectors.push(function (node) {
+              var included = includes.reduce(function (p, match) {
+                return p && match(node);
+              }, true);
+              var excluded = excludes.reduce(function (p, match) {
+                return p || match(node);
+              }, false);
+
+              if (included && !excluded) {
+                return {
+                  node: node,
+                  factory: factory,
+                  selector: selector
+                };
+              } else {
+                return false;
+              }
+            });
           });
-
-          var includes = _this4.getExpressions(matchSelector);
-
-          selectors.push(function (node) {
-            var include = includes.reduce(function (result, e) {
-              return result && e(node);
-            }, true);
-            var exclude = excludes.reduce(function (result, e) {
-              return result || e(node);
-            }, false);
-
-            if (include && !exclude) {
-              return {
-                node: node,
-                factory: factory,
-                selector: selector
-              };
-            } else {
-              return false;
-            }
-          });
-        });
+        }
       });
       return selectors;
     };
 
-    Platform.isBrowser = function isBrowser() {
-      return window;
-    } // static isServer() {}
-    ;
-
     return Platform;
   }();
 
-  var Browser =
-  /*#__PURE__*/
-  function (_Platform) {
+  var Browser = function (_Platform) {
     _inheritsLoose(Browser, _Platform);
 
     function Browser() {
@@ -10870,6 +10854,7 @@
   exports.CoreModule = CoreModule;
   exports.Directive = Directive;
   exports.EventDirective = EventDirective;
+  exports.Factory = Factory;
   exports.ForItem = ForItem;
   exports.ForStructure = ForStructure;
   exports.HrefDirective = HrefDirective;
@@ -10886,21 +10871,19 @@
   exports.getContextByNode = getContextByNode;
   exports.getHost = getHost;
 
-  Object.defineProperty(exports, '__esModule', { value: true });
+  return exports;
 
-})));
+}({}, rxjs, rxjs.operators));
 
 /**
- * @license rxcomp-form v1.0.0-beta.3
+ * @license rxcomp-form v1.0.0-beta.8
  * (c) 2020 Luca Zampetti <lzampetti@gmail.com>
  * License: MIT
  */
 
-(function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('rxcomp'), require('rxjs'), require('rxjs/operators')) :
-  typeof define === 'function' && define.amd ? define('rxcomp-form', ['exports', 'rxcomp', 'rxjs', 'rxjs/operators'], factory) :
-  (global = global || self, factory(global['rxcomp-form'] = {}, global.rxcomp, global.rxjs, global.rxjs.operators));
-}(this, (function (exports, rxcomp, rxjs, operators) { 'use strict';
+this.rxcomp = this.rxcomp || {};
+this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
+  'use strict';
 
   function _defineProperties(target, props) {
     for (var i = 0; i < props.length; i++) {
@@ -10924,32 +10907,7 @@
     subClass.__proto__ = superClass;
   }
 
-  function _assertThisInitialized(self) {
-    if (self === void 0) {
-      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-    }
-
-    return self;
-  }
-
-  var FormStatus = {
-    Pending: 'pending',
-    Valid: 'valid',
-    Invalid: 'invalid',
-    Disabled: 'disabled',
-    Hidden: 'hidden'
-  };
-  var FormAttributes = ['untouched', 'touched', 'pristine', 'dirty', 'pending', 'enabled', 'disabled', 'hidden', 'visible', 'valid', 'invalid', 'submitted'];
-
-  /**
-   * @desc Abstract class representing a FormAbstractCollectionDirective.
-   * @abstract
-   * @access public
-   */
-
-  var FormAbstractCollectionDirective =
-  /*#__PURE__*/
-  function (_Directive) {
+  var FormAbstractCollectionDirective = function (_Directive) {
     _inheritsLoose(FormAbstractCollectionDirective, _Directive);
 
     function FormAbstractCollectionDirective() {
@@ -10962,13 +10920,9 @@
       var _getContext = rxcomp.getContext(this),
           node = _getContext.node;
 
-      var control = this.control;
-      FormAttributes.forEach(function (x) {
-        if (control[x]) {
-          node.classList.add(x);
-        } else {
-          node.classList.remove(x);
-        }
+      var flags = this.control.flags;
+      Object.keys(flags).forEach(function (key) {
+        flags[key] ? node.classList.add(key) : node.classList.remove(key);
       });
     };
 
@@ -10982,23 +10936,13 @@
     return FormAbstractCollectionDirective;
   }(rxcomp.Directive);
   FormAbstractCollectionDirective.meta = {
-    // no selection, abstract class
+    selector: '',
     hosts: {
       host: FormAbstractCollectionDirective
     }
   };
 
-  /**
-   * @desc FormArrayDirective.
-   * @example
-   * <form [formArray]="form" (submit)="onSubmit()" role="form" novalidate autocomplete="off">
-   * 	...
-   * </form>
-   */
-
-  var FormArrayDirective =
-  /*#__PURE__*/
-  function (_FormAbstractCollecti) {
+  var FormArrayDirective = function (_FormAbstractCollecti) {
     _inheritsLoose(FormArrayDirective, _FormAbstractCollecti);
 
     function FormArrayDirective() {
@@ -11008,7 +10952,6 @@
     _createClass(FormArrayDirective, [{
       key: "control",
       get: function get() {
-        // console.log('FormArrayDirective', (this.formArrayName ? `formArrayName ${this.formArrayName}` : `formArray ${this.formArray}`));
         if (this.formArray) {
           return this.formArray;
         } else {
@@ -11031,15 +10974,7 @@
     }
   };
 
-  /**
-   * @desc Abstract class representing a FormAbstractDirective.
-   * @abstract
-   * @access public
-   */
-
-  var FormAbstractDirective =
-  /*#__PURE__*/
-  function (_Directive) {
+  var FormAbstractDirective = function (_Directive) {
     _inheritsLoose(FormAbstractDirective, _Directive);
 
     function FormAbstractDirective() {
@@ -11049,69 +10984,46 @@
     var _proto = FormAbstractDirective.prototype;
 
     _proto.onInit = function onInit() {
-      var _getContext = rxcomp.getContext(this),
-          node = _getContext.node;
-
-      this.node = node;
+      var node = rxcomp.getContext(this).node;
       this.onChange = this.onChange.bind(this);
-      this.onBlur = this.onBlur.bind(this); // this.onFocus = this.onFocus.bind(this);
-
+      this.onBlur = this.onBlur.bind(this);
       node.addEventListener('input', this.onChange);
       node.addEventListener('change', this.onChange);
-      node.addEventListener('blur', this.onBlur); // node.addEventListener('focus', this.onFocus);
+      node.addEventListener('blur', this.onBlur);
     };
 
     _proto.onChanges = function onChanges(changes) {
-      var _getContext2 = rxcomp.getContext(this),
-          node = _getContext2.node;
+      var node = rxcomp.getContext(this).node;
 
       if (this.formControlName) {
         node.name = this.formControlName;
       }
 
       var control = this.control;
-      /*
-      // remove all invalids then
-      Object.keys(control.errors).forEach(key => {
-      	node.classList.add(`invalid-${key}`);
-      });
-      */
-
-      FormAttributes.forEach(function (x) {
-        if (control[x]) {
-          node.classList.add(x);
-        } else {
-          node.classList.remove(x);
-        }
+      var flags = control.flags;
+      Object.keys(flags).forEach(function (key) {
+        flags[key] ? node.classList.add(key) : node.classList.remove(key);
       });
       this.writeValue(control.value);
     };
 
     _proto.writeValue = function writeValue(value) {
-      var _getContext3 = rxcomp.getContext(this),
-          node = _getContext3.node; // node.setAttribute('value', value == null ? '' : value);
-
-
+      var node = rxcomp.getContext(this).node;
       node.value = value == null ? '' : value;
     };
 
     _proto.onChange = function onChange(event) {
-      var _getContext4 = rxcomp.getContext(this),
-          node = _getContext4.node;
-
+      var node = rxcomp.getContext(this).node;
       this.control.value = node.value === '' ? null : node.value;
     };
 
     _proto.onBlur = function onBlur(event) {
       this.control.touched = true;
-    } // onFocus(event) {}
-    ;
+    };
 
     _proto.setDisabledState = function setDisabledState(disabled) {
-      var _getContext5 = rxcomp.getContext(this),
-          node = _getContext5.node;
-
-      node.disabled = disabled; // node.setAttribute('disabled', disabled);
+      var node = rxcomp.getContext(this).node;
+      node.disabled = disabled;
     };
 
     _createClass(FormAbstractDirective, [{
@@ -11132,78 +11044,14 @@
     return FormAbstractDirective;
   }(rxcomp.Directive);
   FormAbstractDirective.meta = {
-    // no selection, abstract class
+    selector: '',
     inputs: ['formControl', 'formControlName', 'value'],
     hosts: {
       host: FormAbstractCollectionDirective
     }
   };
-  /*
 
-  LEGACY
-  button: 		A push button with no default behavior.
-  checkbox: 		A check box allowing single values to be selected/deselected.
-  file: 			A control that lets the user select a file. Use the accept attribute to define the types of files that the control can select.
-  hidden: 		A control that is not displayed but whose value is submitted to the server.
-  image: 			A graphical submit button. You must use the src attribute to define the source of the image and the alt attribute to define alternative text. You can use the height and width attributes to define the size of the image in pixels.
-  password: 		A single-line text field whose value is obscured. Use the maxlength and minlength attributes to specify the maximum length of the value that can be entered.
-  				Note: Any forms involving sensitive information like passwords (e.g. login forms) should be served over HTTPS;
-  				Firefox now implements multiple mechanisms to warn against insecure login forms — see Insecure passwords.
-  				Other browsers are also implementing similar mechanisms.
-
-  radio: 			A radio button, allowing a single value to be selected out of multiple choices.
-  reset: 			A button that resets the contents of the form to default values.
-  submit: 		A button that submits the form.
-  text: 			A single-line text field. Line-breaks are automatically removed from the input value.
-
-  */
-
-  /*
-
-  HTML5
-  color: 			(ie) A control for specifying a color. A color picker's UI has no required features other than accepting simple colors as text (more info).
-  date: 			(ie) A control for entering a date (year, month, and day, with no time).
-  datetime-local: (ie) A control for entering a date and time, with no time zone.
-  email: 			A field for editing an e-mail address.
-  month: 			(ie) A control for entering a month and year, with no time zone.
-  number: 		A control for entering a number.
-  range: 			A control for entering a number whose exact value is not important.
-  search: 		A single-line text field for entering search strings. Line-breaks are automatically removed from the input value.
-  tel: 			A control for entering a telephone number.
-  time: 			(ie) A control for entering a time value with no time zone.
-  url: 			A field for entering a URL.
-  week: 			(ie) A control for entering a date consisting of a week-year number and a week number with no time zone.
-
-  */
-
-  /*
-
-  ATTRIBUTES
-  autocomplete	A string indicating the type of autocomplete functionality, if any, to allow on the input
-  autofocus		A Boolean which, if present, makes the input take focus when the form is presented
-  disabled		A Boolean attribute which is present if the input should be disabled
-  form			The id of the <form> of which the input is a member; if absent, the input is a member of the nearest containing form, or is not a member of a form at all
-  list			The id of a <datalist> element that provides a list of suggested values for the input
-  name			The input's name, to identify the input in the data submitted with the form's data
-  readonly		A Boolean attribute which, if true, indicates that the input cannot be edited
-  required		A Boolean which, if true, indicates that the input must have a value before the form can be submitted
-  tabindex		A numeric value providing guidance to the user agent as to the order in which controls receive focus when the user presses the Tab key
-  type			A string indicating which input type the <input> element represents
-  value			The input's current value
-
-  */
-
-  /**
-   * @desc FormCheckboxDirective.
-   * @example
-   * <input type="checkbox" formControlName="privacy" [value]="true" requiredTrue />
-   * @example
-   * <input type="checkbox" [formControl]="control" [value]="true" requiredTrue />
-   */
-
-  var FormCheckboxDirective =
-  /*#__PURE__*/
-  function (_FormAbstractDirectiv) {
+  var FormCheckboxDirective = function (_FormAbstractDirectiv) {
     _inheritsLoose(FormCheckboxDirective, _FormAbstractDirectiv);
 
     function FormCheckboxDirective() {
@@ -11213,51 +11061,31 @@
     var _proto = FormCheckboxDirective.prototype;
 
     _proto.onInit = function onInit() {
-      var _getContext = rxcomp.getContext(this),
-          node = _getContext.node;
-
-      this.node = node; // log(node.getAttributeNode('formControl').value);
-      // log('name', node.name);
-
+      var node = rxcomp.getContext(this).node;
       this.onChange = this.onChange.bind(this);
-      this.onBlur = this.onBlur.bind(this); // this.onFocus = this.onFocus.bind(this);
-
-      node.addEventListener('input', this.onChange); // node.addEventListener('change', this.onChange);
-
-      node.addEventListener('blur', this.onBlur); // node.addEventListener('focus', this.onFocus);
+      this.onBlur = this.onBlur.bind(this);
+      node.addEventListener('input', this.onChange);
+      node.addEventListener('blur', this.onBlur);
     };
 
     _proto.writeValue = function writeValue(value) {
-      var _getContext2 = rxcomp.getContext(this),
-          node = _getContext2.node;
-
+      var node = rxcomp.getContext(this).node;
       value === this.value ? node.setAttribute('checked', value) : node.removeAttribute('checked');
-      /*
-      const checked = (node.value === value);
-      if (node.checked !== checked) {
-      	node.checked = checked;
-      }
-      */
     };
 
     _proto.setDisabledState = function setDisabledState(disabled) {
-      var _getContext3 = rxcomp.getContext(this),
-          node = _getContext3.node;
-
+      var node = rxcomp.getContext(this).node;
       node.disabled = disabled;
     };
 
     _proto.onChange = function onChange(event) {
-      var _getContext4 = rxcomp.getContext(this),
-          node = _getContext4.node;
-
+      var node = rxcomp.getContext(this).node;
       this.control.value = node.checked ? this.value : this.value === true ? false : null;
     };
 
     _proto.onBlur = function onBlur(event) {
       this.control.touched = true;
-    } // onFocus(event) {}
-    ;
+    };
 
     return FormCheckboxDirective;
   }(FormAbstractDirective);
@@ -11268,34 +11096,8 @@
       host: FormAbstractCollectionDirective
     }
   };
-  /*
 
-  ATTRIBUTES
-  autocomplete	A string indicating the type of autocomplete functionality, if any, to allow on the input
-  autofocus		A Boolean which, if present, makes the input take focus when the form is presented
-  disabled		A Boolean attribute which is present if the input should be disabled
-  form			The id of the <form> of which the input is a member; if absent, the input is a member of the nearest containing form, or is not a member of a form at all
-  list			The id of a <datalist> element that provides a list of suggested values for the input
-  name			The input's name, to identify the input in the data submitted with the form's data
-  readonly		A Boolean attribute which, if true, indicates that the input cannot be edited
-  required		A Boolean which, if true, indicates that the input must have a value before the form can be submitted
-  tabindex		A numeric value providing guidance to the user agent as to the order in which controls receive focus when the user presses the Tab key
-  type			A string indicating which input type the <input> element represents
-  value			The input's current value
-
-  */
-
-  /**
-   * @desc FormFieldComponent.
-   * @example
-   * <div formFieldName="firstName">
-   *	<input type="text" [formControl]="control" />
-   * </div>
-   */
-
-  var FormFieldComponent =
-  /*#__PURE__*/
-  function (_Component) {
+  var FormFieldComponent = function (_Component) {
     _inheritsLoose(FormFieldComponent, _Component);
 
     function FormFieldComponent() {
@@ -11308,20 +11110,15 @@
       var _getContext = rxcomp.getContext(this),
           node = _getContext.node;
 
-      var control = this.control;
-      FormAttributes.forEach(function (x) {
-        if (control[x]) {
-          node.classList.add(x);
-        } else {
-          node.classList.remove(x);
-        }
+      var flags = this.control.flags;
+      Object.keys(flags).forEach(function (key) {
+        flags[key] ? node.classList.add(key) : node.classList.remove(key);
       });
     };
 
     _createClass(FormFieldComponent, [{
       key: "control",
       get: function get() {
-        // console.log('FormFieldComponent', (this.formFieldName ? `formFieldName ${this.formFieldName}` : `formField ${this.formField}`));
         if (this.formField) {
           return this.formField;
         } else {
@@ -11344,17 +11141,7 @@
     }
   };
 
-  /**
-   * @desc FormGroupDirective.
-   * @example
-   * <form [formGroup]="form" (submit)="onSubmit()" role="form" novalidate autocomplete="off">
-   * 	...
-   * </form>
-   */
-
-  var FormGroupDirective =
-  /*#__PURE__*/
-  function (_FormAbstractCollecti) {
+  var FormGroupDirective = function (_FormAbstractCollecti) {
     _inheritsLoose(FormGroupDirective, _FormAbstractCollecti);
 
     function FormGroupDirective() {
@@ -11364,7 +11151,6 @@
     _createClass(FormGroupDirective, [{
       key: "control",
       get: function get() {
-        // console.log('FormGroupDirective', (this.formGroupName ? `formGroupName ${this.formGroupName}` : `formGroup ${this.formGroup}`));
         if (this.formGroup) {
           return this.formGroup;
         } else {
@@ -11387,17 +11173,7 @@
     }
   };
 
-  /**
-   * @desc FormInputDirective to handle input text FormControl value.
-   * @example
-   * <input type="text" formControlName="firstName" />
-   * @example
-   * <input type="text" [formControl]="form.get('firstName')" />
-   */
-
-  var FormInputDirective =
-  /*#__PURE__*/
-  function (_FormAbstractDirectiv) {
+  var FormInputDirective = function (_FormAbstractDirectiv) {
     _inheritsLoose(FormInputDirective, _FormAbstractDirectiv);
 
     function FormInputDirective() {
@@ -11407,16 +11183,12 @@
     var _proto = FormInputDirective.prototype;
 
     _proto.writeValue = function writeValue(value) {
-      var _getContext = rxcomp.getContext(this),
-          node = _getContext.node;
-
+      var node = rxcomp.getContext(this).node;
       node.value = value == null ? '' : value;
     };
 
     _proto.onChange = function onChange(event) {
-      var _getContext2 = rxcomp.getContext(this),
-          node = _getContext2.node;
-
+      var node = rxcomp.getContext(this).node;
       this.control.value = node.value === '' ? null : node.value;
     };
 
@@ -11434,15 +11206,7 @@
     }
   };
 
-  /**
-   * @desc FormPlaceholderDirective.
-   * @example
-   * <input type="text" [placeholder]="'item-' + index" />
-   */
-
-  var FormPlaceholderDirective =
-  /*#__PURE__*/
-  function (_Directive) {
+  var FormPlaceholderDirective = function (_Directive) {
     _inheritsLoose(FormPlaceholderDirective, _Directive);
 
     function FormPlaceholderDirective() {
@@ -11452,10 +11216,8 @@
     var _proto = FormPlaceholderDirective.prototype;
 
     _proto.onChanges = function onChanges(changes) {
-      var _getContext = rxcomp.getContext(this),
-          node = _getContext.node;
-
-      node.placeholder = this.placeholder;
+      var node = rxcomp.getContext(this).node;
+      node.setAttribute('placeholder', this.placeholder || '');
     };
 
     return FormPlaceholderDirective;
@@ -11465,17 +11227,7 @@
     inputs: ['placeholder']
   };
 
-  /**
-   * @desc FormRadioDirective.
-   * @example
-   * <input type="radio" [formControl]="control" name="radioGroup" value="one" />
-   * <input type="radio" [formControl]="control" name="radioGroup" value="two" />
-   * <input type="radio" [formControl]="control" name="radioGroup" value="three" />
-   */
-
-  var FormRadioDirective =
-  /*#__PURE__*/
-  function (_FormAbstractDirectiv) {
+  var FormRadioDirective = function (_FormAbstractDirectiv) {
     _inheritsLoose(FormRadioDirective, _FormAbstractDirectiv);
 
     function FormRadioDirective() {
@@ -11485,37 +11237,25 @@
     var _proto = FormRadioDirective.prototype;
 
     _proto.onInit = function onInit() {
-      var _getContext = rxcomp.getContext(this),
-          node = _getContext.node;
-
-      this.node = node; // log(node.getAttributeNode('formControl').value);
-      // log('name', node.name);
-
+      var node = rxcomp.getContext(this).node;
       this.onChange = this.onChange.bind(this);
-      this.onBlur = this.onBlur.bind(this); // this.onFocus = this.onFocus.bind(this);
-
-      node.addEventListener('input', this.onChange); // node.addEventListener('change', this.onChange);
-
-      node.addEventListener('blur', this.onBlur); // node.addEventListener('focus', this.onFocus);
+      this.onBlur = this.onBlur.bind(this);
+      node.addEventListener('input', this.onChange);
+      node.addEventListener('blur', this.onBlur);
     };
 
     _proto.writeValue = function writeValue(value) {
-      var _getContext2 = rxcomp.getContext(this),
-          node = _getContext2.node;
-
+      var node = rxcomp.getContext(this).node;
       node.checked = node.value === value;
     };
 
     _proto.setDisabledState = function setDisabledState(disabled) {
-      var _getContext3 = rxcomp.getContext(this),
-          node = _getContext3.node;
-
+      var node = rxcomp.getContext(this).node;
       node.disabled = disabled;
     };
 
     _proto.onChange = function onChange(event) {
-      var _getContext4 = rxcomp.getContext(this),
-          node = _getContext4.node;
+      var node = rxcomp.getContext(this).node;
 
       if (node.checked) {
         this.control.value = node.value;
@@ -11536,25 +11276,7 @@
     }
   };
 
-  /**
-   * @desc FormSelectDirective.
-   * @example
-   * <select formControlName="country">
-   * 	<option value="">select</option>
-   * 	<option value="en-US">English</option>
-   * 	<option value="it-IT">Italiano</option>
-   * </select>
-   * @example
-   * <select [formControl]="control">
-   * 	<option value="">select</option>
-   * 	<option value="en-US">English</option>
-   * 	<option value="it-IT">Italiano</option>
-   * </select>
-   */
-
-  var FormSelectDirective =
-  /*#__PURE__*/
-  function (_FormAbstractDirectiv) {
+  var FormSelectDirective = function (_FormAbstractDirectiv) {
     _inheritsLoose(FormSelectDirective, _FormAbstractDirectiv);
 
     function FormSelectDirective() {
@@ -11564,23 +11286,17 @@
     var _proto = FormSelectDirective.prototype;
 
     _proto.writeValue = function writeValue(value) {
-      var _getContext = rxcomp.getContext(this),
-          node = _getContext.node;
-
+      var node = rxcomp.getContext(this).node;
       node.value = value == null ? '' : value;
     };
 
     _proto.setDisabledState = function setDisabledState(disabled) {
-      var _getContext2 = rxcomp.getContext(this),
-          node = _getContext2.node;
-
+      var node = rxcomp.getContext(this).node;
       node.disabled = disabled;
     };
 
     _proto.onChange = function onChange(event) {
-      var _getContext3 = rxcomp.getContext(this),
-          node = _getContext3.node;
-
+      var node = rxcomp.getContext(this).node;
       this.control.value = node.value === '' ? null : node.value;
     };
 
@@ -11598,17 +11314,7 @@
     }
   };
 
-  /**
-   * @desc FormSubmitDirective.
-   * @example
-   * <form (submit)="onSubmit()" [formGroup]="form" role="form" novalidate autocomplete="off">
-   * 	...
-   * </form>
-   */
-
-  var FormSubmitDirective =
-  /*#__PURE__*/
-  function (_Directive) {
+  var FormSubmitDirective = function (_Directive) {
     _inheritsLoose(FormSubmitDirective, _Directive);
 
     function FormSubmitDirective() {
@@ -11625,8 +11331,9 @@
           parentInstance = _getContext.parentInstance;
 
       var event = this.event = selector.replace(/\[|\]|\(|\)/g, '');
-      var event$ = this.event$ = rxjs.fromEvent(node, event).pipe(operators.tap(function (event) {
-        event.preventDefault(); // console.log('event');
+      var form = node;
+      var event$ = this.event$ = rxjs.fromEvent(form, 'submit').pipe(operators.tap(function (event) {
+        event.preventDefault();
       }), operators.shareReplay(1));
       var expression = node.getAttribute("(" + event + ")");
 
@@ -11637,9 +11344,7 @@
         });
       } else {
         parentInstance[event + "$"] = event$;
-      } // console.log('parentInstance', parentInstance);
-      // console.log('EventDirective.onInit', 'selector', selector, 'event', event);
-
+      }
     };
 
     return FormSubmitDirective;
@@ -11648,38 +11353,23 @@
     selector: "[(submit)]"
   };
 
-  /**
-   * @desc FormValidator class representing a form validator.
-   * @example
-   * export function EqualValidator(equal) {
-   * 	return new FormValidator(function(value) {
-   * 		const equal = this.params.equal;
-   * 		if (!value || !equal) {
-   * 			return null;
-   * 		}
-   * 		return value !== equal ? { equal: { equal: equal, actual: value } } : null;
-   * 	}, { equal });
-   * }
-   */
+  var FormValidator = function () {
+    function FormValidator(validator, params) {
+      this.validator = validator;
+      this.params$ = new rxjs.BehaviorSubject(params);
+    }
 
-  var FormValidator =
-  /*#__PURE__*/
-  function () {
+    var _proto = FormValidator.prototype;
+
+    _proto.validate = function validate(value) {
+      return this.validator(value, this.params);
+    };
+
     _createClass(FormValidator, [{
       key: "params",
-
-      /**
-       * params getter
-       * @return {any} params
-       */
       get: function get() {
         return this.params$.getValue();
-      }
-      /**
-       * params setter
-       * @param {any} params
-       */
-      ,
+      },
       set: function set(params) {
         if (params) {
           var current = this.params;
@@ -11688,82 +11378,37 @@
           }, false);
 
           if (differs) {
-            // if (JSON.stringify(params) !== JSON.stringify(this.params)) {
             this.params$.next(params);
           }
         }
       }
-      /**
-       * Create a FormValidator.
-       * @abstract
-       */
-
     }]);
-
-    function FormValidator(validator, params) {
-      this.validator = validator.bind(this);
-      this.params$ = new rxjs.BehaviorSubject(params);
-    }
-    /**
-     * validate a value
-     * @param {any} value - the value to validate
-     * @return {null|FormValidationError}
-     */
-
-
-    var _proto = FormValidator.prototype;
-
-    _proto.validate = function validate(value) {
-      return this.validator(value);
-    };
 
     return FormValidator;
   }();
 
-  /**
-   * a null validator
-   * @return {null}
-   */
-
   function NullValidator() {
-    return new FormValidator(function (value) {
+    return new FormValidator(function (value, params) {
       return null;
     });
   }
-  /**
-   * a required validator
-   * @return {null|FormValidationError}
-   */
-
   function RequiredValidator() {
-    return new FormValidator(function (value) {
-      // console.log('RequiredValidator', value, (value == null || value.length === 0) ? { required: true } : null);
+    return new FormValidator(function (value, params) {
       return value == null || value.length === 0 ? {
         required: true
       } : null;
-    }); // return (value == null || value.length === 0) ? 'required' : null;
+    });
   }
-  /**
-   * a required and true validator
-   * @return {null|FormValidationError}
-   */
-
   function RequiredTrueValidator() {
-    return new FormValidator(function (value) {
-      // console.log('RequiredTrueValidator', value, value === true ? null : { required: true });
+    return new FormValidator(function (value, params) {
       return value === true ? null : {
         required: true
       };
     });
   }
-  /**
-   * a min number value validator
-   * @return {null|FormValidationError}
-   */
-
   function MinValidator(min) {
-    return new FormValidator(function (value) {
-      var min = this.params.min;
+    return new FormValidator(function (value, params) {
+      var min = params.min;
 
       if (!value || !min) {
         return null;
@@ -11780,14 +11425,9 @@
       min: min
     });
   }
-  /**
-   * a max number value validator
-   * @return {null|FormValidationError}
-   */
-
   function MaxValidator(max) {
-    return new FormValidator(function (value) {
-      var max = this.params.max;
+    return new FormValidator(function (value, params) {
+      var max = params.max;
 
       if (!value || !max) {
         return null;
@@ -11804,14 +11444,9 @@
       max: max
     });
   }
-  /**
-   * a min string length validator
-   * @return {null|FormValidationError}
-   */
-
   function MinLengthValidator(minlength) {
-    return new FormValidator(function (value) {
-      var minlength = this.params.minlength;
+    return new FormValidator(function (value, params) {
+      var minlength = params.minlength;
 
       if (!value || !minlength) {
         return null;
@@ -11828,14 +11463,9 @@
       minlength: minlength
     });
   }
-  /**
-   * a max string length validator
-   * @return {null|FormValidationError}
-   */
-
   function MaxLengthValidator(maxlength) {
-    return new FormValidator(function (value) {
-      var maxlength = this.params.maxlength;
+    return new FormValidator(function (value, params) {
+      var maxlength = params.maxlength;
 
       if (!value || !maxlength) {
         return null;
@@ -11852,14 +11482,9 @@
       maxlength: maxlength
     });
   }
-  /**
-   * a regex pattern validator
-   * @return {null|FormValidationError}
-   */
-
   function PatternValidator(pattern) {
-    return new FormValidator(function (value) {
-      var pattern = this.params.pattern;
+    return new FormValidator(function (value, params) {
+      var pattern = params.pattern;
 
       if (!value || !pattern) {
         return null;
@@ -11876,14 +11501,9 @@
       pattern: pattern
     });
   }
-  /**
-   * an email pattern validator
-   * @return {null|FormValidationError}
-   */
-
-  function EmailValidator(value) {
+  function EmailValidator() {
     var regex = /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-    return new FormValidator(function (value) {
+    return new FormValidator(function (value, params) {
       if (!value) {
         return null;
       }
@@ -11905,7 +11525,7 @@
       regex = new RegExp(pattern);
     }
 
-    return regex;
+    return regex || new RegExp('');
   }
 
   var validators = /*#__PURE__*/Object.freeze({
@@ -11921,15 +11541,7 @@
     EmailValidator: EmailValidator
   });
 
-  /**
-   * @desc FormEmailDirective attribute for injecting EmailValidator.
-   * @example
-   * <input type="text" formControlName="email" email />
-   */
-
-  var FormEmailDirective =
-  /*#__PURE__*/
-  function (_Directive) {
+  var FormEmailDirective = function (_Directive) {
     _inheritsLoose(FormEmailDirective, _Directive);
 
     function FormEmailDirective() {
@@ -11939,9 +11551,11 @@
     var _proto = FormEmailDirective.prototype;
 
     _proto.onInit = function onInit() {
-      // console.log('FormEmailDirective', this.host.control);
       var validator = this.validator = EmailValidator();
-      this.host.control.addValidators(validator);
+
+      if (this.host) {
+        this.host.control.addValidators(validator);
+      }
     };
 
     return FormEmailDirective;
@@ -11954,34 +11568,33 @@
     }
   };
 
-  /**
-   * @desc FormMaxLengthDirective attribute for injecting MaxLengthValidator.
-   * @example
-   * <input type="text" formControlName="card" maxlength="12" />
-   */
-
-  var FormMaxLengthDirective =
-  /*#__PURE__*/
-  function (_Directive) {
+  var FormMaxLengthDirective = function (_Directive) {
     _inheritsLoose(FormMaxLengthDirective, _Directive);
 
     function FormMaxLengthDirective() {
-      return _Directive.apply(this, arguments) || this;
+      var _this;
+
+      _this = _Directive.apply(this, arguments) || this;
+      _this.maxlength = Number.POSITIVE_INFINITY;
+      return _this;
     }
 
     var _proto = FormMaxLengthDirective.prototype;
 
     _proto.onInit = function onInit() {
-      // console.log('FormMaxLengthDirective.onInit', this.maxlength);
-      var validator = this.validator = MaxLengthValidator(this.maxlength);
-      this.host.control.addValidators(this.validator);
+      this.validator = MaxLengthValidator(this.maxlength);
+
+      if (this.host) {
+        this.host.control.addValidators(this.validator);
+      }
     };
 
     _proto.onChanges = function onChanges(changes) {
-      // console.log('FormMaxLengthDirective.onChanges', this.maxlength);
-      this.validator.params = {
-        maxlength: this.maxlength
-      };
+      if (this.validator) {
+        this.validator.params = {
+          maxlength: this.maxlength
+        };
+      }
     };
 
     return FormMaxLengthDirective;
@@ -11994,34 +11607,33 @@
     }
   };
 
-  /**
-   * @desc FormMaxDirective attribute for injecting MaxValidator.
-   * @example
-   * <input type="number" formControlName="qty" max="12" />
-   */
-
-  var FormMaxDirective =
-  /*#__PURE__*/
-  function (_Directive) {
+  var FormMaxDirective = function (_Directive) {
     _inheritsLoose(FormMaxDirective, _Directive);
 
     function FormMaxDirective() {
-      return _Directive.apply(this, arguments) || this;
+      var _this;
+
+      _this = _Directive.apply(this, arguments) || this;
+      _this.max = Number.POSITIVE_INFINITY;
+      return _this;
     }
 
     var _proto = FormMaxDirective.prototype;
 
     _proto.onInit = function onInit() {
-      // console.log('FormMaxDirective.onInit', this.max);
-      var validator = this.validator = MaxValidator(this.max);
-      this.host.control.addValidators(this.validator);
+      this.validator = MaxValidator(this.max);
+
+      if (this.host) {
+        this.host.control.addValidators(this.validator);
+      }
     };
 
     _proto.onChanges = function onChanges(changes) {
-      // console.log('FormMaxDirective.onChanges', this.max);
-      this.validator.params = {
-        max: this.max
-      };
+      if (this.validator) {
+        this.validator.params = {
+          max: this.max
+        };
+      }
     };
 
     return FormMaxDirective;
@@ -12034,34 +11646,33 @@
     }
   };
 
-  /**
-   * @desc FormMinLengthDirective attribute for injecting MinLengthValidator.
-   * @example
-   * <input type="text" formControlName="card" minlength="12" />
-   */
-
-  var FormMinLengthDirective =
-  /*#__PURE__*/
-  function (_Directive) {
+  var FormMinLengthDirective = function (_Directive) {
     _inheritsLoose(FormMinLengthDirective, _Directive);
 
     function FormMinLengthDirective() {
-      return _Directive.apply(this, arguments) || this;
+      var _this;
+
+      _this = _Directive.apply(this, arguments) || this;
+      _this.minlength = Number.NEGATIVE_INFINITY;
+      return _this;
     }
 
     var _proto = FormMinLengthDirective.prototype;
 
     _proto.onInit = function onInit() {
-      // console.log('FormMinLengthDirective.onInit', this.minlength);
-      var validator = this.validator = MinLengthValidator(this.minlength);
-      this.host.control.addValidators(this.validator);
+      this.validator = MinLengthValidator(this.minlength);
+
+      if (this.host) {
+        this.host.control.addValidators(this.validator);
+      }
     };
 
     _proto.onChanges = function onChanges(changes) {
-      // console.log('FormMinLengthDirective.onChanges', this.minlength);
-      this.validator.params = {
-        minlength: this.minlength
-      };
+      if (this.validator) {
+        this.validator.params = {
+          minlength: this.minlength
+        };
+      }
     };
 
     return FormMinLengthDirective;
@@ -12074,34 +11685,33 @@
     }
   };
 
-  /**
-   * @desc FormMinDirective attribute for injecting MinValidator.
-   * @example
-   * <input type="number" formControlName="qty" min="1" />
-   */
-
-  var FormMinDirective =
-  /*#__PURE__*/
-  function (_Directive) {
+  var FormMinDirective = function (_Directive) {
     _inheritsLoose(FormMinDirective, _Directive);
 
     function FormMinDirective() {
-      return _Directive.apply(this, arguments) || this;
+      var _this;
+
+      _this = _Directive.apply(this, arguments) || this;
+      _this.min = Number.NEGATIVE_INFINITY;
+      return _this;
     }
 
     var _proto = FormMinDirective.prototype;
 
     _proto.onInit = function onInit() {
-      // console.log('FormMinDirective.onInit', this.min);
-      var validator = this.validator = MinValidator(this.min);
-      this.host.control.addValidators(this.validator);
+      this.validator = MinValidator(this.min);
+
+      if (this.host) {
+        this.host.control.addValidators(this.validator);
+      }
     };
 
     _proto.onChanges = function onChanges(changes) {
-      // console.log('FormMinDirective.onChanges', this.min);
-      this.validator.params = {
-        min: this.min
-      };
+      if (this.validator) {
+        this.validator.params = {
+          min: this.min
+        };
+      }
     };
 
     return FormMinDirective;
@@ -12114,15 +11724,7 @@
     }
   };
 
-  /**
-   * @desc FormPatternDirective attribute for injecting PatternValidator.
-   * @example
-   * <input type="text" formControlName="visa" pattern="^4[0-9]{12}(?:[0-9]{3})?$" />
-   */
-
-  var FormPatternDirective =
-  /*#__PURE__*/
-  function (_Directive) {
+  var FormPatternDirective = function (_Directive) {
     _inheritsLoose(FormPatternDirective, _Directive);
 
     function FormPatternDirective() {
@@ -12132,16 +11734,21 @@
     var _proto = FormPatternDirective.prototype;
 
     _proto.onInit = function onInit() {
-      // console.log('FormPatternDirective.onInit', this.pattern);
-      var validator = this.validator = PatternValidator(this.pattern);
-      this.host.control.addValidators(this.validator);
+      if (this.pattern) {
+        this.validator = PatternValidator(this.pattern);
+
+        if (this.host) {
+          this.host.control.addValidators(this.validator);
+        }
+      }
     };
 
     _proto.onChanges = function onChanges(changes) {
-      // console.log('FormPatternDirective.onChanges', this.pattern);
-      this.validator.params = {
-        pattern: this.pattern
-      };
+      if (this.validator) {
+        this.validator.params = {
+          pattern: this.pattern
+        };
+      }
     };
 
     return FormPatternDirective;
@@ -12154,15 +11761,7 @@
     }
   };
 
-  /**
-   * @desc FormRequiredTrueDirective attribute for injecting RequiredTrueValidator.
-   * @example
-   * <input type="checkbox" formControlName="privacy" requiredTrue />
-   */
-
-  var FormRequiredTrueDirective =
-  /*#__PURE__*/
-  function (_Directive) {
+  var FormRequiredTrueDirective = function (_Directive) {
     _inheritsLoose(FormRequiredTrueDirective, _Directive);
 
     function FormRequiredTrueDirective() {
@@ -12172,9 +11771,11 @@
     var _proto = FormRequiredTrueDirective.prototype;
 
     _proto.onInit = function onInit() {
-      // console.log('FormRequiredTrueDirective', this.host.control);
-      var validator = this.validator = RequiredTrueValidator();
-      this.host.control.addValidators(validator);
+      this.validator = RequiredTrueValidator();
+
+      if (this.host) {
+        this.host.control.addValidators(this.validator);
+      }
     };
 
     return FormRequiredTrueDirective;
@@ -12187,15 +11788,7 @@
     }
   };
 
-  /**
-   * @desc FormRequiredDirective attribute for injecting RequiredValidator.
-   * @example
-   * <input type="text" formControlName="firstName" required />
-   */
-
-  var FormRequiredDirective =
-  /*#__PURE__*/
-  function (_Directive) {
+  var FormRequiredDirective = function (_Directive) {
     _inheritsLoose(FormRequiredDirective, _Directive);
 
     function FormRequiredDirective() {
@@ -12205,9 +11798,11 @@
     var _proto = FormRequiredDirective.prototype;
 
     _proto.onInit = function onInit() {
-      // console.log('FormRequiredDirective', this.host.control);
-      var validator = this.validator = RequiredValidator();
-      this.host.control.addValidators(validator);
+      this.validator = RequiredValidator();
+
+      if (this.host) {
+        this.host.control.addValidators(this.validator);
+      }
     };
 
     return FormRequiredDirective;
@@ -12220,27 +11815,10 @@
     }
   };
 
-  /**
-   * @desc FormModule Class.
-   * @example
-   * export default class AppModule extends Module {}
-   *
-   * AppModule.meta = {
-   *  imports: [
-   *   CoreModule,
-   *   FormModule
-   *  ],
-   *  declarations: [
-   *   ErrorsComponent
-   *  ],
-   *  bootstrap: AppComponent,
-   * };
-   * @extends Module
-   */
+  var factories = [FormArrayDirective, FormCheckboxDirective, FormFieldComponent, FormGroupDirective, FormInputDirective, FormPlaceholderDirective, FormRadioDirective, FormSelectDirective, FormSubmitDirective, FormEmailDirective, FormMaxDirective, FormMaxLengthDirective, FormMinDirective, FormMinLengthDirective, FormPatternDirective, FormRequiredDirective, FormRequiredTrueDirective];
+  var pipes = [];
 
-  var FormModule =
-  /*#__PURE__*/
-  function (_Module) {
+  var FormModule = function (_Module) {
     _inheritsLoose(FormModule, _Module);
 
     function FormModule() {
@@ -12249,110 +11827,72 @@
 
     return FormModule;
   }(rxcomp.Module);
-  var factories = [FormArrayDirective, FormCheckboxDirective, FormFieldComponent, FormGroupDirective, FormInputDirective, FormPlaceholderDirective, FormRadioDirective, FormSelectDirective, FormSubmitDirective, FormEmailDirective, FormMaxDirective, FormMaxLengthDirective, FormMinDirective, FormMinLengthDirective, FormPatternDirective, FormRequiredDirective, FormRequiredTrueDirective];
-  var pipes = [];
   FormModule.meta = {
     declarations: [].concat(factories, pipes),
     exports: [].concat(factories, pipes)
   };
 
-  /**
-   * @desc Abstract class representing a form control.
-   * @abstract
-   * @access public
-   */
+  var FormStatus;
 
-  var FormAbstract =
-  /*#__PURE__*/
-  function () {
-    /**
-     * Create a FormAbstract.
-     * @param {FormValidator|FormValidator[]} validators - A list of validators.
-     */
+  (function (FormStatus) {
+    FormStatus["Pending"] = "pending";
+    FormStatus["Valid"] = "valid";
+    FormStatus["Invalid"] = "invalid";
+    FormStatus["Disabled"] = "disabled";
+    FormStatus["Hidden"] = "hidden";
+  })(FormStatus || (FormStatus = {}));
+  var FormStatus$1 = FormStatus;
+
+  var FormAbstract = function () {
     function FormAbstract(validators) {
-      this.validators = validators ? Array.isArray(validators) ? validators : [validators] : [];
-    }
-    /**
-     * @private initialize subjects
-     * @return {void}
-     */
-
-
-    var _proto = FormAbstract.prototype;
-
-    _proto.initSubjects_ = function initSubjects_() {
-      /**
-       * @private
-       */
-      this.valueSubject = new rxjs.BehaviorSubject(null);
-      /**
-       * @private
-       */
-
-      this.statusSubject = new rxjs.BehaviorSubject(this);
-      /**
-       * @private
-       */
-
-      this.validatorsSubject = new rxjs.BehaviorSubject().pipe(operators.switchAll());
-      this.switchValidators_();
-    }
-    /**
-     * @private
-     */
-    ;
-
-    _proto.switchValidators_ = function switchValidators_() {
-      var validators = this.validators.map(function (x) {
-        return x.params$;
-      });
-      var validators$ = validators.length ? rxjs.combineLatest(validators) : rxjs.of(validators);
-      this.validatorsSubject.next(validators$);
-    }
-    /**
-     * @private initialize observables
-     * @return {void}
-     */
-    ;
-
-    _proto.initObservables_ = function initObservables_() {
       var _this = this;
 
+      this.value_ = undefined;
+      this.submitted_ = false;
+      this.touched_ = false;
+      this.dirty_ = false;
+      this.valueSubject = new rxjs.BehaviorSubject(null);
+      this.statusSubject = new rxjs.BehaviorSubject(null);
+      this.validatorsSubject = new rxjs.ReplaySubject().pipe(operators.switchAll());
       this.value$ = this.valueSubject.pipe(operators.distinctUntilChanged(), operators.skip(1), operators.tap(function () {
-        /**
-         * @private
-         */
         _this.submitted_ = false;
-        /**
-         * @private
-         */
-
         _this.dirty_ = true;
 
-        _this.statusSubject.next(_this);
+        _this.statusSubject.next(null);
       }), operators.shareReplay(1));
-      this.status$ = rxjs.merge(this.statusSubject, this.validatorsSubject).pipe( // auditTime(1),
-      operators.switchMap(function () {
+      this.status$ = rxjs.merge(this.statusSubject, this.validatorsSubject).pipe(operators.switchMap(function () {
         return _this.validate$(_this.value);
       }), operators.shareReplay(1));
       this.changes$ = rxjs.merge(this.value$, this.status$).pipe(operators.map(function () {
         return _this.value;
       }), operators.auditTime(1), operators.shareReplay(1));
+      this.validators = validators ? Array.isArray(validators) ? validators : [validators] : [];
     }
-    /**
-     * @param {null | string} value - the inner control value
-     * @return {Observable<errors>} an object with key, value errors
-     */
-    ;
+
+    var _proto = FormAbstract.prototype;
+
+    _proto.initSubjects_ = function initSubjects_() {
+      this.switchValidators_();
+    };
+
+    _proto.switchValidators_ = function switchValidators_() {
+      var validatorParams = this.validators.map(function (x) {
+        return x.params$;
+      });
+      var validatorParams$ = validatorParams.length ? rxjs.combineLatest(validatorParams) : rxjs.of(validatorParams);
+      this.validatorsSubject.next(validatorParams$);
+    };
+
+    _proto.initObservables_ = function initObservables_() {};
 
     _proto.validate$ = function validate$(value) {
       var _this2 = this;
 
-      if (this.status === FormStatus.Disabled || this.status === FormStatus.Hidden || this.submitted_ || !this.validators.length) {
+      if (this.status === FormStatus$1.Disabled || this.status === FormStatus$1.Hidden || this.submitted_ || !this.validators.length) {
         this.errors = {};
 
-        if (this.status === FormStatus.Invalid) {
-          this.status = FormStatus.Valid;
+        if (this.status === FormStatus$1.Invalid) {
+          this.status = FormStatus$1.Valid;
         }
 
         return rxjs.of(this.errors);
@@ -12362,44 +11902,27 @@
           return rxjs.isObservable(result$) ? result$ : rxjs.of(result$);
         })).pipe(operators.map(function (results) {
           _this2.errors = Object.assign.apply(Object, [{}].concat(results));
-          _this2.status = Object.keys(_this2.errors).length === 0 ? FormStatus.Valid : FormStatus.Invalid;
+          _this2.status = Object.keys(_this2.errors).length === 0 ? FormStatus$1.Valid : FormStatus$1.Invalid;
+          return _this2.errors;
         }));
       }
-    }
-    /**
-     * @return {boolean} the pending status
-     */
-    ;
+    };
 
-    /**
-     * @param {null | FormStatus} status - optional FormStatus
-     * @return {void}
-     */
     _proto.reset = function reset(status) {
-      this.status = status || FormStatus.Pending;
+      this.status = status || FormStatus$1.Pending;
       this.value_ = null;
       this.dirty_ = false;
       this.touched_ = false;
       this.submitted_ = false;
-      this.statusSubject.next(this);
-    }
-    /**
-     * @param {null | string} value - a value
-     * @return {void}
-     */
-    ;
+      this.statusSubject.next(null);
+    };
 
     _proto.patch = function patch(value) {
       this.value_ = value;
       this.dirty_ = true;
       this.submitted_ = false;
-      this.statusSubject.next(this);
-    }
-    /**
-     * adds one or more FormValidator.
-     * @param {...FormValidator[]} validators - A list of validators.
-     */
-    ;
+      this.statusSubject.next(null);
+    };
 
     _proto.addValidators = function addValidators() {
       var _this$validators;
@@ -12407,12 +11930,7 @@
       (_this$validators = this.validators).push.apply(_this$validators, arguments);
 
       this.switchValidators_();
-    }
-    /**
-     * replace one or more FormValidator.
-     * @param {...FormValidator[]} validators - A list of validators.
-     */
-    ;
+    };
 
     _proto.replaceValidators = function replaceValidators() {
       for (var _len = arguments.length, validators = new Array(_len), _key = 0; _key < _len; _key++) {
@@ -12421,11 +11939,7 @@
 
       this.validators = validators;
       this.switchValidators_();
-    }
-    /**
-     * remove all FormValidator.
-     */
-    ;
+    };
 
     _proto.clearValidators = function clearValidators() {
       this.validators = [];
@@ -12435,200 +11949,133 @@
     _createClass(FormAbstract, [{
       key: "pending",
       get: function get() {
-        return this.status === FormStatus.Pending;
+        return this.status === FormStatus$1.Pending;
       }
-      /**
-       * @return {boolean} the valid status
-       */
-
     }, {
       key: "valid",
       get: function get() {
-        return this.status !== FormStatus.Invalid;
+        return this.status !== FormStatus$1.Invalid;
       }
-      /**
-       * @return {boolean} the invalid status
-       */
-
     }, {
       key: "invalid",
       get: function get() {
-        return this.status === FormStatus.Invalid;
+        return this.status === FormStatus$1.Invalid;
       }
-      /**
-       * @return {boolean} the disabled status
-       */
-
     }, {
       key: "disabled",
       get: function get() {
-        return this.status === FormStatus.Disabled;
-      }
-      /**
-       * @return {boolean} the enabled status
-       */
-      ,
-
-      /**
-       * @param {boolean} disabled - the disabled state
-       * @return {void}
-       */
+        return this.status === FormStatus$1.Disabled;
+      },
       set: function set(disabled) {
         if (disabled) {
-          if (this.status !== FormStatus.Disabled) {
-            this.status = FormStatus.Disabled; // this.value_ = null;
-
+          if (this.status !== FormStatus$1.Disabled) {
+            this.status = FormStatus$1.Disabled;
             this.dirty_ = false;
             this.touched_ = false;
             this.submitted_ = false;
-            this.statusSubject.next(this);
+            this.statusSubject.next(null);
           }
         } else {
-          if (this.status === FormStatus.Disabled) {
-            this.status = FormStatus.Pending; // this.value_ = null;
-
+          if (this.status === FormStatus$1.Disabled) {
+            this.status = FormStatus$1.Pending;
             this.dirty_ = false;
             this.touched_ = false;
             this.submitted_ = false;
-            this.statusSubject.next(this);
+            this.statusSubject.next(null);
           }
         }
       }
-      /**
-       * @param {boolean} hidden - the hidden state
-       * @return {void}
-       */
-
     }, {
       key: "enabled",
       get: function get() {
-        return this.status !== FormStatus.Disabled;
+        return this.status !== FormStatus$1.Disabled;
       }
-      /**
-       * @return {boolean} the hidden status
-       */
-
     }, {
       key: "hidden",
       get: function get() {
-        return this.status === FormStatus.Hidden;
-      }
-      /**
-       * @return {boolean} the visible status
-       */
-      ,
+        return this.status === FormStatus$1.Hidden;
+      },
       set: function set(hidden) {
         if (hidden) {
-          if (this.status !== FormStatus.Hidden) {
-            this.status = FormStatus.Hidden; // this.value_ = null;
-
+          if (this.status !== FormStatus$1.Hidden) {
+            this.status = FormStatus$1.Hidden;
             this.dirty_ = false;
             this.touched_ = false;
             this.submitted_ = false;
-            this.statusSubject.next(this);
+            this.statusSubject.next(null);
           }
         } else {
-          if (this.status === FormStatus.Hidden) {
-            this.status = FormStatus.Pending; // this.value_ = null;
-
+          if (this.status === FormStatus$1.Hidden) {
+            this.status = FormStatus$1.Pending;
             this.dirty_ = false;
             this.touched_ = false;
             this.submitted_ = false;
-            this.statusSubject.next(this);
+            this.statusSubject.next(null);
           }
         }
       }
-      /**
-       * @param {boolean} submitted - the submitted state
-       * @return {void}
-       */
-
     }, {
       key: "visible",
       get: function get() {
-        return this.status !== FormStatus.Hidden;
+        return this.status !== FormStatus$1.Hidden;
       }
-      /**
-       * @return {boolean} the submitted status
-       */
-
     }, {
       key: "submitted",
       get: function get() {
         return this.submitted_;
-      }
-      /**
-       * @return {boolean} the dirty status
-       */
-      ,
+      },
       set: function set(submitted) {
         this.submitted_ = submitted;
-        this.statusSubject.next(this);
+        this.statusSubject.next(null);
       }
-      /**
-       * @param {boolean} touched - the touched state
-       * @return {void}
-       */
-
     }, {
       key: "dirty",
       get: function get() {
         return this.dirty_;
       }
-      /**
-       * @return {boolean} the pristine status
-       */
-
     }, {
       key: "pristine",
       get: function get() {
         return !this.dirty_;
       }
-      /**
-       * @return {boolean} the touched status
-       */
-
     }, {
       key: "touched",
       get: function get() {
         return this.touched_;
-      }
-      /**
-       * @return {boolean} the untouched status
-       */
-      ,
+      },
       set: function set(touched) {
-        /**
-         * @private
-         */
         this.touched_ = touched;
-        this.statusSubject.next(this);
+        this.statusSubject.next(null);
       }
-      /**
-       * @return {null | string} inner value of the control
-       */
-
     }, {
       key: "untouched",
       get: function get() {
         return !this.touched_;
       }
     }, {
+      key: "flags",
+      get: function get() {
+        return {
+          untouched: this.untouched,
+          touched: this.touched,
+          pristine: this.pristine,
+          dirty: this.dirty,
+          pending: this.pending,
+          enabled: this.enabled,
+          disabled: this.disabled,
+          hidden: this.hidden,
+          visible: this.visible,
+          valid: this.valid,
+          invalid: this.invalid,
+          submitted: this.submitted
+        };
+      }
+    }, {
       key: "value",
       get: function get() {
         return this.value_;
-      }
-      /**
-       * @param {null | string} value - a value
-       * @return {void}
-       */
-      ,
+      },
       set: function set(value) {
-        // console.log('set value', value);
-
-        /**
-         * @private
-         */
         this.value_ = value;
         this.valueSubject.next(value);
       }
@@ -12637,26 +12084,9 @@
     return FormAbstract;
   }();
 
-  /**
-   * @desc Class representing a FormControl.
-   */
-
-  var FormControl =
-  /*#__PURE__*/
-  function (_FormAbstract) {
+  var FormControl = function (_FormAbstract) {
     _inheritsLoose(FormControl, _FormAbstract);
 
-    /**
-     * @desc Create a FormControl.
-     * @example
-     * const form = new FormControl(null);
-     *
-     * form.changes$.subscribe(changes => {
-     * 	console.log(changes);
-     * });
-     * @param {null | string | FormControl} value - The value of the control.
-     * @param {FormValidator[]} validators - A list of validators.
-     */
     function FormControl(value, validators) {
       var _this;
 
@@ -12665,23 +12095,15 @@
       }
 
       _this = _FormAbstract.call(this, validators) || this;
-      /**
-       * @private
-       */
-
       _this.value_ = value;
-      /**
-       * @private
-       */
-
-      _this.status = FormStatus.Pending;
+      _this.status = FormStatus$1.Pending;
       _this.errors = {};
 
       _this.initSubjects_();
 
       _this.initObservables_();
 
-      _this.statusSubject.next(_assertThisInitialized(_this));
+      _this.statusSubject.next(null);
 
       return _this;
     }
@@ -12689,29 +12111,17 @@
     return FormControl;
   }(FormAbstract);
 
-  /**
-   * @desc Abstract class representing a form collection.
-   * @abstract
-   * @access public
-   */
-
-  var FormAbstractCollection =
-  /*#__PURE__*/
-  function (_FormAbstract) {
+  var FormAbstractCollection = function (_FormAbstract) {
     _inheritsLoose(FormAbstractCollection, _FormAbstract);
 
-    /**
-     * Create a FormAbstract.
-     * @param {Map<string, any|FormAbstract>} controls - An object containing controls.
-     * @param {FormValidator[]} validators - A list of validators.
-     */
     function FormAbstractCollection(controls, validators) {
       var _this;
 
       _this = _FormAbstract.call(this, validators) || this;
+      _this.changesChildren = new rxjs.BehaviorSubject(undefined);
       _this.controls = controls;
 
-      _this.initControls_(controls);
+      _this.initControls_();
 
       _this.initSubjects_();
 
@@ -12719,49 +12129,29 @@
 
       return _this;
     }
-    /**
-     * @private
-     */
-
 
     var _proto = FormAbstractCollection.prototype;
 
-    _proto.initControl_ = function initControl_(control, key) {
-      var _control;
-
-      control = control instanceof FormAbstract ? control : new FormControl(control);
-
-      (_control = control).addValidators.apply(_control, this.validators);
-
+    _proto.initControl_ = function initControl_(controlOrValue, key) {
+      var control = controlOrValue instanceof FormAbstract ? controlOrValue : new FormControl(controlOrValue);
+      control.addValidators.apply(control, this.validators);
       control.name = key;
       return control;
-    }
-    /**
-     * @private
-     */
-    ;
+    };
 
-    _proto.initControls_ = function initControls_(controls) {
+    _proto.initControls_ = function initControls_() {
       var _this2 = this;
 
       this.forEach_(function (control, key) {
         _this2.init(control, key);
       });
-      return controls;
-    }
-    /**
-     * @private
-     */
-    ;
+      return this.controls;
+    };
 
     _proto.initSubjects_ = function initSubjects_() {
-      this.changesChildren = new rxjs.BehaviorSubject().pipe(operators.switchAll());
+      this.changesChildren = this.changesChildren.pipe(operators.switchAll());
       this.switchSubjects_();
-    }
-    /**
-     * @private
-     */
-    ;
+    };
 
     _proto.switchSubjects_ = function switchSubjects_() {
       var changesChildren = this.reduce_(function (result, control) {
@@ -12770,11 +12160,7 @@
       }, []);
       var changesChildren$ = changesChildren.length ? rxjs.combineLatest(changesChildren) : rxjs.of(changesChildren);
       this.changesChildren.next(changesChildren$);
-    }
-    /**
-     * @private
-     */
-    ;
+    };
 
     _proto.initObservables_ = function initObservables_() {
       var _this3 = this;
@@ -12785,29 +12171,24 @@
     };
 
     _proto.validate = function validate(value) {
-      if (this.status === FormStatus.Disabled || this.status === FormStatus.Hidden) {
-        // this.errors = {};
-        this.errors = [];
+      var errors;
+
+      if (this.status === FormStatus$1.Disabled || this.status === FormStatus$1.Hidden) {
+        errors = [];
       } else {
-        // this.errors = Object.assign({}, ...this.validators.map(x => x(value)));
-        // this.status = Object.keys(this.errors).length === 0 ? FormStatus.Valid : FormStatus.Invalid;
-        var errors = this.validators.map(function (x) {
-          return x(value);
+        var errors_ = this.validators.map(function (x) {
+          return x.validate(value);
         }).filter(function (x) {
           return x !== null;
         });
-        this.errors = this.reduce_(function (result, control) {
+        errors = this.reduce_(function (result, control) {
           return result.concat(control.errors);
-        }, errors);
-        this.status = this.errors.length === 0 ? FormStatus.Valid : FormStatus.Invalid;
+        }, errors_);
+        this.status = errors.length === 0 ? FormStatus$1.Valid : FormStatus$1.Invalid;
       }
 
-      return this.errors;
-    }
-    /**
-     * @private
-     */
-    ;
+      return errors;
+    };
 
     _proto.forEach_ = function forEach_(callback) {
       var _this4 = this;
@@ -12815,32 +12196,20 @@
       Object.keys(this.controls).forEach(function (key) {
         return callback(_this4.controls[key], key);
       });
-    }
-    /**
-     * @private
-     */
-    ;
+    };
 
     _proto.reduce_ = function reduce_(callback, result) {
       this.forEach_(function (control, key) {
         result = callback(result, control, key);
       });
       return result;
-    }
-    /**
-     * @private
-     */
-    ;
+    };
 
     _proto.all_ = function all_(key, value) {
       return this.reduce_(function (result, control) {
         return result && control[key] === value;
       }, true);
-    }
-    /**
-     * @private
-     */
-    ;
+    };
 
     _proto.any_ = function any_(key, value) {
       return this.reduce_(function (result, control) {
@@ -12858,7 +12227,6 @@
       if (value) {
         this.forEach_(function (control, key) {
           if (value[key] != undefined) {
-            // !!! keep != loose inequality
             control.patch(value[key]);
           }
         });
@@ -12877,8 +12245,7 @@
       delete this.controls[key];
       this.controls[key] = this.initControl_(control, key);
       this.switchSubjects_();
-    } // !!! needed?
-    ;
+    };
 
     _proto.add = function add(control, key) {
       this.controls[key] = this.initControl_(control, key);
@@ -12898,18 +12265,13 @@
     };
 
     _proto.removeKey = function removeKey(key) {
-      var changed = this.controls[key] !== undefined;
+      var exhist = this.controls[key] !== undefined;
       delete this.controls[key];
 
-      if (changed) {
+      if (exhist) {
         this.switchSubjects_();
       }
-    }
-    /**
-     * adds one or more FormValidator.
-     * @param {...FormValidator[]} validators - A list of validators.
-     */
-    ;
+    };
 
     _proto.addValidators = function addValidators() {
       for (var _len = arguments.length, validators = new Array(_len), _key = 0; _key < _len; _key++) {
@@ -12919,12 +12281,7 @@
       this.forEach_(function (control) {
         return control.addValidators.apply(control, validators);
       });
-    }
-    /**
-     * replace one or more FormValidator.
-     * @param {...FormValidator[]} validators - A list of validators.
-     */
-    ;
+    };
 
     _proto.replaceValidators = function replaceValidators() {
       for (var _len2 = arguments.length, validators = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
@@ -12934,11 +12291,7 @@
       this.forEach_(function (control) {
         return control.replaceValidators.apply(control, validators);
       });
-    }
-    /**
-     * remove all FormValidator.
-     */
-    ;
+    };
 
     _proto.clearValidators = function clearValidators() {
       this.forEach_(function (control) {
@@ -13051,26 +12404,9 @@
     return FormAbstractCollection;
   }(FormAbstract);
 
-  /**
-   * @desc Class representing a FormArray.
-   */
-
-  var FormArray =
-  /*#__PURE__*/
-  function (_FormAbstractCollecti) {
+  var FormArray = function (_FormAbstractCollecti) {
     _inheritsLoose(FormArray, _FormAbstractCollecti);
 
-    /**
-     * @desc Create a FormArray.
-     * @example
-     * const form = new FormArray([null, null, null]);
-     *
-     * form.changes$.subscribe(changes => {
-     * 	console.log(changes);
-     * });
-     * @param {any|FormControl[]} controls - An array containing controls.
-     * @param {FormValidator[]} validators - A list of validators.
-     */
     function FormArray(controls, validators) {
       if (controls === void 0) {
         controls = [];
@@ -13078,10 +12414,6 @@
 
       return _FormAbstractCollecti.call(this, controls, validators) || this;
     }
-    /**
-     * @private
-     */
-
 
     var _proto = FormArray.prototype;
 
@@ -13089,70 +12421,33 @@
       this.controls.forEach(function (control, key) {
         return callback(control, key);
       });
-    }
-    /**
-     * @return {any[]}
-     */
-    ;
+    };
 
-    /**
-     * @protected
-     * @param {FormAbstract} control
-     * @param {number} key
-     */
     _proto.init = function init(control, key) {
       this.controls.length = Math.max(this.controls.length, key);
       this.controls[key] = this.initControl_(control, key);
-    }
-    /**
-     * @param {FormAbstract} control
-     * @param {number} key
-     */
-    ;
+    };
 
     _proto.set = function set(control, key) {
-      // this.controls.length = Math.max(this.controls.length, key);
-      // this.controls[key] = this.initControl_(control);
       this.controls.splice(key, 1, this.initControl_(control, key));
       this.switchSubjects_();
-    } // !!! needed?
-
-    /**
-     * @param {FormAbstract} control
-     * @param {number} key
-     */
-    ;
+    };
 
     _proto.add = function add(control, key) {
       this.controls.length = Math.max(this.controls.length, key);
       this.controls[key] = this.initControl_(control, key);
       this.switchSubjects_();
-    }
-    /**
-     * @param {FormAbstract} control
-     */
-    ;
+    };
 
     _proto.push = function push(control) {
-      // this.controls.length = Math.max(this.controls.length, key);
-      // this.controls[key] = this.initControl_(control);
       this.controls.push(this.initControl_(control, this.controls.length));
       this.switchSubjects_();
-    }
-    /**
-     * @param {FormAbstract} control
-     * @param {number} key
-     */
-    ;
+    };
 
     _proto.insert = function insert(control, key) {
       this.controls.splice(key, 0, this.initControl_(control, key));
       this.switchSubjects_();
-    }
-    /**
-     * @param {FormAbstract} control
-     */
-    ;
+    };
 
     _proto.remove = function remove(control) {
       var key = this.controls.indexOf(control);
@@ -13160,22 +12455,14 @@
       if (key !== -1) {
         this.removeKey(key);
       }
-    }
-    /**
-     * @param {number} key
-     */
-    ;
+    };
 
     _proto.removeKey = function removeKey(key) {
       if (this.controls.length > key) {
         this.controls.splice(key, 1);
         this.switchSubjects_();
       }
-    }
-    /**
-     * @param {number} key
-     */
-    ;
+    };
 
     _proto.at = function at(key) {
       return this.controls[key];
@@ -13187,12 +12474,8 @@
         return this.reduce_(function (result, control, key) {
           result[key] = control.value;
           return result;
-        }, []); // init as array
+        }, []);
       }
-      /**
-       * @return {number}
-       */
-
     }, {
       key: "length",
       get: function get() {
@@ -13203,32 +12486,16 @@
     return FormArray;
   }(FormAbstractCollection);
   function formArray(controls, validators) {
+    if (controls === void 0) {
+      controls = [];
+    }
+
     return new FormArray(controls, validators);
   }
 
-  /**
-   * @desc Class representing a FormGroup.
-   */
-
-  var FormGroup =
-  /*#__PURE__*/
-  function (_FormAbstractCollecti) {
+  var FormGroup = function (_FormAbstractCollecti) {
     _inheritsLoose(FormGroup, _FormAbstractCollecti);
 
-    /**
-     * @desc Create a FormControl.
-     * @example
-     * const form = new FormGroup({
-     * 	firstName: null,
-     *  lastName: null,
-     * });
-     *
-     * form.changes$.subscribe(changes => {
-     * 	console.log(changes);
-     * });
-     * @param {Map<string, any|FormAbstract>} controls - An object containing controls.
-     * @param {FormValidator[]} validators - A list of validators.
-     */
     function FormGroup(controls, validators) {
       if (controls === void 0) {
         controls = {};
@@ -13240,6 +12507,10 @@
     return FormGroup;
   }(FormAbstractCollection);
   function formGroup(controls, validators) {
+    if (controls === void 0) {
+      controls = {};
+    }
+
     return new FormGroup(controls, validators);
   }
 
@@ -13249,7 +12520,6 @@
   exports.FormAbstractCollectionDirective = FormAbstractCollectionDirective;
   exports.FormArray = FormArray;
   exports.FormArrayDirective = FormArrayDirective;
-  exports.FormAttributes = FormAttributes;
   exports.FormCheckboxDirective = FormCheckboxDirective;
   exports.FormControl = FormControl;
   exports.FormEmailDirective = FormEmailDirective;
@@ -13268,7 +12538,7 @@
   exports.FormRequiredDirective = FormRequiredDirective;
   exports.FormRequiredTrueDirective = FormRequiredTrueDirective;
   exports.FormSelectDirective = FormSelectDirective;
-  exports.FormStatus = FormStatus;
+  exports.FormStatus = FormStatus$1;
   exports.FormValidator = FormValidator;
   exports.MaxLengthValidator = MaxLengthValidator;
   exports.MaxValidator = MaxValidator;
@@ -13282,9 +12552,9 @@
   exports.formArray = formArray;
   exports.formGroup = formGroup;
 
-  Object.defineProperty(exports, '__esModule', { value: true });
+  return exports;
 
-})));
+}({}, rxcomp, rxjs, rxjs.operators));
 
 /**
  * Swiper 5.3.1

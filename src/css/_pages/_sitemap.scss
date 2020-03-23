@@ -1,5 +1,9 @@
 .section--sitemap {
 	padding: 80px 0;
+
+	@include media-down(sm) {
+		padding: 40px 0;
+	}
 }
 
 .nav--sitemap {

@@ -11,7 +11,7 @@ export default class AgentsComponent extends Component {
 		const initialParams = window.params || {};
 		filters.countries.mode = FilterMode.SELECT;
 		filters.regions.mode = FilterMode.SELECT;
-		//filters.provinces.mode = FilterMode.SELECT;
+		// filters.provinces.mode = FilterMode.SELECT;
 		filters.categories.mode = FilterMode.SELECT;
 		const filterService = new FilterService(filters, initialParams, (key, filter) => {
 			switch (key) {
@@ -25,11 +25,13 @@ export default class AgentsComponent extends Component {
 						return item.idsRegions && item.idsRegions.indexOf(value) !== -1;
 					};
 					break;
-				//case 'provinces':
-				//	filter.filter = (item, value) => {
-				//		return item.provinces && item.provinces.indexOf(value) !== -1;
-				//	};
+					/*
+					case 'provinces':
+						filter.filter = (item, value) => {
+							return item.provinces && item.provinces.indexOf(value) !== -1;
+						};
 					break;
+					*/
 				case 'categories':
 					filter.filter = (item, value) => {
 						return item.categories && item.categories.indexOf(value) !== -1;

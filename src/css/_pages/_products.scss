@@ -6,11 +6,22 @@
 
 .icon--background {
 	position: absolute;
-	width: 30vw;
-	height: 30vw;
-	right: 0;
-	fill: rgba(#16255b, 0.1);
-	margin-top: 150px;
+
+	@include media-up(md) {
+		width: 30vw;
+		height: 30vw;
+		right: 0;
+		margin-top: 150px;
+		fill: rgba(#16255b, 0.1);
+	}
+
+	@include media-down(sm) {
+		width: 100vw;
+		height: 100vw;
+		left: -15vw;
+		margin-top: 0;
+		fill: rgba(22, 37, 91, .05);
+	}
 }
 
 .section--products {
@@ -47,10 +58,18 @@
 				flex: 1 1 77%;
 			}
 		}
+	}
 
-		&>.flex__item+.flex__item {
-			margin-left: 15px;
+	@include media-up(sm) {
+		.flex--row {
+			&>.flex__item+.flex__item {
+				margin-left: 15px;
+			}
 		}
+	}
+
+	@include media-down(sm) {
+		padding-bottom: 40px;
 	}
 }
 
@@ -88,15 +107,22 @@
 			flex: 1 1 25%;
 			padding: 0 15px;
 		}
+	}
 
-		&>.flex__item+.flex__item {
-			margin-left: 15px;
+	@include media-up(sm) {
+		.flex--row {
+			&>.flex__item+.flex__item {
+				margin-left: 15px;
+			}
 		}
+	}
+
+	@include media-down(sm) {
+		padding-bottom: 40px;
 	}
 }
 
 %flex--table-link {
-
 	margin-left: -15px;
 	margin-right: -15px;
 
@@ -129,10 +155,6 @@
 			}
 		}
 
-		&>.flex__item+.flex__item {
-			margin-left: 15px;
-		}
-
 		&:hover {
 			z-index: 10;
 
@@ -149,6 +171,14 @@
 				opacity: 1;
 			}
 
+		}
+	}
+
+	@include media-up(sm) {
+		.flex--row {
+			&>.flex__item+.flex__item {
+				margin-left: 15px;
+			}
 		}
 	}
 }
@@ -168,8 +198,10 @@
 	}
 
 	@include media-down(sm) {
+		padding-bottom: 40px;
+
 		&__title {
-			padding: 0 30px;
+			padding: 0;
 		}
 	}
 }
@@ -188,6 +220,11 @@
 		&:last-child {
 			margin-right: 0;
 		}
+	}
+
+	@include media-down(sm) {
+		display: block;
+		text-align: center;
 	}
 }
 
@@ -208,6 +245,9 @@
 
 	}
 
+	@include media-down(sm) {
+		padding: 40px 0;
+	}
 }
 
 .card--catalogue {
@@ -250,19 +290,15 @@
 	&:active,
 	&:visited {
 		.btn--link {
-			span {
-				color: $foreground;
-			}
+			color: $foreground;
 		}
 	}
 
 	&:focus,
 	&:hover {
 		.btn--link {
-			span {
-				background: $foreground;
-				color: $foreground-negative;
-			}
+			background: $foreground;
+			color: $foreground-negative;
 		}
 	}
 }
@@ -312,6 +348,9 @@
 		justify-content: center;
 	}
 
+	@include media-down(sm) {
+		padding-bottom: 0 0 40px 0;
+	}
 }
 
 .section--certifications {
@@ -336,8 +375,14 @@
 	}
 
 	@include media-down(sm) {
+		.group--cta {
+			&>.btn--cta {
+				display: block;
+			}
+		}
+
 		&__title {
-			padding: 0 30px;
+			margin: 15px 0 10px 0;
 		}
 	}
 }
@@ -351,8 +396,14 @@
 	}
 
 	@include media-down(sm) {
+		padding: 40px 0;
+
 		&__title {
 			padding: 0 30px;
+		}
+
+		.card--product {
+			margin-bottom: 40px;
 		}
 	}
 }

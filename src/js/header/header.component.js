@@ -19,6 +19,9 @@ export default class HeaderComponent extends Component {
 
 	toggleMenu($event) {
 		this.menu = this.menu !== $event ? $event : null;
+		// console.log('toggleMenu', this.menu);
+		const body = document.querySelector('body');
+		this.menu ? body.classList.add('fixed') : body.classList.remove('fixed');
 		this.submenu = null;
 		this.pushChanges();
 	}

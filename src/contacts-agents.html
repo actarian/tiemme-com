@@ -17,47 +17,133 @@
 
 <!-- @@include ./templates/shared/contacts-menu.html { "a": "", "b": "", "c": "active", "d": "" } -->
 
+
 <script>
 	window.filters = {
 		countries: {
-			label: 'Nazione',
-			placeholder: 'Seleziona',
-			mode: 'select',
-			options: [
-				{ value: "ITALIA", label: "Italia" },
-				{ value: "ALBANIA", label: "Albania" },
-				{ value: "BULGARIA", label: "Bulgaria" },
-				{ value: "GRECIA", label: "Grecia" },
-				{ value: "REPUBBLICA DI S.MARINO", label: "Repubblica di San Marino" },
-			]
+			label: "Nazione",
+			placeholder: "Seleziona",
+			mode: "select",
+			options: [{
+				label: "Albania",
+				value: 2
+            }, {
+				label: "Bulgaria",
+				value: 32
+            }, {
+				label: "Grecia",
+				value: 79
+            }, {
+				label: "Italia",
+				value: 114
+            }, {
+				label: "Repubblica di San Marino",
+				value: 178
+            }]
 		},
 		regions: {
-			label: 'Regione',
-			placeholder: 'Seleziona',
-			mode: 'select',
-			options: [
-				{ value: "ABRUZZO", label: "ABRUZZO", country: 'ITALIA' },
-				{ value: "BASILICATA", label: "BASILICATA", country: 'ITALIA' },
-				{ value: "CALABRIA", label: "CALABRIA", country: 'ITALIA' },
-				{ value: "CAMPANIA", label: "CAMPANIA", country: 'ITALIA' },
-				{ value: "EMILIA ROMAGNA", label: "EMILIA ROMAGNA", country: 'ITALIA' },
-				{ value: "FRIULI", label: "FRIULI", country: 'ITALIA' },
-				{ value: "LAZIO", label: "LAZIO", country: 'ITALIA' },
-				{ value: "LIGURIA", label: "LIGURIA", country: 'ITALIA' },
-				{ value: "LOMBARDIA", label: "LOMBARDIA", country: 'ITALIA' },
-				{ value: "MARCHE", label: "MARCHE", country: 'ITALIA' },
-				{ value: "MOLISE", label: "MOLISE", country: 'ITALIA' },
-				{ value: "PIEMONTE", label: "PIEMONTE", country: 'ITALIA' },
-				{ value: "PUGLIA", label: "PUGLIA", country: 'ITALIA' },
-				{ value: "SARDEGNA", label: "SARDEGNA", country: 'ITALIA' },
-				{ value: "SICILIA", label: "SICILIA", country: 'ITALIA' },
-				{ value: "SICILIA OCC", label: "SICILIA OCC", country: 'ITALIA' },
-				{ value: "TOSCANA", label: "TOSCANA", country: 'ITALIA' },
-				{ value: "TRENTINO-ALTO ADIGE", label: "TRENTINO-ALTO ADIGE", country: 'ITALIA' },
-				{ value: "UMBRIA", label: "UMBRIA", country: 'ITALIA' },
-				{ value: "VALLE D'AOSTA", label: "VALLE D'AOSTA", country: 'ITALIA' },
-				{ value: "VENETO", label: "VENETO", country: 'ITALIA' },
-			]
+			label: "Regione",
+			placeholder: "Seleziona",
+			mode: "select",
+			options: [{
+				label: "Abruzzo",
+				value: 1,
+				country: 114
+            }, {
+				label: "Basilicata",
+				value: 2,
+				country: 114
+            }, {
+				label: "Calabria",
+				value: 3,
+				country: 114
+            }, {
+				label: "Campania",
+				value: 4,
+				country: 114
+            }, {
+				label: "Emilia Romagna",
+				value: 5,
+				country: 114
+            }, {
+				label: "Friuli-Venezia Giulia",
+				value: 6,
+				country: 114
+            }, {
+				label: "Lazio",
+				value: 7,
+				country: 114
+            }, {
+				label: "Liguria",
+				value: 8,
+				country: 114
+            }, {
+				label: "Lombardia",
+				value: 9,
+				country: 114
+            }, {
+				label: "Marche",
+				value: 10,
+				country: 114
+            }, {
+				label: "Molise",
+				value: 11,
+				country: 114
+            }, {
+				label: "Piemonte",
+				value: 12,
+				country: 114
+            }, {
+				label: "Puglia",
+				value: 13,
+				country: 114
+            }, {
+				label: "Sardegna",
+				value: 14,
+				country: 114
+            }, {
+				label: "Sicilia",
+				value: 15,
+				country: 114
+            }, {
+				label: "Toscana",
+				value: 16,
+				country: 114
+            }, {
+				label: "Trentino-Alto Adige",
+				value: 17,
+				country: 114
+            }, {
+				label: "Umbria",
+				value: 18,
+				country: 114
+            }, {
+				label: "Valle d' Aosta",
+				value: 19,
+				country: 114
+            }, {
+				label: "Veneto",
+				value: 20,
+				country: 114
+            }]
+		},
+		categories: {
+			label: "Categoria",
+			placeholder: "Seleziona",
+			mode: "select",
+			options: [{
+				label: "Componenti Idraulici",
+				value: 18286
+            }, {
+				label: "Rubinetti",
+				value: 18287
+            }, {
+				label: "Sistemi Radianti",
+				value: 18288
+            }, {
+				label: "Centrale Termica",
+				value: 18289
+            }]
 		},
 		provinces: {
 			label: 'Provincia',
@@ -177,471 +263,555 @@
 				{ "value": "VV", "label": "VV", country: 'ITALIA' },
 			]
 		},
-		categories: {
-			label: 'Categoria',
-			placeholder: 'Seleziona',
-			mode: 'select',
-			options: [
-				{ value: 1, label: "Componenti Idraulici" },
-				{ value: 2, label: "Centrale Termica" },
-				{ value: 3, label: "Sistemi Radianti" },
-				{ value: 4, label: "Rubinetti" },
-			]
-		},
-	}
+	};
 
-	window.agents = [
-		/* ALBANIA */
-		{
-			name: 'TIEMME HELLAS S.A.',
-			categories: [3, 1],
-			address: 'Thesi Drassaria - 19300 Aspropyrgos',
-			telephone: '+30 2105571500',
-			email: 'info@tiemme.gr',
-			country: 'ALBANIA'
-		},
-		/* BULGARIA */
-		{
-			name: 'TIEMME HELLAS S.A.',
-			categories: [3, 1],
-			address: 'Thesi Drassaria - 19300 Aspropyrgos',
-			telephone: '+30 2105571500',
-			email: 'info@tiemme.gr',
-			country: 'BULGARIA'
-		},
-		/* GRECIA */
-		{
-			name: 'TIEMME HELLAS S.A.',
-			categories: [3, 1],
-			address: 'Thesi Drassaria - 19300 Aspropyrgos',
-			telephone: '+30 2105571500',
-			email: 'info@tiemme.gr',
-			country: 'GRECIA'
-		},
-		/* REPUBBLICA DI S.MARINO */
-		{
-			name: 'POLETTI MARCO',
-			categories: [4, 3, 1],
-			address: 'VIA MURAGLIONE 13 48012 BAGNACAVALLO (RA)',
-			telephone: '+39 335 327369 / +39 054563894',
-			email: 'marcopoletti@polettimarco.it',
-			country: 'REPUBBLICA DI S.MARINO',
-			provinces: ['RSM']
-		},
-		/* ITALIA */
-		{
-			name: 'AGENZIA STORTO PIETRO',
-			categories: [4, 3, 1],
-			address: 'P.ZZA MUNICIPIO, 9 86020 CASTELLINO DEL BIFERMO - CAMPOBASSO',
-			telephone: 'Sig. Storto 335-1403714',
-			email: 'pietro.storto@virgilio.it',
-			country: 'ITALIA',
-			regions: ['MOLISE'],
-			provinces: ['IS', 'CB']
-		}, {
-			name: 'ANTONIO DAL COL',
-			categories: [4, 3, 1],
-			address: 'VIA CAL GRANDE INTERMEDIA, 13 31028 VAZZOLA (Treviso)',
-			telephone: 'Tel. 0438 441103',
-			mobilePhone: '336 359922',
-			email: 'info@adcrap.com',
-			country: 'ITALIA',
-			regions: ['FRIULI'],
-			provinces: ['UD', 'PN', 'TS', 'GO']
-		}, {
-			name: 'ANTONIO DAL COL',
-			categories: [4, 3, 1],
-			address: 'VIA CAL GRANDE INTERMEDIA, 13 - 31028 VAZZOLA (Treviso)',
-			telephone: 'Tel. 0438 441103',
-			mobilePhone: '336 359922',
-			email: 'info@adcrap.com',
-			country: 'ITALIA',
-			regions: ['VENETO'],
-			provinces: ['TV', 'PD', 'RO', 'VE', 'VI', 'BL']
-		}, {
-			name: 'ANTONIO DAL COL',
-			categories: [4, 3, 1],
-			address: 'VIA CAL GRANDE INTERMEDIA, 13 - 31028 VAZZOLA (Treviso)',
-			telephone: 'Tel. 0438 441103',
-			mobilePhone: '336 359922',
-			email: 'info@adcrap.com',
-			country: 'ITALIA',
-			regions: ['TRENTINO-ALTO ADIGE'],
-			provinces: ['TN', 'BZ']
-		}, {
-			name: 'BONA LUCA',
-			categories: [4, 3, 1],
-			address: 'Via L. Bassani 39 37069 Villafranca di Verona (VR)',
-			telephone: '335.7621910 / 045.6937680',
-			email: 'bn.ufficio@gmail.com',
-			country: 'ITALIA',
-			regions: ['VENETO'],
-			provinces: ['VR']
-		}, {
-			name: 'BONAZZA SANDRO',
-			categories: [4, 3, 1],
-			address: 'VIA MAZZINI 44 27020 OTTOBIANO - PAVIA',
-			telephone: 'Sig. Bonazza 335-5860182 / Sig. William 392-9024616',
-			email: 'bonazzas@gmail.com',
-			country: 'ITALIA',
-			regions: ['LOMBARDIA'],
-			provinces: ['PV']
-		}, {
-			name: 'CMC RAPPRESENTANZE TERMOTECNICHE DI MORRONE CHRISTIAN',
-			categories: [4, 3, 1],
-			address: 'Via Carlo Cattaneo 17 A/B 74121 TARANTO (TA)',
-			telephone: '099.7791502 / 392.4149999',
-			email: 'info@cmcrappresentanze.it',
-			country: 'ITALIA',
-			regions: ['PUGLIA'],
-			provinces: ['BR', 'TA', 'LE']
-		}, {
-			name: 'CORRADO RAPPRESENTANZE SAS',
-			categories: [3, 1],
-			address: 'VIA D. FONTANA, 184 80131 NAPOLI',
-			telephone: 'Sig. Giuseppe 337-843733 / Sig. Salvatore 335-6656224',
-			email: 'corradosas@fastwebnet.it',
-			country: 'ITALIA',
-			regions: ['BASILICATA'],
-			provinces: ['PZ']
-		}, {
-			name: 'CORRADO RAPPRESENTANZE SAS',
-			categories: [3, 1],
-			address: 'VIA D. FONTANA, 184 80131 NAPOLI',
-			telephone: 'Sig. Giuseppe 337-843733 / Sig. Salvatore 335-6656224',
-			email: 'corradosas@fastwebnet.it',
-			country: 'ITALIA',
-			regions: ['CAMPANIA'],
-			provinces: ['NA', 'SA', 'AV', 'BN', 'CE']
-		}, {
-			name: 'CUCCU GIUSEPPE',
-			categories: [4, 3, 1],
-			address: 'VIA NAZIONALE, 132 09039 - VILLACIDRO (VS)',
-			telephone: 'Cel. 348 7624498 - Tel./Fax 340 7624490',
-			email: 'gcuccu.clima@gmail.com',
-			country: 'ITALIA',
-			regions: ['SARDEGNA'],
-			provinces: ['CA', 'CI', 'OG', 'VS', 'OR']
-		}, {
-			name: 'CURRADO BRUNO RAPPRESENTANZE',
-			categories: [4, 3, 1],
-			address: 'VIA DURANDO N.1/B 14037 PORTACOMARO D\'ASTI - ASTI',
-			telephone: '335-216205 / 336-790137',
-			email: 'curradobruno@libero.it',
-			country: 'ITALIA',
-			regions: ['PIEMONTE'],
-			provinces: ['CN', 'TO', 'VC', 'AT', 'NO', 'AL', 'BI', 'VB']
-		}, {
-			name: 'CURRADO BRUNO RAPPRESENTANZE',
-			categories: [4, 3, 1],
-			address: 'VIA DURANDO N.1/B 14037 PORTACOMARO D\'ASTI - ASTI',
-			telephone: '335-216205 / 336-790137',
-			email: 'curradobruno@libero.it',
-			country: 'ITALIA',
-			regions: ['VALLE D\'AOSTA'],
-			provinces: ['AO']
-		}, {
-			name: 'D.P.S. DI DE PAOLIS STEFANO &amp; C. S.A.S',
-			categories: [4, 3],
-			address: 'VIA MONS. TAGLIAFERRI N.3 03011 ALATRI - FROSINONE',
-			telephone: '335-7828693',
-			email: 'dpstefano@hotmail.it',
-			country: 'ITALIA',
-			regions: ['LAZIO'],
-			provinces: ['LT (escluso Aprilia)', 'FR'],
-			note: 'ESCLUSO SISTEMI'
-		}, {
-			name: 'ENERTEC DI PANTALEO LUIGI',
-			categories: [4, 3, 1],
-			address: 'VIA LUIGI POLACCHI , 6 65129 PESCARA',
-			telephone: 'Sig. Pantaleo 338-9146400',
-			email: 'enertecagenzia@gmail.com',
-			country: 'ITALIA',
-			regions: ['ABRUZZO'],
-			provinces: ['PE', 'AQ', 'CH', 'TE']
-		}, {
-			name: 'EUROSERVICE TRADE S.r.l.',
-			categories: [4, 3, 1],
-			address: 'VIALE EMILIA 98/C - 88060 - S.MARIA DI CATANZARO - CATANZARO',
-			telephone: 'Sig. Gianni 340-8716087 / Sig. Floro 348-0947380 / Sig. Dattilo 348-0947383',
-			email: 'info@euroservicesnc.it',
-			country: 'ITALIA',
-			regions: ['CALABRIA'],
-			provinces: ['CZ', 'CS', 'KR', 'RC', 'VV']
-		}, {
-			name: 'FERRARA RAPPRESENTANZE',
-			categories: [4, 3, 1],
-			address: 'VIA VOMERO, 56 70019 TRIGGIANO - BARI',
-			telephone: 'Sig. Ferrara 335-6956778',
-			email: 'info@ftrappresentanze.it',
-			country: 'ITALIA',
-			regions: ['BASILICATA'],
-			provinces: ['MT']
-		}, {
-			name: 'FERRARA RAPPRESENTANZE',
-			categories: [4, 3, 1],
-			address: 'VIA VOMERO, 56 70019 TRIGGIANO - BARI',
-			telephone: 'Sig. Ferrara 335-6956778',
-			email: 'info@ftrappresentanze.it',
-			country: 'ITALIA',
-			regions: ['PUGLIA'],
-			provinces: ['FG', 'BA', 'BT']
-		}, {
-			name: 'FRANCESCO GIANGUALANO RAPPRESENTANZE',
-			categories: [4, 3, 1],
-			address: 'VIA ARGINE CROSTOLO, 5 42016 GUASTALLA - REGGIO EMILIA',
-			telephone: '328-7449673',
-			email: 'effegirapp@gmail.com',
-			country: 'ITALIA',
-			regions: ['EMILIA ROMAGNA'],
-			provinces: ['MO', 'RE']
-		}, {
-			name: 'GELMINI MARCO',
-			categories: [4, 3, 1],
-			address: 'VICOLO IVO COBIANCHI N.7 43126 PARMA',
-			telephone: '335 7054760',
-			email: 'marcogelmini74@gmail.com',
-			country: 'ITALIA',
-			regions: ['EMILIA ROMAGNA'],
-			provinces: ['PR', 'PC']
-		}, {
-			name: 'MANCA SALVATORE',
-			categories: [4, 3, 1],
-			address: 'VIA LAMARMORA 4 - 07033 OSILO (SS)',
-			telephone: 'Cell. 333-6045029',
-			email: 'mancarappresentanze@alice.it',
-			country: 'ITALIA',
-			regions: ['SARDEGNA'],
-			provinces: ['NU', 'OT', 'SS']
-		}, {
-			name: 'MARINI PAOLO',
-			categories: [4, 3, 1],
-			address: 'LOC.MONTECAVALLO, 46/P 61042 APECCHIO - PESARO E URBINO',
-			telephone: '335-6065301',
-			email: 'paolomarini1961@gmail.com',
-			country: 'ITALIA',
-			regions: ['TOSCANA'],
-			provinces: ['AR']
-		}, {
-			name: 'MARINI PAOLO',
-			categories: [4, 3, 1],
-			address: 'LOC.MONTECAVALLO 46/P 61042 APECCHIO - PESARO E URBINO',
-			telephone: '335-6065301',
-			email: 'paolomarini1961@gmail.com',
-			country: 'ITALIA',
-			regions: ['UMBRIA'],
-			provinces: ['PG']
-		}, {
-			name: 'MARTORANA ANTONINO',
-			categories: [1],
-			address: 'VIA UGO LA MALFA 58/A - 90014 CASTELDACCIA (PA)',
-			telephone: '380 2108717',
-			email: 'a.martorana@tiemme.com',
-			country: 'ITALIA',
-			regions: ['SICILIA'],
-			provinces: ['OCC PA', 'TP', 'AG', 'CL'],
-			note: 'Solo SISTEMI'
-		}, {
-			name: 'MIOLI MARTA',
-			categories: [3],
-			address: 'VIA GOITO N. 1/A 45100 ROVIGO',
-			telephone: 'Sig. Capelli 335-7683848',
-			email: 'tonino.capelli@gmail.com',
-			country: 'ITALIA',
-			regions: ['EMILIA ROMAGNA'],
-			provinces: ['BO', 'FE', 'FC', 'MO', 'PR', 'PC', 'RA', 'RE', 'RN'],
-			note: 'SOLO I CLIENTI DEL SETTORE OEM'
-		}, {
-			name: 'MIOLI MARTA',
-			categories: [3],
-			address: 'VIA GOITO N. 1/A 45100 ROVIGO',
-			telephone: 'Sig. Capelli 335-7683848',
-			email: 'toninocapelli@libero.it',
-			country: 'ITALIA',
-			regions: ['LOMBARDIA'],
-			provinces: ['CR', 'MN'],
-			note: 'SOLO I CLIENTI DEL SETTORE OEM'
-		}, {
-			name: 'NEWCLIMA di Giacomo Ciccola e Luca Molini s.n.c.',
-			categories: [4, 3, 1],
-			address: 'Via Concordia, 68 62100 MACERATA (MC)',
-			telephone: 'Ciccola: 348 2524005 / Molini: 348 5100964',
-			email: 'info@newclimasnc.it',
-			country: 'ITALIA',
-			regions: ['MARCHE'],
-			provinces: ['AN', 'AP', 'MC', 'FM']
-		}, {
-			name: 'NORCINI PALA ADELIO',
-			categories: [4, 3, 1],
-			address: 'LARGO VALERIO BACIGALUPO N.33 00142 ROMA',
-			telephone: '337-761035',
-			email: 'adelionorcini@gmail.com; info@npagroup.it',
-			country: 'ITALIA',
-			regions: ['LAZIO'],
-			provinces: ['RM (fuori dal Raccordo Anulare )', 'LT (solo Aprilia)'],
-			note: 'SOLO SISTEMI (All\'interno del Raccordo Anulare)'
-		}, {
-			name: 'PATRIZIO DE SIMONI',
-			categories: [1],
-			address: 'P.ZZA DALMAZIA 38 - 05100 TERNI (TR)',
-			telephone: '346 6143816',
-			email: 'agenziadesimoni@gmail.com',
-			country: 'ITALIA',
-			regions: ['LAZIO', 'UMBRIA'],
-			provinces: ['RI', 'VT', 'TR'],
-			note: 'SOLO SISTEMI'
-		}, {
-			name: 'PICCILLO PAOLO',
-			categories: [4, 3],
-			address: 'VIA ENRICO VERIUS, 80 00126 ROMA',
-			telephone: '338-8990592',
-			email: 'paolopiccillo@libero.it',
-			country: 'ITALIA',
-			regions: ['LAZIO'],
-			provinces: ['RM (Interno raccordo anulare)'],
-			note: 'ESCLUSO SISTEMI'
-		}, {
-			name: 'PICENNI CLAUDIO',
-			categories: [4, 3, 1],
-			address: 'VIA PETRARCA, 25 46043 CASTIGLIONE D/S - MANTOVA',
-			telephone: '335-6528452',
-			email: 'picenniclaudio@libero.it',
-			country: 'ITALIA',
-			regions: ['LOMBARDIA'],
-			provinces: ['MN']
-		}, {
-			name: 'POLETTI MARCO',
-			categories: [4, 3, 1],
-			address: 'VIA MURAGLIONE 13 48012 BAGNACAVALLO (RA)',
-			telephone: '+39 335 327369 / +39 054563894',
-			email: 'mpoletti59@alice.it',
-			country: 'ITALIA',
-			regions: ['EMILIA ROMAGNA'],
-			provinces: ['RN', 'RA', 'FC']
-		}, {
-			name: 'POLETTI MARCO',
-			categories: [4, 3, 1],
-			address: 'VIA MURAGLIONE 13 48012 BAGNACAVALLO (RA)',
-			telephone: '+39 335 327369 / +39 054563894',
-			email: 'marcopoletti@polettimarco.it',
-			country: 'ITALIA',
-			regions: ['MARCHE'],
-			provinces: ['PU']
-		}, {
-			name: 'RACCIS FEDERICO',
-			categories: [3, 1],
-			address: 'VIA GRAMSCI, 30 25082 BOTTICINO SERA - BRESCIA',
-			telephone: 'Cell. 348-4229982',
-			email: 'irrigazione@gmail.com',
-			country: 'ITALIA',
-			regions: ['TRENTINO-ALTO ADIGE'],
-			provinces: ['BZ'],
-			note: 'Solo settore IRRIGAZIONE'
-		}, {
-			name: 'ROBERTO MAGNI',
-			categories: [4, 3, 1],
-			address: 'Corso de Stefanis 12/13c 16139 Genova',
-			telephone: 'Sig. Magni 348-3817155',
-			email: 'r.magni14@gmail.com',
-			country: 'ITALIA',
-			regions: ['LIGURIA'],
-			provinces: ['GE-SV-IM-SP']
-		}, {
-			name: 'SABE SRL',
-			categories: [4, 3, 1],
-			address: 'VIA RIMEMBRANZE, 1 25069 VILLA CARCINA - BRESCIA',
-			telephone: '335-6280882 / 339-6327608',
-			email: 'simonesaleri@gmail.com',
-			country: 'ITALIA',
-			regions: ['LOMBARDIA'],
-			provinces: ['BS', 'BG', 'CR', 'LO']
-		}, {
-			name: 'SCUDERI DOMENICO',
-			categories: [4, 3, 1],
-			address: 'VIA FIORITA, 9 95123 CATANIA',
-			telephone: '338-7426121',
-			email: 'scuderidomenico@hotmail.it',
-			country: 'ITALIA',
-			regions: ['SICILIA'],
-			provinces: ['CT', 'ME', 'SR', 'EN', 'RG']
-		}, {
-			name: 'SG RAPPRESENTANZE DI SALVATORE GIACALONE',
-			categories: [4, 3],
-			address: 'VIA F.CO CULCASI 9/C 91110 TRAPANI',
-			telephone: '388 1830855',
-			email: 'sgrappresentanzesrl@gmail.com',
-			country: 'ITALIA',
-			regions: ['SICILIA OCC'],
-			provinces: ['PA', 'TP', 'AG', 'CL'],
-			note: 'ESCLUSO SISTEMI'
-		}, {
-			name: 'STEFANO DE SIMONI',
-			categories: [4, 3],
-			address: 'VIA MERLINO DI FILIPPO, 3 - 05100 TERNI (TR)',
-			telephone: '335-7104017',
-			email: 'stefanodesimoni@yahoo.it',
-			country: 'ITALIA',
-			regions: ['LAZIO', 'UMBRIA'],
-			provinces: ['RI', 'VT', 'TR'],
-			note: 'ESCLUSO SISTEMI'
-		}, {
-			name: 'T&amp;B GROUP di Terracciano Luca',
-			categories: [4, 3, 1],
-			address: 'VIA ALDOVRANDI 20 - 56121 OSPEDALETTO (PI)',
-			telephone: '392-9797002',
-			email: 'betticommerciale@gmail.com',
-			country: 'ITALIA',
-			regions: ['TOSCANA'],
-			provinces: ['MS', 'LU', 'PI', 'LI', 'GR']
-		}, {
-			name: 'TAGLIAFERRI EMILIANO',
-			categories: [1],
-			address: 'Via Brighindi Francesco, 159 03100 Frosinone (FR)',
-			telephone: 'Cell. Tagliaferri 328-7595575',
-			mobilePhone: 'Prato 335-6027838',
-			email: 'agenzia.riellofrosinone@gmail.com',
-			country: 'ITALIA',
-			regions: ['LAZIO'],
-			provinces: ['LT (escluso Aprilia)', 'FR'],
-			note: 'Solo SISTEMI'
-		}, {
-			name: 'TOTI MARCO',
-			categories: [4, 3, 1],
-			address: 'Via G. Rossini, 42 50050 Cerreto Guidi (FI)',
-			telephone: '347.6341084',
-			email: 'agenziatoti@gmail.com',
-			country: 'ITALIA',
-			regions: ['TOSCANA'],
-			provinces: ['FI', 'PO', 'PT', 'SI']
-		}, {
-			name: 'TSA di Luigi Zanieri',
-			categories: [4, 3, 1],
-			address: 'VIA A.VIVALDI, 15/4 40054 BUDRIO - BOLOGNA',
-			telephone: 'Sig. Zanieri 349-2856011',
-			email: 'luigi.zanieri@gmail.com',
-			country: 'ITALIA',
-			regions: ['EMILIA ROMAGNA'],
-			provinces: ['BO', 'FE']
-		}, {
-			name: 'VERNANI GIULIO RAPPRESENTANZE',
-			categories: [4, 3, 1],
-			address: 'VIA MERANO, 20 20814 VAREDO - MONZA E BRIANZA',
-			telephone: '333-2805989 / 335-6284474',
-			email: 'vernani.rappresentanze@gmail.com',
-			country: 'ITALIA',
-			regions: ['LOMBARDIA'],
-			provinces: ['MI', 'MB', 'VA']
-		}, {
-			name: 'VERNANI NIKOLAS',
-			categories: [4, 3, 1],
-			address: 'VIA MERANO, 20 20814 VAREDO - MONZA E BRIANZA',
-			telephone: '335-5907295',
-			email: 'vernani.rappresentanze@gmail.com',
-			country: 'ITALIA',
-			regions: ['LOMBARDIA'],
-			provinces: ['CO', 'LC', 'SO']
-		},
-	];
+	delete window.filters['provinces'];
+
+	window.agents = [{
+		id: 2,
+		email: "pietro.storto@virgilio.it",
+		attivo: !0,
+		name: "AGENZIA STORTO PIETRO",
+		categories: [18286, 18287, 18289],
+		address: "P.ZZA MUNICIPIO, 9 86020 CASTELLINO DEL BIFERMO - CAMPOBASSO",
+		telephone: "Sig. Storto 335-1403714",
+		note: "",
+		fax: "",
+		provinces: "IS, CB",
+		idCountry: [114],
+		country: "Italia",
+		idsRegions: [11],
+		regions: "Molise",
+		linkMappa: "",
+		allFields: {
+			ic_id: 2,
+			ic_tipologia: 2,
+			ic_azienda: "AGENZIA STORTO PIETRO",
+			ic_indirizzo: "P.ZZA MUNICIPIO, 9 86020 CASTELLINO DEL BIFERMO - CAMPOBASSO",
+			ic_nazione: ",114,",
+			ic_telefono: "Sig. Storto 335-1403714",
+			ic_email: "pietro.storto@virgilio.it",
+			ic_website: "",
+			ic_regioni: ",11,",
+			ic_attivo: !0,
+			ic_prodotti: ",18286,18287,18289,",
+			ic_linkmappa: "",
+			ic_mercato: "",
+			ic_fax: "",
+			ic_note: "",
+			ic_province: "IS, CB"
+		}
+    }, {
+		id: 3,
+		email: "info@tiemme.gr",
+		attivo: !0,
+		name: "TIEMME HELLAS S.A.",
+		categories: [],
+		address: "Thesi Drassaria - 19300 Aspropyrgos",
+		telephone: "+30 2105571500",
+		note: "",
+		fax: "",
+		provinces: "",
+		idCountry: [2, 32, 79],
+		country: "Albania, Bulgaria, Grecia",
+		idsRegions: [],
+		regions: "",
+		linkMappa: "",
+		allFields: {
+			ic_id: 3,
+			ic_tipologia: 2,
+			ic_azienda: "TIEMME HELLAS S.A.",
+			ic_indirizzo: "Thesi Drassaria - 19300 Aspropyrgos",
+			ic_nazione: ",2,32,79,",
+			ic_telefono: "+30 2105571500",
+			ic_email: "info@tiemme.gr",
+			ic_website: "",
+			ic_regioni: "",
+			ic_attivo: !0,
+			ic_prodotti: "",
+			ic_linkmappa: "",
+			ic_mercato: "",
+			ic_fax: "",
+			ic_note: "",
+			ic_province: ""
+		}
+    }, {
+		id: 4,
+		email: "mpoletti59@alice.it",
+		attivo: !0,
+		name: "POLETTI MARCO",
+		categories: [18286, 18287, 18288],
+		address: "VIA MURAGLIONE 13 48012 BAGNACAVALLO (RA)",
+		telephone: "+39 335 327369 / +39 054563894",
+		note: "",
+		fax: "",
+		provinces: "RA, FC, RN, RSM, PU",
+		idCountry: [114, 178],
+		country: "Italia, Repubblica di San Marino",
+		idsRegions: [5, 10],
+		regions: "Emilia Romagna, Marche",
+		linkMappa: "",
+		allFields: {
+			ic_id: 4,
+			ic_tipologia: 2,
+			ic_azienda: "POLETTI MARCO",
+			ic_indirizzo: "VIA MURAGLIONE 13 48012 BAGNACAVALLO (RA)",
+			ic_nazione: ",114,178,",
+			ic_telefono: "+39 335 327369 / +39 054563894",
+			ic_email: "mpoletti59@alice.it",
+			ic_website: "",
+			ic_regioni: ",5,10,",
+			ic_attivo: !0,
+			ic_prodotti: ",18286,18287,18288,",
+			ic_linkmappa: "",
+			ic_mercato: "",
+			ic_fax: "",
+			ic_note: "",
+			ic_province: "RA, FC, RN, RSM, PU"
+		}
+    }, {
+		id: 7,
+		email: "info@adcrap.com",
+		attivo: !0,
+		name: "ANTONIO DAL COL",
+		categories: [18287, 18288, 18286],
+		address: "VIA CAL GRANDE INTERMEDIA, 13 31028 VAZZOLA (Treviso)",
+		telephone: "0438 441103 - Cell. 336 359922",
+		note: "",
+		fax: "",
+		provinces: "UD, PN, TS, GO, TV, PD, RO, VE, VI, BL, TN, BZ",
+		idCountry: [114],
+		country: "Italia",
+		idsRegions: [20, 6, 17],
+		regions: "Friuli-Venezia Giulia, Trentino-Alto Adige, Veneto",
+		linkMappa: "",
+		allFields: {
+			ic_id: 7,
+			ic_tipologia: 2,
+			ic_azienda: "ANTONIO DAL COL",
+			ic_indirizzo: "VIA CAL GRANDE INTERMEDIA, 13 31028 VAZZOLA (Treviso)",
+			ic_nazione: ",114,",
+			ic_telefono: "0438 441103 - Cell. 336 359922",
+			ic_email: "info@adcrap.com",
+			ic_website: "",
+			ic_regioni: ",20,6,17,",
+			ic_attivo: !0,
+			ic_prodotti: ",18287,18288,18286,",
+			ic_linkmappa: "",
+			ic_mercato: "",
+			ic_fax: "",
+			ic_note: "",
+			ic_province: "UD, PN, TS, GO, TV, PD, RO, VE, VI, BL, TN, BZ"
+		}
+    }, {
+		id: 8,
+		email: "bn.ufficio@gmail.com",
+		attivo: !0,
+		name: "BONA LUCA",
+		categories: [18288, 18287, 18286],
+		address: "Via L. Bassani 39 37069 Villafranca di Verona (VR)",
+		telephone: "335.7621910 / 045.6937680",
+		note: "",
+		fax: "",
+		provinces: "VR",
+		idCountry: [114],
+		country: "Italia",
+		idsRegions: [20],
+		regions: "Veneto",
+		linkMappa: "",
+		allFields: {
+			ic_id: 8,
+			ic_tipologia: 2,
+			ic_azienda: "BONA LUCA",
+			ic_indirizzo: "Via L. Bassani 39 37069 Villafranca di Verona (VR)",
+			ic_nazione: ",114,",
+			ic_telefono: "335.7621910 / 045.6937680",
+			ic_email: "bn.ufficio@gmail.com",
+			ic_website: "",
+			ic_regioni: ",20,",
+			ic_attivo: !0,
+			ic_prodotti: ",18288,18287,18286,",
+			ic_linkmappa: "",
+			ic_mercato: "",
+			ic_fax: "",
+			ic_note: "",
+			ic_province: "VR"
+		}
+    }, {
+		id: 9,
+		email: "bonazzas@gmail.com",
+		attivo: !0,
+		name: "BONAZZA SANDRO",
+		categories: [18286, 18287, 18288],
+		address: "VIA MAZZINI 44 27020 OTTOBIANO - PAVIA",
+		telephone: "Sig. Bonazza 335-5860182 / Sig. William 392-902461",
+		note: "",
+		fax: "",
+		provinces: "PV",
+		idCountry: [114],
+		country: "Italia",
+		idsRegions: [9],
+		regions: "Lombardia",
+		linkMappa: "",
+		allFields: {
+			ic_id: 9,
+			ic_tipologia: 2,
+			ic_azienda: "BONAZZA SANDRO",
+			ic_indirizzo: "VIA MAZZINI 44 27020 OTTOBIANO - PAVIA",
+			ic_nazione: ",114,",
+			ic_telefono: "Sig. Bonazza 335-5860182 / Sig. William 392-902461",
+			ic_email: "bonazzas@gmail.com",
+			ic_website: "",
+			ic_regioni: ",9,",
+			ic_attivo: !0,
+			ic_prodotti: ",18286,18287,18288,",
+			ic_linkmappa: "",
+			ic_mercato: "",
+			ic_fax: "",
+			ic_note: "",
+			ic_province: "PV"
+		}
+    }, {
+		id: 10,
+		email: "info@cmcrappresentanze.it",
+		attivo: !0,
+		name: "CMC RAPPRESENTANZE TERMOTECNICHE DI MORRONE CHRISTIAN",
+		categories: [18288, 18287, 18286],
+		address: "Via Carlo Cattaneo 17 A/B 74121 TARANTO (TA)",
+		telephone: "099.7791502 / 392.4149999",
+		note: "",
+		fax: "",
+		provinces: "BR, TA, LE",
+		idCountry: [114],
+		country: "Italia",
+		idsRegions: [13],
+		regions: "Puglia",
+		linkMappa: "",
+		allFields: {
+			ic_id: 10,
+			ic_tipologia: 2,
+			ic_azienda: "CMC RAPPRESENTANZE TERMOTECNICHE DI MORRONE CHRISTIAN",
+			ic_indirizzo: "Via Carlo Cattaneo 17 A/B 74121 TARANTO (TA)",
+			ic_nazione: ",114,",
+			ic_telefono: "099.7791502 / 392.4149999",
+			ic_email: "info@cmcrappresentanze.it",
+			ic_website: "",
+			ic_regioni: ",13,",
+			ic_attivo: !0,
+			ic_prodotti: ",18288,18287,18286,",
+			ic_linkmappa: "",
+			ic_mercato: "",
+			ic_fax: "",
+			ic_note: "",
+			ic_province: "BR, TA, LE"
+		}
+    }, {
+		id: 11,
+		email: "corradosas@fastwebnet.it",
+		attivo: !0,
+		name: "CORRADO RAPPRESENTANZE SAS",
+		categories: [18288, 18286],
+		address: "VIA D. FONTANA, 184 80131 NAPOLI",
+		telephone: "Sig. Giuseppe 337-843733 / Sig. Salvatore 335-6656",
+		note: "",
+		fax: "",
+		provinces: "PZ, NA, SA, AV, BN, CE",
+		idCountry: [114],
+		country: "Italia",
+		idsRegions: [2, 4],
+		regions: "Basilicata, Campania",
+		linkMappa: "",
+		allFields: {
+			ic_id: 11,
+			ic_tipologia: 2,
+			ic_azienda: "CORRADO RAPPRESENTANZE SAS",
+			ic_indirizzo: "VIA D. FONTANA, 184 80131 NAPOLI",
+			ic_nazione: ",114,",
+			ic_telefono: "Sig. Giuseppe 337-843733 / Sig. Salvatore 335-6656",
+			ic_email: "corradosas@fastwebnet.it",
+			ic_website: "",
+			ic_regioni: ",2,4,",
+			ic_attivo: !0,
+			ic_prodotti: ",18288,18286,",
+			ic_linkmappa: "",
+			ic_mercato: "",
+			ic_fax: "",
+			ic_note: "",
+			ic_province: "PZ, NA, SA, AV, BN, CE"
+		}
+    }, {
+		id: 12,
+		email: "gcuccu.clima@gmail.com",
+		attivo: !0,
+		name: "CUCCU GIUSEPPE",
+		categories: [18288, 18287, 18286],
+		address: "VIA NAZIONALE, 132 09039 - VILLACIDRO (VS)",
+		telephone: "Cel. 348 7624498 - Tel./Fax 340 7624490",
+		note: "",
+		fax: "",
+		provinces: "CA, CI, OG, VS, OR",
+		idCountry: [114],
+		country: "Italia",
+		idsRegions: [14],
+		regions: "Sardegna",
+		linkMappa: "",
+		allFields: {
+			ic_id: 12,
+			ic_tipologia: 2,
+			ic_azienda: "CUCCU GIUSEPPE",
+			ic_indirizzo: "VIA NAZIONALE, 132 09039 - VILLACIDRO (VS)",
+			ic_nazione: ",114,",
+			ic_telefono: "Cel. 348 7624498 - Tel./Fax 340 7624490",
+			ic_email: "gcuccu.clima@gmail.com",
+			ic_website: "",
+			ic_regioni: ",14,",
+			ic_attivo: !0,
+			ic_prodotti: ",18288,18287,18286,",
+			ic_linkmappa: "",
+			ic_mercato: "",
+			ic_fax: "",
+			ic_note: "",
+			ic_province: "CA, CI, OG, VS, OR"
+		}
+    }, {
+		id: 13,
+		email: "curradobruno@libero.it",
+		attivo: !0,
+		name: "CURRADO BRUNO RAPPRESENTANZE",
+		categories: [18288, 18287, 18286],
+		address: "VIA DURANDO N.1/B 14037 PORTACOMARO D'ASTI - ASTI",
+		telephone: "335-216205 / 336-790137",
+		note: "",
+		fax: "",
+		provinces: "CN, TO, VC, AT, NO, AL, BI, VB, AO",
+		idCountry: [114],
+		country: "Italia",
+		idsRegions: [12, 19],
+		regions: "Piemonte, Valle d' Aosta",
+		linkMappa: "",
+		allFields: {
+			ic_id: 13,
+			ic_tipologia: 2,
+			ic_azienda: "CURRADO BRUNO RAPPRESENTANZE",
+			ic_indirizzo: "VIA DURANDO N.1/B 14037 PORTACOMARO D'ASTI - ASTI",
+			ic_nazione: ",114,",
+			ic_telefono: "335-216205 / 336-790137",
+			ic_email: "curradobruno@libero.it",
+			ic_website: "",
+			ic_regioni: ",12,19,",
+			ic_attivo: !0,
+			ic_prodotti: ",18288,18287,18286,",
+			ic_linkmappa: "",
+			ic_mercato: "",
+			ic_fax: "",
+			ic_note: "",
+			ic_province: "CN, TO, VC, AT, NO, AL, BI, VB, AO"
+		}
+    }, {
+		id: 14,
+		email: "dpstefano@hotmail.it",
+		attivo: !0,
+		name: "D.P.S. DI DE PAOLIS STEFANO & C. S.A.S",
+		categories: [18287, 18286],
+		address: "VIA MONS. TAGLIAFERRI N.3 03011 ALATRI - FROSINONE",
+		telephone: "335-7828693",
+		note: "ESCLUSO SISTEMI",
+		fax: "",
+		provinces: "LT (escluso Aprilia) - FR",
+		idCountry: [114],
+		country: "Italia",
+		idsRegions: [7],
+		regions: "Lazio",
+		linkMappa: "",
+		allFields: {
+			ic_id: 14,
+			ic_tipologia: 2,
+			ic_azienda: "D.P.S. DI DE PAOLIS STEFANO & C. S.A.S",
+			ic_indirizzo: "VIA MONS. TAGLIAFERRI N.3 03011 ALATRI - FROSINONE",
+			ic_nazione: ",114,",
+			ic_telefono: "335-7828693",
+			ic_email: "dpstefano@hotmail.it",
+			ic_website: "",
+			ic_regioni: ",7,",
+			ic_attivo: !0,
+			ic_prodotti: ",18287,18286,",
+			ic_linkmappa: "",
+			ic_mercato: "",
+			ic_fax: "",
+			ic_note: "ESCLUSO SISTEMI",
+			ic_province: "LT (escluso Aprilia) - FR"
+		}
+    }, {
+		id: 15,
+		email: "enertecagenzia@gmail.com",
+		attivo: !0,
+		name: "ENERTEC DI PANTALEO LUIGI",
+		categories: [18288, 18287, 18286],
+		address: "VIA LUIGI POLACCHI , 6 65129 PESCARA",
+		telephone: "Sig. Pantaleo 338-9146400",
+		note: "",
+		fax: "",
+		provinces: "PE, AQ, CH, TE",
+		idCountry: [114],
+		country: "Italia",
+		idsRegions: [1],
+		regions: "Abruzzo",
+		linkMappa: "",
+		allFields: {
+			ic_id: 15,
+			ic_tipologia: 2,
+			ic_azienda: "ENERTEC DI PANTALEO LUIGI",
+			ic_indirizzo: "VIA LUIGI POLACCHI , 6 65129 PESCARA",
+			ic_nazione: ",114,",
+			ic_telefono: "Sig. Pantaleo 338-9146400",
+			ic_email: "enertecagenzia@gmail.com",
+			ic_website: "",
+			ic_regioni: ",1,",
+			ic_attivo: !0,
+			ic_prodotti: ",18288,18287,18286,",
+			ic_linkmappa: "",
+			ic_mercato: "",
+			ic_fax: "",
+			ic_note: "",
+			ic_province: "PE, AQ, CH, TE"
+		}
+    }, {
+		id: 16,
+		email: "info@euroservicesnc.it",
+		attivo: !0,
+		name: "EUROSERVICE TRADE S.r.l.",
+		categories: [18286, 18287, 18288],
+		address: "VIALE EMILIA 98/C - 88060 - S.MARIA DI CATANZARO - CATANZARO",
+		telephone: "Sig. Gianni 340-8716087 / Sig. Floro 348-0947380 /",
+		note: "",
+		fax: "",
+		provinces: "CZ, CS, KR, RC, VV",
+		idCountry: [114],
+		country: "Italia",
+		idsRegions: [3],
+		regions: "Calabria",
+		linkMappa: "",
+		allFields: {
+			ic_id: 16,
+			ic_tipologia: 2,
+			ic_azienda: "EUROSERVICE TRADE S.r.l.",
+			ic_indirizzo: "VIALE EMILIA 98/C - 88060 - S.MARIA DI CATANZARO - CATANZARO",
+			ic_nazione: ",114,",
+			ic_telefono: "Sig. Gianni 340-8716087 / Sig. Floro 348-0947380 /",
+			ic_email: "info@euroservicesnc.it",
+			ic_website: "",
+			ic_regioni: ",3,",
+			ic_attivo: !0,
+			ic_prodotti: ",18286,18287,18288,",
+			ic_linkmappa: "",
+			ic_mercato: "",
+			ic_fax: "",
+			ic_note: "",
+			ic_province: "CZ, CS, KR, RC, VV"
+		}
+    }, {
+		id: 17,
+		email: "info@ftrappresentanze.it",
+		attivo: !0,
+		name: "FERRARA RAPPRESENTANZE",
+		categories: [18288, 18287, 18286],
+		address: "VIA VOMERO, 56 70019 TRIGGIANO - BARI",
+		telephone: "Sig. Ferrara 335-6956778",
+		note: "",
+		fax: "",
+		provinces: "MT, FG, BA, BT",
+		idCountry: [114],
+		country: "Italia",
+		idsRegions: [2, 13],
+		regions: "Basilicata, Puglia",
+		linkMappa: "",
+		allFields: {
+			ic_id: 17,
+			ic_tipologia: 2,
+			ic_azienda: "FERRARA RAPPRESENTANZE",
+			ic_indirizzo: "VIA VOMERO, 56 70019 TRIGGIANO - BARI",
+			ic_nazione: ",114,",
+			ic_telefono: "Sig. Ferrara 335-6956778",
+			ic_email: "info@ftrappresentanze.it",
+			ic_website: "",
+			ic_regioni: ",2,13,",
+			ic_attivo: !0,
+			ic_prodotti: ",18288,18287,18286,",
+			ic_linkmappa: "",
+			ic_mercato: "",
+			ic_fax: "",
+			ic_note: "",
+			ic_province: "MT, FG, BA, BT"
+		}
+    }, {
+		id: 18,
+		email: "effegirapp@gmail.com",
+		attivo: !0,
+		name: "FRANCESCO GIANGUALANO RAPPRESENTANZE",
+		categories: [18286, 18287, 18288],
+		address: "VIA ARGINE CROSTOLO, 5 42016 GUASTALLA - REGGIO EMILIA",
+		telephone: "328-7449673",
+		note: "",
+		fax: "",
+		provinces: "MO, RE",
+		idCountry: [114],
+		country: "Italia",
+		idsRegions: [5],
+		regions: "Emilia Romagna",
+		linkMappa: "",
+		allFields: {
+			ic_id: 18,
+			ic_tipologia: 2,
+			ic_azienda: "FRANCESCO GIANGUALANO RAPPRESENTANZE",
+			ic_indirizzo: "VIA ARGINE CROSTOLO, 5 42016 GUASTALLA - REGGIO EMILIA",
+			ic_nazione: ",114,",
+			ic_telefono: "328-7449673",
+			ic_email: "effegirapp@gmail.com",
+			ic_website: "",
+			ic_regioni: ",5,",
+			ic_attivo: !0,
+			ic_prodotti: ",18286,18287,18288,",
+			ic_linkmappa: "",
+			ic_mercato: "",
+			ic_fax: "",
+			ic_note: "",
+			ic_province: "MO, RE"
+		}
+    }, {
+		id: 19,
+		email: "marcogelmini74@gmail.com",
+		attivo: !0,
+		name: "GELMINI MARCO",
+		categories: [18286, 18287, 18288],
+		address: "VICOLO IVO COBIANCHI N.7 43126 PARMA",
+		telephone: "335 7054760",
+		note: "",
+		fax: "",
+		provinces: "PR, PC",
+		idCountry: [114],
+		country: "Italia",
+		idsRegions: [5],
+		regions: "Emilia Romagna",
+		linkMappa: "",
+		allFields: {
+			ic_id: 19,
+			ic_tipologia: 2,
+			ic_azienda: "GELMINI MARCO",
+			ic_indirizzo: "VICOLO IVO COBIANCHI N.7 43126 PARMA",
+			ic_nazione: ",114,",
+			ic_telefono: "335 7054760",
+			ic_email: "marcogelmini74@gmail.com",
+			ic_website: "",
+			ic_regioni: ",5,",
+			ic_attivo: !0,
+			ic_prodotti: ",18286,18287,18288,",
+			ic_linkmappa: "",
+			ic_mercato: "",
+			ic_fax: "",
+			ic_note: "",
+			ic_province: "PR, PC"
+		}
+    }]
 
 </script>
 

@@ -69,6 +69,18 @@
 	.link {
 		display: inline;
 	}
+
+	@include media-down(sm) {
+		padding: 40px 0;
+
+		.group--detail {
+			margin-bottom: 0;
+
+			.btn--cta {
+				margin: 10px 0 10px;
+			}
+		}
+	}
 }
 
 @include media-up(lg) {}
@@ -87,5 +99,9 @@
 		.title {
 			font-size: 50px;
 		}
+	}
+
+	@include media-down(sm) {
+		padding: 40px 0;
 	}
 }

@@ -1,11 +1,85 @@
+%dropdown {
+	position: absolute;
+	width: 100%;
+	height: 100vh;
+	top: 0;
+	left: 0;
+	background: white;
+
+	&>.inner {
+		margin-top: 120px;
+		height: calc(100% - 120px);
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+
+		@media screen and (max-height: 767px) {
+			align-items: flex-start;
+		}
+	}
+
+	@include media-down(sm) {
+		overflow-x: hidden;
+		overflow-y: auto;
+		@include scrollbar();
+		-webkit-overflow-scrolling: touch;
+
+		&>.inner {
+			height: auto;
+		}
+	}
+}
+
+.dropdown--menu {
+	@extend %dropdown;
+	background: url('../img/header/background.jpg') no-repeat;
+	background-size: cover;
+	opacity: 0;
+	animation-name: dropdown-menu;
+	animation-duration: 400ms;
+	animation-fill-mode: forwards;
+
+	@include media-down(sm) {
+		.inner {
+			justify-content: flex-start;
+			align-items: flex-start;
+			transform: translateX(0);
+			transition: all ease-in-out 350ms;
+		}
+
+		.nav--header {
+			width: 100%;
+			flex: 0 0 100%;
+		}
+
+		&.submenu {
+			.inner {
+				transform: translateX(-100%);
+			}
+		}
+	}
+}
+
 .section--header {
 	position: absolute;
 	z-index: 1000;
 	width: 100%;
 	top: 0;
 
+	.dropdown--menu {
+		position: fixed;
+		overflow-x: hidden;
+		overflow-y: auto;
+		@include scrollbar();
+	}
+
 	@include media-down(sm) {
 		background: white;
+
+		.dropdown--menu {
+			height: calc(100vh - 55px);
+			top: 55px;
+		}
 	}
 }
 
@@ -229,11 +303,9 @@
 	}
 
 	@include media-down(md) {
-
 		span {
 			font-size: 19px;
 		}
-
 	}
 
 	@include media-down(sm) {
@@ -248,72 +320,20 @@
 			height: 24px;
 		}
 
+		&,
+		&:active,
+		&:focus,
+		&:hover,
+		&:visited {
+			.icon--user {
+				fill: $foreground;
+			}
+		}
 	}
 }
 
 .group--language {
 	line-height: 0;
-}
-
-%dropdown {
-	position: absolute;
-	width: 100%;
-	height: 100vh;
-	top: 0;
-	left: 0;
-	background: white;
-
-	&>.inner {
-		margin-top: 120px;
-		height: calc(100% - 120px);
-		display: flex;
-		justify-content: space-around;
-		align-items: center;
-
-		@media screen and (max-height: 767px) {
-			align-items: flex-start;
-		}
-	}
-
-	@include media-down(sm) {
-		overflow-x: hidden;
-		overflow-y: auto;
-		-webkit-overflow-scrolling: touch;
-
-		&>.inner {
-			height: auto;
-		}
-	}
-}
-
-.dropdown--menu {
-	@extend %dropdown;
-	background: url('../img/header/background.jpg') no-repeat;
-	background-size: cover;
-	opacity: 0;
-	animation-name: dropdown-menu;
-	animation-duration: 400ms;
-	animation-fill-mode: forwards;
-
-	@include media-down(sm) {
-		.inner {
-			justify-content: flex-start;
-			align-items: flex-start;
-			transform: translateX(0);
-			transition: all ease-in-out 350ms;
-		}
-
-		.nav--header {
-			width: 100%;
-			flex: 0 0 100%;
-		}
-
-		&.submenu {
-			.inner {
-				transform: translateX(-100%);
-			}
-		}
-	}
 }
 
 @keyframes dropdown-menu {

@@ -74,6 +74,10 @@ export default class WorkWithUsComponent extends Component {
 					this.success = true;
 					this.form.reset();
 					// this.pushChanges();
+					dataLayer.push({
+						'event': 'formSubmission',
+						'form type': 'Lavora con Noi'
+					});
 				}, error => {
 					console.log('WorkWithUsComponent.error', error);
 					this.error = error;

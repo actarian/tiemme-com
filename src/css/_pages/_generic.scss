@@ -46,7 +46,11 @@
 
 	@include media-down(sm) {
 		padding-top: 20px;
-		margin-bottom: -60px;
+		// margin-bottom: -60px;
+
+		&__title {
+			margin-bottom: 20px;
+		}
 	}
 }
 
@@ -92,6 +96,10 @@
 
 	@include media-down(md) {
 		padding: 60px 0;
+	}
+
+	@include media-down(sm) {
+		padding: 30px 0;
 	}
 }
 
@@ -176,4 +184,14 @@
 	&>.title {
 		@extend %category;
 	}
+}
+
+.profiler-results {
+	@include media-down(sm) {
+		display: none !important;
+	}
+}
+
+.flex--row {
+	width: 100%;
 }

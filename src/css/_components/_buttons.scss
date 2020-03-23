@@ -1,14 +1,12 @@
+a,
 button {
-	font: inherit;
-}
-
-%btn {
 	display: inline-block;
 	padding: 0;
 	border: none;
 	outline: none;
 	background: none;
 	appearance: none;
+	font: inherit;
 	cursor: pointer;
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 	// transition: ease-in-out 350ms;
@@ -23,12 +21,11 @@ button {
 		text-decoration: none;
 		outline: none;
 	}
+}
 
-	/*
-	&:hover {
-		box-shadow: 0 10px 10px -5px rgba(0, 0, 0, 0.15);
-	}
-	*/
+%btn {
+	// transition: ease-in-out 350ms;
+	// transition-property: background-color, color, border, opacity;
 
 	&[disabled] {
 		opacity: 0.5;
@@ -36,8 +33,6 @@ button {
 	}
 }
 
-a,
-button,
 .btn {
 	@extend %btn;
 }
@@ -45,33 +40,25 @@ button,
 .btn--link {
 	@extend %btn;
 	display: inline-block;
-
-	span {
-		display: inline-block;
-		padding: 4px;
-		font-size: 16px;
-		line-height: 1;
-		font-weight: $font-semibold;
-		border: none;
-		transition: all ease-in-out .2s;
-	}
+	padding: 4px;
+	font-size: 16px;
+	line-height: 1;
+	font-weight: $font-semibold;
+	border: none;
+	transition: all ease-in-out .2s;
 
 	&,
 	&:active,
 	&:visited {
-		span {
-			background: $background-tertiary;
-			color: $foreground;
-			transition: all ease-in-out .2s;
-		}
+		background: $background-tertiary;
+		color: $foreground;
+		transition: all ease-in-out .2s;
 	}
 
 	&:focus,
 	&:hover {
-		span {
-			background: $background-secondary;
-			color: $foreground;
-		}
+		background: $background-secondary;
+		color: $foreground;
 	}
 }
 
@@ -90,7 +77,7 @@ button,
 }
 
 .btn--cta {
-	display: block;
+	display: inline-block;
 	padding: 5px 10px;
 	background: $background-secondary;
 	font-weight: $font-medium;
@@ -117,9 +104,10 @@ button,
 
 .btn--submit {
 	display: block;
-	padding: 5px 10px;
+	padding: 10px 10px;
 	background: $background-secondary;
 	font-size: 30px;
+	line-height: 1;
 	font-weight: $font-medium;
 	font-family: $font-secondary;
 	text-transform: uppercase;
@@ -139,8 +127,9 @@ button,
 
 .btn--back {
 	display: block;
-	padding: 5px 10px;
+	padding: 10px 10px;
 	font-size: 30px;
+	line-height: 1;
 	font-weight: $font-medium;
 	font-family: $font-secondary;
 	text-transform: uppercase;

@@ -7,6 +7,8 @@
 	}
 
 	@include media-down(sm) {
+		padding: 40px 0 10px 0;
+
 		&__title {
 			padding: 0 30px;
 		}
@@ -51,6 +53,10 @@
 			}
 		}
 	}
+
+	@include media-down(sm) {
+		padding: 40px 0;
+	}
 }
 
 .section--events {
@@ -87,6 +93,10 @@
 			}
 		}
 	}
+
+	@include media-down(sm) {
+		padding: 40px 0;
+	}
 }
 
 .section--achievements {
@@ -122,6 +132,10 @@
 				@include as-col(12, 12, 0);
 			}
 		}
+	}
+
+	@include media-down(sm) {
+		padding: 40px 0;
 	}
 }
 
@@ -164,6 +178,10 @@
 				@include as-col(12, 12, 0);
 			}
 		}
+	}
+
+	@include media-down(sm) {
+		padding: 40px 0;
 	}
 }
 
@@ -216,5 +234,9 @@
 				@include as-col(12, 12, 0);
 			}
 		}
+	}
+
+	@include media-down(sm) {
+		padding: 40px 0;
 	}
 }

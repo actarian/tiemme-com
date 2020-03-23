@@ -7,7 +7,7 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('rxcomp'), require('rxcomp-form'), require('rxjs/operators'), require('rxjs')) :
   typeof define === 'function' && define.amd ? define(['rxcomp', 'rxcomp-form', 'rxjs/operators', 'rxjs'], factory) :
-  (global = global || self, factory(global.rxcomp, global['rxcomp-form'], global.rxjs.operators, global.rxjs));
+  (global = global || self, factory(global.rxcomp, global.rxcomp.form, global.rxjs.operators, global.rxjs));
 }(this, (function (rxcomp, rxcompForm, operators, rxjs) { 'use strict';
 
   function _defineProperties(target, props) {
@@ -433,7 +433,7 @@
       var filters = window.filters || {};
       var initialParams = window.params || {};
       filters.countries.mode = FilterMode.SELECT;
-      filters.regions.mode = FilterMode.SELECT; //filters.provinces.mode = FilterMode.SELECT;
+      filters.regions.mode = FilterMode.SELECT; // filters.provinces.mode = FilterMode.SELECT;
 
       filters.categories.mode = FilterMode.SELECT;
       var filterService = new FilterService(filters, initialParams, function (key, filter) {
@@ -450,7 +450,15 @@
               return item.idsRegions && item.idsRegions.indexOf(value) !== -1;
             };
 
-            break; //case 'provinces':
+            break;
+
+          /*
+          case 'provinces':
+          	filter.filter = (item, value) => {
+          		return item.provinces && item.provinces.indexOf(value) !== -1;
+          	};
+          break;
+          */
 
           case 'categories':
             filter.filter = function (item, value) {
@@ -523,6 +531,77 @@
     DEVELOPMENT: DEVELOPMENT,
     PRODUCTION: PRODUCTION
   };
+
+  var ModalEvent = function ModalEvent(data) {
+    this.data = data;
+  };
+  var ModalResolveEvent = /*#__PURE__*/function (_ModalEvent) {
+    _inheritsLoose(ModalResolveEvent, _ModalEvent);
+
+    function ModalResolveEvent() {
+      return _ModalEvent.apply(this, arguments) || this;
+    }
+
+    return ModalResolveEvent;
+  }(ModalEvent);
+  var ModalRejectEvent = /*#__PURE__*/function (_ModalEvent2) {
+    _inheritsLoose(ModalRejectEvent, _ModalEvent2);
+
+    function ModalRejectEvent() {
+      return _ModalEvent2.apply(this, arguments) || this;
+    }
+
+    return ModalRejectEvent;
+  }(ModalEvent);
+
+  var ModalService = /*#__PURE__*/function () {
+    function ModalService() {}
+
+    ModalService.open$ = function open$(modal) {
+      var _this = this;
+
+      return this.getTemplate$(modal.src).pipe(operators.map(function (template) {
+        return {
+          node: _this.getNode(template),
+          data: modal.data,
+          modal: modal
+        };
+      }), operators.tap(function (node) {
+        return _this.modal$.next(node);
+      }), operators.switchMap(function (node) {
+        return _this.events$;
+      }));
+    };
+
+    ModalService.load$ = function load$(modal) {};
+
+    ModalService.getTemplate$ = function getTemplate$(url) {
+      return rxjs.from(fetch(url).then(function (response) {
+        return response.text();
+      }));
+    };
+
+    ModalService.getNode = function getNode(template) {
+      var div = document.createElement("div");
+      div.innerHTML = template;
+      var node = div.firstElementChild;
+      return node;
+    };
+
+    ModalService.reject = function reject(data) {
+      this.modal$.next(null);
+      this.events$.next(new ModalRejectEvent(data));
+    };
+
+    ModalService.resolve = function resolve(data) {
+      this.modal$.next(null);
+      this.events$.next(new ModalResolveEvent(data));
+    };
+
+    return ModalService;
+  }();
+  ModalService.modal$ = new rxjs.Subject();
+  ModalService.events$ = new rxjs.Subject();
 
   var HttpService = /*#__PURE__*/function () {
     function HttpService() {}
@@ -784,6 +863,8 @@
   }();
   UserService.user$ = new rxjs.BehaviorSubject(null);
 
+  var src = STATIC ? '/tiemme-com/club-modal.html' : '/Viewdoc.cshtml?co_id=23649';
+
   var AppComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(AppComponent, _Component);
 
@@ -807,10 +888,53 @@
 
         _this.pushChanges();
       });
+      setTimeout(function () {
+        _this.parseQueryString();
+      }, 500);
     };
 
     _proto.onDropped = function onDropped(id) {
       console.log('AppComponent.onDropped', id);
+    };
+
+    _proto.parseQueryString = function parseQueryString() {
+      var action = LocationService.get('action');
+
+      switch (action) {
+        case 'login':
+          this.openLogin();
+          break;
+
+        case 'register':
+          this.openRegister();
+          break;
+      }
+    };
+
+    _proto.openLogin = function openLogin() {
+      this.openLoginRegisterModal(1);
+    };
+
+    _proto.openRegister = function openRegister() {
+      this.openLoginRegisterModal(2);
+    };
+
+    _proto.openLoginRegisterModal = function openLoginRegisterModal(view) {
+      if (view === void 0) {
+        view = 1;
+      }
+
+      ModalService.open$({
+        src: src,
+        data: {
+          view: view
+        }
+      }).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (event) {
+        // console.log('RegisterOrLoginComponent.onRegister', event);
+        if (event instanceof ModalResolveEvent) {
+          UserService.setUser(event.data);
+        }
+      });
     } // onView() { const context = getContext(this); }
     // onChanges() {}
     // onDestroy() {}
@@ -1052,77 +1176,6 @@
     selector: '[club-forgot]',
     outputs: ['sent', 'login', 'register']
   };
-
-  var ModalEvent = function ModalEvent(data) {
-    this.data = data;
-  };
-  var ModalResolveEvent = /*#__PURE__*/function (_ModalEvent) {
-    _inheritsLoose(ModalResolveEvent, _ModalEvent);
-
-    function ModalResolveEvent() {
-      return _ModalEvent.apply(this, arguments) || this;
-    }
-
-    return ModalResolveEvent;
-  }(ModalEvent);
-  var ModalRejectEvent = /*#__PURE__*/function (_ModalEvent2) {
-    _inheritsLoose(ModalRejectEvent, _ModalEvent2);
-
-    function ModalRejectEvent() {
-      return _ModalEvent2.apply(this, arguments) || this;
-    }
-
-    return ModalRejectEvent;
-  }(ModalEvent);
-
-  var ModalService = /*#__PURE__*/function () {
-    function ModalService() {}
-
-    ModalService.open$ = function open$(modal) {
-      var _this = this;
-
-      return this.getTemplate$(modal.src).pipe(operators.map(function (template) {
-        return {
-          node: _this.getNode(template),
-          data: modal.data,
-          modal: modal
-        };
-      }), operators.tap(function (node) {
-        return _this.modal$.next(node);
-      }), operators.switchMap(function (node) {
-        return _this.events$;
-      }));
-    };
-
-    ModalService.load$ = function load$(modal) {};
-
-    ModalService.getTemplate$ = function getTemplate$(url) {
-      return rxjs.from(fetch(url).then(function (response) {
-        return response.text();
-      }));
-    };
-
-    ModalService.getNode = function getNode(template) {
-      var div = document.createElement("div");
-      div.innerHTML = template;
-      var node = div.firstElementChild;
-      return node;
-    };
-
-    ModalService.reject = function reject(data) {
-      this.modal$.next(null);
-      this.events$.next(new ModalRejectEvent(data));
-    };
-
-    ModalService.resolve = function resolve(data) {
-      this.modal$.next(null);
-      this.events$.next(new ModalResolveEvent(data));
-    };
-
-    return ModalService;
-  }();
-  ModalService.modal$ = new rxjs.Subject();
-  ModalService.events$ = new rxjs.Subject();
 
   var ModalOutletComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(ModalOutletComponent, _Component);
@@ -1874,6 +1927,11 @@
           _this3.form.reset(); // this.pushChanges();
           // this.signUp.next(response);
 
+
+          dataLayer.push({
+            'event': 'formSubmission',
+            'form type': 'Registrazione Club Tiemme'
+          });
         }, function (error) {
           console.log('ClubSignupComponent.error', error);
           _this3.error = error;
@@ -2098,12 +2156,9 @@
           node = _getContext.node;
 
       var control = this.control;
-      rxcompForm.FormAttributes.forEach(function (x) {
-        if (control[x]) {
-          node.classList.add(x);
-        } else {
-          node.classList.remove(x);
-        }
+      var flags = control.flags;
+      Object.keys(flags).forEach(function (key) {
+        flags[key] ? node.classList.add(key) : node.classList.remove(key);
       });
     };
 
@@ -2594,7 +2649,10 @@
     };
 
     _proto.toggleMenu = function toggleMenu($event) {
-      this.menu = this.menu !== $event ? $event : null;
+      this.menu = this.menu !== $event ? $event : null; // console.log('toggleMenu', this.menu);
+
+      var body = document.querySelector('body');
+      this.menu ? body.classList.add('fixed') : body.classList.remove('fixed');
       this.submenu = null;
       this.pushChanges();
     };
@@ -3089,6 +3147,11 @@
 
           _this2.form.reset(); // this.pushChanges();
 
+
+          dataLayer.push({
+            'event': 'formSubmission',
+            'form type': 'Contatti'
+          });
         }, function (error) {
           console.log('NaturalFormContactComponent.error', error);
           _this2.error = error;
@@ -3214,8 +3277,8 @@
         DropdownDirective.dropdown$.next(null);
       }
 
-      this.change.next(this.filter);
       this.pushChanges();
+      this.change.next(this.filter); // !!! for last, it may cause a destroy
     };
 
     _proto.hasOption = function hasOption(item) {
@@ -3225,9 +3288,6 @@
       } else {
         return this.filter.value === item.id;
       }
-    };
-
-    _proto.onDropped = function onDropped(id) {// console.log('NaturalFormControlComponent.onDropped', id);
     };
 
     _proto.getLabel = function getLabel() {
@@ -3261,8 +3321,22 @@
     };
 
     _proto.onDropped = function onDropped($event) {
-      // console.log($event);
       this.dropped = $event === this.dropdownId;
+
+      var _getContext2 = rxcomp.getContext(this),
+          node = _getContext2.node;
+
+      var dropdown = node.querySelector('.dropdown');
+
+      if (dropdown) {
+        dropdown.style = '';
+        var rect = dropdown.getBoundingClientRect();
+
+        if (rect.left + rect.width > window.innerWidth - 15) {
+          dropdown.style = "transform: translateX(" + (window.innerWidth - 15 - (rect.left + rect.width)) + "px);";
+        } // console.log(rect.left + rect.width, window.innerWidth - 15);
+
+      }
     };
 
     return NaturalFormControlComponent;
@@ -3355,6 +3429,11 @@
 
           _this2.form.reset(); // this.pushChanges();
 
+
+          dataLayer.push({
+            'event': 'formSubmission',
+            'form type': 'Iscrizione alla Newsletter'
+          });
         }, function (error) {
           console.log('NaturalFormNewsletterComponent.error', error);
           _this2.error = error;
@@ -3467,6 +3546,10 @@
           _this2.form.reset();
 
           _this2.success = true;
+          dataLayer.push({
+            'event': 'formSubmission',
+            'form type': 'Contatti Tiemme Lab'
+          });
         }, function (error) {
           console.log('NaturalFormRequestInfoComponent.error', error);
           _this2.error = error;
@@ -3629,17 +3712,20 @@
             module.remove(contentNode);
           }
 
+          this.instances_ = []; // const form = NaturalFormService.form;
+          // console.log('NaturalFormSearchComponent.initControls', form);
+
           var html = phrase;
           var keys = Object.keys(this.naturalForm);
-          keys.forEach(function (x) {
-            // console.log(x);
-            html = html.replace("$" + x + "$", function () {
-              var item = _this2.naturalForm[x];
+          keys.forEach(function (key) {
+            // console.log(key);
+            html = html.replace("$" + key + "$", function () {
+              var item = _this2.naturalForm[key];
 
               if (item.options) {
                 return (
                   /* html */
-                  "\n\t\t\t\t\t<span class=\"natural-form__control\" natural-form-control [filter]=\"naturalForm." + x + "\" [label]=\"naturalForm." + x + ".label\" (change)=\"onNaturalForm($event)\"></span>\n\t\t\t\t"
+                  "\n\t\t\t\t\t\t\t<span class=\"natural-form__control\" natural-form-control [filter]=\"naturalForm." + key + "\" [label]=\"naturalForm." + key + ".label\" (change)=\"onNaturalForm($event)\"></span>\n\t\t\t\t\t\t"
                 );
               } else {
                 return (
@@ -3651,9 +3737,8 @@
           }); // console.log('MoodboardSearchDirective', html);
 
           contentNode.innerHTML = html;
-          this.instances_ = [];
-          Array.from(contentNode.childNodes).forEach(function (x) {
-            _this2.instances_ = _this2.instances_.concat(module.compile(x, _this2));
+          Array.from(contentNode.childNodes).forEach(function (node) {
+            _this2.instances_ = _this2.instances_.concat(module.compile(node, _this2));
           });
           /*
           const hasFilter = Object.keys(scope.naturalForm).map(x => scope.naturalForm[x]).find(x => x.value !== null) !== undefined;
@@ -3801,6 +3886,11 @@
 
 
           _this3.signUp.next(response);
+
+          dataLayer.push({
+            'event': 'formSubmission',
+            'form type': 'Registrazione Club Tiemme'
+          });
         }, function (error) {
           console.log('NaturalFormSignupComponent.error', error);
           _this3.error = error;
@@ -3977,7 +4067,7 @@
     selector: '[price-list]'
   };
 
-  var src = STATIC ? '/tiemme-com/club-modal.html' : '/Viewdoc.cshtml?co_id=23649';
+  var src$1 = STATIC ? '/tiemme-com/club-modal.html' : '/Viewdoc.cshtml?co_id=23649';
 
   var RegisterOrLoginComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(RegisterOrLoginComponent, _Component);
@@ -3992,7 +4082,7 @@
       // console.log('RegisterOrLoginComponent.onRegister');
       event.preventDefault();
       ModalService.open$({
-        src: src,
+        src: src$1,
         data: {
           view: 2
         }
@@ -4008,7 +4098,7 @@
       // console.log('RegisterOrLoginComponent.onLogin');
       event.preventDefault();
       ModalService.open$({
-        src: src,
+        src: src$1,
         data: {
           view: 1
         }
@@ -4123,6 +4213,11 @@
 
           _this2.form.reset(); // this.pushChanges();
 
+
+          dataLayer.push({
+            'event': 'formSubmission',
+            'form type': 'Contatti'
+          });
         }, function (error) {
           console.log('RequestInfoCommercialComponent.error', error);
           _this2.error = error;
@@ -4238,7 +4333,7 @@
     return DownloadService;
   }();
 
-  var src$1 = STATIC ? '/tiemme-com/club-modal.html' : '/Viewdoc.cshtml?co_id=23649';
+  var src$2 = STATIC ? '/tiemme-com/club-modal.html' : '/Viewdoc.cshtml?co_id=23649';
 
   var SecureDirective = /*#__PURE__*/function (_Directive) {
     _inheritsLoose(SecureDirective, _Directive);
@@ -4288,7 +4383,7 @@
       // console.log('SecureDirective.onLogin');
       // event.preventDefault();
       ModalService.open$({
-        src: src$1,
+        src: src$2,
         data: {
           view: 1
         }
@@ -4817,6 +4912,11 @@
 
           _this2.form.reset(); // this.pushChanges();
 
+
+          dataLayer.push({
+            'event': 'formSubmission',
+            'form type': 'Lavora con Noi'
+          });
         }, function (error) {
           console.log('WorkWithUsComponent.error', error);
           _this2.error = error;

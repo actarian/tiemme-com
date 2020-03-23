@@ -69,8 +69,8 @@ export default class NaturalFormControlComponent extends Component {
 			this.filter.value = item.id;
 			DropdownDirective.dropdown$.next(null);
 		}
-		this.change.next(this.filter);
 		this.pushChanges();
+		this.change.next(this.filter); // !!! for last, it may cause a destroy
 	}
 
 	hasOption(item) {
@@ -80,10 +80,6 @@ export default class NaturalFormControlComponent extends Component {
 		} else {
 			return this.filter.value === item.id;
 		}
-	}
-
-	onDropped(id) {
-		// console.log('NaturalFormControlComponent.onDropped', id);
 	}
 
 	getLabel() {
@@ -111,10 +107,18 @@ export default class NaturalFormControlComponent extends Component {
 	}
 
 	onDropped($event) {
-		// console.log($event);
 		this.dropped = $event === this.dropdownId;
+		const { node } = getContext(this);
+		const dropdown = node.querySelector('.dropdown');
+		if (dropdown) {
+			dropdown.style = '';
+			const rect = dropdown.getBoundingClientRect();
+			if (rect.left + rect.width > window.innerWidth - 15) {
+				dropdown.style = `transform: translateX(${window.innerWidth - 15 - (rect.left + rect.width)}px);`;
+			}
+			// console.log(rect.left + rect.width, window.innerWidth - 15);
+		}
 	}
-
 }
 
 NaturalFormControlComponent.meta = {
