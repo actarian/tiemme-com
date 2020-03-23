@@ -50,6 +50,15 @@
 				// filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2619255a', endColorstr='#f219255a',GradientType=0 );
 			}
 		}
+
+		@include media-down(xs) {
+			&.zoomed {
+				.description {
+					overflow-x: hidden;
+					overflow-y: auto;
+				}
+			}
+		}
 	}
 
 	&.zoomed {
@@ -169,7 +178,6 @@
 	}
 
 	@include media-down(sm) {
-
 		.picture {
 			@include aspect-clip(1, 1);
 		}
@@ -181,7 +189,6 @@
 		.content {
 			padding: 15px 30px;
 		}
-
 	}
 }
 

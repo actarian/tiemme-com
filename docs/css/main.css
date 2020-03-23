@@ -4151,6 +4151,14 @@ ul {
       .section--slides .swiper-container .swiper-button-prev:after,
       .section--listing .swiper-container .swiper-button-prev:after {
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25); } }
+  @media screen and (max-width: 767.98px) {
+    .section--hero .swiper-container .swiper-button-next, .section--hero-secondary .swiper-container .swiper-button-next, .section--hero-tertiary .swiper-container .swiper-button-next, .section--slides .swiper-container .swiper-button-next, .section--listing .swiper-container .swiper-button-next,
+    .section--hero .swiper-container .swiper-button-prev,
+    .section--hero-secondary .swiper-container .swiper-button-prev,
+    .section--hero-tertiary .swiper-container .swiper-button-prev,
+    .section--slides .swiper-container .swiper-button-prev,
+    .section--listing .swiper-container .swiper-button-prev {
+      display: none; } }
 
 .section--hero .swiper-container, .section--hero-secondary .swiper-container, .section--hero-tertiary .swiper-container {
   position: absolute;
@@ -4552,6 +4560,10 @@ ul {
       transform: translateZ(0); }
     .card--slide.card--slide-text .picture--slide:after {
       background: linear-gradient(to bottom, rgba(25, 37, 90, 0.15) 0%, rgba(25, 37, 90, 0.95) 100%); }
+  @media (max-width: 767.98px) {
+    .card--slide.card--slide-text.zoomed .description {
+      overflow-x: hidden;
+      overflow-y: auto; } }
   .card--slide.zoomed .picture--slide {
     background: #f3f4f6; }
   .card--slide .content {
