@@ -2882,6 +2882,8 @@
 
     _proto.onToggleSticky = function onToggleSticky(event) {
       this.sticky = !this.sticky;
+      var body = document.querySelector('body');
+      this.sticky ? body.classList.add('fixed') : body.classList.remove('fixed');
       this.pushChanges();
     };
 

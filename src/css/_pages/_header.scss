@@ -42,7 +42,12 @@
 	@include media-down(sm) {
 		.inner {
 			justify-content: flex-start;
-			align-items: flex-start;
+			align-items: center;
+
+			margin-top: 30px;
+			margin-bottom: 30px;
+			height: calc(100% - 60px);
+
 			transform: translateX(0);
 			transition: all ease-in-out 350ms;
 		}

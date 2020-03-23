@@ -20,11 +20,6 @@
 
 .container {
 	position: relative;
-
-	@include media-down(xs) {
-		padding-left: 30px;
-		padding-right: 30px;
-	}
 }
 
 @include make-grid-columns();

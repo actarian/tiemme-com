@@ -323,6 +323,24 @@
 			}
 		}
 	}
+
+	@include media-down(sm) {
+		margin-bottom: 40px;
+	}
+
+	@include media-down(xs) {
+		padding-bottom: 40px;
+		border-bottom: 1px solid #eee;
+	}
+
+	.swiper-container & {
+		@include media-down(xs) {
+			margin-bottom: 0;
+			padding-bottom: 0;
+			border-bottom: none;
+		}
+	}
+
 }
 
 .card--news {
@@ -389,6 +407,12 @@
 
 	@include media-down(sm) {
 		margin-bottom: 40px;
+	}
+
+	@include media-down(xs) {
+		.content {
+			padding: 0 15px;
+		}
 	}
 }
 

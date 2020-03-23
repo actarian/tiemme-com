@@ -68,7 +68,7 @@
 	"server": {
 		"root": "./docs",
 		"path": "/tiemme-com/",
-		"host": "localhost",
+		"host": "0.0.0.0",
 		"port": 41999,
 		"log": false
 	}

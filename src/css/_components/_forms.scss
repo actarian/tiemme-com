@@ -43,6 +43,9 @@ $invalid: #dc1216;
 		@extend %label;
 	}
 
+	@include media-down(xs) {
+		margin-bottom: 10px;
+	}
 }
 
 @mixin autofill($color: black, $background: white, $borderColor: transparent, $borderWidth: 0px, $borderRadius: 0px) {
@@ -222,6 +225,10 @@ fieldset,
 		margin: 5px 15px 0 0;
 		fill: $pristine;
 		pointer-events: none;
+	}
+
+	@include media-down(xs) {
+		margin: 0 0 10px 0;
 	}
 }
 
@@ -411,8 +418,18 @@ errors-component {
 	}
 
 	@include media-down(xs) {
+		margin-left: 0;
+		margin-right: 0;
+
 		&>div {
 			@include as-col(12, 12, 0);
+
+			&[control-textarea] {
+				flex: 1 1 100%;
+				max-width: 100%;
+				margin-left: 0;
+				margin-right: 0;
+			}
 		}
 	}
 }
@@ -456,8 +473,18 @@ errors-component {
 	}
 
 	@include media-down(xs) {
+		margin-left: 0;
+		margin-right: 0;
+
 		&>div {
 			@include as-col(12, 12, 0);
+
+			&[control-textarea] {
+				flex: 1 1 100%;
+				max-width: 100%;
+				margin-left: 0;
+				margin-right: 0;
+			}
 		}
 	}
 }
