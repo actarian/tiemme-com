@@ -703,6 +703,7 @@ ul {
 
 		&>.label {
 			@extend %category;
+			font-size: 22px;
 			display: block;
 			margin-bottom: 15px;
 		}
@@ -766,9 +767,14 @@ ul {
 		&>span {
 			@extend %nav-item;
 			font-family: $font-secondary;
+			font-size: 15px;
 
 			.name {
+				margin: 0 10px 0 0;
 				flex: 1 1 auto;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				overflow: hidden;
 			}
 
 			.count {
@@ -780,9 +786,10 @@ ul {
 				content: '';
 				width: 11px;
 				height: 11px;
+				flex: 0 0 11px;
 				border-radius: 0;
 				margin: 0 10px 0 0;
-				border: 2px solid $foreground;
+				border: 2px solid currentColor;
 				outline: 0;
 			}
 
@@ -793,13 +800,13 @@ ul {
 				bottom: 0;
 				width: 0;
 				height: 2px;
-				background: $foreground;
+				background: currentColor;
 				transition: all ease-in-out 350ms;
 			}
 
 			&.active {
 				&:before {
-					background: $foreground;
+					background: currentColor;
 				}
 			}
 
@@ -841,6 +848,29 @@ ul {
 		width: 36px;
 		height: 36px;
 		margin-right: 20px;
+	}
+
+	.arrow {
+		position: relative;
+		padding: 0 5px 0 15px;
+		margin-right: 2em;
+		background: $background-negative;
+		color: $foreground-negative;
+
+		$w: 0.85em;
+
+		&:after {
+			position: absolute;
+			content: '';
+			width: 0;
+			height: 0;
+			border-style: solid;
+			border-color: transparent transparent transparent $background-negative;
+			border-width: $w 0 $w $w;
+			top: 50%;
+			right: -$w;
+			margin-top: -$w;
+		}
 	}
 
 }

@@ -77,7 +77,8 @@ button {
 }
 
 .btn--cta {
-	display: inline-block;
+	display: inline-flex;
+	align-items: center;
 	padding: 5px 10px;
 	background: $background-secondary;
 	font-weight: $font-medium;
@@ -86,6 +87,21 @@ button {
 	opacity: 1;
 	transition: all ease-in-out 350ms;
 	line-height: 1;
+	cursor: pointer;
+
+	svg {
+		width: 1em;
+		height: 1em;
+		fill: currentColor;
+
+		&:first-child {
+			margin-right: 0.5em;
+		}
+
+		&:last-child {
+			margin-left: 0.5em;
+		}
+	}
 
 	.icon--download {
 		margin-right: 8px;
@@ -95,6 +111,10 @@ button {
 	&:hover {
 		background: $foreground;
 		color: $foreground-negative;
+
+		svg {
+			fill: currentColor;
+		}
 
 		.icon--download {
 			fill: $foreground-negative;

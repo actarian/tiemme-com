@@ -3,6 +3,7 @@ import { FormModule } from 'rxcomp-form';
 import AgentsComponent from './agents/agents.component';
 import AppComponent from './app.component';
 import AppearDirective from './appear/appear.directive';
+import BimLibraryComponent from './bim-library/bim-library';
 import ClickOutsideDirective from './click-outside/click-outside.directive';
 import ClubForgotComponent from './club/club-forgot.component';
 import ClubModalComponent from './club/club-modal.component';
@@ -31,6 +32,7 @@ import LazyDirective from './lazy/lazy.directive';
 import MainMenuComponent from './main-menu/main-menu.component';
 import MediaLibraryComponent from './media-library/media-library';
 import ModalOutletComponent from './modal/modal-outlet.component';
+import ModalComponent from './modal/modal.component';
 import NaturalFormContactComponent from './natural-form/natural-form-contact.component';
 import NaturalFormControlComponent from './natural-form/natural-form-control.component';
 import NaturalFormNewsletterComponent from './natural-form/natural-form-newsletter.component';
@@ -42,6 +44,7 @@ import PriceListComponent from './price-list/price-list';
 import RegisterOrLoginComponent from './register-or-login/register-or-login.component';
 import RequestInfoCommercialComponent from './request-info-commercial/request-info-commercial.component';
 import ReservedAreaComponent from './reserved-area/reserved-area.component';
+import ScrollToDirective from './scroll-to/scroll-to.directive';
 import SecureDirective from './secure/secure.directive';
 import FileSizePipe from './size/size.pipe';
 import SwiperListingDirective from './swiper/swiper-listing.directive';
@@ -62,6 +65,7 @@ AppModule.meta = {
 	declarations: [
 		AgentsComponent,
 		AppearDirective,
+		BimLibraryComponent,
 		ClickOutsideDirective,
 		ClubComponent,
 		ClubForgotComponent,
@@ -89,6 +93,7 @@ AppModule.meta = {
 		MainMenuComponent,
 		MediaLibraryComponent,
 		ModalOutletComponent,
+		ModalComponent,
 		PriceListComponent,
 		NaturalFormComponent,
 		NaturalFormSearchComponent,
@@ -101,6 +106,7 @@ AppModule.meta = {
 		RegisterOrLoginComponent,
 		ReservedAreaComponent,
 		SecureDirective,
+		ScrollToDirective,
 		SwiperDirective,
 		SwiperListingDirective,
 		SwiperSlidesDirective,

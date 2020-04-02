@@ -84,6 +84,10 @@
 		@include aspect-clip(3, 4);
 	}
 
+	.group--cta {
+		margin-bottom: 30px;
+	}
+
 	&.section--intro {
 		.row {
 			align-items: center;
@@ -100,6 +104,69 @@
 
 	@include media-down(sm) {
 		padding: 30px 0;
+	}
+}
+
+.section--text-picture-bim {
+	position: relative;
+	padding: 0 0 80px 0;
+
+	.row>div {
+		display: flex;
+		justify-content: flex-start;
+		flex-direction: column;
+	}
+
+	.title {
+		@extend %title-detail;
+		display: inline-flex;
+		align-items: center;
+		margin-top: 60px;
+
+		b {
+			color: $foreground-primary;
+		}
+	}
+
+	.icon--bim {
+		width: 55px;
+		height: 55px;
+		fill: $foreground-primary;
+		margin-right: 15px;
+	}
+
+	.picture--bim {
+		margin: 0 auto 30px auto;
+		width: 100%;
+		background: transparent;
+	}
+
+	.abstract {
+		@extend %abstract-detail;
+	}
+
+	.description {
+		@extend %description-detail;
+	}
+
+	.group--cta {
+		margin-bottom: 30px;
+	}
+
+	@include media-up(lg) {
+		padding-bottom: 80px;
+	}
+
+	@include media-down(md) {
+		padding-bottom: 60px;
+	}
+
+	@include media-down(sm) {
+		padding-bottom: 40px;
+	}
+
+	@include media-down(sm) {
+		padding-bottom: 40px;
 	}
 }
 

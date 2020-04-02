@@ -356,7 +356,7 @@
         return _this.serialize(filters);
       }), operators.map(function () {
         return _this.filterItems(items);
-      }), operators.tap(function (items) {
+      }), operators.tap(function () {
         return _this.updateFilterStates(filters, items);
       }));
     };
@@ -1040,6 +1040,151 @@
   }(rxcomp.Directive);
   AppearDirective.meta = {
     selector: '[appear]'
+  };
+
+  var srcMore = STATIC ? '/tiemme-com/services-bim-modal.html' : '/Viewdoc.cshtml?co_id=23649';
+  var srcHint = STATIC ? '/tiemme-com/services-bim-modal-hint.html' : '/Viewdoc.cshtml?co_id=23649';
+
+  var BimLibraryComponent = /*#__PURE__*/function (_Component) {
+    _inheritsLoose(BimLibraryComponent, _Component);
+
+    function BimLibraryComponent() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = BimLibraryComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      var _this = this;
+
+      var items = window.files || [];
+      var filters = window.filters || {};
+      var initialParams = window.params || {};
+      filters.departments.mode = FilterMode.OR;
+      filters.catalogues.mode = FilterMode.OR;
+      var filterService = new FilterService(filters, initialParams, function (key, filter) {
+        switch (key) {
+          /*
+          case 'languages':
+          	filter.filter = (item, value) => {
+          		return item.languages.indexOf(value) !== -1;
+          	};
+          	break;
+          */
+          default:
+            filter.filter = function (item, value) {
+              return item.features.indexOf(value) !== -1;
+            };
+
+        }
+      });
+      filterService.items$(items).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (items) {
+        _this.items = items;
+
+        _this.pushChanges(); // console.log('BimLibraryComponent.items', items.length);
+
+      });
+      this.filterService = filterService;
+      this.filters = filterService.filters; // this.fake__();
+    };
+
+    _proto.openMore = function openMore(event) {
+      event.preventDefault();
+      ModalService.open$({
+        src: srcMore,
+        data: null
+      }).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (event) {// console.log('BimLibraryComponent.onRegister', event);
+      });
+    };
+
+    _proto.openHint = function openHint(event) {
+      event.preventDefault();
+      ModalService.open$({
+        src: srcHint,
+        data: null
+      }).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (event) {// console.log('BimLibraryComponent.onRegister', event);
+      });
+    };
+
+    _proto.fake__ = function fake__() {
+      var _this2 = this;
+
+      HttpService.get$('/api/bim/excel').pipe(operators.first()).subscribe(function (items) {
+        var departments = [];
+        items.forEach(function (item) {
+          var department = departments.find(function (x) {
+            return x.value === item.category1Id;
+          });
+
+          if (!department) {
+            departments.push({
+              value: item.category1Id,
+              label: _this2.titleCase__(item.category1Description),
+              count: 1
+            });
+          } else {
+            department.count++;
+          }
+        });
+        departments.sort(function (a, b) {
+          return (a.count - b.count) * -1;
+        });
+        console.log(JSON.stringify(departments.map(function (x) {
+          delete x.count;
+          return x;
+        })));
+        var catalogues = [];
+        items.forEach(function (item) {
+          var catalogue = catalogues.find(function (x) {
+            return x.value === item.category2Id;
+          });
+
+          if (!catalogue) {
+            catalogues.push({
+              value: item.category2Id,
+              label: _this2.titleCase__(item.category2Description),
+              count: 1
+            });
+          } else {
+            catalogue.count++;
+          }
+        });
+        catalogues.sort(function (a, b) {
+          return (a.count - b.count) * -1;
+        });
+        console.log(JSON.stringify(catalogues.map(function (x) {
+          delete x.count;
+          return x;
+        })));
+        var products = [];
+        items.forEach(function (item) {
+          products.push({
+            id: item.productId,
+            type: 'bim',
+            image: item.image,
+            code: item.productCode,
+            title: item.productName,
+            abstract: item.description,
+            fileName: item.fileName,
+            fileSize: 45000,
+            url: 'https://tiemmeraccorderie.wslabs.it/media/files/' + item.fileName,
+            features: [item.category1Id, item.category2Id]
+          });
+        });
+        console.log(JSON.stringify(products));
+      });
+    };
+
+    _proto.titleCase__ = function titleCase__(str) {
+      return str.toLowerCase().split(' ').map(function (word) {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      }).join(' ');
+    };
+
+    return BimLibraryComponent;
+  }(rxcomp.Component);
+  BimLibraryComponent.meta = {
+    selector: '[bim-library]'
   };
 
   var ClickOutsideDirective = /*#__PURE__*/function (_Directive) {
@@ -2955,6 +3100,34 @@
     selector: '[media-library]'
   };
 
+  var ModalComponent = /*#__PURE__*/function (_Component) {
+    _inheritsLoose(ModalComponent, _Component);
+
+    function ModalComponent() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = ModalComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      var _getContext = rxcomp.getContext(this),
+          parentInstance = _getContext.parentInstance;
+
+      if (parentInstance instanceof ModalOutletComponent) {
+        this.data = parentInstance.modal.data;
+      }
+    };
+
+    _proto.close = function close() {
+      ModalService.reject();
+    };
+
+    return ModalComponent;
+  }(rxcomp.Component);
+  ModalComponent.meta = {
+    selector: '[modal]'
+  };
+
   var NaturalFormService = /*#__PURE__*/function () {
     function NaturalFormService() {}
 
@@ -4318,6 +4491,86 @@
     selector: '[reserved-area]'
   };
 
+  var ScrollToDirective = /*#__PURE__*/function (_Directive) {
+    _inheritsLoose(ScrollToDirective, _Directive);
+
+    function ScrollToDirective() {
+      return _Directive.apply(this, arguments) || this;
+    }
+
+    var _proto = ScrollToDirective.prototype;
+
+    _proto.onInit = function onInit() {
+      this.initialFocus = false;
+
+      var _getContext = rxcomp.getContext(this),
+          module = _getContext.module,
+          node = _getContext.node;
+
+      var expression = this.expression = node.getAttribute("(scrollTo)");
+      this.outputFunction = module.makeFunction(expression, ['$event']);
+      this.scrollTo$().pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function () {});
+    };
+
+    _proto.scrollTo$ = function scrollTo$() {
+      var _this = this;
+
+      var _getContext2 = rxcomp.getContext(this),
+          module = _getContext2.module,
+          node = _getContext2.node,
+          parentInstance = _getContext2.parentInstance;
+
+      return rxjs.fromEvent(node, 'click').pipe(operators.tap(function (event) {
+        var result = module.resolve(_this.outputFunction, parentInstance, event);
+
+        if (typeof result === 'string') {
+          var target = document.querySelector(result);
+
+          if (target) {
+            var from = _this.currentTop();
+
+            var to = from + target.getBoundingClientRect().top - 50;
+            var o = {
+              pow: 0
+            };
+            var html = document.querySelector('html');
+            gsap.set(html, {
+              'scroll-behavior': 'auto'
+            });
+            gsap.to(o, Math.abs(to - from) / 2000, {
+              pow: 1,
+              ease: Quad.easeOut,
+              overwrite: 'all',
+              onUpdate: function onUpdate() {
+                window.scrollTo(0, from + (to - from) * o.pow);
+              },
+              onComplete: function onComplete() {
+                gsap.set(html, {
+                  'scroll-behavior': 'smooth'
+                });
+              }
+            });
+          }
+        }
+      }), operators.shareReplay(1));
+    };
+
+    _proto.currentTop = function currentTop() {
+      // Firefox, Chrome, Opera, Safari
+      if (self.pageYOffset) return self.pageYOffset; // Internet Explorer 6 - standards mode
+
+      if (document.documentElement && document.documentElement.scrollTop) return document.documentElement.scrollTop; // Internet Explorer 6, 7 and 8
+
+      if (document.body.scrollTop) return document.body.scrollTop;
+      return 0;
+    };
+
+    return ScrollToDirective;
+  }(rxcomp.Directive);
+  ScrollToDirective.meta = {
+    selector: "[(scrollTo)]"
+  };
+
   var DownloadService = /*#__PURE__*/function () {
     function DownloadService() {}
 
@@ -5280,7 +5533,7 @@
   }(rxcomp.Module);
   AppModule.meta = {
     imports: [rxcomp.CoreModule, rxcompForm.FormModule],
-    declarations: [AgentsComponent, AppearDirective, ClickOutsideDirective, ClubComponent, ClubForgotComponent, ClubModalComponent, ClubPasswordRecoveryComponent, ClubPasswordEditComponent, ClubProfileComponent, ClubSigninComponent, ClubSignupComponent, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlPasswordComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, FileSizePipe, HtmlPipe, HeaderComponent, LazyDirective, MainMenuComponent, MediaLibraryComponent, ModalOutletComponent, PriceListComponent, NaturalFormComponent, NaturalFormSearchComponent, NaturalFormContactComponent, NaturalFormRequestInfoComponent, NaturalFormControlComponent, NaturalFormNewsletterComponent, NaturalFormSignupComponent, RequestInfoCommercialComponent, RegisterOrLoginComponent, ReservedAreaComponent, SecureDirective, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, TestComponent, // ValueDirective,
+    declarations: [AgentsComponent, AppearDirective, BimLibraryComponent, ClickOutsideDirective, ClubComponent, ClubForgotComponent, ClubModalComponent, ClubPasswordRecoveryComponent, ClubPasswordEditComponent, ClubProfileComponent, ClubSigninComponent, ClubSignupComponent, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlPasswordComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, FileSizePipe, HtmlPipe, HeaderComponent, LazyDirective, MainMenuComponent, MediaLibraryComponent, ModalOutletComponent, ModalComponent, PriceListComponent, NaturalFormComponent, NaturalFormSearchComponent, NaturalFormContactComponent, NaturalFormRequestInfoComponent, NaturalFormControlComponent, NaturalFormNewsletterComponent, NaturalFormSignupComponent, RequestInfoCommercialComponent, RegisterOrLoginComponent, ReservedAreaComponent, SecureDirective, ScrollToDirective, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, TestComponent, // ValueDirective,
     VideoComponent, WorkWithUsComponent, YoutubeComponent, ZoomableDirective],
     bootstrap: AppComponent
   };

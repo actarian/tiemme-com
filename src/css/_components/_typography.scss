@@ -130,6 +130,14 @@ strong {
 	font-weight: $font-medium;
 	margin-bottom: 30px;
 
+	p {
+		margin: 0 0 1em 0;
+
+		&:last-child {
+			margin: 0;
+		}
+	}
+
 	@include media-down(sm) {
 		font-size: 20px;
 		line-height: 1.5;

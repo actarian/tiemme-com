@@ -1,0 +1,1433 @@
+<!-- @@master = ./templates/layout.html-->
+
+<!-- @@block = main-->
+<section class="section--hero-tertiary">
+	<div class="background">
+		<!-- <img lazy="/tiemme-com/img/services/warranty/hero.jpg" /> -->
+	</div>
+	<!--
+	<div class="container">
+		<div class="row">
+			<div class="col-md-10">
+				<div class="category">Servizi</div>
+				<div class="title">BIM</div>
+			</div>
+		</div>
+	</div>
+	-->
+</section>
+
+<!-- @@include ./templates/shared/services-menu.html { "a": "active", "b": "", "c": "", "d": "" } -->
+
+<script type="text/javascript">
+	window.filters = {
+		departments: {
+			label: 'Area',
+			placeholder: 'tutte le aree',
+			mode: 'or',
+			options: [{ "value": 546, "label": "Componenti Idraulici" }, { "value": 875, "label": "Sistemi Radianti" }, { "value": 744, "label": "Centrale Termica" }]
+		},
+		catalogues: {
+			label: 'Catalogo',
+			placeholder: 'tutti i cataloghi',
+			mode: 'or',
+			options: [{ "value": 876, "label": "Sistemi Ad Uso Residenziale / Terziario" }, { "value": 599, "label": "Raccordi" }, { "value": 670, "label": "Collettori Di Distribuzione" }, { "value": 725, "label": "Componenti Per Impianti Idrotermosanitari" }, { "value": 652, "label": "Tubi" }, { "value": 893, "label": "Sistemi Ad Uso Industriale" }, { "value": 767, "label": "Filtri Defangatori E Dispositivi Sfogo Aria" }, { "value": 787, "label": "Componenti Per Impianti Idrosanitari" }, { "value": 547, "label": "Valvole E Rubinetti" }, { "value": 897, "label": "Distribuzione" }, { "value": 699, "label": "Valvole E Detentori Per Radiatori" }]
+		},
+	};
+
+	window.files = [
+		{
+			"id": 24562,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "3131N",
+			"title": "Filtro autopulente nichelato con tazza ottone, attacchi maschio/femmina e grado filtrazione 100µ",
+			"abstract": "DIRT SEPARATOR_3131N-3135N _M_Acc_Tiemme",
+			"fileName": "P_DIRT SEPARATOR_3131N-3135N _M_Acc_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_DIRT SEPARATOR_3131N-3135N _M_Acc_Tiemme.rfa",
+			"features": [
+      744,
+      787
+    ]
+  },
+		{
+			"id": 24716,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "3135N",
+			"title": "Filtro autopulente nichelato con tazza trasparente, attacchi maschio a bocchettone e grado di filtrazione 100 µ",
+			"abstract": "DIRT SEPARATOR_3131N-3135N _M_Acc_Tiemme",
+			"fileName": "P_DIRT SEPARATOR_3131N-3135N _M_Acc_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_DIRT SEPARATOR_3131N-3135N _M_Acc_Tiemme.rfa",
+			"features": [
+      744,
+      787
+    ]
+  },
+		{
+			"id": 24748,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "3108N",
+			"title": "Riduttori di pressione a pistone con attacchi maschio (Pressione max a monte 25bar, range di regolazione 1-6 bar e pre-settaggio 3bar)",
+			"abstract": "PRESSURE REDUCING_3108N_Acc_Tiemme",
+			"fileName": "P_PRESSURE REDUCING_3108N_Acc_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_PRESSURE REDUCING_3108N_Acc_Tiemme.rfa",
+			"features": [
+      744,
+      787
+    ]
+  },
+		{
+			"id": 25083,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "1900G",
+			"title": "Valvola automatica per sfogo aria",
+			"abstract": "AIR PURGE_1900G_Acc_Tiemme",
+			"fileName": "P_AIR PURGE_1900G_Acc_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_AIR PURGE_1900G_Acc_Tiemme.rfa",
+			"features": [
+      744,
+      767
+    ]
+  },
+		{
+			"id": 24684,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "1900N34",
+			"title": "Valvola automatica per sfogo aria diametro 34 mm nichelata",
+			"abstract": "AIR PURGE_1900N34_Acc_Tiemme",
+			"fileName": "P_AIR PURGE_1900N34_Acc_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_AIR PURGE_1900N34_Acc_Tiemme.rfa",
+			"features": [
+      744,
+      767
+    ]
+  },
+		{
+			"id": 25114,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": 1896,
+			"title": "Valvola automatica sfogo aria nichelata",
+			"abstract": "AIR PURGE_1896_Acc_Tiemme",
+			"fileName": "P_AIR PURGE_1896_Acc_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_AIR PURGE_1896_Acc_Tiemme.rfa",
+			"features": [
+      744,
+      767
+    ]
+  },
+		{
+			"id": 24817,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": 1900,
+			"title": "Valvola automatica sfogo aria nichelata",
+			"abstract": "AIR PURGE_1900_Acc_Tiemme",
+			"fileName": "P_AIR PURGE_1900_Acc_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_AIR PURGE_1900_Acc_Tiemme.rfa",
+			"features": [
+      744,
+      767
+    ]
+  },
+		{
+			"id": 24788,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "1900G34",
+			"title": "Valvole automatiche di sfogo aria con corpo Ø34 mm",
+			"abstract": "AIR PURGE_1900G34_Acc_Tiemme",
+			"fileName": "P_AIR PURGE_1900G34_Acc_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_AIR PURGE_1900G34_Acc_Tiemme.rfa",
+			"features": [
+      744,
+      767
+    ]
+  },
+		{
+			"id": 20490,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": 1905,
+			"title": "Collettori modulare complanari in ottone CW617N giallo con uscite 1/2\"x16. Interasse 36mm. (disponibili anche in versione nichelata)",
+			"abstract": "MANIFOLD_1905-1906_MF_Complanare_10x10_Tiemme",
+			"fileName": "P_MANIFOLD_1905-1906_MF_Complanare_10x10_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_MANIFOLD_1905-1906_MF_Complanare_10x10_Tiemme.rfa",
+			"features": [
+      546,
+      670
+    ]
+  },
+		{
+			"id": 20490,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": 1905,
+			"title": "Collettori modulare complanari in ottone CW617N giallo con uscite 1/2\"x16. Interasse 36mm. (disponibili anche in versione nichelata)",
+			"abstract": "MANIFOLD_1905-1906_MF_Complanare_2x2_Tiemme",
+			"fileName": "P_MANIFOLD_1905-1906_MF_Complanare_2x2_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_MANIFOLD_1905-1906_MF_Complanare_2x2_Tiemme.rfa",
+			"features": [
+      546,
+      670
+    ]
+  },
+		{
+			"id": 20490,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": 1905,
+			"title": "Collettori modulare complanari in ottone CW617N giallo con uscite 1/2\"x16. Interasse 36mm. (disponibili anche in versione nichelata)",
+			"abstract": "MANIFOLD_1905-1906_MF_Complanare_4x4_Tiemme",
+			"fileName": "P_MANIFOLD_1905-1906_MF_Complanare_4x4_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_MANIFOLD_1905-1906_MF_Complanare_4x4_Tiemme.rfa",
+			"features": [
+      546,
+      670
+    ]
+  },
+		{
+			"id": 20490,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": 1905,
+			"title": "Collettori modulare complanari in ottone CW617N giallo con uscite 1/2\"x16. Interasse 36mm. (disponibili anche in versione nichelata)",
+			"abstract": "MANIFOLD_1905-1906_MF_Complanare_6x6_Tiemme",
+			"fileName": "P_MANIFOLD_1905-1906_MF_Complanare_6x6_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_MANIFOLD_1905-1906_MF_Complanare_6x6_Tiemme.rfa",
+			"features": [
+      546,
+      670
+    ]
+  },
+		{
+			"id": 20490,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": 1905,
+			"title": "Collettori modulare complanari in ottone CW617N giallo con uscite 1/2\"x16. Interasse 36mm. (disponibili anche in versione nichelata)",
+			"abstract": "MANIFOLD_1905-1906_MF_Complanare_8x8_Tiemme",
+			"fileName": "P_MANIFOLD_1905-1906_MF_Complanare_8x8_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_MANIFOLD_1905-1906_MF_Complanare_8x8_Tiemme.rfa",
+			"features": [
+      546,
+      670
+    ]
+  },
+		{
+			"id": 20492,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": 1906,
+			"title": "Collettori modulare complanari in ottone CW617N giallo con uscite 1/2\"x16. Interasse 36mm. (disponibili anche in versione nichelata)",
+			"abstract": "MANIFOLD_1905-1906_MF_Complanare_10x10_Tiemme",
+			"fileName": "P_MANIFOLD_1905-1906_MF_Complanare_10x10_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_MANIFOLD_1905-1906_MF_Complanare_10x10_Tiemme.rfa",
+			"features": [
+      546,
+      670
+    ]
+  },
+		{
+			"id": 20492,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": 1906,
+			"title": "Collettori modulare complanari in ottone CW617N giallo con uscite 1/2\"x16. Interasse 36mm. (disponibili anche in versione nichelata)",
+			"abstract": "MANIFOLD_1905-1906_MF_Complanare_2x2_Tiemme",
+			"fileName": "P_MANIFOLD_1905-1906_MF_Complanare_2x2_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_MANIFOLD_1905-1906_MF_Complanare_2x2_Tiemme.rfa",
+			"features": [
+      546,
+      670
+    ]
+  },
+		{
+			"id": 20492,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": 1906,
+			"title": "Collettori modulare complanari in ottone CW617N giallo con uscite 1/2\"x16. Interasse 36mm. (disponibili anche in versione nichelata)",
+			"abstract": "MANIFOLD_1905-1906_MF_Complanare_4x4_Tiemme",
+			"fileName": "P_MANIFOLD_1905-1906_MF_Complanare_4x4_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_MANIFOLD_1905-1906_MF_Complanare_4x4_Tiemme.rfa",
+			"features": [
+      546,
+      670
+    ]
+  },
+		{
+			"id": 20492,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": 1906,
+			"title": "Collettori modulare complanari in ottone CW617N giallo con uscite 1/2\"x16. Interasse 36mm. (disponibili anche in versione nichelata)",
+			"abstract": "MANIFOLD_1905-1906_MF_Complanare_6x6_Tiemme",
+			"fileName": "P_MANIFOLD_1905-1906_MF_Complanare_6x6_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_MANIFOLD_1905-1906_MF_Complanare_6x6_Tiemme.rfa",
+			"features": [
+      546,
+      670
+    ]
+  },
+		{
+			"id": 20492,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": 1906,
+			"title": "Collettori modulare complanari in ottone CW617N giallo con uscite 1/2\"x16. Interasse 36mm. (disponibili anche in versione nichelata)",
+			"abstract": "MANIFOLD_1905-1906_MF_Complanare_8x8_Tiemme",
+			"fileName": "P_MANIFOLD_1905-1906_MF_Complanare_8x8_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_MANIFOLD_1905-1906_MF_Complanare_8x8_Tiemme.rfa",
+			"features": [
+      546,
+      670
+    ]
+  },
+		{
+			"id": 20919,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "3131N",
+			"title": "Filtro autopulente nichelato con tazza ottone, attacchi maschio/femmina e grado filtrazione 100µ",
+			"abstract": "DIRT SEPARATOR_3131N-3135N _M_Acc_Tiemme",
+			"fileName": "P_DIRT SEPARATOR_3131N-3135N _M_Acc_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_DIRT SEPARATOR_3131N-3135N _M_Acc_Tiemme.rfa",
+			"features": [
+      546,
+      725
+    ]
+  },
+		{
+			"id": 20920,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "3135N",
+			"title": "Filtro autopulente nichelato con tazza trasparente, attacchi maschio a bocchettone e grado di filtrazione 100 µ",
+			"abstract": "DIRT SEPARATOR_3131N-3135N _M_Acc_Tiemme",
+			"fileName": "P_DIRT SEPARATOR_3131N-3135N _M_Acc_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_DIRT SEPARATOR_3131N-3135N _M_Acc_Tiemme.rfa",
+			"features": [
+      546,
+      725
+    ]
+  },
+		{
+			"id": 20901,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "3108N",
+			"title": "Riduttori di pressione a pistone con attacchi maschio (Pressione max a monte 25bar, range di regolazione 1-6 bar e pre-settaggio 3bar)",
+			"abstract": "PRESSURE REDUCING_3108N_Acc_Tiemme",
+			"fileName": "P_PRESSURE REDUCING_3108N_Acc_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_PRESSURE REDUCING_3108N_Acc_Tiemme.rfa",
+			"features": [
+      546,
+      725
+    ]
+  },
+		{
+			"id": 20475,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "1900G",
+			"title": "Valvola automatica per sfogo aria",
+			"abstract": "AIR PURGE_1900G_Acc_Tiemme",
+			"fileName": "P_AIR PURGE_1900G_Acc_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_AIR PURGE_1900G_Acc_Tiemme.rfa",
+			"features": [
+      546,
+      725
+    ]
+  },
+		{
+			"id": 20478,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "1900N34",
+			"title": "Valvola automatica per sfogo aria diametro 34 mm nichelata",
+			"abstract": "AIR PURGE_1900N34_Acc_Tiemme",
+			"fileName": "P_AIR PURGE_1900N34_Acc_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_AIR PURGE_1900N34_Acc_Tiemme.rfa",
+			"features": [
+      546,
+      725
+    ]
+  },
+		{
+			"id": 20474,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": 1900,
+			"title": "Valvola automatica sfogo aria nichelata",
+			"abstract": "AIR PURGE_1900_Acc_Tiemme",
+			"fileName": "P_AIR PURGE_1900_Acc_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_AIR PURGE_1900_Acc_Tiemme.rfa",
+			"features": [
+      546,
+      725
+    ]
+  },
+		{
+			"id": 20481,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": 1896,
+			"title": "Valvola automatica sfogo aria nichelata",
+			"abstract": "AIR PURGE_1896_Acc_Tiemme",
+			"fileName": "P_AIR PURGE_1896_Acc_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_AIR PURGE_1896_Acc_Tiemme.rfa",
+			"features": [
+      546,
+      725
+    ]
+  },
+		{
+			"id": 20476,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "1900G34",
+			"title": "Valvole automatiche di sfogo aria con corpo Ø34 mm",
+			"abstract": "AIR PURGE_1900G34_Acc_Tiemme",
+			"fileName": "P_AIR PURGE_1900G34_Acc_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_AIR PURGE_1900G34_Acc_Tiemme.rfa",
+			"features": [
+      546,
+      725
+    ]
+  },
+		{
+			"id": 20250,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": 1657,
+			"title": "Raccordo a T",
+			"abstract": "TEE_1657_PR_Fit_Tiemme",
+			"fileName": "P_TEE_1657_PR_Fit_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_TEE_1657_PR_Fit_Tiemme.rfa",
+			"features": [
+      546,
+      599
+    ]
+  },
+		{
+			"id": 20261,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": 1656,
+			"title": "Raccordo curvo femmina con flangia a 3 fori ed altezza collo di 52 mm",
+			"abstract": "WALLPLATE_1656_PF_Multi-Water_Tiemme",
+			"fileName": "P_WALLPLATE_1656_PF_Multi-Water_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_WALLPLATE_1656_PF_Multi-Water_Tiemme.rfa",
+			"features": [
+      546,
+      599
+    ]
+  },
+		{
+			"id": 25150,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "1676USM",
+			"title": "Raccordo curvo femmina doppio con flangia e geometria a U. Altezza collo di 40mm",
+			"abstract": "WALLPLATE_1676USM_PF_Multi-Water_Tiemme",
+			"fileName": "P_WALLPLATE_1676USM_PF_Multi-Water_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_WALLPLATE_1676USM_PF_Multi-Water_Tiemme.rfa",
+			"features": [
+      546,
+      599
+    ]
+  },
+		{
+			"id": 20244,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": 1654,
+			"title": "Raccordo curvo maschio",
+			"abstract": "Elbow_1654_MP_Tiemme",
+			"fileName": "P_Elbow_1654_MP_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_Elbow_1654_MP_Tiemme.rfa",
+			"features": [
+      546,
+      599
+    ]
+  },
+		{
+			"id": 20312,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": 1672,
+			"title": "Raccordo curvo terminale per radiatori",
+			"abstract": "ELBOW_1672_Acc_Tiemme",
+			"fileName": "P_ELBOW_1672_Acc_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_ELBOW_1672_Acc_Tiemme.rfa",
+			"features": [
+      546,
+      599
+    ]
+  },
+		{
+			"id": 20293,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "1664CG",
+			"title": "Staffa e raccordi 105° terminali COBRAFIX per pareti in cartongesso sp. 10 mm",
+			"abstract": "WALLPLATE_1664GC-1664CG55_PF_Multi-Water_Tiemme",
+			"fileName": "P_WALLPLATE_1664GC-1664CG55_PF_Multi-Water_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_WALLPLATE_1664GC-1664CG55_PF_Multi-Water_Tiemme.rfa",
+			"features": [
+      546,
+      599
+    ]
+  },
+		{
+			"id": 20294,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "1664CG55",
+			"title": "Staffa e raccordi 105° terminali COBRAFIX per pareti in cartongesso sp. 10 mm",
+			"abstract": "WALLPLATE_1664GC-1664CG55_PF_Multi-Water_Tiemme",
+			"fileName": "P_WALLPLATE_1664GC-1664CG55_PF_Multi-Water_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_WALLPLATE_1664GC-1664CG55_PF_Multi-Water_Tiemme.rfa",
+			"features": [
+      546,
+      599
+    ]
+  },
+		{
+			"id": 19961,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "1493Z",
+			"title": "Staffa per art.1656",
+			"abstract": "WALLPLATE_1493Z_Acc_Tiemme",
+			"fileName": "P_WALLPLATE_1493Z_Acc_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_WALLPLATE_1493Z_Acc_Tiemme.rfa",
+			"features": [
+      546,
+      599
+    ]
+  },
+		{
+			"id": 19955,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": 1481,
+			"title": "Staffa per curve flangiate",
+			"abstract": "WALLPLATE_1481_Acc_Tiemme",
+			"fileName": "P_WALLPLATE_1481_Acc_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_WALLPLATE_1481_Acc_Tiemme.rfa",
+			"features": [
+      546,
+      599
+    ]
+  },
+		{
+			"id": 24670,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": 1481,
+			"title": "Staffa per curve flangiate",
+			"abstract": "WALLPLATE_1481_Acc_Tiemme",
+			"fileName": "P_WALLPLATE_1481_Acc_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_WALLPLATE_1481_Acc_Tiemme.rfa",
+			"features": [
+      546,
+      599
+    ]
+  },
+		{
+			"id": 24671,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": 1481,
+			"title": "Staffa per curve flangiate",
+			"abstract": "WALLPLATE_1481_Acc_Tiemme",
+			"fileName": "P_WALLPLATE_1481_Acc_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_WALLPLATE_1481_Acc_Tiemme.rfa",
+			"features": [
+      546,
+      599
+    ]
+  },
+		{
+			"id": 24672,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": 1481,
+			"title": "Staffa per curve flangiate",
+			"abstract": "WALLPLATE_1481_Acc_Tiemme",
+			"fileName": "P_WALLPLATE_1481_Acc_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_WALLPLATE_1481_Acc_Tiemme.rfa",
+			"features": [
+      546,
+      599
+    ]
+  },
+		{
+			"id": 19676,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"features": [
+      546,
+      652
+    ]
+  },
+		{
+			"id": 19676,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"features": [
+      546,
+      652
+    ]
+  },
+		{
+			"id": 19676,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rte",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rte",
+			"features": [
+      546,
+      652
+    ]
+  },
+		{
+			"id": 19708,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": 600,
+			"title": "Tubo in polietilene reticolato con anima in alluminio. Colore bianco",
+			"abstract": "ELBOW_0600_Tiemme_AL-Cobrapipe Multi Layer",
+			"fileName": "P_ELBOW_0600_Tiemme_AL-Cobrapipe Multi Layer.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_ELBOW_0600_Tiemme_AL-Cobrapipe Multi Layer.rfa",
+			"features": [
+      546,
+      652
+    ]
+  },
+		{
+			"id": 19708,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": 600,
+			"title": "Tubo in polietilene reticolato con anima in alluminio. Colore bianco",
+			"abstract": "ELBOW-Free_0600_Tiemme_AL-Cobrapipe Multi Layer",
+			"fileName": "P_ELBOW-Free_0600_Tiemme_AL-Cobrapipe Multi Layer.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_ELBOW-Free_0600_Tiemme_AL-Cobrapipe Multi Layer.rfa",
+			"features": [
+      546,
+      652
+    ]
+  },
+		{
+			"id": 19708,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": 600,
+			"title": "Tubo in polietilene reticolato con anima in alluminio. Colore bianco",
+			"abstract": "Pipe_0600_Tiemme_AL-Cobrapipe Multi Layer",
+			"fileName": "P_Pipe_0600_Tiemme_AL-Cobrapipe Multi Layer.rte",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_Pipe_0600_Tiemme_AL-Cobrapipe Multi Layer.rte",
+			"features": [
+      546,
+      652
+    ]
+  },
+		{
+			"id": 21056,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "3391BY",
+			"title": "Distributore bitubo con by-pass, attacchi tubo da pavimento e raccordi per radiatori a piastra 3/4\"x18 (Eurocono). Interasse 50 mm",
+			"abstract": "BALL VALVE_3391BY_MF_Distributors_Tiemme",
+			"fileName": "P_BALL VALVE_3391BY_MF_Distributors_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_BALL VALVE_3391BY_MF_Distributors_Tiemme.rfa",
+			"features": [
+      546,
+      699
+    ]
+  },
+		{
+			"id": 20352,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": 1692,
+			"title": "Valvola a sfera con leva a farfalla rossa, con estremità a pressare per tubo multistrato e dado folle",
+			"abstract": "BALL VALVE_1692_PM_Full Bore_Manifold_Tiemme",
+			"fileName": "P_BALL VALVE_1692_PM_Full Bore_Manifold_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_BALL VALVE_1692_PM_Full Bore_Manifold_Tiemme.rfa",
+			"features": [
+      546,
+      547
+    ]
+  },
+		{
+			"id": 20367,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": 1697,
+			"title": "Valvola a sfera dritta con leva farfalla rossa e girello folle",
+			"abstract": "BALL VALVE_1697_PM_Full Bore_Manifold_Tiemme",
+			"fileName": "P_BALL VALVE_1697_PM_Full Bore_Manifold_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_BALL VALVE_1697_PM_Full Bore_Manifold_Tiemme.rfa",
+			"features": [
+      546,
+      547
+    ]
+  },
+		{
+			"id": 20576,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": 2121,
+			"title": "Valvole a sfera passaggio totale maschio/femmina ISO228 con leva farfalla rossa o blu e bocchettone",
+			"abstract": "VALVE_2121_Acc_Tiemme",
+			"fileName": "P_VALVE_2121_Acc_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_VALVE_2121_Acc_Tiemme.rfa",
+			"features": [
+      546,
+      547
+    ]
+  },
+		{
+			"id": 24951,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"features": [
+      875,
+      897
+    ]
+  },
+		{
+			"id": 24951,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"features": [
+      875,
+      897
+    ]
+  },
+		{
+			"id": 24951,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rte",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rte",
+			"features": [
+      875,
+      897
+    ]
+  },
+		{
+			"id": 24949,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"features": [
+      875,
+      893
+    ]
+  },
+		{
+			"id": 24949,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"features": [
+      875,
+      893
+    ]
+  },
+		{
+			"id": 24949,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rte",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rte",
+			"features": [
+      875,
+      893
+    ]
+  },
+		{
+			"id": 24950,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"features": [
+      875,
+      893
+    ]
+  },
+		{
+			"id": 24950,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"features": [
+      875,
+      893
+    ]
+  },
+		{
+			"id": 24950,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rte",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rte",
+			"features": [
+      875,
+      893
+    ]
+  },
+		{
+			"id": 23289,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": 1657,
+			"title": "Raccordo a T",
+			"abstract": "TEE_1657_PR_Fit_Tiemme",
+			"fileName": "P_TEE_1657_PR_Fit_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_TEE_1657_PR_Fit_Tiemme.rfa",
+			"features": [
+      875,
+      876
+    ]
+  },
+		{
+			"id": 24681,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": 1657,
+			"title": "Raccordo a T",
+			"abstract": "TEE_1657_PR_Fit_Tiemme",
+			"fileName": "P_TEE_1657_PR_Fit_Tiemme.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_TEE_1657_PR_Fit_Tiemme.rfa",
+			"features": [
+      875,
+      876
+    ]
+  },
+		{
+			"id": 23166,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"features": [
+      875,
+      876
+    ]
+  },
+		{
+			"id": 23166,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"features": [
+      875,
+      876
+    ]
+  },
+		{
+			"id": 23166,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rte",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rte",
+			"features": [
+      875,
+      876
+    ]
+  },
+		{
+			"id": 23167,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"features": [
+      875,
+      876
+    ]
+  },
+		{
+			"id": 23167,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"features": [
+      875,
+      876
+    ]
+  },
+		{
+			"id": 23167,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rte",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rte",
+			"features": [
+      875,
+      876
+    ]
+  },
+		{
+			"id": 24942,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"features": [
+      875,
+      876
+    ]
+  },
+		{
+			"id": 24942,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"features": [
+      875,
+      876
+    ]
+  },
+		{
+			"id": 24942,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rte",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rte",
+			"features": [
+      875,
+      876
+    ]
+  },
+		{
+			"id": 24943,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"features": [
+      875,
+      876
+    ]
+  },
+		{
+			"id": 24943,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"features": [
+      875,
+      876
+    ]
+  },
+		{
+			"id": 24943,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rte",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rte",
+			"features": [
+      875,
+      876
+    ]
+  },
+		{
+			"id": 24944,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"features": [
+      875,
+      876
+    ]
+  },
+		{
+			"id": 24944,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"features": [
+      875,
+      876
+    ]
+  },
+		{
+			"id": 24944,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rte",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rte",
+			"features": [
+      875,
+      876
+    ]
+  },
+		{
+			"id": 24945,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"features": [
+      875,
+      876
+    ]
+  },
+		{
+			"id": 24945,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"features": [
+      875,
+      876
+    ]
+  },
+		{
+			"id": 24945,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rte",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rte",
+			"features": [
+      875,
+      876
+    ]
+  },
+		{
+			"id": 24946,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"features": [
+      875,
+      876
+    ]
+  },
+		{
+			"id": 24946,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"features": [
+      875,
+      876
+    ]
+  },
+		{
+			"id": 24946,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rte",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rte",
+			"features": [
+      875,
+      876
+    ]
+  },
+		{
+			"id": 24947,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"features": [
+      875,
+      876
+    ]
+  },
+		{
+			"id": 24947,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"features": [
+      875,
+      876
+    ]
+  },
+		{
+			"id": 24947,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rte",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rte",
+			"features": [
+      875,
+      876
+    ]
+  },
+		{
+			"id": 24948,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_ELBOW_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"features": [
+      875,
+      876
+    ]
+  },
+		{
+			"id": 24948,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_ELBOW-Free_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rfa",
+			"features": [
+      875,
+      876
+    ]
+  },
+		{
+			"id": 24948,
+			"type": "bim",
+			"image": "https://tiemmeraccorderie.wslabs.it/media/immagini/0600.jpg",
+			"code": "0200B",
+			"title": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli",
+			"abstract": "Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked",
+			"fileName": "P_Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rte",
+			"fileSize": 45000,
+			"url": "https://tiemmeraccorderie.wslabs.it/media/files/P_Pipe_0200B_Tiemme_EVOH Cobrapipe Cross Linked.rte",
+			"features": [
+      875,
+      876
+    ]
+  }
+];
+
+</script>
+
+<div bim-library>
+
+	<section class="section--text-picture-bim background--gradient-inverted">
+		<div class="container">
+			<svg class="icon icon--bim icon--background"><use xlink:href="#bim"></use></svg>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="title"><svg class="icon icon--bim"><use xlink:href="#bim"></use></svg> <span>TIEMME è <b>Bim</b> Ready</span></div>
+					<div class="abstract">
+						<p>Il <b>Building Information Modeling</b> è un nuovo approccio che raccoglie ed integra tutte le informazioni utili alla progettazione, costruzione e manutenzione degli edifici.</p>
+						<p>L’architettura e la struttura si fondono in un unico volume nel quale gli impianti trovano la perfetta integrazione. Un unico contenitore perfettamente coordinato.</p>
+					</div>
+					<div class="group--cta">
+						<div class="btn--cta" (click)="openMore($event)"><span>Vuoi saperne di più?</span></div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="picture picture--bim">
+						<img lazy="/tiemme-com/img/products/bim.png" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section--text-picture">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 offset-md-2 offset-lg-0 col-lg-5 o-2 o-sm-2">
+					<div class="picture picture--vertical">
+						<img lazy="/tiemme-com/img/bim/02.jpg" />
+					</div>
+				</div>
+				<div class="col-lg-6 offset-lg-1">
+					<div class="content">
+						<div class="title">L’impegno di Tiemme </div>
+						<div class="abstract">Tiemme sviluppa internamente i propri prodotti in BIM per fornire a tutti i professionisti una libreria di oggetti BIM della massima qualità possibile e perfettamente compatibili con il software Autodesk Revit.</div>
+						<div class="group--cta">
+							<div class="btn--cta" (scrollTo)="'.section--serp'"><span>Scopri il catalogo BIM</span></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section--serp">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-4 col-md-3 col-lg-2">
+					<!-- filters -->
+					<ul class="nav--aside">
+						<li *for="let [key, filter] of filters">
+							<span class="label" [innerHTML]="filter.label"></span>
+							<ul class="nav--options">
+								<li *for="let item of filter.options">
+									<span class="label" [class]="{ active: filter.has(item), disabled: item.disabled }" (click)="filter.toggle(item)">
+										<span class="name" [innerHTML]="item.label"></span>
+										<span class="count" [innerHTML]="item.count || ''"></span>
+									</span>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<div class="col-sm-8 col-md-9 col-lg-10">
+					<!-- results -->
+					<div class="listing listing--bim">
+						<div class="listing__item" *for="let item of items">
+							<div class="card--bim" appear>
+								<div class="picture">
+									<img [lazy]="item.image" />
+									<div class="category" [innerHTML]="item.code"></div>
+								</div>
+								<div class="content">
+									<div class="title" [innerHTML]="item.title"></div>
+									<!-- <div class="abstract" [innerHTML]="item.abstract"></div> -->
+									<div class="group--cta">
+										<a [href]="item.url" class="btn--download" target="_blank" download secure>
+											<svg class="icon icon--bim"><use xlink:href="#bim"></use></svg>
+											<span class="name" [innerHTML]="item.fileName"></span>
+											<span class="size" [innerHTML]="item.fileSize | fileSize"></span>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section--hint">
+		<div class="title">Serve aiuto?</div>
+		<div class="btn--cta" (click)="openHint($event)"><span>Contatta un esperto</span> <svg class="icon icon--bim"><use xlink:href="#bim"></use></svg></div>
+	</section>
+
+</div>
+
+<!-- @@close-->

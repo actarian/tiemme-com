@@ -210,7 +210,7 @@ strong {
       font-size: 40px;
       word-break: break-word; } }
 
-.form .title, .section--club .title, .section--reserved-area__title {
+.form .title, .section--club .title, .bim-modal-hint .title, .section--reserved-area__title {
   font-family: "Barlow Condensed", sans-serif;
   font-size: 38px;
   line-height: 1.15;
@@ -219,7 +219,7 @@ strong {
   padding-bottom: 20px;
   margin-bottom: 30px;
   border-bottom: 2px solid rgba(22, 37, 91, 0.2); }
-  .form .title .icon, .section--club .title .icon, .section--reserved-area__title .icon {
+  .form .title .icon, .section--club .title .icon, .bim-modal-hint .title .icon, .section--reserved-area__title .icon {
     margin-right: 5px; }
 
 .section--technician .abstract {
@@ -228,7 +228,7 @@ strong {
   line-height: 1.5;
   font-weight: 400; }
 
-.section--text-picture .title, .section--text-full .title, .section--search > .container > .content .title, .section--detail .group--content .title {
+.section--text-picture .title, .section--text-picture-bim .title, .section--text-full .title, .section--search > .container > .content .title, .section--detail .group--content .title {
   font-family: "Barlow Condensed", sans-serif;
   font-size: 46px;
   line-height: 1;
@@ -236,23 +236,27 @@ strong {
   text-transform: uppercase;
   margin-bottom: 30px; }
   @media (max-width: 1023.98px) {
-    .section--text-picture .title, .section--text-full .title, .section--search > .container > .content .title, .section--detail .group--content .title {
+    .section--text-picture .title, .section--text-picture-bim .title, .section--text-full .title, .section--search > .container > .content .title, .section--detail .group--content .title {
       font-size: 36px;
       word-break: break-word; } }
 
-.section--text-picture .abstract, .section--text-full .abstract, .section--search > .container > .content .abstract, .section--detail .group--content .abstract {
+.section--text-picture .abstract, .section--text-picture-bim .abstract, .section--text-full .abstract, .section--search > .container > .content .abstract, .section--detail .group--content .abstract {
   font-family: "Hind Madurai", sans-serif;
   font-size: 24px;
   font-weight: 500;
   margin-bottom: 30px; }
+  .section--text-picture .abstract p, .section--text-picture-bim .abstract p, .section--text-full .abstract p, .section--search > .container > .content .abstract p, .section--detail .group--content .abstract p {
+    margin: 0 0 1em 0; }
+    .section--text-picture .abstract p:last-child, .section--text-picture-bim .abstract p:last-child, .section--text-full .abstract p:last-child, .section--search > .container > .content .abstract p:last-child, .section--detail .group--content .abstract p:last-child {
+      margin: 0; }
   @media (max-width: 1023.98px) {
-    .section--text-picture .abstract, .section--text-full .abstract, .section--search > .container > .content .abstract, .section--detail .group--content .abstract {
+    .section--text-picture .abstract, .section--text-picture-bim .abstract, .section--text-full .abstract, .section--search > .container > .content .abstract, .section--detail .group--content .abstract {
       font-size: 20px;
       line-height: 1.5; } }
 
-.section--text-picture .description, .section--text-full .description, .section--search > .container > .content .description, .section--detail .group--content .description {
+.section--text-picture .description, .section--text-picture-bim .description, .section--text-full .description, .section--search > .container > .content .description, .section--detail .group--content .description {
   margin-bottom: 20px; }
-  .section--text-picture .description p, .section--text-full .description p, .section--search > .container > .content .description p, .section--detail .group--content .description p {
+  .section--text-picture .description p, .section--text-picture-bim .description p, .section--text-full .description p, .section--search > .container > .content .description p, .section--detail .group--content .description p {
     margin: 0;
     padding-bottom: 15px; }
 
@@ -314,7 +318,8 @@ button {
     transition: all ease-in-out 350ms; }
 
 .btn--cta {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   padding: 5px 10px;
   background: #b9bdcd;
   font-weight: 500;
@@ -322,13 +327,24 @@ button {
   text-transform: uppercase;
   opacity: 1;
   transition: all ease-in-out 350ms;
-  line-height: 1; }
+  line-height: 1;
+  cursor: pointer; }
+  .btn--cta svg {
+    width: 1em;
+    height: 1em;
+    fill: currentColor; }
+    .btn--cta svg:first-child {
+      margin-right: 0.5em; }
+    .btn--cta svg:last-child {
+      margin-left: 0.5em; }
   .btn--cta .icon--download {
     margin-right: 8px;
     transition: all ease-in-out 350ms; }
   .btn--cta:hover {
     background: #16255b;
     color: #ffffff; }
+    .btn--cta:hover svg {
+      fill: currentColor; }
     .btn--cta:hover .icon--download {
       fill: #ffffff; }
 
@@ -4000,6 +4016,7 @@ ul {
   display: block;
   margin-bottom: 40px; }
   .nav--aside > li > .label {
+    font-size: 22px;
     display: block;
     margin-bottom: 15px; }
 
@@ -4035,10 +4052,15 @@ ul {
   margin-bottom: 10px; }
   .nav--options > li > a,
   .nav--options > li > span {
-    font-family: "Barlow Condensed", sans-serif; }
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 15px; }
     .nav--options > li > a .name,
     .nav--options > li > span .name {
-      flex: 1 1 auto; }
+      margin: 0 10px 0 0;
+      flex: 1 1 auto;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden; }
     .nav--options > li > a .count,
     .nav--options > li > span .count {
       font-family: "Hind Madurai", sans-serif;
@@ -4048,9 +4070,10 @@ ul {
       content: '';
       width: 11px;
       height: 11px;
+      flex: 0 0 11px;
       border-radius: 0;
       margin: 0 10px 0 0;
-      border: 2px solid #16255b;
+      border: 2px solid currentColor;
       outline: 0; }
     .nav--options > li > a:after,
     .nav--options > li > span:after {
@@ -4060,11 +4083,11 @@ ul {
       bottom: 0;
       width: 0;
       height: 2px;
-      background: #16255b;
+      background: currentColor;
       transition: all ease-in-out 350ms; }
     .nav--options > li > a.active:before,
     .nav--options > li > span.active:before {
-      background: #16255b; }
+      background: currentColor; }
     .nav--options > li > a:not(.disabled),
     .nav--options > li > span:not(.disabled) {
       cursor: pointer; }
@@ -4084,6 +4107,23 @@ ul {
     width: 36px;
     height: 36px;
     margin-right: 20px; }
+  .nav--info .arrow {
+    position: relative;
+    padding: 0 5px 0 15px;
+    margin-right: 2em;
+    background: #16255b;
+    color: #ffffff; }
+    .nav--info .arrow:after {
+      position: absolute;
+      content: '';
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-color: transparent transparent transparent #16255b;
+      border-width: 0.85em 0 0.85em 0.85em;
+      top: 50%;
+      right: -0.85em;
+      margin-top: -0.85em; }
 
 @media screen {
   .section--hero .swiper-container, .section--hero-secondary .swiper-container, .section--hero-tertiary .swiper-container, .section--slides .swiper-container, .section--listing .swiper-container {
@@ -4456,13 +4496,13 @@ ul {
 
 .modal-outlet__modal {
   position: relative;
-  max-width: 700px;
   padding: 0 0 30px 0;
   overflow-x: hidden;
   overflow-y: auto;
   background: white;
   max-height: calc(100vh - 200px);
-  max-height: calc(var(--vh, 1vh) * 100 - 200px); }
+  max-height: calc(var(--vh, 1vh) * 100 - 200px);
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 10px 10px -5px; }
   .modal-outlet__modal::-webkit-scrollbar {
     width: 6px;
     border-radius: 3px; }
@@ -4749,7 +4789,7 @@ ul {
     padding-top: 68.22222%;
     overflow: hidden;
     margin-bottom: 25px;
-    box-shadow: 0 20px 20px -5px rgba(0, 0, 0, 0.2); }
+    box-shadow: 0 20px 20px -5px rgba(22, 37, 91, 0.2); }
     .card--product .picture > img,
     .card--product .picture > svg,
     .card--product .picture > video,
@@ -5025,7 +5065,7 @@ ul {
   display: flex;
   /*
 	background-color: #EAEBF0;
-	box-shadow: 0 20px 20px -5px rgba(0, 0, 0, .2);
+	box-shadow: 0 20px 20px -5px rgba($foreground, .2);
 	margin-bottom: 50px;
 	*/
   padding: 20px;
@@ -5232,6 +5272,84 @@ ul {
   @media (max-width: 1023.98px) {
     .card--search {
       margin-bottom: 40px; } }
+
+.card--bim {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 20px 0;
+  padding: 0000;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f3f4f6;
+  color: #16255b;
+  box-shadow: 0 12px 15px -5px rgba(22, 37, 91, 0.25); }
+  .card--bim .picture {
+    position: relative; }
+    .card--bim .picture > .category {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      padding: 5px 12px;
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 20px;
+      line-height: 1;
+      font-weight: 500;
+      text-transform: uppercase;
+      background: #b9bdcd;
+      color: currentColor; }
+  .card--bim .content {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 15px; }
+  .card--bim .title {
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 21px;
+    line-height: 1.1;
+    font-weight: 500;
+    margin-bottom: 20px;
+    flex: 1 1 auto; }
+  .card--bim .abstract {
+    font-size: 14px;
+    line-height: 20px;
+    flex: 1 1 auto; }
+  .card--bim .group--cta {
+    padding: 20px 0 0 0; }
+  .card--bim .btn--download {
+    display: flex;
+    width: 100%;
+    padding: 2px 8px;
+    opacity: 1;
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 14px;
+    background: #ffffff;
+    color: currentColor; }
+    .card--bim .btn--download .name,
+    .card--bim .btn--download .size {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis; }
+    .card--bim .btn--download .name {
+      width: 100%;
+      flex: 1 1 auto;
+      margin-right: 8px; }
+    .card--bim .btn--download .size {
+      flex: 0 0 auto;
+      font-weight: 500; }
+    .card--bim .btn--download .icon--bim {
+      width: 16px;
+      height: 16px;
+      margin: 0 6px 0 0;
+      fill: currentColor; }
+    .card--bim .btn--download:hover {
+      background: #16255b;
+      color: #ffffff; }
 
 @media (max-width: 767.98px) {
   .hidden-xs-down {
@@ -5969,6 +6087,8 @@ ul {
       width: 100%;
       height: 100%;
       object-fit: cover; }
+  .section--text-picture .group--cta {
+    margin-bottom: 30px; }
   .section--text-picture.section--intro .row {
     align-items: center; }
   @media (min-width: 1440px) {
@@ -5980,6 +6100,43 @@ ul {
   @media (max-width: 1023.98px) {
     .section--text-picture {
       padding: 30px 0; } }
+
+.section--text-picture-bim {
+  position: relative;
+  padding: 0 0 80px 0; }
+  .section--text-picture-bim .row > div {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column; }
+  .section--text-picture-bim .title {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 60px; }
+    .section--text-picture-bim .title b {
+      color: #dc1216; }
+  .section--text-picture-bim .icon--bim {
+    width: 55px;
+    height: 55px;
+    fill: #dc1216;
+    margin-right: 15px; }
+  .section--text-picture-bim .picture--bim {
+    margin: 0 auto 30px auto;
+    width: 100%;
+    background: transparent; }
+  .section--text-picture-bim .group--cta {
+    margin-bottom: 30px; }
+  @media (min-width: 1440px) {
+    .section--text-picture-bim {
+      padding-bottom: 80px; } }
+  @media (max-width: 1439.98px) {
+    .section--text-picture-bim {
+      padding-bottom: 60px; } }
+  @media (max-width: 1023.98px) {
+    .section--text-picture-bim {
+      padding-bottom: 40px; } }
+  @media (max-width: 1023.98px) {
+    .section--text-picture-bim {
+      padding-bottom: 40px; } }
 
 .section--hero + .section--text-picture:not(.section--intro) .row > div,
 .sticky--menu + .section--text-picture:not(.section--intro) .row > div {
@@ -6485,7 +6642,7 @@ ul {
     justify-content: center; }
   @media (max-width: 1023.98px) {
     .section--bim {
-      padding-bottom: 0 0 40px 0; } }
+      padding: 0 0 40px 0; } }
 
 .section--certifications {
   padding: 0 0 50px 0; }
@@ -6634,6 +6791,100 @@ ul {
         .listing--media .btn--play .icon--play-progress-background {
           width: 100px;
           height: 100px; } }
+
+.listing--bim {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start; }
+  .listing--bim .listing__item {
+    margin-bottom: 30px; }
+  @media (min-width: 1440px) {
+    .listing--bim {
+      margin-left: -15px;
+      margin-right: -15px; }
+      .listing--bim .listing__item {
+        flex: 0 0 calc(25% - 30px);
+        max-width: calc(25% - 30px);
+        margin-left: 15px;
+        margin-right: 15px; } }
+  @media (min-width: 1024px) and (max-width: 1919.98px) {
+    .listing--bim {
+      margin-left: -15px;
+      margin-right: -15px; }
+      .listing--bim .listing__item {
+        flex: 0 0 calc(33.33333% - 30px);
+        max-width: calc(33.33333% - 30px);
+        margin-left: 15px;
+        margin-right: 15px; } }
+  @media (min-width: 768px) and (max-width: 1439.98px) {
+    .listing--bim {
+      margin-left: -15px;
+      margin-right: -15px; }
+      .listing--bim .listing__item {
+        flex: 0 0 calc(50% - 30px);
+        max-width: calc(50% - 30px);
+        margin-left: 15px;
+        margin-right: 15px; } }
+  @media (max-width: 1023.98px) {
+    .listing--bim .listing__item {
+      flex: 0 0 calc(100% - 0);
+      max-width: calc(100% - 0);
+      margin-left: 0;
+      margin-right: 0; } }
+
+[bim-library] {
+  color: #16255b; }
+  [bim-library] .icon--background {
+    position: absolute; }
+    @media (min-width: 1024px) {
+      [bim-library] .icon--background {
+        width: 30vw;
+        height: 30vw;
+        right: 0;
+        margin-top: 150px;
+        fill: rgba(220, 18, 22, 0.1); } }
+    @media (max-width: 1023.98px) {
+      [bim-library] .icon--background {
+        width: 100vw;
+        height: 100vw;
+        left: -15vw;
+        margin-top: 0;
+        fill: rgba(220, 18, 22, 0.05); } }
+  [bim-library] .section--serp {
+    border-top: 2px solid rgba(22, 37, 91, 0.05); }
+
+.bim-modal {
+  max-width: 1200px; }
+  .bim-modal .modal__header {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: white;
+    background: #b9bdcd; }
+  .bim-modal .picture {
+    padding: 20px;
+    background: white; }
+  @media (min-width: 1024px) {
+    .bim-modal {
+      padding: 0 60px; }
+      .bim-modal .modal__header {
+        margin-left: -60px;
+        margin-right: -60px; } }
+
+.bim-modal-hint {
+  max-width: 700px; }
+
+.section--hint {
+  position: fixed;
+  bottom: 15px;
+  right: 10px;
+  width: 100%;
+  max-width: 320px;
+  background: #fff;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 10px 10px -5px rgba(0, 0, 0, 0.3); }
 
 .section--detail {
   padding: 80px 0; }

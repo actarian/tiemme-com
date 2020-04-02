@@ -92,3 +92,49 @@
 		}
 	}
 }
+
+.listing--bim {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+
+	.listing__item {
+		margin-bottom: 30px;
+	}
+
+	@include media-up(lg) {
+		$gutter: 30px;
+		margin-left: - $gutter / 2;
+		margin-right: - $gutter / 2;
+
+		.listing__item {
+			@include as-col(3, 12, $gutter);
+		}
+	}
+
+	@include media-between(md, lg) {
+		$gutter: 30px;
+		margin-left: - $gutter / 2;
+		margin-right: - $gutter / 2;
+
+		.listing__item {
+			@include as-col(4, 12, $gutter);
+		}
+	}
+
+	@include media-between(sm, md) {
+		$gutter: 30px;
+		margin-left: - $gutter / 2;
+		margin-right: - $gutter / 2;
+
+		.listing__item {
+			@include as-col(6, 12, $gutter);
+		}
+	}
+
+	@include media-down(sm) {
+		.listing__item {
+			@include as-col(12, 12, 0);
+		}
+	}
+}

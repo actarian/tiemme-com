@@ -255,7 +255,7 @@
 	.picture {
 		@include aspect-clip(450, 307);
 		margin-bottom: 25px;
-		box-shadow: 0 20px 20px -5px rgba(0, 0, 0, 0.2);
+		box-shadow: 0 20px 20px -5px rgba($foreground, 0.2);
 
 		img {
 			transition: 700ms 0ms cubic-bezier(0.320, 0.000, 0.290, 0.990);
@@ -587,7 +587,7 @@
 	display: flex;
 	/*
 	background-color: #EAEBF0;
-	box-shadow: 0 20px 20px -5px rgba(0, 0, 0, .2);
+	box-shadow: 0 20px 20px -5px rgba($foreground, .2);
 	margin-bottom: 50px;
 	*/
 	padding: 20px;
@@ -714,7 +714,7 @@
 	display: flex;
 	padding: 20px 0;
 	background: $background-tertiary;
-	// box-shadow: 0 20px 20px -5px rgba(0, 0, 0, 0.2);
+	// box-shadow: 0 20px 20px -5px rgba($foreground, 0.2);
 
 	.picture {
 		flex: 0 0 38%;
@@ -859,4 +859,111 @@
 	@include media-down(sm) {
 		margin-bottom: 40px;
 	}
+}
+
+.card--bim {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	padding: 20px 0;
+	padding: 0000;
+	background: white;
+	border-radius: 10px;
+	overflow: hidden;
+	background: $background-tertiary;
+	color: $foreground;
+	// box-shadow: 0 20px 20px -5px rgba($foreground, 0.2);
+	box-shadow: 0 12px 15px -5px rgba($foreground, 0.25);
+
+	.picture {
+		position: relative;
+
+		&>.category {
+			position: absolute;
+			left: 0;
+			bottom: 0;
+			padding: 5px 12px;
+			max-width: 100%;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			font-family: $font-secondary;
+			font-size: 20px;
+			line-height: 1;
+			font-weight: $font-medium;
+			text-transform: uppercase;
+			// background: $background-secondary;
+			// color: $foreground;
+			background: $background-secondary;
+			color: currentColor;
+		}
+	}
+
+	.content {
+		flex: 1 1 auto;
+		display: flex;
+		flex-direction: column;
+		padding: 15px;
+	}
+
+	.title {
+		font-family: $font-secondary;
+		font-size: 21px;
+		line-height: 1.1;
+		font-weight: $font-medium;
+		margin-bottom: 20px;
+		flex: 1 1 auto;
+	}
+
+	.abstract {
+		font-size: 14px;
+		line-height: 20px;
+		flex: 1 1 auto;
+	}
+
+	.group--cta {
+		padding: 20px 0 0 0;
+	}
+
+	.btn--download {
+		display: flex;
+		width: 100%;
+		padding: 2px 8px;
+		opacity: 1;
+		font-family: $font-secondary;
+		font-size: 14px;
+		background: $background;
+		color: currentColor;
+
+		.name,
+		.size {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.name {
+			width: 100%;
+			flex: 1 1 auto;
+			margin-right: 8px;
+		}
+
+		.size {
+			flex: 0 0 auto;
+			font-weight: $font-medium;
+		}
+
+		.icon--bim {
+			width: 16px;
+			height: 16px;
+			margin: 0 6px 0 0;
+			fill: currentColor;
+		}
+
+		&:hover {
+			background: $background-negative;
+			color: $foreground-negative;
+		}
+	}
+
 }
