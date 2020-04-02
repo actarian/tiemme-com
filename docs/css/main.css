@@ -4011,14 +4011,18 @@ ul {
     .nav--select > li > .option {
       padding: 10px 20px; } }
 
-.nav--aside > li {
-  position: relative;
-  display: block;
-  margin-bottom: 40px; }
-  .nav--aside > li > .label {
-    font-size: 22px;
+.nav--aside {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 100px; }
+  .nav--aside > li {
+    position: relative;
     display: block;
-    margin-bottom: 15px; }
+    margin-bottom: 40px; }
+    .nav--aside > li > .label {
+      font-size: 22px;
+      display: block;
+      margin-bottom: 15px; }
 
 .nav--aside-menu > li {
   position: relative;

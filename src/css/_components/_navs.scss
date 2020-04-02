@@ -696,6 +696,9 @@ ul {
 .nav--aside {
 	@extend %nav-reset;
 
+	position: sticky;
+	top: 100px;
+
 	&>li {
 		position: relative;
 		display: block;
