@@ -26,8 +26,33 @@
 	}
 }
 
-.bim-modal {
+.section--hint {
+	position: fixed;
+	bottom: 15px;
+	right: 10px;
+	width: 100%;
+	max-width: 230px;
+	padding: 10px;
+	text-align: center;
+	font-size: 19px;
+	background: #fff;
+	color: $foreground-primary;
+	box-shadow: 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+
+	.btn--cta {
+		background: #f7bfc1;
+		color: $foreground-primary;
+
+		&:hover {
+			background: $foreground-primary;
+			color: $foreground-negative;
+		}
+	}
+}
+
+.bim-modal-more {
 	max-width: 1200px;
+	font-size: 15px;
 
 	.modal__header {
 		position: sticky;
@@ -41,17 +66,43 @@
 	.picture {
 		padding: 20px;
 		background: white;
+		box-shadow: none;
 	}
 
-	@include media-up(md) {
-		padding: 0 60px;
+	.title {
+		font-size: 36px;
+		margin-bottom: 0.5em;
 
-		.modal__header {
-			margin-left: -60px;
-			margin-right: -60px;
+		@include media-down(sm) {
+			font-size: 30px;
 		}
 	}
 
+	.abstract {
+		font-size: 19px;
+		margin-bottom: 1em;
+
+		@include media-down(sm) {
+			font-size: 19px;
+		}
+	}
+
+	.description {
+		margin-bottom: 1em;
+
+		p {
+			padding-bottom: 1em;
+		}
+	}
+
+	@include media-up(sm) {
+		padding: 0 40px;
+
+		.modal__header {
+			margin-left: -40px;
+			margin-right: -40px;
+		}
+	}
 }
 
 .bim-modal-hint {
@@ -60,17 +111,4 @@
 	.title {
 		@extend %subtitle;
 	}
-
-}
-
-.section--hint {
-	position: fixed;
-	bottom: 15px;
-	right: 10px;
-	width: 100%;
-	max-width: 320px;
-	background: #fff;
-	padding: 10px;
-	text-align: center;
-	box-shadow: 0 10px 10px -5px rgba(0, 0, 0, 0.3);
 }

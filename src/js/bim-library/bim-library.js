@@ -6,7 +6,7 @@ import FilterService from '../filter/filter.service';
 import HttpService from '../http/http.service';
 import ModalService from '../modal/modal.service';
 
-const srcMore = STATIC ? '/tiemme-com/services-bim-modal.html' : '/Viewdoc.cshtml?co_id=23649';
+const srcMore = STATIC ? '/tiemme-com/services-bim-modal-more.html' : '/Viewdoc.cshtml?co_id=23649';
 const srcHint = STATIC ? '/tiemme-com/services-bim-modal-hint.html' : '/Viewdoc.cshtml?co_id=23649';
 
 export default class BimLibraryComponent extends Component {

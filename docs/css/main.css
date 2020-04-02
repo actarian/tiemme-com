@@ -3404,6 +3404,9 @@ errors-component {
   padding-top: 110px;
   padding-bottom: 10px; }
 
+.section--hero-tertiary .background:after {
+  background: #b9bdcd; }
+
 @media screen and (min-width: 1024px) {
   .section--hero-tertiary {
     height: 200px; } }
@@ -6857,38 +6860,64 @@ ul {
   [bim-library] .section--serp {
     border-top: 2px solid rgba(22, 37, 91, 0.05); }
 
-.bim-modal {
-  max-width: 1200px; }
-  .bim-modal .modal__header {
+.section--hint {
+  position: fixed;
+  bottom: 15px;
+  right: 10px;
+  width: 100%;
+  max-width: 230px;
+  padding: 10px;
+  text-align: center;
+  font-size: 19px;
+  background: #fff;
+  color: #dc1216;
+  box-shadow: 0 10px 10px -5px rgba(0, 0, 0, 0.3); }
+  .section--hint .btn--cta {
+    background: #f7bfc1;
+    color: #dc1216; }
+    .section--hint .btn--cta:hover {
+      background: #dc1216;
+      color: #ffffff; }
+
+.bim-modal-more {
+  max-width: 1200px;
+  font-size: 15px; }
+  .bim-modal-more .modal__header {
     position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 100;
     background: white;
     background: #b9bdcd; }
-  .bim-modal .picture {
+  .bim-modal-more .picture {
     padding: 20px;
-    background: white; }
-  @media (min-width: 1024px) {
-    .bim-modal {
-      padding: 0 60px; }
-      .bim-modal .modal__header {
-        margin-left: -60px;
-        margin-right: -60px; } }
+    background: white;
+    box-shadow: none; }
+  .bim-modal-more .title {
+    font-size: 36px;
+    margin-bottom: 0.5em; }
+    @media (max-width: 1023.98px) {
+      .bim-modal-more .title {
+        font-size: 30px; } }
+  .bim-modal-more .abstract {
+    font-size: 19px;
+    margin-bottom: 1em; }
+    @media (max-width: 1023.98px) {
+      .bim-modal-more .abstract {
+        font-size: 19px; } }
+  .bim-modal-more .description {
+    margin-bottom: 1em; }
+    .bim-modal-more .description p {
+      padding-bottom: 1em; }
+  @media (min-width: 768px) {
+    .bim-modal-more {
+      padding: 0 40px; }
+      .bim-modal-more .modal__header {
+        margin-left: -40px;
+        margin-right: -40px; } }
 
 .bim-modal-hint {
   max-width: 700px; }
-
-.section--hint {
-  position: fixed;
-  bottom: 15px;
-  right: 10px;
-  width: 100%;
-  max-width: 320px;
-  background: #fff;
-  padding: 10px;
-  text-align: center;
-  box-shadow: 0 10px 10px -5px rgba(0, 0, 0, 0.3); }
 
 .section--detail {
   padding: 80px 0; }

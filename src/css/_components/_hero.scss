@@ -175,8 +175,13 @@
 		padding-bottom: 10px;
 	}
 
-	@media screen {
+	.background {
+		&:after {
+			background: $background-secondary;
+		}
+	}
 
+	@media screen {
 		@include media-up(md) {
 			height: 200px;
 		}

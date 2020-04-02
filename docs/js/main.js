@@ -524,7 +524,7 @@
   };
 
   var STATIC = window.location.port === '41999' || window.location.host === 'actarian.github.io';
-  var DEVELOPMENT = window.location.host.indexOf('localhost') === 0;
+  var DEVELOPMENT = ['localhost', '127.0.0.1', '0.0.0.0'].indexOf(window.location.host.split(':')[0]) !== -1;
   var PRODUCTION = !DEVELOPMENT;
   var ENV = {
     STATIC: STATIC,
@@ -1042,7 +1042,7 @@
     selector: '[appear]'
   };
 
-  var srcMore = STATIC ? '/tiemme-com/services-bim-modal.html' : '/Viewdoc.cshtml?co_id=23649';
+  var srcMore = STATIC ? '/tiemme-com/services-bim-modal-more.html' : '/Viewdoc.cshtml?co_id=23649';
   var srcHint = STATIC ? '/tiemme-com/services-bim-modal-hint.html' : '/Viewdoc.cshtml?co_id=23649';
 
   var BimLibraryComponent = /*#__PURE__*/function (_Component) {
