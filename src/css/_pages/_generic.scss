@@ -163,11 +163,12 @@
 
 	@include media-down(sm) {
 		padding-bottom: 40px;
+
+		.picture--bim {
+			margin-top: -12px;
+		}
 	}
 
-	@include media-down(sm) {
-		padding-bottom: 40px;
-	}
 }
 
 .section--hero,

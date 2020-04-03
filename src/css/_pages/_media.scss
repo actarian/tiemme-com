@@ -93,6 +93,17 @@
 	}
 }
 
+.listing--bim_ {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+
+	.listing__item {
+		margin: 0 15px 30px 15px;
+		max-width: 320px;
+	}
+}
+
 .listing--bim {
 	display: flex;
 	flex-wrap: wrap;
@@ -100,6 +111,11 @@
 
 	.listing__item {
 		margin-bottom: 30px;
+	}
+
+	.card--bim {
+		max-width: 320px;
+		margin: 0 auto;
 	}
 
 	@include media-up(lg) {

@@ -928,12 +928,13 @@
 	.btn--download {
 		display: flex;
 		width: 100%;
-		padding: 2px 8px;
-		opacity: 1;
+		padding: 0;
 		font-family: $font-secondary;
 		font-size: 14px;
-		background: $background;
+		line-height: 2.1;
+		background: $background-secondary;
 		color: currentColor;
+		opacity: 1;
 
 		.name,
 		.size {
@@ -948,9 +949,22 @@
 			margin-right: 8px;
 		}
 
+		.extension,
 		.size {
 			flex: 0 0 auto;
-			font-weight: $font-medium;
+			padding: 0 8px;
+			font-weight: $font-semibold;
+		}
+
+		.extension {
+			display: block;
+			margin: 0 8px 0 0;
+			border-right: 1px solid rgba($foreground, 0.2);
+		}
+
+		.size {
+			margin: 0 0 0 8px;
+			border-left: 1px solid rgba($foreground, 0.2);
 		}
 
 		.icon--bim {

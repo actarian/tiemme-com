@@ -5331,12 +5331,13 @@ ul {
   .card--bim .btn--download {
     display: flex;
     width: 100%;
-    padding: 2px 8px;
-    opacity: 1;
+    padding: 0;
     font-family: "Barlow Condensed", sans-serif;
     font-size: 14px;
-    background: #ffffff;
-    color: currentColor; }
+    line-height: 2.1;
+    background: #b9bdcd;
+    color: currentColor;
+    opacity: 1; }
     .card--bim .btn--download .name,
     .card--bim .btn--download .size {
       white-space: nowrap;
@@ -5346,9 +5347,18 @@ ul {
       width: 100%;
       flex: 1 1 auto;
       margin-right: 8px; }
+    .card--bim .btn--download .extension,
     .card--bim .btn--download .size {
       flex: 0 0 auto;
-      font-weight: 500; }
+      padding: 0 8px;
+      font-weight: 600; }
+    .card--bim .btn--download .extension {
+      display: block;
+      margin: 0 8px 0 0;
+      border-right: 1px solid rgba(22, 37, 91, 0.2); }
+    .card--bim .btn--download .size {
+      margin: 0 0 0 8px;
+      border-left: 1px solid rgba(22, 37, 91, 0.2); }
     .card--bim .btn--download .icon--bim {
       width: 16px;
       height: 16px;
@@ -6140,10 +6150,9 @@ ul {
       padding-bottom: 60px; } }
   @media (max-width: 1023.98px) {
     .section--text-picture-bim {
-      padding-bottom: 40px; } }
-  @media (max-width: 1023.98px) {
-    .section--text-picture-bim {
-      padding-bottom: 40px; } }
+      padding-bottom: 40px; }
+      .section--text-picture-bim .picture--bim {
+        margin-top: -12px; } }
 
 .section--hero + .section--text-picture:not(.section--intro) .row > div,
 .sticky--menu + .section--text-picture:not(.section--intro) .row > div {
@@ -6799,12 +6808,23 @@ ul {
           width: 100px;
           height: 100px; } }
 
+.listing--bim_ {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around; }
+  .listing--bim_ .listing__item {
+    margin: 0 15px 30px 15px;
+    max-width: 320px; }
+
 .listing--bim {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start; }
   .listing--bim .listing__item {
     margin-bottom: 30px; }
+  .listing--bim .card--bim {
+    max-width: 320px;
+    margin: 0 auto; }
   @media (min-width: 1440px) {
     .listing--bim {
       margin-left: -15px;
@@ -6871,7 +6891,8 @@ ul {
   font-size: 19px;
   background: #fff;
   color: #dc1216;
-  box-shadow: 0 10px 10px -5px rgba(0, 0, 0, 0.3); }
+  box-shadow: 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+  z-index: 100; }
   .section--hint .btn--cta {
     background: #f7bfc1;
     color: #dc1216; }

@@ -1062,15 +1062,16 @@
       var initialParams = window.params || {};
       filters.departments.mode = FilterMode.OR;
       filters.catalogues.mode = FilterMode.OR;
+      filters.extensions.mode = FilterMode.OR;
       var filterService = new FilterService(filters, initialParams, function (key, filter) {
         switch (key) {
-          /*
-          case 'languages':
-          	filter.filter = (item, value) => {
-          		return item.languages.indexOf(value) !== -1;
-          	};
-          	break;
-          */
+          case 'extensions':
+            filter.filter = function (item, value) {
+              return item.fileExtension === value;
+            };
+
+            break;
+
           default:
             filter.filter = function (item, value) {
               return item.features.indexOf(value) !== -1;
@@ -1166,7 +1167,9 @@
             title: item.productName,
             abstract: item.description,
             fileName: item.fileName,
+            fileExtension: "." + item.fileName.split('.').pop(),
             fileSize: 45000,
+            slug: 'https://tiemmeraccorderie.wslabs.it/it/prodotti/componenti-idraulici/tubi/tubi-multistrato-al-cobrapex/standard/0600/',
             url: 'https://tiemmeraccorderie.wslabs.it/media/files/' + item.fileName,
             features: [item.category1Id, item.category2Id]
           });

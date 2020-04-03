@@ -38,6 +38,7 @@
 	background: #fff;
 	color: $foreground-primary;
 	box-shadow: 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+	z-index: 100;
 
 	.btn--cta {
 		background: #f7bfc1;
