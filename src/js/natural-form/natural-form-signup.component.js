@@ -124,13 +124,13 @@ export default class NaturalFormSignupComponent extends Component {
 				.subscribe(response => {
 					console.log('NaturalFormSignupComponent.onSubmit', response);
 					this.success = true;
+					dataLayer.push({
+						'event': 'formSubmission',
+						'form type': 'Registrazione Tiemme Club'
+					});
 					this.form.reset();
 					// this.pushChanges();
 					this.signUp.next(response);
-					dataLayer.push({
-						'event': 'formSubmission',
-						'form type': 'Registrazione Club Tiemme'
-					});
 				}, error => {
 					console.log('NaturalFormSignupComponent.error', error);
 					this.error = error;

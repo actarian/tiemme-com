@@ -182,12 +182,16 @@
 	}
 
 	@media screen {
-		@include media-up(md) {
+		@include media-up(lg) {
 			height: 200px;
 		}
 
+		@include media-down(md) {
+			height: 188px;
+		}
+
 		@include media-down(sm) {
-			height: 200px;
+			height: 55px;
 		}
 	}
 }

@@ -97,7 +97,7 @@ export default class RequestInfoCommercialComponent extends Component {
 		this.form.reset();
 	}
 
-	onSubmit() {
+	onSubmit(from) {
 		// console.log('RequestInfoCommercialComponent.onSubmit', 'form.valid', valid);
 		if (this.form.valid) {
 			// console.log('RequestInfoCommercialComponent.onSubmit', this.form.value);
@@ -111,7 +111,7 @@ export default class RequestInfoCommercialComponent extends Component {
 					// this.pushChanges();
 					dataLayer.push({
 						'event': 'formSubmission',
-						'form type': 'Contatti'
+						'form type': (null == from ? 'Contatti Tiemme' : from)
 					});
 
 				}, error => {

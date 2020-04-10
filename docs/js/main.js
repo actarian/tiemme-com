@@ -1042,8 +1042,8 @@
     selector: '[appear]'
   };
 
-  var srcMore = STATIC ? '/tiemme-com/services-bim-modal-more.html' : '/Viewdoc.cshtml?co_id=23649';
-  var srcHint = STATIC ? '/tiemme-com/services-bim-modal-hint.html' : '/Viewdoc.cshtml?co_id=23649';
+  var srcMore = STATIC ? '/tiemme-com/services-bim-modal-more.html' : '/Viewdoc.cshtml?co_id=25206';
+  var srcHint = STATIC ? '/tiemme-com/services-bim-modal-hint.html' : '/Viewdoc.cshtml?co_id=25207';
 
   var BimLibraryComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(BimLibraryComponent, _Component);
@@ -1927,7 +1927,9 @@
 
           _this2.pushChanges();
 
-          _this2.signIn.next(response);
+          _this2.signIn.next(typeof response === 'string' ? {
+            status: response
+          } : response);
         }, function (error) {
           console.log('ClubSigninComponent.error', error);
           _this2.error = error;
@@ -2071,15 +2073,14 @@
         UserService.register$(this.form.value).subscribe(function (response) {
           console.log('ClubSignupComponent.onSubmit', response);
           _this3.success = true;
+          dataLayer.push({
+            'event': 'formSubmission',
+            'form type': 'Registrazione Tiemme Club'
+          });
 
           _this3.form.reset(); // this.pushChanges();
           // this.signUp.next(response);
 
-
-          dataLayer.push({
-            'event': 'formSubmission',
-            'form type': 'Registrazione Club Tiemme'
-          });
         }, function (error) {
           console.log('ClubSignupComponent.error', error);
           _this3.error = error;
@@ -2337,7 +2338,7 @@
     inputs: ['control', 'label'],
     template:
     /* html */
-    "\n\t\t<div class=\"group--form--checkbox\" [class]=\"{ required: control.validators.length }\">\n\t\t\t<label>\n\t\t\t\t<input type=\"checkbox\" class=\"control--checkbox\" [formControl]=\"control\" [value]=\"true\"/>\n\t\t\t\t<span [innerHTML]=\"label | html\"></span>\n\t\t\t</label>\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
+    "\n\t\t<div class=\"group--form--checkbox\" [class]=\"{ required: control.validators.length }\">\n\t\t\t<label>\n\t\t\t\t<input type=\"checkbox\" class=\"control--checkbox\" [formControl]=\"control\" [value]=\"true\" />\n\t\t\t\t<span [innerHTML]=\"label | html\"></span>\n\t\t\t</label>\n\t\t\t<span class=\"required__badge\">required</span>\n\t\t</div>\n\t\t<errors-component [control]=\"control\"></errors-component>\n\t"
   };
 
   var KeyboardService = /*#__PURE__*/function () {
@@ -2429,7 +2430,7 @@
         var dropdown = node.querySelector('.dropdown');
         var navDropdown = node.querySelector('.nav--dropdown');
         var item = navDropdown.children[index];
-        dropdown.scroll(0, item.offsetTop);
+        dropdown.scrollTo(0, item.offsetTop);
       }
     }
     /*
@@ -2805,12 +2806,16 @@
 
       this.menu = null;
       this.submenu = null;
-      UserService.me$().pipe(operators.catchError(function () {
-        return rxjs.of(null);
-      }), operators.takeUntil(this.unsubscribe$)).subscribe(function (user) {
+      this.user = null;
+      UserService.user$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (user) {
         _this.user = user;
 
         _this.pushChanges();
+      });
+      UserService.me$().pipe(operators.catchError(function () {
+        return rxjs.of(null);
+      }), operators.takeUntil(this.unsubscribe$)).subscribe(function (user) {
+        console.log('user', user);
       });
       CssService.height$().pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (height) {// console.log('HeaderComponent.height$', height);
       });
@@ -3348,7 +3353,7 @@
 
           dataLayer.push({
             'event': 'formSubmission',
-            'form type': 'Contatti'
+            'form type': 'Contatti Tiemme'
           });
         }, function (error) {
           console.log('NaturalFormContactComponent.error', error);
@@ -3527,11 +3532,11 @@
       var dropdown = node.querySelector('.dropdown');
 
       if (dropdown) {
-        dropdown.style = '';
+        dropdown.style.cssText = '';
         var rect = dropdown.getBoundingClientRect();
 
         if (rect.left + rect.width > window.innerWidth - 15) {
-          dropdown.style = "transform: translateX(" + (window.innerWidth - 15 - (rect.left + rect.width)) + "px);";
+          dropdown.style.cssText = "transform: translateX(" + (window.innerWidth - 15 - (rect.left + rect.width)) + "px);";
         } // console.log(rect.left + rect.width, window.innerWidth - 15);
 
       }
@@ -3746,7 +3751,7 @@
           _this2.success = true;
           dataLayer.push({
             'event': 'formSubmission',
-            'form type': 'Contatti Tiemme Lab'
+            'form type': 'Contatti Tiemme'
           });
         }, function (error) {
           console.log('NaturalFormRequestInfoComponent.error', error);
@@ -3928,7 +3933,7 @@
               } else {
                 return (
                   /* html */
-                  "<button type=\"button\" class=\"btn--club-form\" (click)=\"onClub($event)\"><span>Club Tiemme</span></button>"
+                  "<button type=\"button\" class=\"btn--club-form\" (click)=\"onClub($event)\"><span>Tiemme Club</span></button>"
                 );
               }
             });
@@ -4079,16 +4084,15 @@
         UserService.register$(this.form.value).subscribe(function (response) {
           console.log('NaturalFormSignupComponent.onSubmit', response);
           _this3.success = true;
+          dataLayer.push({
+            'event': 'formSubmission',
+            'form type': 'Registrazione Tiemme Club'
+          });
 
           _this3.form.reset(); // this.pushChanges();
 
 
           _this3.signUp.next(response);
-
-          dataLayer.push({
-            'event': 'formSubmission',
-            'form type': 'Registrazione Club Tiemme'
-          });
         }, function (error) {
           console.log('NaturalFormSignupComponent.error', error);
           _this3.error = error;
@@ -4397,7 +4401,7 @@
       this.form.reset();
     };
 
-    _proto.onSubmit = function onSubmit() {
+    _proto.onSubmit = function onSubmit(from) {
       var _this2 = this;
 
       // console.log('RequestInfoCommercialComponent.onSubmit', 'form.valid', valid);
@@ -4414,7 +4418,7 @@
 
           dataLayer.push({
             'event': 'formSubmission',
-            'form type': 'Contatti'
+            'form type': null == from ? 'Contatti Tiemme' : from
           });
         }, function (error) {
           console.log('RequestInfoCommercialComponent.error', error);

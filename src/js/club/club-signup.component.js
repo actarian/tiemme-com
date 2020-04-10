@@ -119,17 +119,17 @@ export default class ClubSignupComponent extends Component {
 				.subscribe(response => {
 					console.log('ClubSignupComponent.onSubmit', response);
 					this.success = true;
+					dataLayer.push({
+						'event': 'formSubmission',
+						'form type': 'Registrazione Tiemme Club'
+					});
 					this.form.reset();
 					// this.pushChanges();
 					// this.signUp.next(response);
-					dataLayer.push({
-						'event': 'formSubmission',
-						'form type': 'Registrazione Club Tiemme'
-					});
 				}, error => {
 					console.log('ClubSignupComponent.error', error);
-						this.error = error;
-						this.form.submitted = false;
+					this.error = error;
+					this.form.submitted = false;
 					this.pushChanges();
 				});
 		} else {

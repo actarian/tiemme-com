@@ -79,6 +79,17 @@
     }
   </style>
   <style type="text/css">
+    [owa] .mj-column-per-100 {
+      width: 100% !important;
+      max-width: 100%;
+    }
+
+    [owa] .mj-column-per-33-333333333333336 {
+      width: 33.333333333333336% !important;
+      max-width: 33.333333333333336%;
+    }
+  </style>
+  <style type="text/css">
     @media only screen and (max-width:480px) {
       table.mj-full-width-mobile {
         width: 100% !important;
@@ -237,7 +248,7 @@
                   </tr>
                   <tr>
                     <td align="justify" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                      <div style="font-family:'Hind Madurai', Helvetica, Arial;font-size:15px;line-height:22px;text-align:justify;color:#16255b;">@Model.User["ut_nome"] @Model.User["ut_cognome"] ha inviato una richiesta di iscrizione al club Tiemme</div>
+                      <div style="font-family:'Hind Madurai', Helvetica, Arial;font-size:15px;line-height:22px;text-align:justify;color:#16255b;">@Model.User["ut_nome"] @Model.User["ut_cognome"] ha inviato una richiesta di iscrizione al Tiemme Club</div>
                     </td>
                   </tr>
                 </table>
@@ -286,15 +297,15 @@
                       <table cellpadding="0" cellspacing="0" width="100%" border="0" style="color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;table-layout:auto;width:100%;border:none;">
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Nome</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.User["ut_nome"]</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.User["ut_nome"]</td>
                         </tr>
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Cognome</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.User["ut_cognome"]</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.User["ut_cognome"]</td>
                         </tr>
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Email</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.User["ut_email"]</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.User["ut_email"]</td>
                         </tr>
                       </table>
                     </td>
@@ -396,8 +407,8 @@
                 <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
                   <tr>
                     <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                      <div style="font-family:'Barlow Condensed';font-size:28px;line-height:34px;text-align:center;color:#16255b;"><strong style="text-transform:uppercase;">Richiesta di iscrizione al Club Tiemme</strong>
-                        <br>abbiamo ricevuto la tua richiesta di iscrizione al Club Tiemme.</div>
+                      <div style="font-family:'Barlow Condensed';font-size:28px;line-height:34px;text-align:center;color:#16255b;"><strong style="text-transform:uppercase;">Richiesta di iscrizione al Tiemme Club</strong>
+                        <br>abbiamo ricevuto la tua richiesta di iscrizione al Tiemme Club.</div>
                     </td>
                   </tr>
                   <tr>
@@ -514,7 +525,7 @@
                   <tr>
                     <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                       <div style="font-family:'Barlow Condensed';font-size:28px;line-height:34px;text-align:center;color:#16255b;"><strong style="text-transform:uppercase;">Gentile @Model.User["ut_nome"] @Model.User["ut_cognome"],</strong>
-                        <br>benvenuto nel Club Tiemme!</div>
+                        <br>benvenuto nel Tiemme Club!</div>
                     </td>
                   </tr>
                   <tr>
@@ -573,11 +584,11 @@
                       <table cellpadding="0" cellspacing="0" width="100%" border="0" style="color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;table-layout:auto;width:100%;border:none;">
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Username</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.User.EMail</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.User.EMail</td>
                         </tr>
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Password</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.User.Password</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.User.Password</td>
                         </tr>
                       </table>
                     </td>
@@ -628,7 +639,7 @@
                       <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;line-height:100%;">
                         <tr>
                           <td align="center" bgcolor="#dc1216" role="presentation" style="border:none;border-radius:0px;cursor:auto;mso-padding-alt:10px 25px;background:#dc1216;" valign="middle">
-                            <a href="@Model.Link" style="display:inline-block;background:#dc1216;color:#ffffff;font-family:'Barlow Condensed';font-size:13px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:uppercase;padding:10px 25px;mso-padding-alt:0px;border-radius:0px;" target="_blank"> Accedi subito al Club Tiemme </a>
+                            <a href="@Model.Link" style="display:inline-block;background:#dc1216;color:#ffffff;font-family:'Barlow Condensed';font-size:13px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:uppercase;padding:10px 25px;mso-padding-alt:0px;border-radius:0px;" target="_blank"> Accedi subito al Tiemme Club </a>
                           </td>
                         </tr>
                       </table>
@@ -738,7 +749,7 @@
                   <tr>
                     <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                       <div style="font-family:'Barlow Condensed';font-size:28px;line-height:34px;text-align:center;color:#16255b;"><strong style="text-transform:uppercase;">Gentile @Model.User["ut_nome"] @Model.User["ut_cognome"],</strong>
-                        <br>Ci dispiace, la tua richiesta di iscrizione al Club Tiemme non è andata a buon fine.</div>
+                        <br>Ci dispiace, la tua richiesta di iscrizione al Tiemme Club non è andata a buon fine.</div>
                     </td>
                   </tr>
                 </table>
@@ -1104,43 +1115,43 @@
                       <table cellpadding="0" cellspacing="0" width="100%" border="0" style="color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;table-layout:auto;width:100%;border:none;">
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Nome</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.firstName</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.Data.firstName</td>
                         </tr>
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Cognome</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.lastName</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.Data.lastName</td>
                         </tr>
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Email</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.email</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.Data.email</td>
                         </tr>
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Azienda</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.company</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.Data.company</td>
                         </tr>
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Ruolo</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Role</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.Role</td>
                         </tr>
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Interessi</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Interests</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.Interests</td>
                         </tr>
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Nazione</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Country</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.Country</td>
                         </tr>
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Provincia</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Provincia</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.Provincia</td>
                         </tr>
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Newsletter</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Newsletter</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.Newsletter</td>
                         </tr>
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Messaggio</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.message</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.Data.message</td>
                         </tr>
                       </table>
                     </td>
@@ -1240,43 +1251,43 @@
                       <table cellpadding="0" cellspacing="0" width="100%" border="0" style="color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;table-layout:auto;width:100%;border:none;">
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Nome</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.firstName</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.Data.firstName</td>
                         </tr>
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Cognome</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.lastName</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.Data.lastName</td>
                         </tr>
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Email</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.email</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.Data.email</td>
                         </tr>
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Azienda</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.company</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.Data.company</td>
                         </tr>
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Ruolo</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Role</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.Role</td>
                         </tr>
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Interessi</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Interests</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.Interests</td>
                         </tr>
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Nazione</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Country</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.Country</td>
                         </tr>
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Provincia</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Provincia</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.Provincia</td>
                         </tr>
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Newsletter</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Newsletter</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.Newsletter</td>
                         </tr>
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Messaggio</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.message</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.Data.message</td>
                         </tr>
                       </table>
                     </td>
@@ -1376,39 +1387,39 @@
                       <table cellpadding="0" cellspacing="0" width="100%" border="0" style="color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;table-layout:auto;width:100%;border:none;">
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Nome</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.firstName</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.Data.firstName</td>
                         </tr>
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Cognome</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.lastName</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.Data.lastName</td>
                         </tr>
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Email</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.email</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.Data.email</td>
                         </tr>
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Telefono</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.telephone</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.Data.telephone</td>
                         </tr>
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Settore di interesse</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Interesse</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.Interesse</td>
                         </tr>
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Esperienza all'estero</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Esperienza</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.Esperienza</td>
                         </tr>
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Dove</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.company</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.Data.company</td>
                         </tr>
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Messaggio</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;">@Model.Data.introduction</td>
+                          <td style="padding: 10px 0 10px 15px;text-align:left;">@Model.Data.introduction</td>
                         </tr>
                         <tr style="border-bottom:1px solid #b9bdcd;padding:15px 0;color:#16255b;">
                           <th style="padding: 10px 15px 10px 0;text-align:left;font-family:'Barlow Condensed';text-transform:uppercase;">Curriculum</th>
-                          <td style="padding: 10px 0 10px 15px;text-align:right;"><a href="@Model.LinkFile" style="text-decoration:none; color:#16255b;" class="apple-link-black">
+                          <td style="padding: 10px 0 10px 15px;text-align:left;"><a href="@Model.LinkFile" style="text-decoration:none; color:#16255b;" class="apple-link-black">
                               <strong>vedi curriculum</strong>
                             </a></td>
                         </tr>
@@ -1839,6 +1850,9 @@
                           <span style="color:#16255b !important; text-decoration:none;">
                             <strong style="font-family:'Barlow Condensed'">© TIEMME RACCORDERIE S.P.A.</strong>
                             <br>Via Cavallera, 6/A - (loc. Barco) - 25045 - Castegnato (BS) - Italia <br>Tel. +39 030 21.42.211 - Fax: +39 030 21.42.206 <a href="mailto:info@tiemme.com" style="color:#16255b; text-decoration:underline;">info@tiemme.com</a>
+                            <!--
+			  <br><a href="mailto:info@tiemme.com" style="color:#16255b; text-decoration:underline;">info@tiemme.com</a>
+			  -->
                             <br><br>P.Iva / CF: 02852520176 - Cap. Sociale: € 5.200.000,00 i.v. Registro imprese: 02852520176 - Rea: BS-298978 </span>
                           <br>
                           <a href="https://tiemmeraccorderie.wslabs.it/it/azienda/pagineinterne/informativa_sulla_privacy/" style="text-decoration:underline; color:#16255b;">

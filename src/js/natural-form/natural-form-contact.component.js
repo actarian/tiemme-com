@@ -106,7 +106,7 @@ export default class NaturalFormContactComponent extends Component {
 					// this.pushChanges();
 					dataLayer.push({
 						'event': 'formSubmission',
-						'form type': 'Contatti'
+						'form type': 'Contatti Tiemme'
 					});
 				}, error => {
 					console.log('NaturalFormContactComponent.error', error);

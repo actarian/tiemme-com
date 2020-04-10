@@ -111,10 +111,10 @@ export default class NaturalFormControlComponent extends Component {
 		const { node } = getContext(this);
 		const dropdown = node.querySelector('.dropdown');
 		if (dropdown) {
-			dropdown.style = '';
+			dropdown.style.cssText = '';
 			const rect = dropdown.getBoundingClientRect();
 			if (rect.left + rect.width > window.innerWidth - 15) {
-				dropdown.style = `transform: translateX(${window.innerWidth - 15 - (rect.left + rect.width)}px);`;
+				dropdown.style.cssText = `transform: translateX(${window.innerWidth - 15 - (rect.left + rect.width)}px);`;
 			}
 			// console.log(rect.left + rect.width, window.innerWidth - 15);
 		}

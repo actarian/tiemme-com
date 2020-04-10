@@ -14,7 +14,7 @@ ControlCheckboxComponent.meta = {
 	template: /* html */ `
 		<div class="group--form--checkbox" [class]="{ required: control.validators.length }">
 			<label>
-				<input type="checkbox" class="control--checkbox" [formControl]="control" [value]="true"/>
+				<input type="checkbox" class="control--checkbox" [formControl]="control" [value]="true" />
 				<span [innerHTML]="label | html"></span>
 			</label>
 			<span class="required__badge">required</span>

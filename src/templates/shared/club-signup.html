@@ -1,7 +1,7 @@
 <div club-signup (signUp)="onSignUp($event)" (login)="onLogin($event)">
 	<div class="container" *if="!success">
 		<form class="form" [formGroup]="form" (submit)="onSubmit()" name="form" role="form" novalidate autocomplete="off">
-			<div class="title">Registrati per accedere ai servizi del club TIEMME</div>
+			<div class="title">Registrati per accedere ai servizi del Tiemme Club</div>
 			<div class="listing--fields">
 				<input name="checkField" [formControl]="controls.checkField" value="" type="text" style="display:none !important;" />
 				<div control-text [control]="controls.firstName" label="Nome"></div>

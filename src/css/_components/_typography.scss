@@ -103,6 +103,22 @@ strong {
 	}
 }
 
+%subtitle-detail {
+	font-family: $font-secondary;
+	font-size: 26px;
+	line-height: 1.15;
+	font-weight: $font-medium;
+	text-transform: uppercase;
+
+	padding-bottom: 20px;
+	margin-bottom: 30px;
+	border-bottom: 2px solid rgba(#16255b, 0.2);
+
+	.icon {
+		margin-right: 5px;
+	}
+}
+
 %abstract {
 	font-family: $font-primary;
 	font-size: 18px;

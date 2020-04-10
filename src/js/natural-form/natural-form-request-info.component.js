@@ -105,7 +105,7 @@ export default class NaturalFormRequestInfoComponent extends Component {
 					this.success = true;
 					dataLayer.push({
 						'event': 'formSubmission',
-						'form type': 'Contatti Tiemme Lab'
+						'form type': 'Contatti Tiemme'
 					});
 				}, error => {
 					console.log('NaturalFormRequestInfoComponent.error', error);

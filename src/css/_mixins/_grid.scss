@@ -81,6 +81,7 @@
 }
 
 @mixin as-col($size, $columns: $grid-columns, $gutter: 40px) {
+	width: 100%;
 	flex: 0 0 calc(#{percentage($size / $columns)} - #{$gutter});
 	// Add a `max-width` to ensure content within each column does not blow out
 	// the width of the column. Applies to IE10+ and Firefox. Chrome and Safari

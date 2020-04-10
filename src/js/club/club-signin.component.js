@@ -57,7 +57,7 @@ export default class ClubSigninComponent extends Component {
 					this.success = true;
 					// this.form.reset();
 					this.pushChanges();
-					this.signIn.next(response);
+					this.signIn.next(typeof response === 'string' ? { status: response } : response);
 				}, error => {
 					console.log('ClubSigninComponent.error', error);
 					this.error = error;

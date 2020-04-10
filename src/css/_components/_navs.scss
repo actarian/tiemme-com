@@ -391,7 +391,7 @@ ul {
 
 		&>a,
 		&>span {
-			justify-content: space-between;
+			justify-content: flex-start;
 
 			padding: 0 40px 0 40px;
 			height: 68px;
@@ -409,6 +409,9 @@ ul {
 
 			span {
 				flex: 1 1 auto;
+				max-width: 200px;
+				text-overflow: ellipsis;
+				overflow: hidden;
 			}
 
 			.icon:first-child {
@@ -845,12 +848,19 @@ ul {
 	&>li {
 		@extend %nav-item;
 		margin-bottom: 20px;
+		font-family: $font-secondary;
 	}
 
 	.icon {
 		width: 36px;
 		height: 36px;
 		margin-right: 20px;
+	}
+
+	.icon--caret-right {
+		width: 10px;
+		height: 10px;
+		margin-right: 10px;
 	}
 
 	.arrow {
@@ -874,6 +884,46 @@ ul {
 			right: -$w;
 			margin-top: -$w;
 		}
+	}
+
+}
+
+.nav--figures {
+	@extend %nav-reset;
+	display: flex;
+	margin-bottom: 30px;
+
+	li {
+		display: flex;
+		align-items: center;
+		margin-right: 20px;
+	}
+
+	/*
+	.icon {
+		width: 27px;
+		height: 31px;
+		margin-right: 10px;
+	}
+	*/
+
+	.icon {
+		width: 45px;
+		height: 50px;
+		margin-right: 10px;
+		min-width: 45px;
+	}
+}
+
+.nav--features {
+	@extend %nav-reset;
+	display: inline-block;
+
+	li {
+		background: $background-tertiary;
+		padding: 4px 20px 4px 10px;
+		// margin-bottom: 10px;
+		margin-bottom: 2px;
 	}
 
 }
