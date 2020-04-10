@@ -39,17 +39,6 @@
 		<!-- @@include ./shared/footer.html -->
 		<!-- @@include ./shared/modal-outlet.html -->
 	</div>
-	<script>
-		if (window.DOMTokenList && !DOMTokenList.prototype.forEach) {
-			DOMTokenList.prototype.forEach = function(callback, thisArg) {
-				thisArg = thisArg || window;
-				for (var i = 0; i < this.length; i++) {
-					callback.call(thisArg, this[i], i, this);
-				}
-			};
-		}
-
-	</script>
 	<script src="https://polyfill.io/v3/polyfill.min.js?features=es5%2CArray.prototype.find%2CArray.from%2Cfetch%2CObject.assign%2CURLSearchParams"></script>
 	<script src="/tiemme-com/js/vendors.min.js"></script>
 	<script src="/tiemme-com/js/main.js"></script>

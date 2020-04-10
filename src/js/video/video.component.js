@@ -107,4 +107,4 @@ export default class VideoComponent extends Component {
 VideoComponent.meta = {
 	selector: '[video]',
 	inputs: ['item'],
-}
+};

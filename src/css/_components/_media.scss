@@ -175,6 +175,17 @@
 }
 
 .youtube {
+
+	&>.picture--video {
+		&>.video {
+			object-fit: unset !important;
+		}
+	}
+
+	.content {
+		width: 100%;
+	}
+
 	@include media-down(sm) {
 		.playing {
 

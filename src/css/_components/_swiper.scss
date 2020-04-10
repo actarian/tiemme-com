@@ -215,6 +215,7 @@
 
 .section--slides {
 	padding: 60px 0;
+	overflow: hidden;
 
 	.swiper-container {
 		@extend %swiper-slides;
@@ -235,6 +236,8 @@
 }
 
 .section--listing {
+	overflow: hidden;
+
 	.swiper-container {
 		@extend %swiper-slides;
 
