@@ -1378,6 +1378,208 @@
     selector: '[bim-library]'
   };
 
+  var srcMore$1 = STATIC ? '/tiemme-com/services-bim-modal-more.html' : '/Viewdoc.cshtml?co_id=25206';
+  var srcHint$1 = STATIC ? '/tiemme-com/services-bim-modal-hint.html' : '/Viewdoc.cshtml?co_id=25207';
+
+  var BimLibrary02Component = /*#__PURE__*/function (_Component) {
+    _inheritsLoose(BimLibrary02Component, _Component);
+
+    function BimLibrary02Component() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = BimLibrary02Component.prototype;
+
+    _proto.onInit = function onInit() {
+      var _this = this;
+
+      var items = window.files || [];
+      var filters = window.filters || {};
+      var initialParams = window.params || {};
+      filters.departments.mode = FilterMode.OR;
+      filters.catalogues.mode = FilterMode.OR; // filters.extensions.mode = FilterMode.OR;
+
+      var filterService = new FilterService(filters, initialParams, function (key, filter) {
+        switch (key) {
+          case 'extensions':
+            filter.filter = function (item, value) {
+              return item.files.find(function (x) {
+                return x.fileExtension === value;
+              });
+            };
+
+            break;
+
+          default:
+            filter.filter = function (item, value) {
+              return item.features.indexOf(value) !== -1;
+            };
+
+        }
+      });
+      filterService.items$(items).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (items) {
+        _this.items = items;
+
+        _this.pushChanges(); // console.log('BimLibrary02Component.items', items.length);
+
+      });
+      this.filterService = filterService;
+      this.filters = filterService.filters;
+      this.visibleFilters = {
+        departments: filterService.filters.departments
+      };
+      this.fake__();
+    };
+
+    _proto.openMore = function openMore(event) {
+      event.preventDefault();
+      ModalService.open$({
+        src: srcMore$1,
+        data: null
+      }).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (event) {// console.log('BimLibrary02Component.onRegister', event);
+      });
+    };
+
+    _proto.openHint = function openHint(event) {
+      event.preventDefault();
+      ModalService.open$({
+        src: srcHint$1,
+        data: null
+      }).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (event) {// console.log('BimLibrary02Component.onRegister', event);
+      });
+    };
+
+    _proto.fake__ = function fake__() {
+      var _this2 = this;
+
+      HttpService.get$('/api/bim/excel').pipe(operators.first()).subscribe(function (items) {
+        var products = [];
+        items.forEach(function (item) {
+          var product = products.find(function (x) {
+            return x.id === item.productId;
+          });
+
+          if (!product) {
+            product = {
+              id: item.productId,
+              image: item.image,
+              code: item.productCode,
+              title: item.productName,
+              abstract: item.description,
+              files: [],
+              features: [item.category1Id, item.category2Id],
+              slug: 'https://tiemmeraccorderie.wslabs.it/it/prodotti/componenti-idraulici/tubi/tubi-multistrato-al-cobrapex/standard/0600/'
+            };
+            products.push(product);
+          }
+
+          if (!product.files.find(function (x) {
+            return x.fileName === item.fileName;
+          })) {
+            product.files.push({
+              fileName: item.fileName,
+              fileExtension: "." + item.fileName.split('.').pop(),
+              fileSize: 45000,
+              url: 'https://tiemmeraccorderie.wslabs.it/media/files/' + item.fileName
+            });
+          }
+        });
+        console.log(JSON.stringify(products));
+        var catalogues = [];
+        items.forEach(function (item) {
+          var catalogue = catalogues.find(function (x) {
+            return x.value === item.category2Id;
+          });
+
+          if (!catalogue) {
+            catalogues.push({
+              value: item.category2Id,
+              label: _this2.titleCase__(item.category2Description),
+              count: 1
+            });
+          } else {
+            catalogue.count++;
+          }
+        });
+        catalogues.sort(function (a, b) {
+          return (a.count - b.count) * -1;
+        });
+        console.log(JSON.stringify(catalogues.map(function (x) {
+          delete x.count;
+          return x;
+        })));
+        var departments = [];
+        items.forEach(function (item) {
+          var department = departments.find(function (x) {
+            return x.value === item.category1Id;
+          });
+
+          if (!department) {
+            departments.push({
+              value: item.category1Id,
+              label: _this2.titleCase__(item.category1Description),
+              count: 1
+            });
+          } else {
+            department.count++;
+          }
+        });
+        departments.sort(function (a, b) {
+          return (a.count - b.count) * -1;
+        });
+        console.log(JSON.stringify(departments.map(function (x) {
+          delete x.count;
+          return x;
+        })));
+        var menu = {
+          id: 'menu',
+          title: 'Area',
+          items: departments.map(function (d) {
+            var item = {
+              id: d.value,
+              label: d.label,
+              title: 'Catalogo',
+              items: catalogues.filter(function (c) {
+                return products.find(function (p) {
+                  return p.features.indexOf(d.value) !== -1 && p.features.indexOf(c.value) !== -1;
+                });
+              }).map(function (c) {
+                var item = {
+                  id: c.value,
+                  label: c.label,
+                  title: 'Prodotto',
+                  items: products.filter(function (p) {
+                    return p.features.indexOf(c.value) !== -1;
+                  }).map(function (p) {
+                    var item = {
+                      id: p.id,
+                      label: p.title
+                    };
+                    return item;
+                  })
+                };
+                return item;
+              })
+            };
+            return item;
+          })
+        };
+        console.log(JSON.stringify(menu));
+      });
+    };
+
+    _proto.titleCase__ = function titleCase__(str) {
+      return str.toLowerCase().split(' ').map(function (word) {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      }).join(' ');
+    };
+
+    return BimLibrary02Component;
+  }(rxcomp.Component);
+  BimLibrary02Component.meta = {
+    selector: '[bim-library-02]'
+  };
+
   var ClickOutsideDirective = /*#__PURE__*/function (_Directive) {
     _inheritsLoose(ClickOutsideDirective, _Directive);
 
@@ -5631,7 +5833,7 @@
   }(rxcomp.Module);
   AppModule.meta = {
     imports: [rxcomp.CoreModule, rxcompForm.FormModule],
-    declarations: [AgentsComponent, AppearDirective, BimLibraryComponent, ClickOutsideDirective, ClubComponent, ClubForgotComponent, ClubModalComponent, ClubPasswordRecoveryComponent, ClubPasswordEditComponent, ClubProfileComponent, ClubSigninComponent, ClubSignupComponent, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlPasswordComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, FileSizePipe, HtmlPipe, HeaderComponent, LazyDirective, MainMenuComponent, MediaLibraryComponent, ModalOutletComponent, ModalComponent, PriceListComponent, NaturalFormComponent, NaturalFormSearchComponent, NaturalFormContactComponent, NaturalFormRequestInfoComponent, NaturalFormControlComponent, NaturalFormNewsletterComponent, NaturalFormSignupComponent, RequestInfoCommercialComponent, RegisterOrLoginComponent, ReservedAreaComponent, SecureDirective, ScrollToDirective, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, TestComponent, // ValueDirective,
+    declarations: [AgentsComponent, AppearDirective, BimLibraryComponent, BimLibrary02Component, ClickOutsideDirective, ClubComponent, ClubForgotComponent, ClubModalComponent, ClubPasswordRecoveryComponent, ClubPasswordEditComponent, ClubProfileComponent, ClubSigninComponent, ClubSignupComponent, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlPasswordComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, FileSizePipe, HtmlPipe, HeaderComponent, LazyDirective, MainMenuComponent, MediaLibraryComponent, ModalOutletComponent, ModalComponent, PriceListComponent, NaturalFormComponent, NaturalFormSearchComponent, NaturalFormContactComponent, NaturalFormRequestInfoComponent, NaturalFormControlComponent, NaturalFormNewsletterComponent, NaturalFormSignupComponent, RequestInfoCommercialComponent, RegisterOrLoginComponent, ReservedAreaComponent, SecureDirective, ScrollToDirective, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, TestComponent, // ValueDirective,
     VideoComponent, WorkWithUsComponent, YoutubeComponent, ZoomableDirective],
     bootstrap: AppComponent
   };

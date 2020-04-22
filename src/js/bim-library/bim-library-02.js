@@ -1,6 +1,5 @@
 import { Component } from 'rxcomp';
 import { first, takeUntil } from 'rxjs/operators';
-import DropdownDirective from '../dropdown/dropdown.directive';
 import { STATIC } from '../environment/environment';
 import { FilterMode } from '../filter/filter-item';
 import FilterService from '../filter/filter.service';
@@ -10,23 +9,20 @@ import ModalService from '../modal/modal.service';
 const srcMore = STATIC ? '/tiemme-com/services-bim-modal-more.html' : '/Viewdoc.cshtml?co_id=25206';
 const srcHint = STATIC ? '/tiemme-com/services-bim-modal-hint.html' : '/Viewdoc.cshtml?co_id=25207';
 
-export default class BimLibraryComponent extends Component {
+export default class BimLibrary02Component extends Component {
 
 	onInit() {
-		const menu = window.menu || {};
 		const items = window.files || [];
 		const filters = window.filters || {};
 		const initialParams = window.params || {};
-		filters.departments.mode = FilterMode.AND;
-		filters.catalogues.mode = FilterMode.AND;
-		// filters.departments.mode = FilterMode.OR;
-		// filters.catalogues.mode = FilterMode.OR;
+		filters.departments.mode = FilterMode.OR;
+		filters.catalogues.mode = FilterMode.OR;
 		// filters.extensions.mode = FilterMode.OR;
 		const filterService = new FilterService(filters, initialParams, (key, filter) => {
 			switch (key) {
 				case 'extensions':
 					filter.filter = (item, value) => {
-						return item.fileExtension === value;
+						return item.files.find(x => x.fileExtension === value);
 					};
 					break;
 				default:
@@ -40,10 +36,8 @@ export default class BimLibraryComponent extends Component {
 		).subscribe(items => {
 			this.items = items;
 			this.pushChanges();
-			// console.log('BimLibraryComponent.items', items.length);
+			// console.log('BimLibrary02Component.items', items.length);
 		});
-		this.menu = menu;
-		this.breadcrumb = [menu];
 		this.filterService = filterService;
 		this.filters = filterService.filters;
 		this.visibleFilters = {
@@ -52,45 +46,12 @@ export default class BimLibraryComponent extends Component {
 		this.fake__();
 	}
 
-	setMenuItem(child, parent) {
-		const clear = (items) => {
-			if (items) {
-				items.forEach(x => {
-					delete x.selectedId;
-					delete x.selectedLabel;
-					clear(x.items);
-				});
-			}
-		};
-		clear(parent.items);
-		let index = this.breadcrumb.reduce((p, c, i) => {
-			return c.id === parent.id ? i : p;
-		}, -1);
-		if (index !== -1) {
-			parent.selectedId = child.id;
-			parent.selectedLabel = child.label;
-			console.log(index, child, parent);
-			const breadcrumb = this.breadcrumb.slice(0, index + 1);
-			if (child.items) {
-				breadcrumb.push(child);
-				console.log('child', child.id);
-			}
-			this.breadcrumb = [];
-			DropdownDirective.dropdown$.next(null);
-			this.pushChanges();
-			this.breadcrumb = breadcrumb;
-			this.pushChanges();
-		} else {
-			console.log('error', index, parent.id);
-		}
-	}
-
 	openMore(event) {
 		event.preventDefault();
 		ModalService.open$({ src: srcMore, data: null }).pipe(
 			takeUntil(this.unsubscribe$)
 		).subscribe(event => {
-			// console.log('BimLibraryComponent.onRegister', event);
+			// console.log('BimLibrary02Component.onRegister', event);
 		});
 	}
 
@@ -99,7 +60,7 @@ export default class BimLibraryComponent extends Component {
 		ModalService.open$({ src: srcHint, data: null }).pipe(
 			takeUntil(this.unsubscribe$)
 		).subscribe(event => {
-			// console.log('BimLibraryComponent.onRegister', event);
+			// console.log('BimLibrary02Component.onRegister', event);
 		});
 	}
 
@@ -216,6 +177,6 @@ export default class BimLibraryComponent extends Component {
 
 }
 
-BimLibraryComponent.meta = {
-	selector: '[bim-library]',
+BimLibrary02Component.meta = {
+	selector: '[bim-library-02]',
 };

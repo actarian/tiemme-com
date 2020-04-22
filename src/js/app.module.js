@@ -4,6 +4,7 @@ import AgentsComponent from './agents/agents.component';
 import AppComponent from './app.component';
 import AppearDirective from './appear/appear.directive';
 import BimLibraryComponent from './bim-library/bim-library';
+import BimLibrary02Component from './bim-library/bim-library-02';
 import ClickOutsideDirective from './click-outside/click-outside.directive';
 import ClubForgotComponent from './club/club-forgot.component';
 import ClubModalComponent from './club/club-modal.component';
@@ -66,6 +67,7 @@ AppModule.meta = {
 		AgentsComponent,
 		AppearDirective,
 		BimLibraryComponent,
+		BimLibrary02Component,
 		ClickOutsideDirective,
 		ClubComponent,
 		ClubForgotComponent,
