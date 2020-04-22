@@ -1152,7 +1152,6 @@
     _createClass(DropdownDirective, [{
       key: "id",
       get: function get() {
-        console.log(this.dropdown);
         return this.dropdown || this.id_ || (this.id_ = DropdownDirective.nextId());
       }
     }]);

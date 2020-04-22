@@ -32,9 +32,6 @@
 		margin-top: 0;
 
 		&>li {
-			flex: 0 0 25%;
-			width: 25%;
-
 			&>span {
 				span {
 					max-width: 100%;
@@ -53,6 +50,24 @@
 						fill: #ffffff;
 					}
 				}
+			}
+		}
+
+		@include media-up(sm) {
+			display: flex;
+
+			&>li {
+				flex: 0 0 25%;
+				width: 25%;
+			}
+		}
+
+		@include media-down(xs) {
+			display: block;
+
+			&>li {
+				flex: 0 0 100%;
+				width: 100%;
 			}
 		}
 	}

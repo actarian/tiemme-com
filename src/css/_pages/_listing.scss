@@ -54,8 +54,13 @@
 		}
 
 		@include media-down(xs) {
+			$gutter: 30px;
+			display: block;
+			margin-left: - $gutter / 2;
+			margin-right: - $gutter / 2;
+
 			.card--news {
-				@include as-col(12, 12, 0);
+				@include as-col(12, 12, 0px);
 			}
 		}
 	}
@@ -95,7 +100,7 @@
 
 		@include media-down(xs) {
 			.card--event {
-				@include as-col(12, 12, 0);
+				@include as-col(12, 12, 0px);
 			}
 		}
 	}
@@ -135,7 +140,7 @@
 
 		@include media-down(xs) {
 			.card--achievement {
-				@include as-col(12, 12, 0);
+				@include as-col(12, 12, 0px);
 			}
 		}
 	}
@@ -184,7 +189,7 @@
 			margin-right: 0;
 
 			.card--product {
-				@include as-col(12, 12, 0);
+				@include as-col(12, 12, 0px);
 			}
 		}
 	}
@@ -240,7 +245,7 @@
 
 		@include media-down(xs) {
 			.card--search {
-				@include as-col(12, 12, 0);
+				@include as-col(12, 12, 0px);
 			}
 		}
 	}

@@ -422,7 +422,7 @@ errors-component {
 		margin-right: 0;
 
 		&>div {
-			@include as-col(12, 12, 0);
+			@include as-col(12, 12, 0px);
 
 			&[control-textarea] {
 				flex: 1 1 100%;
@@ -477,7 +477,7 @@ errors-component {
 		margin-right: 0;
 
 		&>div {
-			@include as-col(12, 12, 0);
+			@include as-col(12, 12, 0px);
 
 			&[control-textarea] {
 				flex: 1 1 100%;

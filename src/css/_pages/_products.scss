@@ -81,6 +81,17 @@
 	.flex--table {
 		margin-left: -15px;
 		margin-right: -15px;
+
+		&>.flex--row {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: flex-start;
+
+			&.flex__item {
+				flex: 1 1 20%;
+			}
+		}
 	}
 
 	.flex--row {
@@ -119,7 +130,33 @@
 
 	@include media-down(sm) {
 		padding-bottom: 40px;
+
+		.container {
+			padding: 0;
+		}
+
+		.flex--table {
+			margin: 0;
+			white-space: nowrap;
+			overflow-x: auto;
+			display: flex;
+			flex-direction: column;
+
+			&>.flex--row {
+				width: auto;
+				flex: 1 1 auto;
+				display: inline-flex;
+				padding: 20px 15px;
+
+				&>.flex__item {
+					flex: 1 1 25%;
+					min-width: 140px;
+					padding: 0;
+				}
+			}
+		}
 	}
+
 }
 
 %flex--table-link {

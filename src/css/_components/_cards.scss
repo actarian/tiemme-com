@@ -248,6 +248,27 @@
 	}
 }
 
+.card--slide,
+.card--video {
+	&.youtube {
+
+		.content {
+			pointer-events: none;
+		}
+
+		.picture--video {
+			&.playing {
+
+				.overlay,
+				.btn--play {
+					pointer-events: none;
+					opacity: 0 !important;
+				}
+			}
+		}
+	}
+}
+
 .card--product {
 	position: relative;
 	width: 100%;

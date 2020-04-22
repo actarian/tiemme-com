@@ -72,6 +72,7 @@ img {
 		position: fixed;
 		bottom: 0;
 		top: auto;
+		border-bottom: 15px solid #16255b;
 		z-index: 100;
 
 		.nav--menu {
@@ -93,8 +94,8 @@ img {
 				pointer-events: auto;
 				background: #34447d;
 				transition: all ease-in-out 400ms;
-				height: calc(100vh - 103px); // Fallback for browsers that do not support Custom Properties
-				height: calc(var(--vh, 1vh) * 100 - 103px);
+				height: calc(100vh - 118px); // Fallback for browsers that do not support Custom Properties
+				height: calc(var(--vh, 1vh) * 100 - 118px);
 			}
 
 		}
@@ -104,5 +105,41 @@ img {
 .section--hero-tertiary+.sticky--menu {
 	@include media-up(md) {
 		top: 132px;
+	}
+}
+
+.flex--row {
+	@include media-up(md) {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: flex-start;
+
+		&.flex__item {
+			flex: 1 1 20%;
+		}
+
+		&>.flex__item+.flex__item {
+			margin-left: 15px;
+		}
+	}
+}
+
+.flex--table {
+	.flex--row {
+		@include media-up(md) {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: flex-start;
+
+			&.flex__item {
+				flex: 1 1 20%;
+			}
+
+			&>.flex__item+.flex__item {
+				margin-left: 15px;
+			}
+		}
 	}
 }
