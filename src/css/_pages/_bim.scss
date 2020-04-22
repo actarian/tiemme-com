@@ -26,6 +26,43 @@
 	}
 }
 
+.section--bim-menu {
+	.nav--menu {
+		justify-content: flex-start;
+		margin-top: 0;
+
+		&>li {
+			flex: 0 0 25%;
+			width: 25%;
+
+			&>span {
+				span {
+					max-width: 100%;
+				}
+			}
+
+			&>a,
+			&>span {
+
+				&:hover,
+				&.active {
+					background: #16255b;
+					color: #ffffff;
+
+					svg {
+						fill: #ffffff;
+					}
+				}
+			}
+		}
+	}
+
+	.dropdown {
+		top: 56px;
+		width: 100%;
+	}
+}
+
 .section--hint {
 	position: fixed;
 	bottom: 15px;

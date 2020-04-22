@@ -2,6 +2,8 @@ import { Component } from 'rxcomp';
 import { first, takeUntil } from 'rxjs/operators';
 import DropdownDirective from '../dropdown/dropdown.directive';
 import { STATIC } from '../environment/environment';
+import { FilterMode } from '../filter/filter-item';
+import FilterService from '../filter/filter.service';
 import HttpService from '../http/http.service';
 import ModalService from '../modal/modal.service';
 
@@ -13,11 +15,41 @@ export default class BimLibraryComponent extends Component {
 	onInit() {
 		const menu = window.menu || {};
 		const items = window.files || [];
+		const filters = window.filters || {};
+		const initialParams = window.params || {};
+		filters.departments.mode = FilterMode.AND;
+		filters.catalogues.mode = FilterMode.AND;
+		// filters.departments.mode = FilterMode.OR;
+		// filters.catalogues.mode = FilterMode.OR;
+		// filters.extensions.mode = FilterMode.OR;
+		const filterService = new FilterService(filters, initialParams, (key, filter) => {
+			switch (key) {
+				case 'extensions':
+					filter.filter = (item, value) => {
+						return item.fileExtension === value;
+					};
+					break;
+				default:
+					filter.filter = (item, value) => {
+						return item.features.indexOf(value) !== -1;
+					};
+			}
+		});
+		filterService.items$(items).pipe(
+			takeUntil(this.unsubscribe$),
+		).subscribe(items => {
+			this.items = items;
+			this.pushChanges();
+			// console.log('BimLibraryComponent.items', items.length);
+		});
 		this.menu = menu;
-		this.items = items;
-		this.visibleItems = items.slice();
 		this.breadcrumb = [menu];
-		// this.fake__();
+		this.filterService = filterService;
+		this.filters = filterService.filters;
+		this.visibleFilters = {
+			departments: filterService.filters.departments
+		};
+		this.fake__();
 	}
 
 	setMenuItem(child, parent) {
@@ -37,24 +69,19 @@ export default class BimLibraryComponent extends Component {
 		if (index !== -1) {
 			parent.selectedId = child.id;
 			parent.selectedLabel = child.label;
+			console.log(index, child, parent);
 			const breadcrumb = this.breadcrumb.slice(0, index + 1);
 			if (child.items) {
 				breadcrumb.push(child);
+				console.log('child', child.id);
 			}
 			this.breadcrumb = [];
 			DropdownDirective.dropdown$.next(null);
 			this.pushChanges();
 			this.breadcrumb = breadcrumb;
-			this.visibleItems = this.items.filter(x => {
-				return breadcrumb.reduce((p, c) => {
-					if (c.selectedId) {
-						return p && (x.features.indexOf(c.selectedId) !== -1 || x.id === c.selectedId);
-					} else {
-						return p;
-					}
-				}, true);
-			});
 			this.pushChanges();
+		} else {
+			console.log('error', index, parent.id);
 		}
 	}
 

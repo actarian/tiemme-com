@@ -7,6 +7,7 @@ export default class FilterService {
 
 	constructor(options, initialParams, callback) {
 		const filters = {};
+		this.filters = filters;
 		if (options) {
 			Object.keys(options).forEach(key => {
 				const filter = new FilterItem(options[key]);
@@ -15,9 +16,8 @@ export default class FilterService {
 				}
 				filters[key] = filter;
 			});
+			this.deserialize(this.filters, initialParams);
 		}
-		this.filters = filters;
-		this.deserialize(this.filters, initialParams);
 	}
 
 	getParamsCount(params) {

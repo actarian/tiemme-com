@@ -7,6 +7,7 @@ let DROPDOWN_ID = 1000000;
 export default class DropdownDirective extends Directive {
 
 	get id() {
+		console.log(this.dropdown);
 		return this.dropdown || this.id_ || (this.id_ = DropdownDirective.nextId());
 	}
 

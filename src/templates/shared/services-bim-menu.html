@@ -1,0 +1,19 @@
+<section class="section--bim-menu">
+	<div class="container-fluid">
+		<ul class="nav--menu">
+			<li *for="let item of breadcrumb">
+				<span [dropdown]="item.id">
+					<span [innerHTML]="item.selectedLabel || item.title"></span> <svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
+				</span>
+				<div class="dropdown dropdown--with-icons" [dropdown-item]="item.id">
+					<div class="category" [innerHTML]="item.title"></div>
+					<ul class="nav--dropdown">
+						<li *for="let child of item.items" (click)="setMenuItem(child, item)">
+							<span [innerHTML]="child.label"></span>
+						</li>
+					</ul>
+				</div>
+			</li>
+		</ul>
+	</div>
+</section>

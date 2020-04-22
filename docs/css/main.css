@@ -5362,7 +5362,6 @@ ul {
   background: white;
   border-radius: 10px;
   overflow: hidden;
-  background: #f3f4f6;
   color: #16255b;
   box-shadow: 0 12px 15px -5px rgba(22, 37, 91, 0.25); }
   .card--bim .picture {
@@ -5419,7 +5418,7 @@ ul {
     .card--bim .btn--download .name {
       width: 100%;
       flex: 1 1 auto;
-      margin-right: 8px; }
+      margin: 0 8px; }
     .card--bim .btn--download .extension,
     .card--bim .btn--download .size {
       flex: 0 0 auto;
@@ -5427,8 +5426,8 @@ ul {
       font-weight: 600; }
     .card--bim .btn--download .extension {
       display: block;
-      margin: 0 8px 0 0;
-      border-right: 1px solid rgba(22, 37, 91, 0.2); }
+      margin: 0 0 0 8px;
+      border-left: 1px solid rgba(22, 37, 91, 0.2); }
     .card--bim .btn--download .size {
       margin: 0 0 0 8px;
       border-left: 1px solid rgba(22, 37, 91, 0.2); }
@@ -7099,6 +7098,28 @@ ul {
         fill: rgba(220, 18, 22, 0.05); } }
   [bim-library] .section--serp {
     border-top: 2px solid rgba(22, 37, 91, 0.05); }
+
+.section--bim-menu .nav--menu {
+  justify-content: flex-start;
+  margin-top: 0; }
+  .section--bim-menu .nav--menu > li {
+    flex: 0 0 25%;
+    width: 25%; }
+    .section--bim-menu .nav--menu > li > span span {
+      max-width: 100%; }
+    .section--bim-menu .nav--menu > li > a:hover, .section--bim-menu .nav--menu > li > a.active,
+    .section--bim-menu .nav--menu > li > span:hover,
+    .section--bim-menu .nav--menu > li > span.active {
+      background: #16255b;
+      color: #ffffff; }
+      .section--bim-menu .nav--menu > li > a:hover svg, .section--bim-menu .nav--menu > li > a.active svg,
+      .section--bim-menu .nav--menu > li > span:hover svg,
+      .section--bim-menu .nav--menu > li > span.active svg {
+        fill: #ffffff; }
+
+.section--bim-menu .dropdown {
+  top: 56px;
+  width: 100%; }
 
 .section--hint {
   position: fixed;

@@ -37,7 +37,7 @@ export default class RequestInfoCommercialComponent extends Component {
 			message: null,
 			privacy: new FormControl(null, Validators.RequiredTrueValidator()),
 			newsletter: null,
-			scope: 'www.website.com',
+			scope: window.location.hostname,
 			checkRequest: window.antiforgery,
 			checkField: '',
 		});

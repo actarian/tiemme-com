@@ -30,7 +30,7 @@ export default class NaturalFormContactComponent extends Component {
 			message: null,
 			privacy: new FormControl(null, Validators.RequiredTrueValidator()),
 			newsletter: values.newsletter === 2 ? true : false,
-			scope: 'www.website.com',
+			scope: window.location.hostname,
 			checkRequest: window.antiforgery,
 			checkField: '',
 		});

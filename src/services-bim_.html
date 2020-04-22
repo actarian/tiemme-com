@@ -398,46 +398,48 @@
 		</div>
 	</section>
 
-	<section class="section--bim-menu">
-		<div class="container-fluid">
-			<ul class="nav--menu">
-				<li *for="let item of breadcrumb">
-					<span [dropdown]="item.id">
-						<span [innerHTML]="item.selectedLabel || item.title"></span> <svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
-					</span>
-					<div class="dropdown dropdown--with-icons" [dropdown-item]="item.id">
-						<div class="category" [innerHTML]="item.title"></div>
-						<ul class="nav--dropdown">
-							<li *for="let child of item.items" (click)="setMenuItem(child, item)">
-								<span [innerHTML]="child.label"></span>
-							</li>
-						</ul>
-					</div>
-				</li>
-			</ul>
-		</div>
-	</section>
+	<!-- @@include ./templates/shared/services-bim-menu.html { "a": "active", "b": "", "c": "", "d": "", "e": "" } -->
 
 	<section class="section--serp">
 		<div class="container-fluid">
-			<!-- results -->
-			<div class="listing listing--bim">
-				<div class="listing__item" *for="let item of visibleItems">
-					<div class="card--bim" appear>
-						<a [href]="item.slug" class="picture">
-							<img [lazy]="item.image" />
-							<div class="category" [innerHTML]="item.code"></div>
-						</a>
-						<div class="content">
-							<div class="title" [innerHTML]="item.title"></div>
-							<!-- <div class="abstract" [innerHTML]="item.abstract"></div> -->
-							<div class="group--cta">
-								<a [href]="file.url" class="btn--download" target="_blank" download secure *for="let file of item.files">
-									<!-- <svg class="icon icon--bim"><use xlink:href="#bim"></use></svg> -->
-									<span class="name" [innerHTML]="file.fileName + ' (' + (file.fileSize | fileSize) + ')'"></span>
-									<span class="extension" [innerHTML]="file.fileExtension"></span>
-									<!-- <span class="size" [innerHTML]="file.fileSize | fileSize"></span> -->
+			<div class="row">
+				<div class="col-sm-4 col-md-3 col-lg-2">
+					<!-- filters -->
+					<ul class="nav--aside">
+						<li *for="let [key, filter] of filters">
+							<span class="label" [innerHTML]="filter.label"></span>
+							<ul class="nav--options">
+								<li *for="let item of filter.options">
+									<span class="label" [class]="{ active: filter.has(item), disabled: item.disabled }" (click)="filter.toggle(item)">
+										<span class="name" [innerHTML]="item.label"></span>
+										<span class="count" [innerHTML]="item.count || ''"></span>
+									</span>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<div class="col-sm-8 col-md-9 col-lg-10">
+					<!-- results -->
+					<div class="listing listing--bim">
+						<div class="listing__item" *for="let item of items">
+							<div class="card--bim" appear>
+								<a [href]="item.slug" class="picture">
+									<img [lazy]="item.image" />
+									<div class="category" [innerHTML]="item.code"></div>
 								</a>
+								<div class="content">
+									<div class="title" [innerHTML]="item.title"></div>
+									<!-- <div class="abstract" [innerHTML]="item.abstract"></div> -->
+									<div class="group--cta">
+										<a [href]="file.url" class="btn--download" target="_blank" download secure *for="let file of item.files">
+											<!-- <svg class="icon icon--bim"><use xlink:href="#bim"></use></svg> -->
+											<span class="name" [innerHTML]="file.fileName + ' (' + (file.fileSize | fileSize) + ')'"></span>
+											<span class="extension" [innerHTML]="file.fileExtension"></span>
+											<!-- <span class="size" [innerHTML]="file.fileSize | fileSize"></span> -->
+										</a>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>

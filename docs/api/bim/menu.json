@@ -1,0 +1,304 @@
+{
+  "id": "menu",
+  "title": "Area",
+  "items": [
+    {
+      "id": 546,
+      "label": "Componenti Idraulici",
+      "title": "Catalogo",
+      "items": [
+        {
+          "id": 599,
+          "label": "Raccordi",
+          "title": "Prodotto",
+          "items": [
+            {
+              "id": 20250,
+              "label": "Raccordo a T"
+            },
+            {
+              "id": 20261,
+              "label": "Raccordo curvo femmina con flangia a 3 fori ed altezza collo di 52 mm"
+            },
+            {
+              "id": 25150,
+              "label": "Raccordo curvo femmina doppio con flangia e geometria a U. Altezza collo di 40mm"
+            },
+            {
+              "id": 20244,
+              "label": "Raccordo curvo maschio"
+            },
+            {
+              "id": 20312,
+              "label": "Raccordo curvo terminale per radiatori"
+            },
+            {
+              "id": 20293,
+              "label": "Staffa e raccordi 105° terminali COBRAFIX per pareti in cartongesso sp. 10 mm"
+            },
+            {
+              "id": 20294,
+              "label": "Staffa e raccordi 105° terminali COBRAFIX per pareti in cartongesso sp. 10 mm"
+            },
+            {
+              "id": 19961,
+              "label": "Staffa per art.1656"
+            },
+            {
+              "id": 19955,
+              "label": "Staffa per curve flangiate"
+            },
+            {
+              "id": 24670,
+              "label": "Staffa per curve flangiate"
+            },
+            {
+              "id": 24671,
+              "label": "Staffa per curve flangiate"
+            },
+            {
+              "id": 24672,
+              "label": "Staffa per curve flangiate"
+            }
+          ]
+        },
+        {
+          "id": 670,
+          "label": "Collettori Di Distribuzione",
+          "title": "Prodotto",
+          "items": [
+            {
+              "id": 20490,
+              "label": "Collettori modulare complanari in ottone CW617N giallo con uscite 1/2\"x16. Interasse 36mm. (disponibili anche in versione nichelata)"
+            },
+            {
+              "id": 20492,
+              "label": "Collettori modulare complanari in ottone CW617N giallo con uscite 1/2\"x16. Interasse 36mm. (disponibili anche in versione nichelata)"
+            }
+          ]
+        },
+        {
+          "id": 725,
+          "label": "Componenti Per Impianti Idrotermosanitari",
+          "title": "Prodotto",
+          "items": [
+            {
+              "id": 20919,
+              "label": "Filtro autopulente nichelato con tazza ottone, attacchi maschio/femmina e grado filtrazione 100µ"
+            },
+            {
+              "id": 20920,
+              "label": "Filtro autopulente nichelato con tazza trasparente, attacchi maschio a bocchettone e grado di filtrazione 100 µ"
+            },
+            {
+              "id": 20901,
+              "label": "Riduttori di pressione a pistone con attacchi maschio (Pressione max a monte 25bar, range di regolazione 1-6 bar e pre-settaggio 3bar)"
+            },
+            {
+              "id": 20475,
+              "label": "Valvola automatica per sfogo aria"
+            },
+            {
+              "id": 20478,
+              "label": "Valvola automatica per sfogo aria diametro 34 mm nichelata"
+            },
+            {
+              "id": 20474,
+              "label": "Valvola automatica sfogo aria nichelata"
+            },
+            {
+              "id": 20481,
+              "label": "Valvola automatica sfogo aria nichelata"
+            },
+            {
+              "id": 20476,
+              "label": "Valvole automatiche di sfogo aria con corpo Ø34 mm"
+            }
+          ]
+        },
+        {
+          "id": 652,
+          "label": "Tubi",
+          "title": "Prodotto",
+          "items": [
+            {
+              "id": 19676,
+              "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
+            },
+            {
+              "id": 19708,
+              "label": "Tubo in polietilene reticolato con anima in alluminio. Colore bianco"
+            }
+          ]
+        },
+        {
+          "id": 547,
+          "label": "Valvole E Rubinetti",
+          "title": "Prodotto",
+          "items": [
+            {
+              "id": 20352,
+              "label": "Valvola a sfera con leva a farfalla rossa, con estremità a pressare per tubo multistrato e dado folle"
+            },
+            {
+              "id": 20367,
+              "label": "Valvola a sfera dritta con leva farfalla rossa e girello folle"
+            },
+            {
+              "id": 20576,
+              "label": "Valvole a sfera passaggio totale maschio/femmina ISO228 con leva farfalla rossa o blu e bocchettone"
+            }
+          ]
+        },
+        {
+          "id": 699,
+          "label": "Valvole E Detentori Per Radiatori",
+          "title": "Prodotto",
+          "items": [
+            {
+              "id": 21056,
+              "label": "Distributore bitubo con by-pass, attacchi tubo da pavimento e raccordi per radiatori a piastra 3/4\"x18 (Eurocono). Interasse 50 mm"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 875,
+      "label": "Sistemi Radianti",
+      "title": "Catalogo",
+      "items": [
+        {
+          "id": 876,
+          "label": "Sistemi Ad Uso Residenziale / Terziario",
+          "title": "Prodotto",
+          "items": [
+            {
+              "id": 23289,
+              "label": "Raccordo a T"
+            },
+            {
+              "id": 24681,
+              "label": "Raccordo a T"
+            },
+            {
+              "id": 23166,
+              "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
+            },
+            {
+              "id": 23167,
+              "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
+            },
+            {
+              "id": 24942,
+              "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
+            },
+            {
+              "id": 24943,
+              "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
+            },
+            {
+              "id": 24944,
+              "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
+            },
+            {
+              "id": 24945,
+              "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
+            },
+            {
+              "id": 24946,
+              "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
+            },
+            {
+              "id": 24947,
+              "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
+            },
+            {
+              "id": 24948,
+              "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
+            }
+          ]
+        },
+        {
+          "id": 893,
+          "label": "Sistemi Ad Uso Industriale",
+          "title": "Prodotto",
+          "items": [
+            {
+              "id": 24949,
+              "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
+            },
+            {
+              "id": 24950,
+              "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
+            }
+          ]
+        },
+        {
+          "id": 897,
+          "label": "Distribuzione",
+          "title": "Prodotto",
+          "items": [
+            {
+              "id": 24951,
+              "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 744,
+      "label": "Centrale Termica",
+      "title": "Catalogo",
+      "items": [
+        {
+          "id": 767,
+          "label": "Filtri Defangatori E Dispositivi Sfogo Aria",
+          "title": "Prodotto",
+          "items": [
+            {
+              "id": 25083,
+              "label": "Valvola automatica per sfogo aria"
+            },
+            {
+              "id": 24684,
+              "label": "Valvola automatica per sfogo aria diametro 34 mm nichelata"
+            },
+            {
+              "id": 25114,
+              "label": "Valvola automatica sfogo aria nichelata"
+            },
+            {
+              "id": 24817,
+              "label": "Valvola automatica sfogo aria nichelata"
+            },
+            {
+              "id": 24788,
+              "label": "Valvole automatiche di sfogo aria con corpo Ø34 mm"
+            }
+          ]
+        },
+        {
+          "id": 787,
+          "label": "Componenti Per Impianti Idrosanitari",
+          "title": "Prodotto",
+          "items": [
+            {
+              "id": 24562,
+              "label": "Filtro autopulente nichelato con tazza ottone, attacchi maschio/femmina e grado filtrazione 100µ"
+            },
+            {
+              "id": 24716,
+              "label": "Filtro autopulente nichelato con tazza trasparente, attacchi maschio a bocchettone e grado di filtrazione 100 µ"
+            },
+            {
+              "id": 24748,
+              "label": "Riduttori di pressione a pistone con attacchi maschio (Pressione max a monte 25bar, range di regolazione 1-6 bar e pre-settaggio 3bar)"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

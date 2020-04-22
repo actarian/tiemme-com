@@ -870,7 +870,7 @@
 	background: white;
 	border-radius: 10px;
 	overflow: hidden;
-	background: $background-tertiary;
+	// background: $background-tertiary;
 	color: $foreground;
 	// box-shadow: 0 20px 20px -5px rgba($foreground, 0.2);
 	box-shadow: 0 12px 15px -5px rgba($foreground, 0.25);
@@ -946,7 +946,8 @@
 		.name {
 			width: 100%;
 			flex: 1 1 auto;
-			margin-right: 8px;
+			// margin-right: 8px;
+			margin: 0 8px;
 		}
 
 		.extension,
@@ -958,8 +959,10 @@
 
 		.extension {
 			display: block;
-			margin: 0 8px 0 0;
-			border-right: 1px solid rgba($foreground, 0.2);
+			// margin: 0 8px 0 0;
+			// border-right: 1px solid rgba($foreground, 0.2);
+			margin: 0 0 0 8px;
+			border-left: 1px solid rgba($foreground, 0.2);
 		}
 
 		.size {

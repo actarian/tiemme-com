@@ -270,6 +270,7 @@
   var FilterService = /*#__PURE__*/function () {
     function FilterService(options, initialParams, callback) {
       var filters = {};
+      this.filters = filters;
 
       if (options) {
         Object.keys(options).forEach(function (key) {
@@ -281,10 +282,8 @@
 
           filters[key] = filter;
         });
+        this.deserialize(this.filters, initialParams);
       }
-
-      this.filters = filters;
-      this.deserialize(this.filters, initialParams);
     }
 
     var _proto = FilterService.prototype;
@@ -1042,6 +1041,131 @@
     selector: '[appear]'
   };
 
+  var DROPDOWN_ID = 1000000;
+
+  var DropdownDirective = /*#__PURE__*/function (_Directive) {
+    _inheritsLoose(DropdownDirective, _Directive);
+
+    function DropdownDirective() {
+      return _Directive.apply(this, arguments) || this;
+    }
+
+    var _proto = DropdownDirective.prototype;
+
+    _proto.onInit = function onInit() {
+      var _this = this;
+
+      var _getContext = rxcomp.getContext(this),
+          node = _getContext.node;
+
+      var trigger = node.getAttribute('dropdown-trigger');
+      this.trigger = trigger ? node.querySelector(trigger) : node;
+      this.opened = null;
+      this.onClick = this.onClick.bind(this);
+      this.onDocumentClick = this.onDocumentClick.bind(this);
+      this.openDropdown = this.openDropdown.bind(this);
+      this.closeDropdown = this.closeDropdown.bind(this);
+      this.addListeners();
+      DropdownDirective.dropdown$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (id) {
+        // console.log('DropdownDirective', id, this['dropdown-item']);
+        if (_this.id === id) {
+          node.classList.add('dropped');
+        } else {
+          node.classList.remove('dropped');
+        }
+      });
+    };
+
+    _proto.onClick = function onClick(event) {
+      var _getContext2 = rxcomp.getContext(this),
+          node = _getContext2.node;
+
+      if (this.opened === null) {
+        this.openDropdown();
+      } else {
+        var dropdownItemNode = node.querySelector('[dropdown-item]'); // console.log('dropdownItemNode', dropdownItemNode);
+
+        if (!dropdownItemNode) {
+          // if (this.trigger !== node) {
+          this.closeDropdown();
+        }
+      }
+    };
+
+    _proto.onDocumentClick = function onDocumentClick(event) {
+      var _getContext3 = rxcomp.getContext(this),
+          node = _getContext3.node;
+
+      var clickedInside = node === event.target || node.contains(event.target);
+
+      if (!clickedInside) {
+        this.closeDropdown();
+      }
+    };
+
+    _proto.openDropdown = function openDropdown() {
+      if (this.opened === null) {
+        this.opened = true;
+        this.addDocumentListeners();
+        DropdownDirective.dropdown$.next(this.id);
+        this.dropped.next(this.id);
+      }
+    };
+
+    _proto.closeDropdown = function closeDropdown() {
+      if (this.opened !== null) {
+        this.removeDocumentListeners();
+        this.opened = null;
+
+        if (DropdownDirective.dropdown$.getValue() === this.id) {
+          DropdownDirective.dropdown$.next(null);
+          this.dropped.next(null);
+        }
+      }
+    };
+
+    _proto.addListeners = function addListeners() {
+      this.trigger.addEventListener('click', this.onClick);
+    };
+
+    _proto.addDocumentListeners = function addDocumentListeners() {
+      document.addEventListener('click', this.onDocumentClick);
+    };
+
+    _proto.removeListeners = function removeListeners() {
+      this.trigger.removeEventListener('click', this.onClick);
+    };
+
+    _proto.removeDocumentListeners = function removeDocumentListeners() {
+      document.removeEventListener('click', this.onDocumentClick);
+    };
+
+    _proto.onDestroy = function onDestroy() {
+      this.removeListeners();
+      this.removeDocumentListeners();
+    };
+
+    DropdownDirective.nextId = function nextId() {
+      return DROPDOWN_ID++;
+    };
+
+    _createClass(DropdownDirective, [{
+      key: "id",
+      get: function get() {
+        console.log(this.dropdown);
+        return this.dropdown || this.id_ || (this.id_ = DropdownDirective.nextId());
+      }
+    }]);
+
+    return DropdownDirective;
+  }(rxcomp.Directive);
+  DropdownDirective.meta = {
+    selector: '[dropdown]',
+    inputs: ['dropdown', 'dropdown-trigger'],
+    outputs: ['dropped']
+  };
+  DropdownDirective.dropdown$ = new rxjs.BehaviorSubject(null);
+
   var srcMore = STATIC ? '/tiemme-com/services-bim-modal-more.html' : '/Viewdoc.cshtml?co_id=25206';
   var srcHint = STATIC ? '/tiemme-com/services-bim-modal-hint.html' : '/Viewdoc.cshtml?co_id=25207';
 
@@ -1055,38 +1179,54 @@
     var _proto = BimLibraryComponent.prototype;
 
     _proto.onInit = function onInit() {
-      var _this = this;
-
+      var menu = window.menu || {};
       var items = window.files || [];
-      var filters = window.filters || {};
-      var initialParams = window.params || {};
-      filters.departments.mode = FilterMode.OR;
-      filters.catalogues.mode = FilterMode.OR;
-      filters.extensions.mode = FilterMode.OR;
-      var filterService = new FilterService(filters, initialParams, function (key, filter) {
-        switch (key) {
-          case 'extensions':
-            filter.filter = function (item, value) {
-              return item.fileExtension === value;
-            };
+      this.menu = menu;
+      this.items = items;
+      this.visibleItems = items.slice();
+      this.breadcrumb = [menu]; // this.fake__();
+    };
 
-            break;
-
-          default:
-            filter.filter = function (item, value) {
-              return item.features.indexOf(value) !== -1;
-            };
-
+    _proto.setMenuItem = function setMenuItem(child, parent) {
+      var clear = function clear(items) {
+        if (items) {
+          items.forEach(function (x) {
+            delete x.selectedId;
+            delete x.selectedLabel;
+            clear(x.items);
+          });
         }
-      });
-      filterService.items$(items).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (items) {
-        _this.items = items;
+      };
 
-        _this.pushChanges(); // console.log('BimLibraryComponent.items', items.length);
+      clear(parent.items);
+      var index = this.breadcrumb.reduce(function (p, c, i) {
+        return c.id === parent.id ? i : p;
+      }, -1);
 
-      });
-      this.filterService = filterService;
-      this.filters = filterService.filters; // this.fake__();
+      if (index !== -1) {
+        parent.selectedId = child.id;
+        parent.selectedLabel = child.label;
+        var breadcrumb = this.breadcrumb.slice(0, index + 1);
+
+        if (child.items) {
+          breadcrumb.push(child);
+        }
+
+        this.breadcrumb = [];
+        DropdownDirective.dropdown$.next(null);
+        this.pushChanges();
+        this.breadcrumb = breadcrumb;
+        this.visibleItems = this.items.filter(function (x) {
+          return breadcrumb.reduce(function (p, c) {
+            if (c.selectedId) {
+              return p && (x.features.indexOf(c.selectedId) !== -1 || x.id === c.selectedId);
+            } else {
+              return p;
+            }
+          }, true);
+        });
+        this.pushChanges();
+      }
     };
 
     _proto.openMore = function openMore(event) {
@@ -1108,32 +1248,41 @@
     };
 
     _proto.fake__ = function fake__() {
-      var _this2 = this;
+      var _this = this;
 
       HttpService.get$('/api/bim/excel').pipe(operators.first()).subscribe(function (items) {
-        var departments = [];
+        var products = [];
         items.forEach(function (item) {
-          var department = departments.find(function (x) {
-            return x.value === item.category1Id;
+          var product = products.find(function (x) {
+            return x.id === item.productId;
           });
 
-          if (!department) {
-            departments.push({
-              value: item.category1Id,
-              label: _this2.titleCase__(item.category1Description),
-              count: 1
+          if (!product) {
+            product = {
+              id: item.productId,
+              image: item.image,
+              code: item.productCode,
+              title: item.productName,
+              abstract: item.description,
+              files: [],
+              features: [item.category1Id, item.category2Id],
+              slug: 'https://tiemmeraccorderie.wslabs.it/it/prodotti/componenti-idraulici/tubi/tubi-multistrato-al-cobrapex/standard/0600/'
+            };
+            products.push(product);
+          }
+
+          if (!product.files.find(function (x) {
+            return x.fileName === item.fileName;
+          })) {
+            product.files.push({
+              fileName: item.fileName,
+              fileExtension: "." + item.fileName.split('.').pop(),
+              fileSize: 45000,
+              url: 'https://tiemmeraccorderie.wslabs.it/media/files/' + item.fileName
             });
-          } else {
-            department.count++;
           }
         });
-        departments.sort(function (a, b) {
-          return (a.count - b.count) * -1;
-        });
-        console.log(JSON.stringify(departments.map(function (x) {
-          delete x.count;
-          return x;
-        })));
+        console.log(JSON.stringify(products));
         var catalogues = [];
         items.forEach(function (item) {
           var catalogue = catalogues.find(function (x) {
@@ -1143,7 +1292,7 @@
           if (!catalogue) {
             catalogues.push({
               value: item.category2Id,
-              label: _this2.titleCase__(item.category2Description),
+              label: _this.titleCase__(item.category2Description),
               count: 1
             });
           } else {
@@ -1157,24 +1306,63 @@
           delete x.count;
           return x;
         })));
-        var products = [];
+        var departments = [];
         items.forEach(function (item) {
-          products.push({
-            id: item.productId,
-            type: 'bim',
-            image: item.image,
-            code: item.productCode,
-            title: item.productName,
-            abstract: item.description,
-            fileName: item.fileName,
-            fileExtension: "." + item.fileName.split('.').pop(),
-            fileSize: 45000,
-            slug: 'https://tiemmeraccorderie.wslabs.it/it/prodotti/componenti-idraulici/tubi/tubi-multistrato-al-cobrapex/standard/0600/',
-            url: 'https://tiemmeraccorderie.wslabs.it/media/files/' + item.fileName,
-            features: [item.category1Id, item.category2Id]
+          var department = departments.find(function (x) {
+            return x.value === item.category1Id;
           });
+
+          if (!department) {
+            departments.push({
+              value: item.category1Id,
+              label: _this.titleCase__(item.category1Description),
+              count: 1
+            });
+          } else {
+            department.count++;
+          }
         });
-        console.log(JSON.stringify(products));
+        departments.sort(function (a, b) {
+          return (a.count - b.count) * -1;
+        });
+        console.log(JSON.stringify(departments.map(function (x) {
+          delete x.count;
+          return x;
+        })));
+        var menu = {
+          id: 'menu',
+          title: 'Area',
+          items: departments.map(function (d) {
+            var item = {
+              id: d.value,
+              label: d.label,
+              title: 'Catalogo',
+              items: catalogues.filter(function (c) {
+                return products.find(function (p) {
+                  return p.features.indexOf(d.value) !== -1 && p.features.indexOf(c.value) !== -1;
+                });
+              }).map(function (c) {
+                var item = {
+                  id: c.value,
+                  label: c.label,
+                  title: 'Prodotto',
+                  items: products.filter(function (p) {
+                    return p.features.indexOf(c.value) !== -1;
+                  }).map(function (p) {
+                    var item = {
+                      id: p.id,
+                      label: p.title
+                    };
+                    return item;
+                  })
+                };
+                return item;
+              })
+            };
+            return item;
+          })
+        };
+        console.log(JSON.stringify(menu));
       });
     };
 
@@ -2126,130 +2314,6 @@
     selector: '[club-signup]' //outputs: ['signUp', 'login'],
 
   };
-
-  var DROPDOWN_ID = 1000000;
-
-  var DropdownDirective = /*#__PURE__*/function (_Directive) {
-    _inheritsLoose(DropdownDirective, _Directive);
-
-    function DropdownDirective() {
-      return _Directive.apply(this, arguments) || this;
-    }
-
-    var _proto = DropdownDirective.prototype;
-
-    _proto.onInit = function onInit() {
-      var _this = this;
-
-      var _getContext = rxcomp.getContext(this),
-          node = _getContext.node;
-
-      var trigger = node.getAttribute('dropdown-trigger');
-      this.trigger = trigger ? node.querySelector(trigger) : node;
-      this.opened = null;
-      this.onClick = this.onClick.bind(this);
-      this.onDocumentClick = this.onDocumentClick.bind(this);
-      this.openDropdown = this.openDropdown.bind(this);
-      this.closeDropdown = this.closeDropdown.bind(this);
-      this.addListeners();
-      DropdownDirective.dropdown$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (id) {
-        // console.log('DropdownDirective', id, this['dropdown-item']);
-        if (_this.id === id) {
-          node.classList.add('dropped');
-        } else {
-          node.classList.remove('dropped');
-        }
-      });
-    };
-
-    _proto.onClick = function onClick(event) {
-      var _getContext2 = rxcomp.getContext(this),
-          node = _getContext2.node;
-
-      if (this.opened === null) {
-        this.openDropdown();
-      } else {
-        var dropdownItemNode = node.querySelector('[dropdown-item]'); // console.log('dropdownItemNode', dropdownItemNode);
-
-        if (!dropdownItemNode) {
-          // if (this.trigger !== node) {
-          this.closeDropdown();
-        }
-      }
-    };
-
-    _proto.onDocumentClick = function onDocumentClick(event) {
-      var _getContext3 = rxcomp.getContext(this),
-          node = _getContext3.node;
-
-      var clickedInside = node === event.target || node.contains(event.target);
-
-      if (!clickedInside) {
-        this.closeDropdown();
-      }
-    };
-
-    _proto.openDropdown = function openDropdown() {
-      if (this.opened === null) {
-        this.opened = true;
-        this.addDocumentListeners();
-        DropdownDirective.dropdown$.next(this.id);
-        this.dropped.next(this.id);
-      }
-    };
-
-    _proto.closeDropdown = function closeDropdown() {
-      if (this.opened !== null) {
-        this.removeDocumentListeners();
-        this.opened = null;
-
-        if (DropdownDirective.dropdown$.getValue() === this.id) {
-          DropdownDirective.dropdown$.next(null);
-          this.dropped.next(null);
-        }
-      }
-    };
-
-    _proto.addListeners = function addListeners() {
-      this.trigger.addEventListener('click', this.onClick);
-    };
-
-    _proto.addDocumentListeners = function addDocumentListeners() {
-      document.addEventListener('click', this.onDocumentClick);
-    };
-
-    _proto.removeListeners = function removeListeners() {
-      this.trigger.removeEventListener('click', this.onClick);
-    };
-
-    _proto.removeDocumentListeners = function removeDocumentListeners() {
-      document.removeEventListener('click', this.onDocumentClick);
-    };
-
-    _proto.onDestroy = function onDestroy() {
-      this.removeListeners();
-      this.removeDocumentListeners();
-    };
-
-    DropdownDirective.nextId = function nextId() {
-      return DROPDOWN_ID++;
-    };
-
-    _createClass(DropdownDirective, [{
-      key: "id",
-      get: function get() {
-        return this.dropdown || this.id_ || (this.id_ = DropdownDirective.nextId());
-      }
-    }]);
-
-    return DropdownDirective;
-  }(rxcomp.Directive);
-  DropdownDirective.meta = {
-    selector: '[dropdown]',
-    inputs: ['dropdown', 'dropdown-trigger'],
-    outputs: ['dropped']
-  };
-  DropdownDirective.dropdown$ = new rxjs.BehaviorSubject(null);
 
   var DropdownItemDirective = /*#__PURE__*/function (_Directive) {
     _inheritsLoose(DropdownItemDirective, _Directive);
@@ -3293,7 +3357,7 @@
         message: null,
         privacy: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredTrueValidator()),
         newsletter: values.newsletter === 2 ? true : false,
-        scope: 'www.website.com',
+        scope: window.location.hostname,
         checkRequest: window.antiforgery,
         checkField: ''
       });
@@ -3692,7 +3756,7 @@
         message: null,
         privacy: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredTrueValidator()),
         newsletter: values.newsletter === 2 ? true : false,
-        scope: 'www.website.com',
+        scope: window.location.hostname,
         checkRequest: window.antiforgery,
         checkField: ''
       });
@@ -4360,7 +4424,7 @@
         message: null,
         privacy: new rxcompForm.FormControl(null, rxcompForm.Validators.RequiredTrueValidator()),
         newsletter: null,
-        scope: 'www.website.com',
+        scope: window.location.hostname,
         checkRequest: window.antiforgery,
         checkField: ''
       });
