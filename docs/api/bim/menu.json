@@ -10,154 +10,758 @@
         {
           "id": 599,
           "label": "Raccordi",
-          "title": "Prodotto",
+          "title": "Soluzione",
           "items": [
             {
-              "id": 20250,
-              "label": "Raccordo a T"
+              "id": 600,
+              "label": "Raccordi Per Tubo Multistrato Al-cobrapex",
+              "title": "Famiglia",
+              "items": [
+                {
+                  "id": 601,
+                  "label": "1650 - Raccordi A Pressare",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 20226,
+                      "label": "Raccordo diritto doppio"
+                    },
+                    {
+                      "id": 20214,
+                      "label": "Raccordo diritto maschio"
+                    },
+                    {
+                      "id": 20232,
+                      "label": "Raccordo diritto femmina"
+                    },
+                    {
+                      "id": 20237,
+                      "label": "Raccordo curvo doppio"
+                    },
+                    {
+                      "id": 20277,
+                      "label": "Raccordo diritto con girello su attacchi 1/2\"x16"
+                    },
+                    {
+                      "id": 20250,
+                      "label": "Raccordo a T"
+                    },
+                    {
+                      "id": 20244,
+                      "label": "Raccordo curvo maschio"
+                    },
+                    {
+                      "id": 19664,
+                      "label": "Raccordo curvo femmina"
+                    },
+                    {
+                      "id": 20186,
+                      "label": "Raccordo a T maschio"
+                    },
+                    {
+                      "id": 20189,
+                      "label": "Raccordo a T femmina"
+                    },
+                    {
+                      "id": 20261,
+                      "label": "Raccordo curvo femmina con flangia a 3 fori ed altezza collo di 52 mm"
+                    },
+                    {
+                      "id": 20270,
+                      "label": "Raccordo curvo femmina con flangia a 3 fori ed altezza collo di 40mm"
+                    },
+                    {
+                      "id": 20262,
+                      "label": "Raccordo curvo femmina con flangia a 3 fori ed altezza collo di 52 mm"
+                    },
+                    {
+                      "id": 20248,
+                      "label": "Raccordo curvo femmina con flangia a 3 fori"
+                    },
+                    {
+                      "id": 20268,
+                      "label": "Raccordo curvo con flangia per tubo multistrato/tubo rame ed altezza collo di 52 mm"
+                    },
+                    {
+                      "id": 25150,
+                      "label": "Raccordo curvo femmina doppio con flangia e geometria a U. Altezza collo di 40mm"
+                    },
+                    {
+                      "id": 20273,
+                      "label": "Raccordo curvo a 45°"
+                    },
+                    {
+                      "id": 20343,
+                      "label": "Raccordo a croce"
+                    },
+                    {
+                      "id": 20345,
+                      "label": "Collettore a 5 vie"
+                    },
+                    {
+                      "id": 20299,
+                      "label": "Raccordo diritto con girello e guarnizione piana"
+                    },
+                    {
+                      "id": 20253,
+                      "label": "Raccordo curvo con girello e guarnizione piana"
+                    },
+                    {
+                      "id": 20276,
+                      "label": "Raccordo curvo con flangia per cassetta di scarico"
+                    },
+                    {
+                      "id": 20284,
+                      "label": "Raccordo curvo con flangia passaparete per pareti in cartongesso"
+                    },
+                    {
+                      "id": 20288,
+                      "label": "Raccordo curvo con flangia passaparete per pareti in legno"
+                    },
+                    {
+                      "id": 20293,
+                      "label": "Staffa e raccordi 105° terminali COBRAFIX per pareti in cartongesso sp. 10 mm"
+                    },
+                    {
+                      "id": 20294,
+                      "label": "Staffa e raccordi 105° terminali COBRAFIX per pareti in cartongesso sp. 10 mm"
+                    },
+                    {
+                      "id": 20312,
+                      "label": "Raccordo curvo terminale per radiatori"
+                    },
+                    {
+                      "id": 20230,
+                      "label": "Raccordo diritto per tubo multistrato/tubetto cilindrico"
+                    },
+                    {
+                      "id": 20241,
+                      "label": "Raccordo curvo per tubo multistrato/rame a compressione"
+                    }
+                  ]
+                },
+                {
+                  "id": 608,
+                  "label": "Accessori",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 19955,
+                      "label": "Staffa per curve flangiate"
+                    },
+                    {
+                      "id": 19961,
+                      "label": "Staffa per art.1656"
+                    }
+                  ]
+                }
+              ]
             },
             {
-              "id": 20261,
-              "label": "Raccordo curvo femmina con flangia a 3 fori ed altezza collo di 52 mm"
+              "id": 609,
+              "label": "Raccordi Per Tubo Pe-x Cobrapex",
+              "title": "Famiglia",
+              "items": [
+                {
+                  "id": 614,
+                  "label": "Accessori",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 24670,
+                      "label": "Staffa per curve flangiate"
+                    }
+                  ]
+                }
+              ]
             },
             {
-              "id": 25150,
-              "label": "Raccordo curvo femmina doppio con flangia e geometria a U. Altezza collo di 40mm"
+              "id": 621,
+              "label": "Raccordi Per Tubo Rame",
+              "title": "Famiglia",
+              "items": [
+                {
+                  "id": 630,
+                  "label": "Accessori",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 24671,
+                      "label": "Staffa per curve flangiate"
+                    }
+                  ]
+                }
+              ]
             },
             {
-              "id": 20244,
-              "label": "Raccordo curvo maschio"
+              "id": 636,
+              "label": "Raccordi Per Tubo Ppr",
+              "title": "Famiglia",
+              "items": [
+                {
+                  "id": 639,
+                  "label": "Accessori",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 24672,
+                      "label": "Staffa per curve flangiate"
+                    }
+                  ]
+                }
+              ]
             },
             {
-              "id": 20312,
-              "label": "Raccordo curvo terminale per radiatori"
-            },
-            {
-              "id": 20293,
-              "label": "Staffa e raccordi 105° terminali COBRAFIX per pareti in cartongesso sp. 10 mm"
-            },
-            {
-              "id": 20294,
-              "label": "Staffa e raccordi 105° terminali COBRAFIX per pareti in cartongesso sp. 10 mm"
-            },
-            {
-              "id": 19961,
-              "label": "Staffa per art.1656"
-            },
-            {
-              "id": 19955,
-              "label": "Staffa per curve flangiate"
-            },
-            {
-              "id": 24670,
-              "label": "Staffa per curve flangiate"
-            },
-            {
-              "id": 24671,
-              "label": "Staffa per curve flangiate"
-            },
-            {
-              "id": 24672,
-              "label": "Staffa per curve flangiate"
+              "id": 648,
+              "label": "Adattatori",
+              "title": "Famiglia",
+              "items": [
+                {
+                  "id": 649,
+                  "label": "Per Tubo Multistrato",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 24751,
+                      "label": "Raccordo diritto con girello su attacchi 1/2\"x16"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },
         {
           "id": 670,
           "label": "Collettori Di Distribuzione",
-          "title": "Prodotto",
+          "title": "Soluzione",
           "items": [
             {
-              "id": 20490,
-              "label": "Collettori modulare complanari in ottone CW617N giallo con uscite 1/2\"x16. Interasse 36mm. (disponibili anche in versione nichelata)"
+              "id": 671,
+              "label": "Collettori A Vitone",
+              "title": "Famiglia",
+              "items": [
+                {
+                  "id": 672,
+                  "label": "Maxima",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 20361,
+                      "label": "Collettori con rubinetti d'arresto MAXIMA in ottone CW617N cromato con uscite 1/2\"x16. Interasse 36 mm. Filetto fasato con pretenuta"
+                    },
+                    {
+                      "id": 20406,
+                      "label": "Collettori con rubinetti d'arresto MAXIMA in ottone CW617N cromato con uscite 1/2\"x16. Interasse 36 mm. Filetto fasato con pretenuta"
+                    },
+                    {
+                      "id": 20448,
+                      "label": "Collettori con rubinetti d'arresto MAXIMA in ottone CW617N cromato con uscite 3/4\"X18 (Eurocono)/24x19 fil Ø18. Interasse 50 mm. Filetto fasato con pretenuta"
+                    }
+                  ]
+                }
+              ]
             },
             {
-              "id": 20492,
-              "label": "Collettori modulare complanari in ottone CW617N giallo con uscite 1/2\"x16. Interasse 36mm. (disponibili anche in versione nichelata)"
+              "id": 675,
+              "label": "Collettori A Valvole A Sfera",
+              "title": "Famiglia",
+              "items": [
+                {
+                  "id": 676,
+                  "label": "Nino",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 20415,
+                      "label": "Collettori NINO in ottone CW617N con valvole a sfera con uscite 1/2\"x16. Interasse 36 mm"
+                    },
+                    {
+                      "id": 20422,
+                      "label": "Collettori NINO in ottone CW617N con valvole a sfera con uscite 1/2\"x16. Interasse 36 mm"
+                    },
+                    {
+                      "id": 20416,
+                      "label": "Collettori NINO in ottone CW617N con valvole a sfera con uscite 1/2\" tenuta piana. Interasse 36 mm. Filetto fasato con pretenuta"
+                    },
+                    {
+                      "id": 20424,
+                      "label": "Collettori NINO in ottone CW617N con valvole a sfera con uscite 1/2\" tenuta piana. Interasse 36 mm. Filetto fasato con pretenuta"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 678,
+              "label": "Collettori Senza Intercettazione",
+              "title": "Famiglia",
+              "items": [
+                {
+                  "id": 680,
+                  "label": "Complanari",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 20490,
+                      "label": "Collettori modulare complanari in ottone CW617N giallo con uscite 1/2\"x16. Interasse 36mm. (disponibili anche in versione nichelata)"
+                    },
+                    {
+                      "id": 20492,
+                      "label": "Collettori modulare complanari in ottone CW617N giallo con uscite 1/2\"x16. Interasse 36mm. (disponibili anche in versione nichelata)"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 693,
+              "label": "Adattatori",
+              "title": "Famiglia",
+              "items": [
+                {
+                  "id": 694,
+                  "label": "Per Tubo Multistrato",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 24752,
+                      "label": "Raccordo diritto con girello su attacchi 1/2\"x16"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 697,
+              "label": "Cassette Ed Accessori Di Fissaggio",
+              "title": "Prodotto",
+              "items": [
+                {
+                  "id": 20414,
+                  "label": "Cassetta universale"
+                }
+              ]
             }
           ]
         },
         {
           "id": 725,
           "label": "Componenti Per Impianti Idrotermosanitari",
-          "title": "Prodotto",
+          "title": "Soluzione",
           "items": [
             {
-              "id": 20919,
-              "label": "Filtro autopulente nichelato con tazza ottone, attacchi maschio/femmina e grado filtrazione 100µ"
+              "id": 738,
+              "label": "Valvole Di Sicurezza",
+              "title": "Prodotto",
+              "items": [
+                {
+                  "id": 20518,
+                  "label": "Valvola di sicurezza con attacchi femmina/femmina (1,5÷5 bar)."
+                },
+                {
+                  "id": 20542,
+                  "label": "Valvola di sicurezza con attacchi femmina/femmina (6÷10 bar)."
+                },
+                {
+                  "id": 20522,
+                  "label": "Valvola di sicurezza con attacchi maschio/femmina (1,5÷5 bar)."
+                },
+                {
+                  "id": 20546,
+                  "label": "Valvola di sicurezza con attacchi maschio/femmina (6÷10 bar)."
+                },
+                {
+                  "id": 20519,
+                  "label": "Valvole di sicurezza con attacchi femmina/femmina (1,5÷5 bar) (versione con uscita maggiorata)"
+                },
+                {
+                  "id": 20543,
+                  "label": "Valvole di sicurezza con attacchi femmina/femmina (6÷10 bar) (versione con uscita maggiorata)"
+                }
+              ]
             },
             {
-              "id": 20920,
-              "label": "Filtro autopulente nichelato con tazza trasparente, attacchi maschio a bocchettone e grado di filtrazione 100 µ"
+              "id": 734,
+              "label": "Valvole Di Sfogo Aria E Disaeratori",
+              "title": "Famiglia",
+              "items": [
+                {
+                  "id": 736,
+                  "label": "Valvole Di Sfogo Aria Automatiche",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 20481,
+                      "label": "Valvola automatica sfogo aria nichelata"
+                    },
+                    {
+                      "id": 20474,
+                      "label": "Valvola automatica sfogo aria nichelata"
+                    },
+                    {
+                      "id": 20475,
+                      "label": "Valvola automatica per sfogo aria"
+                    },
+                    {
+                      "id": 20478,
+                      "label": "Valvola automatica per sfogo aria diametro 34 mm nichelata"
+                    },
+                    {
+                      "id": 20476,
+                      "label": "Valvole automatiche di sfogo aria con corpo Ø34 mm"
+                    }
+                  ]
+                }
+              ]
             },
             {
-              "id": 20901,
-              "label": "Riduttori di pressione a pistone con attacchi maschio (Pressione max a monte 25bar, range di regolazione 1-6 bar e pre-settaggio 3bar)"
+              "id": 729,
+              "label": "Riduttori Di Pressione",
+              "title": "Prodotto",
+              "items": [
+                {
+                  "id": 22811,
+                  "label": "Riduttore di pressione a pistone con estremita’ filettate femmina/femmina ISO 228.  (Pressione max a monte 25bar, range di regolazione 1-6bar e pre-settaggio 3bar)"
+                },
+                {
+                  "id": 20901,
+                  "label": "Riduttori di pressione a pistone con attacchi maschio (Pressione max a monte 25bar, range di regolazione 1-6 bar e pre-settaggio 3bar)"
+                }
+              ]
             },
             {
-              "id": 20475,
-              "label": "Valvola automatica per sfogo aria"
+              "id": 733,
+              "label": "Filtri Defangatori Magnetici",
+              "title": "Prodotto",
+              "items": [
+                {
+                  "id": 20927,
+                  "label": "Filtro magnetico sotto-caldaia con valvola a sfera"
+                },
+                {
+                  "id": 20933,
+                  "label": "Filtro defangatore magnetico lineare con tazza ottone, attacchi maschio a bocchettone"
+                }
+              ]
             },
             {
-              "id": 20478,
-              "label": "Valvola automatica per sfogo aria diametro 34 mm nichelata"
+              "id": 726,
+              "label": "Filtri",
+              "title": "Famiglia",
+              "items": [
+                {
+                  "id": 727,
+                  "label": "Autopulenti",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 20918,
+                      "label": "Filtro autopulente nichelato con tazza ottone, attacchi maschio a bocchettone e grado di filtrazione 100 µ"
+                    }
+                  ]
+                }
+              ]
             },
             {
-              "id": 20474,
-              "label": "Valvola automatica sfogo aria nichelata"
+              "id": 731,
+              "label": "Miscelatori Termostatici",
+              "title": "Prodotto",
+              "items": [
+                {
+                  "id": 21425,
+                  "label": "Miscelatore termostatico cromato M per acqua calda sanitaria"
+                }
+              ]
             },
             {
-              "id": 20481,
-              "label": "Valvola automatica sfogo aria nichelata"
+              "id": 732,
+              "label": "Ammortizzatori Del Colpo D'ariete",
+              "title": "Prodotto",
+              "items": [
+                {
+                  "id": 20551,
+                  "label": "Ammortizzatore del colpo d'ariete"
+                }
+              ]
             },
             {
-              "id": 20476,
-              "label": "Valvole automatiche di sfogo aria con corpo Ø34 mm"
-            }
-          ]
-        },
-        {
-          "id": 652,
-          "label": "Tubi",
-          "title": "Prodotto",
-          "items": [
-            {
-              "id": 19676,
-              "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
-            },
-            {
-              "id": 19708,
-              "label": "Tubo in polietilene reticolato con anima in alluminio. Colore bianco"
+              "id": 739,
+              "label": "Valvole Di Sicurezza Temperatura / Pressione",
+              "title": "Prodotto",
+              "items": [
+                {
+                  "id": 20517,
+                  "label": "Valvola di sicurezza maschio/tubo rame combinata temperatura e pressione"
+                }
+              ]
             }
           ]
         },
         {
           "id": 547,
           "label": "Valvole E Rubinetti",
-          "title": "Prodotto",
+          "title": "Soluzione",
           "items": [
             {
-              "id": 20352,
-              "label": "Valvola a sfera con leva a farfalla rossa, con estremità a pressare per tubo multistrato e dado folle"
+              "id": 587,
+              "label": "Valvole A Sfera Motorizzate",
+              "title": "Prodotto",
+              "items": [
+                {
+                  "id": 20564,
+                  "label": "Valvola a sfera motorizzata, passaggio totale, a 2 vie femmina /femmina, per attuatore con basetta ISO5211"
+                },
+                {
+                  "id": 20598,
+                  "label": "Valvola a sfera motorizzata a 2 vie maschio/femmina con servocomando."
+                },
+                {
+                  "id": 20593,
+                  "label": "Valvola a sfera motorizzata a 2 vie maschio/maschio con servocomando"
+                },
+                {
+                  "id": 20594,
+                  "label": "Valvola a sfera motorizzata deviatrice a 3 vie - attacchi a 3 bocchettoni - con servocomando."
+                },
+                {
+                  "id": 20596,
+                  "label": "Valvola a sfera motorizzata a 3 vie con bypass - attacchi a 4 bocchettoni - con servocomando. Interasse variabile (50-63mm per valvola 3/4\", 55-63 per valvola da 1\")"
+                },
+                {
+                  "id": 20597,
+                  "label": "Valvola a sfera motorizzata a 3 vie con bypass - attacchi a 3 bocchettoni - con servocomando 230Vac"
+                }
+              ]
             },
             {
-              "id": 20367,
-              "label": "Valvola a sfera dritta con leva farfalla rossa e girello folle"
+              "id": 548,
+              "label": "Valvole A Sfera Per Acqua",
+              "title": "Famiglia",
+              "items": [
+                {
+                  "id": 554,
+                  "label": "Passaggio Totale Per Collettori",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 20576,
+                      "label": "Valvole a sfera passaggio totale maschio/femmina ISO228 con leva farfalla rossa o blu e bocchettone"
+                    },
+                    {
+                      "id": 20590,
+                      "label": "Valvole a sfera passaggio totale maschio/femmina ISO228 con leva farfalla rossa o blu e bocchettone con pre-tenuta"
+                    },
+                    {
+                      "id": 20643,
+                      "label": "Valvola a sfera passaggio totale a squadra ISO 228 con pretenuta, tenuta con O-RING e termometro con attacco reversibile. Con leva a farfalla rossa o blu"
+                    }
+                  ]
+                },
+                {
+                  "id": 550,
+                  "label": "Scirocco - Passaggio Totale Iso 228",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 20700,
+                      "label": "Valvole SCIROCCO femmina/femmina ISO228 con leva alluminio rossa"
+                    }
+                  ]
+                }
+              ]
             },
             {
-              "id": 20576,
-              "label": "Valvole a sfera passaggio totale maschio/femmina ISO228 con leva farfalla rossa o blu e bocchettone"
+              "id": 555,
+              "label": "Valvole A Sfera Per Gas",
+              "title": "Famiglia",
+              "items": [
+                {
+                  "id": 557,
+                  "label": "Uragano - Passaggio Totale Iso 7",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 20646,
+                      "label": "Valvole URAGANO per GAS EN331 maschio/femmina ISO7/EN 10226 con leva piatta plastificata gialla"
+                    },
+                    {
+                      "id": 20652,
+                      "label": "Valvole URAGANO per GAS EN331 femmina/femmina ISO7/EN 10226 con leva farfalla gialla"
+                    }
+                  ]
+                },
+                {
+                  "id": 559,
+                  "label": "Speciali",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 20688,
+                      "label": "Valvole dritta per GAS femmina ISO228 con girello e leva a farfalla gialla"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 562,
+              "label": "Valvole A Sfera Con Attacco Tubo",
+              "title": "Famiglia",
+              "items": [
+                {
+                  "id": 564,
+                  "label": "A Pressare Per Tubo Multistrato",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 20367,
+                      "label": "Valvola a sfera dritta con leva farfalla rossa e girello folle"
+                    },
+                    {
+                      "id": 20352,
+                      "label": "Valvola a sfera con leva a farfalla rossa, con estremità a pressare per tubo multistrato e dado folle"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 566,
+              "label": "Valvole Di Ritegno",
+              "title": "Prodotto",
+              "items": [
+                {
+                  "id": 21130,
+                  "label": "Valvola di ritegno YACHT femmina/femmina ISO228 con otturatore in nylon"
+                },
+                {
+                  "id": 21151,
+                  "label": "Valvola di fondo tubolare femmina ISO228"
+                }
+              ]
+            },
+            {
+              "id": 581,
+              "label": "Valvole Per Acquedottistica",
+              "title": "Famiglia",
+              "items": [
+                {
+                  "id": 582,
+                  "label": "Valvole Attacco Contatore E Tubo Pe",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 20663,
+                      "label": "Valvole a sfera per contatori estremità femmina ISO228 e dado folle con leva farfalla rossa"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 652,
+          "label": "Tubi",
+          "title": "Soluzione",
+          "items": [
+            {
+              "id": 653,
+              "label": "Tubi Multistrato Al-cobrapex",
+              "title": "Famiglia",
+              "items": [
+                {
+                  "id": 654,
+                  "label": "Standard",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 19708,
+                      "label": "Tubo in polietilene reticolato con anima in alluminio. Colore bianco"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 660,
+              "label": "Tubi Pex Cobrapex",
+              "title": "Famiglia",
+              "items": [
+                {
+                  "id": 664,
+                  "label": "Con Barriera Antiossigeno",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 19676,
+                      "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },
         {
           "id": 699,
           "label": "Valvole E Detentori Per Radiatori",
-          "title": "Prodotto",
+          "title": "Soluzione",
           "items": [
             {
-              "id": 21056,
-              "label": "Distributore bitubo con by-pass, attacchi tubo da pavimento e raccordi per radiatori a piastra 3/4\"x18 (Eurocono). Interasse 50 mm"
+              "id": 700,
+              "label": "Valvole Termostatizzabili",
+              "title": "Famiglia",
+              "items": [
+                {
+                  "id": 702,
+                  "label": "Con Vitone Con Pre-regolazione",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 21016,
+                      "label": "Valvola a squadra termostatizzabile con pre-regolazione con attacco per tubo rame, pex e multistrato. Fornita con cappuccio protezione cantiere"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 713,
+              "label": "Valvole Mono E Bitubo",
+              "title": "Famiglia",
+              "items": [
+                {
+                  "id": 715,
+                  "label": "Distributori",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 21056,
+                      "label": "Distributore bitubo con by-pass, attacchi tubo da pavimento e raccordi per radiatori a piastra 3/4\"x18 (Eurocono). Interasse 50 mm"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 720,
+              "label": "Adattatori",
+              "title": "Famiglia",
+              "items": [
+                {
+                  "id": 721,
+                  "label": "Per Tubo Multistrato",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 24753,
+                      "label": "Raccordo diritto con girello su attacchi 1/2\"x16"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -171,77 +775,234 @@
         {
           "id": 876,
           "label": "Sistemi Ad Uso Residenziale / Terziario",
-          "title": "Prodotto",
+          "title": "Soluzione",
           "items": [
             {
-              "id": 23289,
-              "label": "Raccordo a T"
+              "id": 877,
+              "label": "Sistemi A Pavimento",
+              "title": "Famiglia",
+              "items": [
+                {
+                  "id": 878,
+                  "label": "New Classic Graphite",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 23166,
+                      "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
+                    }
+                  ]
+                },
+                {
+                  "id": 879,
+                  "label": "Techno Graphite",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 23167,
+                      "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
+                    }
+                  ]
+                },
+                {
+                  "id": 880,
+                  "label": "Clip Graphite",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 24942,
+                      "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
+                    }
+                  ]
+                },
+                {
+                  "id": 881,
+                  "label": "Clip Super",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 24943,
+                      "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
+                    }
+                  ]
+                },
+                {
+                  "id": 882,
+                  "label": "Sughero",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 24944,
+                      "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
+                    }
+                  ]
+                },
+                {
+                  "id": 883,
+                  "label": "Silento",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 24945,
+                      "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
+                    }
+                  ]
+                },
+                {
+                  "id": 884,
+                  "label": "Tiemme Slim",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 24946,
+                      "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
+                    }
+                  ]
+                },
+                {
+                  "id": 885,
+                  "label": "Low Black",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 24947,
+                      "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
+                    }
+                  ]
+                },
+                {
+                  "id": 886,
+                  "label": "Dry",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 24948,
+                      "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
+                    }
+                  ]
+                }
+              ]
             },
             {
-              "id": 24681,
-              "label": "Raccordo a T"
+              "id": 887,
+              "label": "Sistemi A Soffitto",
+              "title": "Famiglia",
+              "items": [
+                {
+                  "id": 888,
+                  "label": "Ceiling Home",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 23282,
+                      "label": "Raccordo diritto doppio"
+                    },
+                    {
+                      "id": 23286,
+                      "label": "Raccordo curvo doppio"
+                    },
+                    {
+                      "id": 23289,
+                      "label": "Raccordo a T"
+                    }
+                  ]
+                }
+              ]
             },
             {
-              "id": 23166,
-              "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
-            },
-            {
-              "id": 23167,
-              "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
-            },
-            {
-              "id": 24942,
-              "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
-            },
-            {
-              "id": 24943,
-              "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
-            },
-            {
-              "id": 24944,
-              "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
-            },
-            {
-              "id": 24945,
-              "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
-            },
-            {
-              "id": 24946,
-              "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
-            },
-            {
-              "id": 24947,
-              "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
-            },
-            {
-              "id": 24948,
-              "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
+              "id": 890,
+              "label": "Sistemi A Parete",
+              "title": "Famiglia",
+              "items": [
+                {
+                  "id": 891,
+                  "label": "Wall",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 24603,
+                      "label": "Raccordo diritto doppio"
+                    },
+                    {
+                      "id": 24797,
+                      "label": "Raccordo curvo doppio"
+                    },
+                    {
+                      "id": 24681,
+                      "label": "Raccordo a T"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },
         {
           "id": 893,
           "label": "Sistemi Ad Uso Industriale",
-          "title": "Prodotto",
+          "title": "Soluzione",
           "items": [
             {
-              "id": 24949,
-              "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
+              "id": 894,
+              "label": "Strong Rail",
+              "title": "Prodotto",
+              "items": [
+                {
+                  "id": 24949,
+                  "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
+                }
+              ]
             },
             {
-              "id": 24950,
-              "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
+              "id": 895,
+              "label": "Strong Net",
+              "title": "Prodotto",
+              "items": [
+                {
+                  "id": 24950,
+                  "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
+                }
+              ]
             }
           ]
         },
         {
           "id": 897,
           "label": "Distribuzione",
-          "title": "Prodotto",
+          "title": "Soluzione",
           "items": [
             {
-              "id": 24951,
-              "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
+              "id": 898,
+              "label": "Tubazioni",
+              "title": "Prodotto",
+              "items": [
+                {
+                  "id": 24951,
+                  "label": "Tubo in polietilene reticolato ad alta densità con barriera anti-ossigeno (EVOH). Colore bianco. In rotoli"
+                }
+              ]
+            },
+            {
+              "id": 899,
+              "label": "Collettori Di Distribuzione",
+              "title": "Famiglia",
+              "items": [
+                {
+                  "id": 906,
+                  "label": "Cassette Ed Accessori",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 25045,
+                      "label": "Valvole a sfera passaggio totale maschio/femmina ISO228 con leva farfalla rossa o blu e bocchettone con pre-tenuta"
+                    },
+                    {
+                      "id": 24902,
+                      "label": "Valvola a sfera passaggio totale a squadra ISO 228 con pretenuta, tenuta con O-RING e termometro con attacco reversibile. Con leva a farfalla rossa o blu"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -253,48 +1014,239 @@
       "title": "Catalogo",
       "items": [
         {
-          "id": 767,
-          "label": "Filtri Defangatori E Dispositivi Sfogo Aria",
-          "title": "Prodotto",
+          "id": 745,
+          "label": "Componenti Per Centrale Termica",
+          "title": "Soluzione",
           "items": [
             {
-              "id": 25083,
-              "label": "Valvola automatica per sfogo aria"
+              "id": 746,
+              "label": "Componenti Di Sicurezza E Controllo",
+              "title": "Famiglia",
+              "items": [
+                {
+                  "id": 747,
+                  "label": "Valvole Di Sicurezza",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 24929,
+                      "label": "Valvola di sicurezza con attacchi femmina/femmina (1,5÷5 bar)."
+                    },
+                    {
+                      "id": 24631,
+                      "label": "Valvola di sicurezza con attacchi femmina/femmina (6÷10 bar)."
+                    },
+                    {
+                      "id": 24848,
+                      "label": "Valvola di sicurezza con attacchi maschio/femmina (1,5÷5 bar)."
+                    },
+                    {
+                      "id": 24722,
+                      "label": "Valvola di sicurezza con attacchi maschio/femmina (6÷10 bar)."
+                    },
+                    {
+                      "id": 25066,
+                      "label": "Valvole di sicurezza con attacchi femmina/femmina (1,5÷5 bar) (versione con uscita maggiorata)"
+                    },
+                    {
+                      "id": 24550,
+                      "label": "Valvole di sicurezza con attacchi femmina/femmina (6÷10 bar) (versione con uscita maggiorata)"
+                    }
+                  ]
+                },
+                {
+                  "id": 748,
+                  "label": "Valvole Di Sicurezza Temperatura / Pressione",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 23345,
+                      "label": "Valvola di sicurezza maschio/tubo rame combinata temperatura e pressione"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 767,
+          "label": "Filtri Defangatori E Dispositivi Sfogo Aria",
+          "title": "Soluzione",
+          "items": [
+            {
+              "id": 769,
+              "label": "Valvole Di Sfogo Aria E Disaeratori",
+              "title": "Famiglia",
+              "items": [
+                {
+                  "id": 771,
+                  "label": "Valvole Di Sfogo Aria Automatiche",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 25114,
+                      "label": "Valvola automatica sfogo aria nichelata"
+                    },
+                    {
+                      "id": 24817,
+                      "label": "Valvola automatica sfogo aria nichelata"
+                    },
+                    {
+                      "id": 25083,
+                      "label": "Valvola automatica per sfogo aria"
+                    },
+                    {
+                      "id": 24684,
+                      "label": "Valvola automatica per sfogo aria diametro 34 mm nichelata"
+                    },
+                    {
+                      "id": 24788,
+                      "label": "Valvole automatiche di sfogo aria con corpo Ø34 mm"
+                    }
+                  ]
+                }
+              ]
             },
             {
-              "id": 24684,
-              "label": "Valvola automatica per sfogo aria diametro 34 mm nichelata"
-            },
-            {
-              "id": 25114,
-              "label": "Valvola automatica sfogo aria nichelata"
-            },
-            {
-              "id": 24817,
-              "label": "Valvola automatica sfogo aria nichelata"
-            },
-            {
-              "id": 24788,
-              "label": "Valvole automatiche di sfogo aria con corpo Ø34 mm"
+              "id": 768,
+              "label": "Filtri Defangatori Magnetici",
+              "title": "Prodotto",
+              "items": [
+                {
+                  "id": 25020,
+                  "label": "Filtro magnetico sotto-caldaia con valvola a sfera"
+                },
+                {
+                  "id": 24986,
+                  "label": "Filtro defangatore magnetico lineare con tazza ottone, attacchi maschio a bocchettone"
+                }
+              ]
             }
           ]
         },
         {
           "id": 787,
           "label": "Componenti Per Impianti Idrosanitari",
-          "title": "Prodotto",
+          "title": "Soluzione",
           "items": [
             {
-              "id": 24562,
-              "label": "Filtro autopulente nichelato con tazza ottone, attacchi maschio/femmina e grado filtrazione 100µ"
+              "id": 791,
+              "label": "Riduttori Di Pressione",
+              "title": "Prodotto",
+              "items": [
+                {
+                  "id": 25070,
+                  "label": "Riduttore di pressione a pistone con estremita’ filettate femmina/femmina ISO 228.  (Pressione max a monte 25bar, range di regolazione 1-6bar e pre-settaggio 3bar)"
+                },
+                {
+                  "id": 24748,
+                  "label": "Riduttori di pressione a pistone con attacchi maschio (Pressione max a monte 25bar, range di regolazione 1-6 bar e pre-settaggio 3bar)"
+                }
+              ]
             },
             {
-              "id": 24716,
-              "label": "Filtro autopulente nichelato con tazza trasparente, attacchi maschio a bocchettone e grado di filtrazione 100 µ"
+              "id": 788,
+              "label": "Filtri",
+              "title": "Famiglia",
+              "items": [
+                {
+                  "id": 789,
+                  "label": "Autopulenti",
+                  "title": "Prodotto",
+                  "items": [
+                    {
+                      "id": 24708,
+                      "label": "Filtro autopulente nichelato con tazza ottone, attacchi maschio a bocchettone e grado di filtrazione 100 µ"
+                    }
+                  ]
+                }
+              ]
             },
             {
-              "id": 24748,
-              "label": "Riduttori di pressione a pistone con attacchi maschio (Pressione max a monte 25bar, range di regolazione 1-6 bar e pre-settaggio 3bar)"
+              "id": 792,
+              "label": "Miscelatori Termostatici",
+              "title": "Prodotto",
+              "items": [
+                {
+                  "id": 24941,
+                  "label": "Miscelatore termostatico cromato M per acqua calda sanitaria"
+                }
+              ]
+            },
+            {
+              "id": 793,
+              "label": "Regolatori Termostatici Multifunzione",
+              "title": "Prodotto",
+              "items": [
+                {
+                  "id": 24961,
+                  "label": "Regolatore termostatico multifunzione per circuiti di ricircolo acqua calda sanitaria"
+                }
+              ]
+            },
+            {
+              "id": 796,
+              "label": "Ammortizzatori Del Colpo D'ariete",
+              "title": "Prodotto",
+              "items": [
+                {
+                  "id": 24667,
+                  "label": "Ammortizzatore del colpo d'ariete"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 773,
+          "label": "Dispositivi Di Regolazione E Gestione",
+          "title": "Soluzione",
+          "items": [
+            {
+              "id": 775,
+              "label": "Valvole A Sfera Motorizzate",
+              "title": "Prodotto",
+              "items": [
+                {
+                  "id": 23363,
+                  "label": "Valvola a sfera motorizzata a 2 vie maschio/femmina con servocomando."
+                },
+                {
+                  "id": 23362,
+                  "label": "Valvola a sfera motorizzata a 2 vie maschio/maschio con servocomando"
+                },
+                {
+                  "id": 25054,
+                  "label": "Valvola a sfera motorizzata deviatrice a 3 vie - attacchi a 3 bocchettoni - con servocomando."
+                },
+                {
+                  "id": 25167,
+                  "label": "Valvola a sfera motorizzata a 3 vie con bypass - attacchi a 4 bocchettoni - con servocomando. Interasse variabile (50-63mm per valvola 3/4\", 55-63 per valvola da 1\")"
+                },
+                {
+                  "id": 24932,
+                  "label": "Valvola a sfera motorizzata a 3 vie con bypass - attacchi a 3 bocchettoni - con servocomando 230Vac"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 797,
+          "label": "Dispositivi Antinquinamento",
+          "title": "Soluzione",
+          "items": [
+            {
+              "id": 798,
+              "label": "Valvole Di Ritegno",
+              "title": "Prodotto",
+              "items": [
+                {
+                  "id": 23430,
+                  "label": "Valvola di ritegno YACHT femmina/femmina ISO228 con otturatore in nylon"
+                }
+              ]
             }
           ]
         }

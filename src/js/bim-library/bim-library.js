@@ -17,7 +17,7 @@ export default class BimLibraryComponent extends Component {
 		this.items = items;
 		this.visibleItems = items.slice();
 		this.breadcrumb = [menu];
-		// this.fake__();
+		this.fake__();
 	}
 
 	setMenuItem(child, parent) {
@@ -82,22 +82,26 @@ export default class BimLibraryComponent extends Component {
 		).subscribe(items => {
 			const products = [];
 			items.forEach(item => {
-				let product = products.find(x => x.id === item.productId);
-				if (!product) {
-					product = {
+				let f = products.find(x => x.id === item.productId);
+				if (!f) {
+					f = {
 						id: item.productId,
 						image: item.image,
 						code: item.productCode,
 						title: item.productName,
-						abstract: item.description,
 						files: [],
-						features: [item.category1Id, item.category2Id],
+						features: [item.category1Id, item.category2Id, item.category3Id],
+						image: 'https://tiemmeraccorderie.wslabs.it/' + item.image,
 						slug: 'https://tiemmeraccorderie.wslabs.it/it/prodotti/componenti-idraulici/tubi/tubi-multistrato-al-cobrapex/standard/0600/'
 					};
-					products.push(product);
+					if (item.category4Id) {
+						f.features.push(item.category4Id);
+					}
+					products.push(f);
 				}
-				if (!product.files.find(x => x.fileName === item.fileName)) {
-					product.files.push({
+				if (!f.files.find(x => x.fileName === item.fileName)) {
+					f.files.push({
+						description: item.description,
 						fileName: item.fileName,
 						fileExtension: `.${item.fileName.split('.').pop()}`,
 						fileSize: 45000,
@@ -105,44 +109,84 @@ export default class BimLibraryComponent extends Component {
 					});
 				}
 			});
-			console.log(JSON.stringify(products));
+			console.log('products', JSON.stringify(products));
+			const families = [];
+			items.forEach(item => {
+				const f = families.find(x => x.value === item.category4Id);
+				if (!f) {
+					families.push({
+						value: item.category4Id,
+						label: this.titleCase__(item.category4Description),
+						count: 1,
+					});
+				} else {
+					f.count++;
+				}
+			});
+			families.sort(function(a, b) {
+				return (a.count - b.count) * -1;
+			});
+			console.log('families', JSON.stringify(families.map(x => {
+				delete x.count;
+				return x;
+			})));
+			const solutions = [];
+			items.forEach(item => {
+				const f = solutions.find(x => x.value === item.category3Id);
+				if (!f) {
+					solutions.push({
+						value: item.category3Id,
+						label: this.titleCase__(item.category3Description),
+						count: 1,
+					});
+				} else {
+					f.count++;
+				}
+			});
+			solutions.sort(function(a, b) {
+				return (a.count - b.count) * -1;
+			});
+			console.log('solutions', JSON.stringify(solutions.map(x => {
+				delete x.count;
+				return x;
+			})));
 			const catalogues = [];
 			items.forEach(item => {
-				const catalogue = catalogues.find(x => x.value === item.category2Id);
-				if (!catalogue) {
+				const f = catalogues.find(x => x.value === item.category2Id);
+				if (!f) {
 					catalogues.push({
 						value: item.category2Id,
 						label: this.titleCase__(item.category2Description),
 						count: 1,
 					});
 				} else {
-					catalogue.count++;
+					f.count++;
 				}
 			});
 			catalogues.sort(function(a, b) {
 				return (a.count - b.count) * -1;
 			});
-			console.log(JSON.stringify(catalogues.map(x => {
+			console.log('catalogues', JSON.stringify(catalogues.map(x => {
 				delete x.count;
 				return x;
 			})));
 			const departments = [];
 			items.forEach(item => {
-				const department = departments.find(x => x.value === item.category1Id);
-				if (!department) {
+				const f = departments.find(x => x.value === item.category1Id);
+				if (!f) {
 					departments.push({
 						value: item.category1Id,
 						label: this.titleCase__(item.category1Description),
 						count: 1,
 					});
 				} else {
-					department.count++;
+					f.count++;
 				}
 			});
 			departments.sort(function(a, b) {
 				return (a.count - b.count) * -1;
 			});
-			console.log(JSON.stringify(departments.map(x => {
+			console.log('departments', JSON.stringify(departments.map(x => {
 				delete x.count;
 				return x;
 			})));
@@ -160,14 +204,50 @@ export default class BimLibraryComponent extends Component {
 							const item = {
 								id: c.value,
 								label: c.label,
-								title: 'Prodotto',
-								items: products.filter(p => {
-									return p.features.indexOf(c.value) !== -1;
-								}).map(p => {
-									const item = {
-										id: p.id,
-										label: p.title,
+								title: 'Soluzione',
+								items: solutions.filter(s => {
+									return products.find(p => p.features.indexOf(d.value) !== -1 && p.features.indexOf(c.value) !== -1 && p.features.indexOf(s.value) !== -1);
+								}).map(s => {
+									let item = {
+										id: s.value,
+										label: s.label,
+										title: 'Famiglia',
+										items: families.filter(f => {
+											return products.find(p => p.features.indexOf(d.value) !== -1 && p.features.indexOf(c.value) !== -1 && p.features.indexOf(s.value) !== -1 && p.features.indexOf(f.value) !== -1);
+										}).map(f => {
+											const item = {
+												id: f.value,
+												label: f.label,
+												title: 'Prodotto',
+												items: products.filter(p => {
+													return p.features.indexOf(f.value) !== -1;
+												}).map(p => {
+													const item = {
+														id: p.id,
+														label: p.title,
+													};
+													return item;
+												})
+											};
+											return item;
+										})
 									};
+									if (item.items.length === 0) {
+										item = {
+											id: s.value,
+											label: s.label,
+											title: 'Prodotto',
+											items: products.filter(p => {
+												return p.features.indexOf(s.value) !== -1;
+											}).map(p => {
+												const item = {
+													id: p.id,
+													label: p.title,
+												};
+												return item;
+											})
+										};
+									}
 									return item;
 								})
 							};
@@ -177,7 +257,7 @@ export default class BimLibraryComponent extends Component {
 					return item;
 				})
 			};
-			console.log(JSON.stringify(menu));
+			console.log('menu', JSON.stringify(menu));
 		});
 	}
 

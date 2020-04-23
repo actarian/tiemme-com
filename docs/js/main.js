@@ -1183,7 +1183,8 @@
       this.menu = menu;
       this.items = items;
       this.visibleItems = items.slice();
-      this.breadcrumb = [menu]; // this.fake__();
+      this.breadcrumb = [menu];
+      this.fake__();
     };
 
     _proto.setMenuItem = function setMenuItem(child, parent) {
@@ -1252,28 +1253,34 @@
       HttpService.get$('/api/bim/excel').pipe(operators.first()).subscribe(function (items) {
         var products = [];
         items.forEach(function (item) {
-          var product = products.find(function (x) {
+          var f = products.find(function (x) {
             return x.id === item.productId;
           });
 
-          if (!product) {
-            product = {
+          if (!f) {
+            var _f;
+
+            f = (_f = {
               id: item.productId,
               image: item.image,
               code: item.productCode,
               title: item.productName,
-              abstract: item.description,
               files: [],
-              features: [item.category1Id, item.category2Id],
-              slug: 'https://tiemmeraccorderie.wslabs.it/it/prodotti/componenti-idraulici/tubi/tubi-multistrato-al-cobrapex/standard/0600/'
-            };
-            products.push(product);
+              features: [item.category1Id, item.category2Id, item.category3Id]
+            }, _f["image"] = 'https://tiemmeraccorderie.wslabs.it/' + item.image, _f.slug = 'https://tiemmeraccorderie.wslabs.it/it/prodotti/componenti-idraulici/tubi/tubi-multistrato-al-cobrapex/standard/0600/', _f);
+
+            if (item.category4Id) {
+              f.features.push(item.category4Id);
+            }
+
+            products.push(f);
           }
 
-          if (!product.files.find(function (x) {
+          if (!f.files.find(function (x) {
             return x.fileName === item.fileName;
           })) {
-            product.files.push({
+            f.files.push({
+              description: item.description,
               fileName: item.fileName,
               fileExtension: "." + item.fileName.split('.').pop(),
               fileSize: 45000,
@@ -1281,50 +1288,96 @@
             });
           }
         });
-        console.log(JSON.stringify(products));
+        console.log('products', JSON.stringify(products));
+        var families = [];
+        items.forEach(function (item) {
+          var f = families.find(function (x) {
+            return x.value === item.category4Id;
+          });
+
+          if (!f) {
+            families.push({
+              value: item.category4Id,
+              label: _this.titleCase__(item.category4Description),
+              count: 1
+            });
+          } else {
+            f.count++;
+          }
+        });
+        families.sort(function (a, b) {
+          return (a.count - b.count) * -1;
+        });
+        console.log('families', JSON.stringify(families.map(function (x) {
+          delete x.count;
+          return x;
+        })));
+        var solutions = [];
+        items.forEach(function (item) {
+          var f = solutions.find(function (x) {
+            return x.value === item.category3Id;
+          });
+
+          if (!f) {
+            solutions.push({
+              value: item.category3Id,
+              label: _this.titleCase__(item.category3Description),
+              count: 1
+            });
+          } else {
+            f.count++;
+          }
+        });
+        solutions.sort(function (a, b) {
+          return (a.count - b.count) * -1;
+        });
+        console.log('solutions', JSON.stringify(solutions.map(function (x) {
+          delete x.count;
+          return x;
+        })));
         var catalogues = [];
         items.forEach(function (item) {
-          var catalogue = catalogues.find(function (x) {
+          var f = catalogues.find(function (x) {
             return x.value === item.category2Id;
           });
 
-          if (!catalogue) {
+          if (!f) {
             catalogues.push({
               value: item.category2Id,
               label: _this.titleCase__(item.category2Description),
               count: 1
             });
           } else {
-            catalogue.count++;
+            f.count++;
           }
         });
         catalogues.sort(function (a, b) {
           return (a.count - b.count) * -1;
         });
-        console.log(JSON.stringify(catalogues.map(function (x) {
+        console.log('catalogues', JSON.stringify(catalogues.map(function (x) {
           delete x.count;
           return x;
         })));
         var departments = [];
         items.forEach(function (item) {
-          var department = departments.find(function (x) {
+          var f = departments.find(function (x) {
             return x.value === item.category1Id;
           });
 
-          if (!department) {
+          if (!f) {
             departments.push({
               value: item.category1Id,
               label: _this.titleCase__(item.category1Description),
               count: 1
             });
           } else {
-            department.count++;
+            f.count++;
           }
         });
         departments.sort(function (a, b) {
           return (a.count - b.count) * -1;
         });
-        console.log(JSON.stringify(departments.map(function (x) {
+        console.log('departments', JSON.stringify(departments.map(function (x) {
           delete x.count;
           return x;
         })));
@@ -1344,14 +1397,56 @@
                 var item = {
                   id: c.value,
                   label: c.label,
-                  title: 'Prodotto',
-                  items: products.filter(function (p) {
-                    return p.features.indexOf(c.value) !== -1;
-                  }).map(function (p) {
+                  title: 'Soluzione',
+                  items: solutions.filter(function (s) {
+                    return products.find(function (p) {
+                      return p.features.indexOf(d.value) !== -1 && p.features.indexOf(c.value) !== -1 && p.features.indexOf(s.value) !== -1;
+                    });
+                  }).map(function (s) {
                     var item = {
-                      id: p.id,
-                      label: p.title
+                      id: s.value,
+                      label: s.label,
+                      title: 'Famiglia',
+                      items: families.filter(function (f) {
+                        return products.find(function (p) {
+                          return p.features.indexOf(d.value) !== -1 && p.features.indexOf(c.value) !== -1 && p.features.indexOf(s.value) !== -1 && p.features.indexOf(f.value) !== -1;
+                        });
+                      }).map(function (f) {
+                        var item = {
+                          id: f.value,
+                          label: f.label,
+                          title: 'Prodotto',
+                          items: products.filter(function (p) {
+                            return p.features.indexOf(f.value) !== -1;
+                          }).map(function (p) {
+                            var item = {
+                              id: p.id,
+                              label: p.title
+                            };
+                            return item;
+                          })
+                        };
+                        return item;
+                      })
                     };
+
+                    if (item.items.length === 0) {
+                      item = {
+                        id: s.value,
+                        label: s.label,
+                        title: 'Prodotto',
+                        items: products.filter(function (p) {
+                          return p.features.indexOf(s.value) !== -1;
+                        }).map(function (p) {
+                          var item = {
+                            id: p.id,
+                            label: p.title
+                          };
+                          return item;
+                        })
+                      };
+                    }
+
                     return item;
                   })
                 };
@@ -1361,7 +1456,7 @@
             return item;
           })
         };
-        console.log(JSON.stringify(menu));
+        console.log('menu', JSON.stringify(menu));
       });
     };
 
