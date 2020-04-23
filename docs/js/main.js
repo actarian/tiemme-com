@@ -1183,8 +1183,7 @@
       this.menu = menu;
       this.items = items;
       this.visibleItems = items.slice();
-      this.breadcrumb = [menu];
-      this.fake__();
+      this.breadcrumb = [menu]; // this.fake__();
     };
 
     _proto.setMenuItem = function setMenuItem(child, parent) {

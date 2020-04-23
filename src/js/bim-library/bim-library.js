@@ -17,7 +17,7 @@ export default class BimLibraryComponent extends Component {
 		this.items = items;
 		this.visibleItems = items.slice();
 		this.breadcrumb = [menu];
-		this.fake__();
+		// this.fake__();
 	}
 
 	setMenuItem(child, parent) {
