@@ -59,12 +59,17 @@ export default class BimLibraryComponent extends Component {
 		const { node } = getContext(this);
 		return fromEvent(window, 'scroll').pipe(
 			tap(() => {
-				if (this.items.length > this.visibleItems.length) {
+				if (this.items.length > this.visibleItems.length && !this.busy) {
 					const rect = node.getBoundingClientRect();
 					if (rect.bottom < window.innerHeight) {
-						this.maxVisibleItems += MAX_VISIBLE_ITEMS;
-						this.visibleItems = this.items.slice(0, this.maxVisibleItems);
+						this.busy = true;
 						this.pushChanges();
+						setTimeout(() => {
+							this.busy = false;
+							this.maxVisibleItems += MAX_VISIBLE_ITEMS;
+							this.visibleItems = this.items.slice(0, this.maxVisibleItems);
+							this.pushChanges();
+						}, 1000);
 					}
 				}
 			})

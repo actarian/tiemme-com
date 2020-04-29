@@ -7409,8 +7409,8 @@ ul {
       margin-right: -15px; }
       .listing--bim-03 .listing__item {
         width: 100%;
-        flex: 0 0 calc(16.66667% - 30px);
-        max-width: calc(16.66667% - 30px);
+        flex: 0 0 calc(20% - 30px);
+        max-width: calc(20% - 30px);
         margin-left: 15px;
         margin-right: 15px; } }
   @media (min-width: 1024px) and (max-width: 1919.98px) {

@@ -2114,14 +2114,21 @@
           node = _getContext.node;
 
       return rxjs.fromEvent(window, 'scroll').pipe(operators.tap(function () {
-        if (_this2.items.length > _this2.visibleItems.length) {
+        if (_this2.items.length > _this2.visibleItems.length && !_this2.busy) {
           var rect = node.getBoundingClientRect();
 
           if (rect.bottom < window.innerHeight) {
-            _this2.maxVisibleItems += MAX_VISIBLE_ITEMS;
-            _this2.visibleItems = _this2.items.slice(0, _this2.maxVisibleItems);
+            _this2.busy = true;
 
             _this2.pushChanges();
+
+            setTimeout(function () {
+              _this2.busy = false;
+              _this2.maxVisibleItems += MAX_VISIBLE_ITEMS;
+              _this2.visibleItems = _this2.items.slice(0, _this2.maxVisibleItems);
+
+              _this2.pushChanges();
+            }, 1000);
           }
         }
       }));
