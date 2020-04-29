@@ -120,9 +120,13 @@ export default class SwiperDirective extends Component {
 		}
 	}
 
+	openMore(event) {
+		this.more.next(event);
+	}
 }
 
 SwiperDirective.meta = {
 	selector: '[swiper]',
-	inputs: ['consumer']
+	inputs: ['consumer'],
+	outputs: ['more']
 };

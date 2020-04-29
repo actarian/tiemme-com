@@ -6008,6 +6008,10 @@
       }
     };
 
+    _proto.openMore = function openMore(event) {
+      this.more.next(event);
+    };
+
     _createClass(SwiperDirective, [{
       key: "enabled",
       get: function get() {
@@ -6019,7 +6023,8 @@
   }(rxcomp.Component);
   SwiperDirective.meta = {
     selector: '[swiper]',
-    inputs: ['consumer']
+    inputs: ['consumer'],
+    outputs: ['more']
   };
 
   var SwiperListingDirective = /*#__PURE__*/function (_SwiperDirective) {

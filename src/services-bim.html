@@ -1,26 +1,61 @@
 <!-- @@master = ./templates/layout.html-->
 
 <!-- @@block = main-->
-<section class="section--hero-tertiary">
-	<div class="background">
-		<!-- <img lazy="/tiemme-com/img/services/warranty/hero.jpg" /> -->
-	</div>
-	<!--
-	<div class="container">
-		<div class="row">
-			<div class="col-md-10">
-				<div class="category">Servizi</div>
-				<div class="title">BIM</div>
-			</div>
-		</div>
-	</div>
-	-->
-</section>
-
-<!-- @@include ./templates/shared/services-menu.html { "a": "active", "b": "", "c": "", "d": "", "e": "" } -->
-
 <div bim-library>
 
+	<section class="section--hero-positive">
+		<div class="swiper-container" swiper (more)="openMore($event)">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide">
+					<div class="background">
+						<img lazy="/tiemme-com/img/bim/hero-01.jpg" />
+					</div>
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="title">L’impegno di Tiemme </div>
+								<div class="abstract">Tiemme sviluppa internamente i propri prodotti in BIM per fornire a tutti i professionisti una libreria di oggetti BIM della massima qualità possibile e perfettamente compatibili con il software Autodesk Revit.</div>
+								<div class="title"><svg class="icon icon--bim"><use xlink:href="#bim"></use></svg> <span>TIEMME è <b>Bim</b> Ready</span></div>
+								<div class="group--cta">
+									<div class="btn--cta" (scrollTo)="'.section--serp'"><span>Scopri il catalogo BIM</span></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="swiper-slide">
+					<div class="background">
+						<img lazy="/tiemme-com/img/bim/hero-02.jpg" />
+					</div>
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="title">Cos'è il BIM?</div>
+								<div class="abstract">
+									<p>Il <b>Building Information Modeling</b> è un nuovo approccio che raccoglie ed integra tutte le informazioni utili alla progettazione, costruzione e manutenzione degli edifici.</p>
+									<p>L’architettura e la struttura si fondono in un unico volume nel quale gli impianti trovano la perfetta integrazione. Un unico contenitore perfettamente coordinato.</p>
+								</div>
+								<div class="group--cta">
+									<div class="btn--cta" (click)="openMore($event)"><span>Vuoi saperne di più?</span></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="swiper-pagination swiper-pagination-white"></div>
+		</div>
+	</section>
+
+	<!--
+	<section class="section--hero-tertiary">
+		<div class="background"></div>
+	</section>
+	-->
+
+	<!-- @@include ./templates/shared/services-menu.html { "a": "active", "b": "", "c": "", "d": "", "e": "" } -->
+
+	<!--
 	<section class="section--text-picture-bim background--gradient-inverted">
 		<div class="container">
 			<svg class="icon icon--bim icon--background"><use xlink:href="#bim"></use></svg>
@@ -64,6 +99,7 @@
 			</div>
 		</div>
 	</section>
+	-->
 
 	<section class="section--serp">
 		<div class="container-fluid">

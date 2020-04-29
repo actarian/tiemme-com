@@ -210,16 +210,16 @@ strong {
 .h6 {
   font-size: 1.5rem; }
 
-.nav--aside > li > .label, .section--slides__title, .group--title > .title, .section--listing__title, .section--technical-sheet__title, .section--certifications__title, .section--related__title, .section--technician .category, .nav--sitemap > li > .category {
+.section--slides__title, .nav--aside > li > .label, .group--title > .title, .section--listing__title, .section--technical-sheet__title, .section--certifications__title, .section--related__title, .section--technician .category, .nav--sitemap > li > .category {
   font-family: "Barlow Condensed", sans-serif;
   font-size: 26px;
   line-height: 1.15;
   font-weight: 500;
   text-transform: uppercase; }
-  .nav--aside > li > .label .icon, .section--slides__title .icon, .group--title > .title .icon, .section--listing__title .icon, .section--technical-sheet__title .icon, .section--certifications__title .icon, .section--related__title .icon, .section--technician .category .icon, .nav--sitemap > li > .category .icon {
+  .section--slides__title .icon, .nav--aside > li > .label .icon, .group--title > .title .icon, .section--listing__title .icon, .section--technical-sheet__title .icon, .section--certifications__title .icon, .section--related__title .icon, .section--technician .category .icon, .nav--sitemap > li > .category .icon {
     margin-right: 5px; }
   @media (max-width: 1439.98px) {
-    .nav--aside > li > .label, .section--slides__title, .group--title > .title, .section--listing__title, .section--technical-sheet__title, .section--certifications__title, .section--related__title, .section--technician .category, .nav--sitemap > li > .category {
+    .section--slides__title, .nav--aside > li > .label, .group--title > .title, .section--listing__title, .section--technical-sheet__title, .section--certifications__title, .section--related__title, .section--technician .category, .nav--sitemap > li > .category {
       font-size: 21px; } }
 
 .section--technician .title {
@@ -263,7 +263,7 @@ strong {
   line-height: 1.5;
   font-weight: 400; }
 
-.section--text-picture .title, .section--text-picture-bim .title, .section--text-full .title, .section--search > .container > .content .title, .section--detail .group--content .title {
+.section--hero-positive .title, .section--text-picture .title, .section--text-picture-bim .title, .section--text-full .title, .section--search > .container > .content .title, .section--detail .group--content .title {
   font-family: "Barlow Condensed", sans-serif;
   font-size: 46px;
   line-height: 1;
@@ -271,27 +271,27 @@ strong {
   text-transform: uppercase;
   margin-bottom: 30px; }
   @media (max-width: 1023.98px) {
-    .section--text-picture .title, .section--text-picture-bim .title, .section--text-full .title, .section--search > .container > .content .title, .section--detail .group--content .title {
+    .section--hero-positive .title, .section--text-picture .title, .section--text-picture-bim .title, .section--text-full .title, .section--search > .container > .content .title, .section--detail .group--content .title {
       font-size: 36px;
       word-break: break-word; } }
 
-.section--text-picture .abstract, .section--text-picture-bim .abstract, .section--text-full .abstract, .section--search > .container > .content .abstract, .section--detail .group--content .abstract {
+.section--hero-positive .abstract, .section--text-picture .abstract, .section--text-picture-bim .abstract, .section--text-full .abstract, .section--search > .container > .content .abstract, .section--detail .group--content .abstract {
   font-family: "Hind Madurai", sans-serif;
   font-size: 24px;
   font-weight: 500;
   margin-bottom: 30px; }
-  .section--text-picture .abstract p, .section--text-picture-bim .abstract p, .section--text-full .abstract p, .section--search > .container > .content .abstract p, .section--detail .group--content .abstract p {
+  .section--hero-positive .abstract p, .section--text-picture .abstract p, .section--text-picture-bim .abstract p, .section--text-full .abstract p, .section--search > .container > .content .abstract p, .section--detail .group--content .abstract p {
     margin: 0 0 1em 0; }
-    .section--text-picture .abstract p:last-child, .section--text-picture-bim .abstract p:last-child, .section--text-full .abstract p:last-child, .section--search > .container > .content .abstract p:last-child, .section--detail .group--content .abstract p:last-child {
+    .section--hero-positive .abstract p:last-child, .section--text-picture .abstract p:last-child, .section--text-picture-bim .abstract p:last-child, .section--text-full .abstract p:last-child, .section--search > .container > .content .abstract p:last-child, .section--detail .group--content .abstract p:last-child {
       margin: 0; }
   @media (max-width: 1023.98px) {
-    .section--text-picture .abstract, .section--text-picture-bim .abstract, .section--text-full .abstract, .section--search > .container > .content .abstract, .section--detail .group--content .abstract {
+    .section--hero-positive .abstract, .section--text-picture .abstract, .section--text-picture-bim .abstract, .section--text-full .abstract, .section--search > .container > .content .abstract, .section--detail .group--content .abstract {
       font-size: 20px;
       line-height: 1.5; } }
 
-.section--text-picture .description, .section--text-picture-bim .description, .section--text-full .description, .section--search > .container > .content .description, .section--detail .group--content .description {
+.section--hero-positive .description, .section--text-picture .description, .section--text-picture-bim .description, .section--text-full .description, .section--search > .container > .content .description, .section--detail .group--content .description {
   margin-bottom: 20px; }
-  .section--text-picture .description p, .section--text-picture-bim .description p, .section--text-full .description p, .section--search > .container > .content .description p, .section--detail .group--content .description p {
+  .section--hero-positive .description p, .section--text-picture .description p, .section--text-picture-bim .description p, .section--text-full .description p, .section--search > .container > .content .description p, .section--detail .group--content .description p {
     margin: 0;
     padding-bottom: 15px; }
 
@@ -3344,42 +3344,251 @@ errors-component {
 .parallax {
   overflow: hidden; }
 
-.section--hero, .section--hero-secondary, .section--hero-tertiary {
+@media screen {
+  .section--hero .swiper-container, .section--hero-positive .swiper-container, .section--hero-secondary .swiper-container, .section--hero-tertiary .swiper-container, .section--slides .swiper-container, .section--listing .swiper-container {
+    line-height: 0; }
+    .section--hero .swiper-container .swiper-pagination-bullets, .section--hero-positive .swiper-container .swiper-pagination-bullets, .section--hero-secondary .swiper-container .swiper-pagination-bullets, .section--hero-tertiary .swiper-container .swiper-pagination-bullets, .section--slides .swiper-container .swiper-pagination-bullets, .section--listing .swiper-container .swiper-pagination-bullets,
+    .section--hero .swiper-container-horizontal > .swiper-container .swiper-pagination-bullets,
+    .section--hero-positive .swiper-container-horizontal > .swiper-container .swiper-pagination-bullets,
+    .section--hero-secondary .swiper-container-horizontal > .swiper-container .swiper-pagination-bullets,
+    .section--hero-tertiary .swiper-container-horizontal > .swiper-container .swiper-pagination-bullets,
+    .section--slides .swiper-container-horizontal > .swiper-container .swiper-pagination-bullets,
+    .section--listing .swiper-container-horizontal > .swiper-container .swiper-pagination-bullets {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 20px 0;
+      bottom: 0; }
+    .section--hero .swiper-container .swiper-pagination-bullet, .section--hero-positive .swiper-container .swiper-pagination-bullet, .section--hero-secondary .swiper-container .swiper-pagination-bullet, .section--hero-tertiary .swiper-container .swiper-pagination-bullet, .section--slides .swiper-container .swiper-pagination-bullet, .section--listing .swiper-container .swiper-pagination-bullet {
+      display: inline-block;
+      position: relative;
+      width: 18px;
+      height: 18px;
+      border-radius: 9px;
+      border: 2px solid rgba(22, 37, 91, 0.5);
+      background: transparent;
+      opacity: 1;
+      outline: none; }
+      .section--hero .swiper-container .swiper-pagination-bullet:before, .section--hero-positive .swiper-container .swiper-pagination-bullet:before, .section--hero-secondary .swiper-container .swiper-pagination-bullet:before, .section--hero-tertiary .swiper-container .swiper-pagination-bullet:before, .section--slides .swiper-container .swiper-pagination-bullet:before, .section--listing .swiper-container .swiper-pagination-bullet:before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -4px;
+        margin-left: -4px;
+        width: 8px;
+        height: 8px;
+        border-radius: 4px;
+        background: #16255b;
+        opacity: 0;
+        transition: opacity ease-in-out 350ms; }
+      .section--hero .swiper-container .swiper-pagination-bullet:hover:before, .section--hero-positive .swiper-container .swiper-pagination-bullet:hover:before, .section--hero-secondary .swiper-container .swiper-pagination-bullet:hover:before, .section--hero-tertiary .swiper-container .swiper-pagination-bullet:hover:before, .section--slides .swiper-container .swiper-pagination-bullet:hover:before, .section--listing .swiper-container .swiper-pagination-bullet:hover:before {
+        opacity: 1; }
+    .section--hero .swiper-container .swiper-pagination-bullet-active:before, .section--hero-positive .swiper-container .swiper-pagination-bullet-active:before, .section--hero-secondary .swiper-container .swiper-pagination-bullet-active:before, .section--hero-tertiary .swiper-container .swiper-pagination-bullet-active:before, .section--slides .swiper-container .swiper-pagination-bullet-active:before, .section--listing .swiper-container .swiper-pagination-bullet-active:before {
+      opacity: 1; }
+    .section--hero .swiper-container > .swiper-pagination-bullets .swiper-pagination-bullet, .section--hero-positive .swiper-container > .swiper-pagination-bullets .swiper-pagination-bullet, .section--hero-secondary .swiper-container > .swiper-pagination-bullets .swiper-pagination-bullet, .section--hero-tertiary .swiper-container > .swiper-pagination-bullets .swiper-pagination-bullet, .section--slides .swiper-container > .swiper-pagination-bullets .swiper-pagination-bullet, .section--listing .swiper-container > .swiper-pagination-bullets .swiper-pagination-bullet {
+      margin: 0 4px 4px 0; }
+    .section--hero .swiper-container .swiper-button-next, .section--hero-positive .swiper-container .swiper-button-next, .section--hero-secondary .swiper-container .swiper-button-next, .section--hero-tertiary .swiper-container .swiper-button-next, .section--slides .swiper-container .swiper-button-next, .section--listing .swiper-container .swiper-button-next,
+    .section--hero .swiper-container .swiper-button-prev,
+    .section--hero-positive .swiper-container .swiper-button-prev,
+    .section--hero-secondary .swiper-container .swiper-button-prev,
+    .section--hero-tertiary .swiper-container .swiper-button-prev,
+    .section--slides .swiper-container .swiper-button-prev,
+    .section--listing .swiper-container .swiper-button-prev {
+      outline: 0;
+      /*
+			background: $background-tertiary;
+			width: 50px;
+			height: 50px;
+			border-radius: 50%;
+			*/ }
+      .section--hero .swiper-container .swiper-button-next:after, .section--hero-positive .swiper-container .swiper-button-next:after, .section--hero-secondary .swiper-container .swiper-button-next:after, .section--hero-tertiary .swiper-container .swiper-button-next:after, .section--slides .swiper-container .swiper-button-next:after, .section--listing .swiper-container .swiper-button-next:after,
+      .section--hero .swiper-container .swiper-button-prev:after,
+      .section--hero-positive .swiper-container .swiper-button-prev:after,
+      .section--hero-secondary .swiper-container .swiper-button-prev:after,
+      .section--hero-tertiary .swiper-container .swiper-button-prev:after,
+      .section--slides .swiper-container .swiper-button-prev:after,
+      .section--listing .swiper-container .swiper-button-prev:after {
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25); } }
+  @media screen and (max-width: 767.98px) {
+    .section--hero .swiper-container .swiper-button-next, .section--hero-positive .swiper-container .swiper-button-next, .section--hero-secondary .swiper-container .swiper-button-next, .section--hero-tertiary .swiper-container .swiper-button-next, .section--slides .swiper-container .swiper-button-next, .section--listing .swiper-container .swiper-button-next,
+    .section--hero .swiper-container .swiper-button-prev,
+    .section--hero-positive .swiper-container .swiper-button-prev,
+    .section--hero-secondary .swiper-container .swiper-button-prev,
+    .section--hero-tertiary .swiper-container .swiper-button-prev,
+    .section--slides .swiper-container .swiper-button-prev,
+    .section--listing .swiper-container .swiper-button-prev {
+      display: none; } }
+
+.section--hero .swiper-container, .section--hero-positive .swiper-container, .section--hero-secondary .swiper-container, .section--hero-tertiary .swiper-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; }
+  .section--hero .swiper-container .background img, .section--hero-positive .swiper-container .background img, .section--hero-secondary .swiper-container .background img, .section--hero-tertiary .swiper-container .background img {
+    transform: scale(1.2);
+    transition: all ease-out 600ms; }
+  .section--hero .swiper-container .swiper-slide-active, .section--hero-positive .swiper-container .swiper-slide-active, .section--hero-secondary .swiper-container .swiper-slide-active, .section--hero-tertiary .swiper-container .swiper-slide-active {
+    z-index: 1; }
+    .section--hero .swiper-container .swiper-slide-active .background img, .section--hero-positive .swiper-container .swiper-slide-active .background img, .section--hero-secondary .swiper-container .swiper-slide-active .background img, .section--hero-tertiary .swiper-container .swiper-slide-active .background img {
+      transform: scale(1); }
+  .section--hero .swiper-container .swiper-slide, .section--hero-positive .swiper-container .swiper-slide, .section--hero-secondary .swiper-container .swiper-slide, .section--hero-tertiary .swiper-container .swiper-slide {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: left;
+    align-items: flex-start; }
+  @media screen {
+    .section--hero .swiper-container, .section--hero-positive .swiper-container, .section--hero-secondary .swiper-container, .section--hero-tertiary .swiper-container {
+      position: relative; }
+      .section--hero .swiper-container .swiper-pagination-bullet, .section--hero-positive .swiper-container .swiper-pagination-bullet, .section--hero-secondary .swiper-container .swiper-pagination-bullet, .section--hero-tertiary .swiper-container .swiper-pagination-bullet {
+        border-color: rgba(255, 255, 255, 0.5); }
+        .section--hero .swiper-container .swiper-pagination-bullet:before, .section--hero-positive .swiper-container .swiper-pagination-bullet:before, .section--hero-secondary .swiper-container .swiper-pagination-bullet:before, .section--hero-tertiary .swiper-container .swiper-pagination-bullet:before {
+          background: white; } }
+  @media screen and (min-width: 768px) {
+    .section--hero .swiper-container .swiper-pagination-bullets, .section--hero-positive .swiper-container .swiper-pagination-bullets, .section--hero-secondary .swiper-container .swiper-pagination-bullets, .section--hero-tertiary .swiper-container .swiper-pagination-bullets,
+    .section--hero .swiper-container-horizontal > .swiper-container .swiper-pagination-bullets,
+    .section--hero-positive .swiper-container-horizontal > .swiper-container .swiper-pagination-bullets,
+    .section--hero-secondary .swiper-container-horizontal > .swiper-container .swiper-pagination-bullets,
+    .section--hero-tertiary .swiper-container-horizontal > .swiper-container .swiper-pagination-bullets {
+      bottom: 85px; } }
+  @media screen and (max-width: 767.98px) {
+    .section--hero .swiper-container .swiper-pagination-bullets, .section--hero-positive .swiper-container .swiper-pagination-bullets, .section--hero-secondary .swiper-container .swiper-pagination-bullets, .section--hero-tertiary .swiper-container .swiper-pagination-bullets,
+    .section--hero .swiper-container-horizontal > .swiper-container .swiper-pagination-bullets,
+    .section--hero-positive .swiper-container-horizontal > .swiper-container .swiper-pagination-bullets,
+    .section--hero-secondary .swiper-container-horizontal > .swiper-container .swiper-pagination-bullets,
+    .section--hero-tertiary .swiper-container-horizontal > .swiper-container .swiper-pagination-bullets {
+      bottom: 62px; } }
+
+.section--slides .swiper-container, .section--listing .swiper-container {
+  overflow: visible; }
+  .section--slides .swiper-container .swiper-slide .inner, .section--listing .swiper-container .swiper-slide .inner {
+    display: none;
+    position: relative;
+    width: 300%;
+    left: -100%;
+    transition: all 700ms 0ms cubic-bezier(0.32, 0, 0.29, 0.99); }
+  .section--slides .swiper-container .swiper-slide-active .inner, .section--listing .swiper-container .swiper-slide-active .inner {
+    display: block;
+    transform: scale(1); }
+  .section--slides .swiper-container .swiper-slide-prev .inner, .section--listing .swiper-container .swiper-slide-prev .inner {
+    display: block;
+    transform: scale(0.75); }
+  .section--slides .swiper-container .swiper-slide-next .inner, .section--listing .swiper-container .swiper-slide-next .inner {
+    display: block;
+    transform: scale(0.75); }
+  .section--slides .swiper-container .swiper-slide-active, .section--listing .swiper-container .swiper-slide-active {
+    z-index: 1; }
+  @media (max-width: 1023.98px) {
+    .section--slides .swiper-container, .section--listing .swiper-container {
+      /*
+		.swiper-slide {
+			&>.inner {
+				&>.container {
+					padding: 0;
+				}
+			}
+		}
+		*/ }
+      .section--slides .swiper-container .container, .section--listing .swiper-container .container {
+        padding: 0; } }
+
+.section--slides {
+  padding: 60px 0;
+  overflow: hidden; }
+  .section--slides__title {
+    margin-bottom: 30px; }
+  @media (max-width: 1023.98px) {
+    .section--slides {
+      padding: 15px 0 40px 0; }
+      .section--slides__title {
+        padding: 0 30px; } }
+
+.section--listing > .inner {
+  overflow: hidden; }
+
+@media (min-width: 1440px) {
+  .section--listing .swiper-container .swiper-slide {
+    width: calc(33% - 20px); } }
+
+@media (max-width: 1439.98px) {
+  .section--listing .swiper-container .swiper-slide {
+    width: calc(50% - 15px); } }
+
+@media (max-width: 767.98px) {
+  .section--listing .swiper-container .swiper-slide {
+    width: 100%; } }
+
+@media (min-width: 1440px) {
+  .section--listing.lg .swiper-container .swiper-slide {
+    width: calc(50% - 20px); } }
+
+@media (max-width: 1439.98px) {
+  .section--listing.lg .swiper-container .swiper-slide {
+    width: calc(50% - 15px); } }
+
+@media (max-width: 767.98px) {
+  .section--listing.lg .swiper-container .swiper-slide {
+    width: 100%; } }
+
+@media (max-width: 767.98px) {
+  .section--listing {
+    padding: 40px 0 10px 0; } }
+
+.section--hero, .section--hero-positive, .section--hero-secondary, .section--hero-tertiary {
   position: relative;
   background: white; }
-  .section--hero .swiper-container, .section--hero-secondary .swiper-container, .section--hero-tertiary .swiper-container {
+  .section--hero .swiper-container, .section--hero-positive .swiper-container, .section--hero-secondary .swiper-container, .section--hero-tertiary .swiper-container {
     overflow: hidden; }
-  .section--hero .background, .section--hero-secondary .background, .section--hero-tertiary .background {
+  .section--hero .background, .section--hero-positive .background, .section--hero-secondary .background, .section--hero-tertiary .background {
     z-index: 0; }
-  .section--hero .container, .section--hero-secondary .container, .section--hero-tertiary .container {
+  .section--hero .container, .section--hero-positive .container, .section--hero-secondary .container, .section--hero-tertiary .container,
+  .section--hero .container-fluid,
+  .section--hero-positive .container-fluid,
+  .section--hero-secondary .container-fluid,
+  .section--hero-tertiary .container-fluid {
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     padding-bottom: 130px; }
   @media screen {
-    .section--hero .aspect, .section--hero-secondary .aspect, .section--hero-tertiary .aspect {
+    .section--hero .aspect, .section--hero-positive .aspect, .section--hero-secondary .aspect, .section--hero-tertiary .aspect {
       height: 100%; }
-    .section--hero .container, .section--hero-secondary .container, .section--hero-tertiary .container {
+    .section--hero .container, .section--hero-positive .container, .section--hero-secondary .container, .section--hero-tertiary .container,
+    .section--hero .container-fluid,
+    .section--hero-positive .container-fluid,
+    .section--hero-secondary .container-fluid,
+    .section--hero-tertiary .container-fluid {
       height: 100%; } }
 
 @media screen and (min-width: 1024px) {
-  .section--hero, .section--hero-secondary, .section--hero-tertiary {
+  .section--hero, .section--hero-positive, .section--hero-secondary, .section--hero-tertiary {
     height: 770px; } }
 
 @media screen and (max-width: 1023.98px) {
-  .section--hero, .section--hero-secondary, .section--hero-tertiary {
+  .section--hero, .section--hero-positive, .section--hero-secondary, .section--hero-tertiary {
     height: auto; }
-    .section--hero .container, .section--hero-secondary .container, .section--hero-tertiary .container {
+    .section--hero .container, .section--hero-positive .container, .section--hero-secondary .container, .section--hero-tertiary .container,
+    .section--hero .container-fluid,
+    .section--hero-positive .container-fluid,
+    .section--hero-secondary .container-fluid,
+    .section--hero-tertiary .container-fluid {
       padding: 120px 30px 65px 30px; } }
   @media print {
-    .section--hero, .section--hero-secondary, .section--hero-tertiary {
+    .section--hero, .section--hero-positive, .section--hero-secondary, .section--hero-tertiary {
       background: white; }
-      .section--hero video, .section--hero-secondary video, .section--hero-tertiary video,
+      .section--hero video, .section--hero-positive video, .section--hero-secondary video, .section--hero-tertiary video,
       .section--hero img,
+      .section--hero-positive img,
       .section--hero-secondary img,
       .section--hero-tertiary img,
       .section--hero .data-thron,
+      .section--hero-positive .data-thron,
       .section--hero-secondary .data-thron,
       .section--hero-tertiary .data-thron {
         display: none; } }
@@ -3439,6 +3648,38 @@ errors-component {
 .section--hero .group--cta {
   display: flex;
   margin-top: 15px; }
+
+.section--hero-positive .title {
+  display: inline-flex;
+  align-items: center; }
+  .section--hero-positive .title:first-child {
+    margin-top: 60px; }
+  .section--hero-positive .title b {
+    color: #dc1216; }
+
+.section--hero-positive .icon--bim {
+  width: 55px;
+  height: 55px;
+  fill: #dc1216;
+  margin-right: 15px; }
+
+.section--hero-positive .abstract {
+  line-height: 1.2; }
+
+.section--hero-positive .group--cta {
+  display: flex;
+  margin-top: 15px; }
+
+@media screen {
+  .section--hero-positive .swiper-container .swiper-pagination-bullet {
+    border-color: rgba(22, 37, 91, 0.5); }
+    .section--hero-positive .swiper-container .swiper-pagination-bullet:before {
+      background: #16255b; } }
+
+@media screen {
+  .section--hero-positive .background:after {
+    background: white;
+    background: linear-gradient(45deg, white 0%, rgba(255, 255, 255, 0.8) 30%, rgba(255, 255, 255, 0) 50%), linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 30%, rgba(255, 255, 255, 0) 55%); } }
 
 .section--hero-secondary .container {
   padding-bottom: 90px; }
@@ -4394,195 +4635,6 @@ ul {
     background: #f3f4f6;
     padding: 4px 20px 4px 10px;
     margin-bottom: 2px; }
-
-@media screen {
-  .section--hero .swiper-container, .section--hero-secondary .swiper-container, .section--hero-tertiary .swiper-container, .section--slides .swiper-container, .section--listing .swiper-container {
-    line-height: 0; }
-    .section--hero .swiper-container .swiper-pagination-bullets, .section--hero-secondary .swiper-container .swiper-pagination-bullets, .section--hero-tertiary .swiper-container .swiper-pagination-bullets, .section--slides .swiper-container .swiper-pagination-bullets, .section--listing .swiper-container .swiper-pagination-bullets,
-    .section--hero .swiper-container-horizontal > .swiper-container .swiper-pagination-bullets,
-    .section--hero-secondary .swiper-container-horizontal > .swiper-container .swiper-pagination-bullets,
-    .section--hero-tertiary .swiper-container-horizontal > .swiper-container .swiper-pagination-bullets,
-    .section--slides .swiper-container-horizontal > .swiper-container .swiper-pagination-bullets,
-    .section--listing .swiper-container-horizontal > .swiper-container .swiper-pagination-bullets {
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      padding: 20px 0;
-      bottom: 0; }
-    .section--hero .swiper-container .swiper-pagination-bullet, .section--hero-secondary .swiper-container .swiper-pagination-bullet, .section--hero-tertiary .swiper-container .swiper-pagination-bullet, .section--slides .swiper-container .swiper-pagination-bullet, .section--listing .swiper-container .swiper-pagination-bullet {
-      display: inline-block;
-      position: relative;
-      width: 18px;
-      height: 18px;
-      border-radius: 9px;
-      border: 2px solid rgba(22, 37, 91, 0.5);
-      background: transparent;
-      opacity: 1;
-      outline: none; }
-      .section--hero .swiper-container .swiper-pagination-bullet:before, .section--hero-secondary .swiper-container .swiper-pagination-bullet:before, .section--hero-tertiary .swiper-container .swiper-pagination-bullet:before, .section--slides .swiper-container .swiper-pagination-bullet:before, .section--listing .swiper-container .swiper-pagination-bullet:before {
-        content: '';
-        display: block;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        margin-top: -4px;
-        margin-left: -4px;
-        width: 8px;
-        height: 8px;
-        border-radius: 4px;
-        background: #16255b;
-        opacity: 0;
-        transition: opacity ease-in-out 350ms; }
-      .section--hero .swiper-container .swiper-pagination-bullet:hover:before, .section--hero-secondary .swiper-container .swiper-pagination-bullet:hover:before, .section--hero-tertiary .swiper-container .swiper-pagination-bullet:hover:before, .section--slides .swiper-container .swiper-pagination-bullet:hover:before, .section--listing .swiper-container .swiper-pagination-bullet:hover:before {
-        opacity: 1; }
-    .section--hero .swiper-container .swiper-pagination-bullet-active:before, .section--hero-secondary .swiper-container .swiper-pagination-bullet-active:before, .section--hero-tertiary .swiper-container .swiper-pagination-bullet-active:before, .section--slides .swiper-container .swiper-pagination-bullet-active:before, .section--listing .swiper-container .swiper-pagination-bullet-active:before {
-      opacity: 1; }
-    .section--hero .swiper-container > .swiper-pagination-bullets .swiper-pagination-bullet, .section--hero-secondary .swiper-container > .swiper-pagination-bullets .swiper-pagination-bullet, .section--hero-tertiary .swiper-container > .swiper-pagination-bullets .swiper-pagination-bullet, .section--slides .swiper-container > .swiper-pagination-bullets .swiper-pagination-bullet, .section--listing .swiper-container > .swiper-pagination-bullets .swiper-pagination-bullet {
-      margin: 0 4px 4px 0; }
-    .section--hero .swiper-container .swiper-button-next, .section--hero-secondary .swiper-container .swiper-button-next, .section--hero-tertiary .swiper-container .swiper-button-next, .section--slides .swiper-container .swiper-button-next, .section--listing .swiper-container .swiper-button-next,
-    .section--hero .swiper-container .swiper-button-prev,
-    .section--hero-secondary .swiper-container .swiper-button-prev,
-    .section--hero-tertiary .swiper-container .swiper-button-prev,
-    .section--slides .swiper-container .swiper-button-prev,
-    .section--listing .swiper-container .swiper-button-prev {
-      outline: 0;
-      /*
-			background: $background-tertiary;
-			width: 50px;
-			height: 50px;
-			border-radius: 50%;
-			*/ }
-      .section--hero .swiper-container .swiper-button-next:after, .section--hero-secondary .swiper-container .swiper-button-next:after, .section--hero-tertiary .swiper-container .swiper-button-next:after, .section--slides .swiper-container .swiper-button-next:after, .section--listing .swiper-container .swiper-button-next:after,
-      .section--hero .swiper-container .swiper-button-prev:after,
-      .section--hero-secondary .swiper-container .swiper-button-prev:after,
-      .section--hero-tertiary .swiper-container .swiper-button-prev:after,
-      .section--slides .swiper-container .swiper-button-prev:after,
-      .section--listing .swiper-container .swiper-button-prev:after {
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25); } }
-  @media screen and (max-width: 767.98px) {
-    .section--hero .swiper-container .swiper-button-next, .section--hero-secondary .swiper-container .swiper-button-next, .section--hero-tertiary .swiper-container .swiper-button-next, .section--slides .swiper-container .swiper-button-next, .section--listing .swiper-container .swiper-button-next,
-    .section--hero .swiper-container .swiper-button-prev,
-    .section--hero-secondary .swiper-container .swiper-button-prev,
-    .section--hero-tertiary .swiper-container .swiper-button-prev,
-    .section--slides .swiper-container .swiper-button-prev,
-    .section--listing .swiper-container .swiper-button-prev {
-      display: none; } }
-
-.section--hero .swiper-container, .section--hero-secondary .swiper-container, .section--hero-tertiary .swiper-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%; }
-  .section--hero .swiper-container .background img, .section--hero-secondary .swiper-container .background img, .section--hero-tertiary .swiper-container .background img {
-    transform: scale(1.2);
-    transition: all ease-out 600ms; }
-  .section--hero .swiper-container .swiper-slide-active, .section--hero-secondary .swiper-container .swiper-slide-active, .section--hero-tertiary .swiper-container .swiper-slide-active {
-    z-index: 1; }
-    .section--hero .swiper-container .swiper-slide-active .background img, .section--hero-secondary .swiper-container .swiper-slide-active .background img, .section--hero-tertiary .swiper-container .swiper-slide-active .background img {
-      transform: scale(1); }
-  .section--hero .swiper-container .swiper-slide, .section--hero-secondary .swiper-container .swiper-slide, .section--hero-tertiary .swiper-container .swiper-slide {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    text-align: left;
-    align-items: flex-start; }
-  @media screen {
-    .section--hero .swiper-container, .section--hero-secondary .swiper-container, .section--hero-tertiary .swiper-container {
-      position: relative; }
-      .section--hero .swiper-container .swiper-pagination-bullet, .section--hero-secondary .swiper-container .swiper-pagination-bullet, .section--hero-tertiary .swiper-container .swiper-pagination-bullet {
-        border-color: rgba(255, 255, 255, 0.5); }
-        .section--hero .swiper-container .swiper-pagination-bullet:before, .section--hero-secondary .swiper-container .swiper-pagination-bullet:before, .section--hero-tertiary .swiper-container .swiper-pagination-bullet:before {
-          background: white; } }
-  @media screen and (min-width: 768px) {
-    .section--hero .swiper-container .swiper-pagination-bullets, .section--hero-secondary .swiper-container .swiper-pagination-bullets, .section--hero-tertiary .swiper-container .swiper-pagination-bullets,
-    .section--hero .swiper-container-horizontal > .swiper-container .swiper-pagination-bullets,
-    .section--hero-secondary .swiper-container-horizontal > .swiper-container .swiper-pagination-bullets,
-    .section--hero-tertiary .swiper-container-horizontal > .swiper-container .swiper-pagination-bullets {
-      bottom: 85px; } }
-  @media screen and (max-width: 767.98px) {
-    .section--hero .swiper-container .swiper-pagination-bullets, .section--hero-secondary .swiper-container .swiper-pagination-bullets, .section--hero-tertiary .swiper-container .swiper-pagination-bullets,
-    .section--hero .swiper-container-horizontal > .swiper-container .swiper-pagination-bullets,
-    .section--hero-secondary .swiper-container-horizontal > .swiper-container .swiper-pagination-bullets,
-    .section--hero-tertiary .swiper-container-horizontal > .swiper-container .swiper-pagination-bullets {
-      bottom: 62px; } }
-
-.section--slides .swiper-container, .section--listing .swiper-container {
-  overflow: visible; }
-  .section--slides .swiper-container .swiper-slide .inner, .section--listing .swiper-container .swiper-slide .inner {
-    display: none;
-    position: relative;
-    width: 300%;
-    left: -100%;
-    transition: all 700ms 0ms cubic-bezier(0.32, 0, 0.29, 0.99); }
-  .section--slides .swiper-container .swiper-slide-active .inner, .section--listing .swiper-container .swiper-slide-active .inner {
-    display: block;
-    transform: scale(1); }
-  .section--slides .swiper-container .swiper-slide-prev .inner, .section--listing .swiper-container .swiper-slide-prev .inner {
-    display: block;
-    transform: scale(0.75); }
-  .section--slides .swiper-container .swiper-slide-next .inner, .section--listing .swiper-container .swiper-slide-next .inner {
-    display: block;
-    transform: scale(0.75); }
-  .section--slides .swiper-container .swiper-slide-active, .section--listing .swiper-container .swiper-slide-active {
-    z-index: 1; }
-  @media (max-width: 1023.98px) {
-    .section--slides .swiper-container, .section--listing .swiper-container {
-      /*
-		.swiper-slide {
-			&>.inner {
-				&>.container {
-					padding: 0;
-				}
-			}
-		}
-		*/ }
-      .section--slides .swiper-container .container, .section--listing .swiper-container .container {
-        padding: 0; } }
-
-.section--slides {
-  padding: 60px 0;
-  overflow: hidden; }
-  .section--slides__title {
-    margin-bottom: 30px; }
-  @media (max-width: 1023.98px) {
-    .section--slides {
-      padding: 15px 0 40px 0; }
-      .section--slides__title {
-        padding: 0 30px; } }
-
-.section--listing > .inner {
-  overflow: hidden; }
-
-@media (min-width: 1440px) {
-  .section--listing .swiper-container .swiper-slide {
-    width: calc(33% - 20px); } }
-
-@media (max-width: 1439.98px) {
-  .section--listing .swiper-container .swiper-slide {
-    width: calc(50% - 15px); } }
-
-@media (max-width: 767.98px) {
-  .section--listing .swiper-container .swiper-slide {
-    width: 100%; } }
-
-@media (min-width: 1440px) {
-  .section--listing.lg .swiper-container .swiper-slide {
-    width: calc(50% - 20px); } }
-
-@media (max-width: 1439.98px) {
-  .section--listing.lg .swiper-container .swiper-slide {
-    width: calc(50% - 15px); } }
-
-@media (max-width: 767.98px) {
-  .section--listing.lg .swiper-container .swiper-slide {
-    width: 100%; } }
-
-@media (max-width: 767.98px) {
-  .section--listing {
-    padding: 40px 0 10px 0; } }
 
 .loader {
   margin: auto;
