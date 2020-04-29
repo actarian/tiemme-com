@@ -236,7 +236,10 @@
 }
 
 .section--listing {
-	overflow: hidden;
+
+	&>.inner {
+		overflow: hidden;
+	}
 
 	.swiper-container {
 		@extend %swiper-slides;

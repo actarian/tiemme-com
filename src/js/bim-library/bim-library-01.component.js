@@ -9,7 +9,7 @@ import ModalService from '../modal/modal.service';
 const srcMore = STATIC ? '/tiemme-com/services-bim-modal-more.html' : '/Viewdoc.cshtml?co_id=25206';
 const srcHint = STATIC ? '/tiemme-com/services-bim-modal-hint.html' : '/Viewdoc.cshtml?co_id=25207';
 
-export default class BimLibrary02Component extends Component {
+export default class BimLibrary01Component extends Component {
 
 	onInit() {
 		const items = window.files || [];
@@ -36,7 +36,7 @@ export default class BimLibrary02Component extends Component {
 		).subscribe(items => {
 			this.items = items;
 			this.pushChanges();
-			// console.log('BimLibrary02Component.items', items.length);
+			// console.log('BimLibrary01Component.items', items.length);
 		});
 		this.filterService = filterService;
 		this.filters = filterService.filters;
@@ -51,7 +51,7 @@ export default class BimLibrary02Component extends Component {
 		ModalService.open$({ src: srcMore, data: null }).pipe(
 			takeUntil(this.unsubscribe$)
 		).subscribe(event => {
-			// console.log('BimLibrary02Component.onRegister', event);
+			// console.log('BimLibrary01Component.onRegister', event);
 		});
 	}
 
@@ -60,8 +60,20 @@ export default class BimLibrary02Component extends Component {
 		ModalService.open$({ src: srcHint, data: null }).pipe(
 			takeUntil(this.unsubscribe$)
 		).subscribe(event => {
-			// console.log('BimLibrary02Component.onRegister', event);
+			// console.log('BimLibrary01Component.onRegister', event);
 		});
+	}
+
+	toggleFilter(filter) {
+		Object.keys(this.filters).forEach(key => {
+			const f = this.filters[key];
+			if (f === filter) {
+				f.active = !f.active;
+			} else {
+				f.active = false;
+			}
+		});
+		this.pushChanges();
 	}
 
 	fake__() {
@@ -177,6 +189,6 @@ export default class BimLibrary02Component extends Component {
 
 }
 
-BimLibrary02Component.meta = {
-	selector: '[bim-library-02]',
+BimLibrary01Component.meta = {
+	selector: '[bim-library-01]',
 };

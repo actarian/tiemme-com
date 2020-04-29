@@ -6,6 +6,20 @@
 		margin-bottom: 30px;
 	}
 
+	@include media-up(md) {
+		&.section--intro {
+			padding: 0 0 30px 0;
+
+			&>.inner {
+				margin-top: 60px;
+			}
+		}
+
+		.section--intro__title {
+			margin-bottom: 60px;
+		}
+	}
+
 	@include media-down(sm) {
 		padding: 40px 0 10px 0;
 

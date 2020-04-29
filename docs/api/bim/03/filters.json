@@ -1,0 +1,557 @@
+[
+  {
+    "value": 546,
+    "label": "Componenti Idraulici",
+    "key": "feature",
+    "options": [
+      {
+        "value": 599,
+        "label": "Raccordi",
+        "key": "feature",
+        "options": [
+          {
+            "value": 600,
+            "label": "Raccordi Per Tubo Multistrato Al-cobrapex",
+            "key": "feature",
+            "options": [
+              {
+                "value": 601,
+                "label": "1650 - Raccordi A Pressare"
+              },
+              {
+                "value": 608,
+                "label": "Accessori"
+              }
+            ]
+          },
+          {
+            "value": 609,
+            "label": "Raccordi Per Tubo Pe-x Cobrapex",
+            "key": "feature",
+            "options": [
+              {
+                "value": 614,
+                "label": "Accessori"
+              }
+            ]
+          },
+          {
+            "value": 621,
+            "label": "Raccordi Per Tubo Rame",
+            "key": "feature",
+            "options": [
+              {
+                "value": 630,
+                "label": "Accessori"
+              }
+            ]
+          },
+          {
+            "value": 636,
+            "label": "Raccordi Per Tubo Ppr",
+            "key": "feature",
+            "options": [
+              {
+                "value": 639,
+                "label": "Accessori"
+              }
+            ]
+          },
+          {
+            "value": 648,
+            "label": "Adattatori",
+            "key": "feature",
+            "options": [
+              {
+                "value": 649,
+                "label": "Per Tubo Multistrato"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "value": 670,
+        "label": "Collettori Di Distribuzione",
+        "key": "feature",
+        "options": [
+          {
+            "value": 671,
+            "label": "Collettori A Vitone",
+            "key": "feature",
+            "options": [
+              {
+                "value": 672,
+                "label": "Maxima"
+              }
+            ]
+          },
+          {
+            "value": 675,
+            "label": "Collettori A Valvole A Sfera",
+            "key": "feature",
+            "options": [
+              {
+                "value": 676,
+                "label": "Nino"
+              }
+            ]
+          },
+          {
+            "value": 678,
+            "label": "Collettori Senza Intercettazione",
+            "key": "feature",
+            "options": [
+              {
+                "value": 680,
+                "label": "Complanari"
+              }
+            ]
+          },
+          {
+            "value": 693,
+            "label": "Adattatori",
+            "key": "feature",
+            "options": [
+              {
+                "value": 694,
+                "label": "Per Tubo Multistrato"
+              }
+            ]
+          },
+          {
+            "value": 697,
+            "label": "Cassette Ed Accessori Di Fissaggio"
+          }
+        ]
+      },
+      {
+        "value": 725,
+        "label": "Componenti Per Impianti Idrotermosanitari",
+        "key": "feature",
+        "options": [
+          {
+            "value": 738,
+            "label": "Valvole Di Sicurezza"
+          },
+          {
+            "value": 734,
+            "label": "Valvole Di Sfogo Aria E Disaeratori",
+            "key": "feature",
+            "options": [
+              {
+                "value": 736,
+                "label": "Valvole Di Sfogo Aria Automatiche"
+              }
+            ]
+          },
+          {
+            "value": 729,
+            "label": "Riduttori Di Pressione"
+          },
+          {
+            "value": 733,
+            "label": "Filtri Defangatori Magnetici"
+          },
+          {
+            "value": 726,
+            "label": "Filtri",
+            "key": "feature",
+            "options": [
+              {
+                "value": 727,
+                "label": "Autopulenti"
+              }
+            ]
+          },
+          {
+            "value": 731,
+            "label": "Miscelatori Termostatici"
+          },
+          {
+            "value": 732,
+            "label": "Ammortizzatori Del Colpo D'ariete"
+          },
+          {
+            "value": 739,
+            "label": "Valvole Di Sicurezza Temperatura / Pressione"
+          }
+        ]
+      },
+      {
+        "value": 547,
+        "label": "Valvole E Rubinetti",
+        "key": "feature",
+        "options": [
+          {
+            "value": 587,
+            "label": "Valvole A Sfera Motorizzate"
+          },
+          {
+            "value": 548,
+            "label": "Valvole A Sfera Per Acqua",
+            "key": "feature",
+            "options": [
+              {
+                "value": 554,
+                "label": "Passaggio Totale Per Collettori"
+              },
+              {
+                "value": 550,
+                "label": "Scirocco - Passaggio Totale Iso 228"
+              }
+            ]
+          },
+          {
+            "value": 555,
+            "label": "Valvole A Sfera Per Gas",
+            "key": "feature",
+            "options": [
+              {
+                "value": 557,
+                "label": "Uragano - Passaggio Totale Iso 7"
+              },
+              {
+                "value": 559,
+                "label": "Speciali"
+              }
+            ]
+          },
+          {
+            "value": 562,
+            "label": "Valvole A Sfera Con Attacco Tubo",
+            "key": "feature",
+            "options": [
+              {
+                "value": 564,
+                "label": "A Pressare Per Tubo Multistrato"
+              }
+            ]
+          },
+          {
+            "value": 566,
+            "label": "Valvole Di Ritegno"
+          },
+          {
+            "value": 581,
+            "label": "Valvole Per Acquedottistica",
+            "key": "feature",
+            "options": [
+              {
+                "value": 582,
+                "label": "Valvole Attacco Contatore E Tubo Pe"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "value": 652,
+        "label": "Tubi",
+        "key": "feature",
+        "options": [
+          {
+            "value": 653,
+            "label": "Tubi Multistrato Al-cobrapex",
+            "key": "feature",
+            "options": [
+              {
+                "value": 654,
+                "label": "Standard"
+              }
+            ]
+          },
+          {
+            "value": 660,
+            "label": "Tubi Pex Cobrapex",
+            "key": "feature",
+            "options": [
+              {
+                "value": 664,
+                "label": "Con Barriera Antiossigeno"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "value": 699,
+        "label": "Valvole E Detentori Per Radiatori",
+        "key": "feature",
+        "options": [
+          {
+            "value": 700,
+            "label": "Valvole Termostatizzabili",
+            "key": "feature",
+            "options": [
+              {
+                "value": 702,
+                "label": "Con Vitone Con Pre-regolazione"
+              }
+            ]
+          },
+          {
+            "value": 713,
+            "label": "Valvole Mono E Bitubo",
+            "key": "feature",
+            "options": [
+              {
+                "value": 715,
+                "label": "Distributori"
+              }
+            ]
+          },
+          {
+            "value": 720,
+            "label": "Adattatori",
+            "key": "feature",
+            "options": [
+              {
+                "value": 721,
+                "label": "Per Tubo Multistrato"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "value": 875,
+    "label": "Sistemi Radianti",
+    "key": "feature",
+    "options": [
+      {
+        "value": 876,
+        "label": "Sistemi Ad Uso Residenziale / Terziario",
+        "key": "feature",
+        "options": [
+          {
+            "value": 877,
+            "label": "Sistemi A Pavimento",
+            "key": "feature",
+            "options": [
+              {
+                "value": 878,
+                "label": "New Classic Graphite"
+              },
+              {
+                "value": 879,
+                "label": "Techno Graphite"
+              },
+              {
+                "value": 880,
+                "label": "Clip Graphite"
+              },
+              {
+                "value": 881,
+                "label": "Clip Super"
+              },
+              {
+                "value": 882,
+                "label": "Sughero"
+              },
+              {
+                "value": 883,
+                "label": "Silento"
+              },
+              {
+                "value": 884,
+                "label": "Tiemme Slim"
+              },
+              {
+                "value": 885,
+                "label": "Low Black"
+              },
+              {
+                "value": 886,
+                "label": "Dry"
+              }
+            ]
+          },
+          {
+            "value": 887,
+            "label": "Sistemi A Soffitto",
+            "key": "feature",
+            "options": [
+              {
+                "value": 888,
+                "label": "Ceiling Home"
+              }
+            ]
+          },
+          {
+            "value": 890,
+            "label": "Sistemi A Parete",
+            "key": "feature",
+            "options": [
+              {
+                "value": 891,
+                "label": "Wall"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "value": 893,
+        "label": "Sistemi Ad Uso Industriale",
+        "key": "feature",
+        "options": [
+          {
+            "value": 894,
+            "label": "Strong Rail"
+          },
+          {
+            "value": 895,
+            "label": "Strong Net"
+          }
+        ]
+      },
+      {
+        "value": 897,
+        "label": "Distribuzione",
+        "key": "feature",
+        "options": [
+          {
+            "value": 898,
+            "label": "Tubazioni"
+          },
+          {
+            "value": 899,
+            "label": "Collettori Di Distribuzione",
+            "key": "feature",
+            "options": [
+              {
+                "value": 906,
+                "label": "Cassette Ed Accessori"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "value": 744,
+    "label": "Centrale Termica",
+    "key": "feature",
+    "options": [
+      {
+        "value": 745,
+        "label": "Componenti Per Centrale Termica",
+        "key": "feature",
+        "options": [
+          {
+            "value": 746,
+            "label": "Componenti Di Sicurezza E Controllo",
+            "key": "feature",
+            "options": [
+              {
+                "value": 747,
+                "label": "Valvole Di Sicurezza"
+              },
+              {
+                "value": 748,
+                "label": "Valvole Di Sicurezza Temperatura / Pressione"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "value": 767,
+        "label": "Filtri Defangatori E Dispositivi Sfogo Aria",
+        "key": "feature",
+        "options": [
+          {
+            "value": 769,
+            "label": "Valvole Di Sfogo Aria E Disaeratori",
+            "key": "feature",
+            "options": [
+              {
+                "value": 771,
+                "label": "Valvole Di Sfogo Aria Automatiche"
+              }
+            ]
+          },
+          {
+            "value": 768,
+            "label": "Filtri Defangatori Magnetici"
+          }
+        ]
+      },
+      {
+        "value": 787,
+        "label": "Componenti Per Impianti Idrosanitari",
+        "key": "feature",
+        "options": [
+          {
+            "value": 791,
+            "label": "Riduttori Di Pressione"
+          },
+          {
+            "value": 788,
+            "label": "Filtri",
+            "key": "feature",
+            "options": [
+              {
+                "value": 789,
+                "label": "Autopulenti"
+              }
+            ]
+          },
+          {
+            "value": 792,
+            "label": "Miscelatori Termostatici"
+          },
+          {
+            "value": 793,
+            "label": "Regolatori Termostatici Multifunzione"
+          },
+          {
+            "value": 796,
+            "label": "Ammortizzatori Del Colpo D'ariete"
+          }
+        ]
+      },
+      {
+        "value": 773,
+        "label": "Dispositivi Di Regolazione E Gestione",
+        "key": "feature",
+        "options": [
+          {
+            "value": 775,
+            "label": "Valvole A Sfera Motorizzate"
+          }
+        ]
+      },
+      {
+        "value": 797,
+        "label": "Dispositivi Antinquinamento",
+        "key": "feature",
+        "options": [
+          {
+            "value": 798,
+            "label": "Valvole Di Ritegno"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "value": null,
+    "label": "Estensione",
+    "key": "extension",
+    "options": [
+      {
+        "value": ".rte",
+        "label": ".rte"
+      },
+      {
+        "value": ".rfa",
+        "label": ".rfa"
+      }
+    ]
+  }
+]

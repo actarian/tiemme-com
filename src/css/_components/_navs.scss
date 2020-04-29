@@ -714,6 +714,51 @@ ul {
 			margin-bottom: 15px;
 		}
 	}
+
+	@include media-up(md) {
+		&>li {
+			.icon {
+				display: none;
+			}
+		}
+	}
+
+	@include media-down(sm) {
+		&>li {
+			display: flex;
+			justify-content: space-between;
+			flex-wrap: wrap;
+			margin-bottom: 20px;
+			border-bottom: 1px solid rgba($foreground, 0.1);
+
+			&>.icon {
+				transition: transform ease-in-out 350ms;
+			}
+
+			&>.label {
+				cursor: pointer;
+				flex: 1 1 calc(100% - 30px);
+			}
+
+			.nav--options {
+				flex: 1 1 100%;
+				min-width: 100%;
+			}
+
+			&.active {
+				&>.icon {
+					transform: rotate(180deg);
+				}
+			}
+
+			&:not(.active) {
+				.nav--options {
+					display: none;
+				}
+			}
+		}
+	}
+
 }
 
 .nav--aside-menu {
@@ -764,13 +809,17 @@ ul {
 .nav--options {
 	@extend %nav-reset;
 
-	&>li {
+	&>.nav--options__item {
 		position: relative;
 		display: block;
 		margin-bottom: 10px;
 
 		&>a,
 		&>span {
+			@extend %nav-item;
+		}
+
+		&>.option {
 			@extend %nav-item;
 			font-family: $font-secondary;
 			font-size: 15px;
@@ -821,11 +870,79 @@ ul {
 			}
 		}
 
+		&>.option--menu {
+			@extend %nav-item;
+			font-family: $font-secondary;
+			font-size: 15px;
+			border-bottom: 1px solid rgba($foreground, 0.1);
+
+			&>.checkbox {
+				flex: 0 0 20px;
+				position: relative;
+				display: flex;
+
+				&:before {
+					content: '';
+					width: 11px;
+					height: 11px;
+					flex: 0 0 11px;
+					border-radius: 0;
+					margin: 0 10px 0 0;
+					border: 2px solid currentColor;
+					outline: 0;
+				}
+			}
+
+			&>.name {
+				margin: 0 10px 0 0;
+				flex: 1 1 auto;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				position: relative;
+
+				&:after {
+					content: '';
+					display: block;
+					position: absolute;
+					bottom: 0;
+					width: 0;
+					height: 2px;
+					background: currentColor;
+					transition: all ease-in-out 350ms;
+				}
+
+				&:hover {
+					&:after {
+						content: '';
+						width: 100%;
+					}
+				}
+			}
+
+			&>.count {
+				font-family: $font-primary;
+				font-size: 14px;
+			}
+
+			&.active {
+				&>.checkbox {
+					&:before {
+						background: currentColor;
+					}
+				}
+			}
+
+			&:not(.disabled) {
+				&>.checkbox {
+					cursor: pointer;
+				}
+			}
+		}
+
 		&:hover,
 		&.active {
-
-			&>a,
-			&>span {
+			&>.option {
 				&:not(.disabled) {
 					&:after {
 						content: '';
@@ -835,9 +952,195 @@ ul {
 			}
 		}
 
+		&.active {
+			&>.option--menu {
+				&:not(.disabled) {
+					&>.name {
+						&:after {
+							content: '';
+							width: 100%;
+						}
+					}
+				}
+			}
+		}
+
 		&:focus {
 			outline: 0;
 		}
+	}
+
+	&>.nav--options__menu {
+		position: static;
+		display: block;
+		margin-bottom: 10px;
+
+		&>a,
+		&>span {
+			@extend %nav-item;
+		}
+
+		&>.option {
+			@extend %nav-item;
+			position: static;
+			font-family: $font-secondary;
+			font-size: 15px;
+			text-transform: uppercase;
+			border-bottom: 1px solid rgba($foreground, 0.1);
+
+			&>.checkbox {
+				flex: 0 0 20px;
+				position: relative;
+				display: flex;
+
+				&:before {
+					content: '';
+					width: 11px;
+					height: 11px;
+					flex: 0 0 11px;
+					border-radius: 0;
+					margin: 0 6px 0 0;
+					border: 2px solid currentColor;
+					outline: 0;
+					background: white;
+				}
+			}
+
+			&>.name {
+				margin: 0 10px 0 0;
+				flex: 1 1 auto;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				position: relative;
+
+				&.menu {
+					padding-left: 12px;
+
+					&:before {
+						content: '';
+						width: 0;
+						height: 0;
+						border-style: solid;
+						border-width: 6px 4px 0 4px;
+						border-color: $foreground transparent transparent transparent;
+						position: absolute;
+						left: 0;
+						top: 50%;
+						margin-top: -3px;
+						transition: transform ease-in-out 350ms;
+					}
+
+					&.active {
+						&:before {
+							transform: rotate(180deg);
+						}
+					}
+				}
+
+				/*
+				&:after {
+					content: '';
+					display: block;
+					position: absolute;
+					bottom: 0;
+					width: 0;
+					height: 2px;
+					background: currentColor;
+					transition: all ease-in-out 350ms;
+				}
+
+				&:hover {
+					&:after {
+						content: '';
+						width: 100%;
+					}
+				}
+				*/
+			}
+
+			&>.count {
+				font-family: $font-primary;
+				font-size: 14px;
+				margin-right: 10px;
+			}
+
+			&.active {
+				&>.checkbox {
+					&:before {
+						background: currentColor;
+					}
+				}
+			}
+
+			&:not(.disabled) {
+				&>.checkbox {
+					cursor: pointer;
+				}
+			}
+		}
+
+		/*
+		&.active {
+			&>.option {
+				&:not(.disabled) {
+					&>.name {
+						&:after {
+							content: '';
+							width: 100%;
+						}
+					}
+				}
+			}
+		}
+		*/
+
+		&:focus {
+			outline: 0;
+		}
+
+		&>.nav--options {
+			position: static !important;
+			padding: 0 0 0 13px;
+			background: $background-tertiary;
+			margin-left: -5px;
+
+			&>.nav--options__menu {
+				position: static !important;
+
+				&>.option {
+					position: static !important;
+					padding: 0 10px 0 20px;
+					border-bottom: none;
+					text-transform: none;
+					font-size: 12px;
+
+					&>.checkbox {
+						position: absolute;
+						left: 0;
+						// margin-left: -10px;
+						// margin-right: 10px;
+					}
+
+					.count {
+						margin-right: 0;
+					}
+				}
+
+				&>.nav--options {
+					position: static !important;
+					margin-left: 10px;
+				}
+			}
+		}
+
+	}
+}
+
+[bim-library] {
+	.nav--aside {
+		position: relative !important;
+		top: 0;
 	}
 }
 

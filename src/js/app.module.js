@@ -3,8 +3,9 @@ import { FormModule } from 'rxcomp-form';
 import AgentsComponent from './agents/agents.component';
 import AppComponent from './app.component';
 import AppearDirective from './appear/appear.directive';
-import BimLibraryComponent from './bim-library/bim-library';
-import BimLibrary02Component from './bim-library/bim-library-02';
+import BimLibrary01Component from './bim-library/bim-library-01.component';
+import BimLibrary02Component from './bim-library/bim-library-02.component';
+import BimLibraryComponent from './bim-library/bim-library.component';
 import ClickOutsideDirective from './click-outside/click-outside.directive';
 import ClubForgotComponent from './club/club-forgot.component';
 import ClubModalComponent from './club/club-modal.component';
@@ -16,6 +17,7 @@ import ClubSignupComponent from './club/club-signup.component';
 import ClubComponent from './club/club.component';
 import DropdownItemDirective from './dropdown/dropdown-item.directive';
 import DropdownDirective from './dropdown/dropdown.directive';
+import FilterMenuItemComponent from './filter/filter-menu-item.component';
 import ControlCheckboxComponent from './forms/control-checkbox.component';
 import ControlCustomSelectComponent from './forms/control-custom-select.component';
 import ControlEmailComponent from './forms/control-email.component';
@@ -67,6 +69,7 @@ AppModule.meta = {
 		AgentsComponent,
 		AppearDirective,
 		BimLibraryComponent,
+		BimLibrary01Component,
 		BimLibrary02Component,
 		ClickOutsideDirective,
 		ClubComponent,
@@ -88,6 +91,7 @@ AppModule.meta = {
 		DropdownDirective,
 		DropdownItemDirective,
 		ErrorsComponent,
+		FilterMenuItemComponent,
 		FileSizePipe,
 		HtmlPipe,
 		HeaderComponent,

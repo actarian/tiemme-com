@@ -1,5 +1,5 @@
 import { merge } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { auditTime, map, tap } from 'rxjs/operators';
 import LocationService from '../location/location.service';
 import FilterItem from './filter-item';
 
@@ -54,7 +54,7 @@ export default class FilterService {
 		let any = false;
 		Object.keys(filters).forEach(x => {
 			const filter = filters[x];
-			if (filter.value !== null) {
+			if (filter.values && filter.values.length > 0) {
 				params[x] = filter.values;
 				any = true;
 			}
@@ -62,7 +62,7 @@ export default class FilterService {
 		if (!any) {
 			params = null;
 		}
-		// console.log('ReferenceCtrl.serialize', params);
+		// console.log('FilterService.serialize', params);
 		LocationService.serialize('filters', params);
 		return params;
 	}
@@ -71,6 +71,7 @@ export default class FilterService {
 		const filters = this.filters;
 		const changes = Object.keys(filters).map(key => filters[key].change$);
 		return merge(...changes).pipe(
+			auditTime(1),
 			// tap(() => console.log(filters)),
 			tap(() => this.serialize(filters)),
 			map(() => this.filterItems(items)),
@@ -79,7 +80,7 @@ export default class FilterService {
 	}
 
 	filterItems(items, skipFilter) {
-		const filters = Object.keys(this.filters).map((x) => this.filters[x]).filter(x => x.value !== null);
+		const filters = Object.keys(this.filters).map((x) => this.filters[x]).filter(x => x.values && x.values.length > 0);
 		items = items.filter(item => {
 			let has = true;
 			filters.forEach(filter => {

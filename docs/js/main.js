@@ -91,27 +91,26 @@
     function FilterItem(filter) {
       this.change$ = new rxjs.BehaviorSubject();
       this.mode = FilterMode.SELECT;
-      this.filter = 'Filter';
       this.placeholder = 'Select';
       this.values = [];
       this.options = [];
 
       if (filter) {
-        Object.assign(this, filter);
-      }
+        if (filter.mode === FilterMode.SELECT) {
+          filter.options.unshift({
+            label: filter.placeholder,
+            values: []
+          });
+        }
 
-      if (filter.mode === FilterMode.SELECT) {
-        filter.options.unshift({
-          label: filter.placeholder,
-          value: undefined
-        });
+        Object.assign(this, filter);
       }
     }
 
     var _proto = FilterItem.prototype;
 
     _proto.filter = function filter(item, value) {
-      return item.options.indexOf(value) !== -1;
+      return true; // item.options.indexOf(value) !== -1;
     };
 
     _proto.match = function match(item) {
@@ -189,6 +188,10 @@
       } else {
         this.set(item);
       }
+    };
+
+    _proto.toggleActive = function toggleActive() {
+      this.active = !this.active;
     };
 
     return FilterItem;
@@ -328,7 +331,7 @@
       Object.keys(filters).forEach(function (x) {
         var filter = filters[x];
 
-        if (filter.value !== null) {
+        if (filter.values && filter.values.length > 0) {
           params[x] = filter.values;
           any = true;
         }
@@ -336,7 +339,7 @@
 
       if (!any) {
         params = null;
-      } // console.log('ReferenceCtrl.serialize', params);
+      } // console.log('FilterService.serialize', params);
 
 
       LocationService.serialize('filters', params);
@@ -350,7 +353,7 @@
       var changes = Object.keys(filters).map(function (key) {
         return filters[key].change$;
       });
-      return rxjs.merge.apply(void 0, changes).pipe( // tap(() => console.log(filters)),
+      return rxjs.merge.apply(void 0, changes).pipe(operators.auditTime(1), // tap(() => console.log(filters)),
       operators.tap(function () {
         return _this.serialize(filters);
       }), operators.map(function () {
@@ -366,7 +369,7 @@
       var filters = Object.keys(this.filters).map(function (x) {
         return _this2.filters[x];
       }).filter(function (x) {
-        return x.value !== null;
+        return x.values && x.values.length > 0;
       });
       items = items.filter(function (item) {
         var has = true;
@@ -1041,6 +1044,223 @@
     selector: '[appear]'
   };
 
+  var srcMore = STATIC ? '/tiemme-com/services-bim-modal-more.html' : '/Viewdoc.cshtml?co_id=25206';
+  var srcHint = STATIC ? '/tiemme-com/services-bim-modal-hint.html' : '/Viewdoc.cshtml?co_id=25207';
+
+  var BimLibrary01Component = /*#__PURE__*/function (_Component) {
+    _inheritsLoose(BimLibrary01Component, _Component);
+
+    function BimLibrary01Component() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = BimLibrary01Component.prototype;
+
+    _proto.onInit = function onInit() {
+      var _this = this;
+
+      var items = window.files || [];
+      var filters = window.filters || {};
+      var initialParams = window.params || {};
+      filters.departments.mode = FilterMode.OR;
+      filters.catalogues.mode = FilterMode.OR; // filters.extensions.mode = FilterMode.OR;
+
+      var filterService = new FilterService(filters, initialParams, function (key, filter) {
+        switch (key) {
+          case 'extensions':
+            filter.filter = function (item, value) {
+              return item.files.find(function (x) {
+                return x.fileExtension === value;
+              });
+            };
+
+            break;
+
+          default:
+            filter.filter = function (item, value) {
+              return item.features.indexOf(value) !== -1;
+            };
+
+        }
+      });
+      filterService.items$(items).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (items) {
+        _this.items = items;
+
+        _this.pushChanges(); // console.log('BimLibrary01Component.items', items.length);
+
+      });
+      this.filterService = filterService;
+      this.filters = filterService.filters;
+      this.visibleFilters = {
+        departments: filterService.filters.departments
+      };
+      this.fake__();
+    };
+
+    _proto.openMore = function openMore(event) {
+      event.preventDefault();
+      ModalService.open$({
+        src: srcMore,
+        data: null
+      }).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (event) {// console.log('BimLibrary01Component.onRegister', event);
+      });
+    };
+
+    _proto.openHint = function openHint(event) {
+      event.preventDefault();
+      ModalService.open$({
+        src: srcHint,
+        data: null
+      }).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (event) {// console.log('BimLibrary01Component.onRegister', event);
+      });
+    };
+
+    _proto.toggleFilter = function toggleFilter(filter) {
+      var _this2 = this;
+
+      Object.keys(this.filters).forEach(function (key) {
+        var f = _this2.filters[key];
+
+        if (f === filter) {
+          f.active = !f.active;
+        } else {
+          f.active = false;
+        }
+      });
+      this.pushChanges();
+    };
+
+    _proto.fake__ = function fake__() {
+      var _this3 = this;
+
+      HttpService.get$('/api/bim/excel').pipe(operators.first()).subscribe(function (items) {
+        var products = [];
+        items.forEach(function (item) {
+          var product = products.find(function (x) {
+            return x.id === item.productId;
+          });
+
+          if (!product) {
+            product = {
+              id: item.productId,
+              image: item.image,
+              code: item.productCode,
+              title: item.productName,
+              abstract: item.description,
+              files: [],
+              features: [item.category1Id, item.category2Id],
+              slug: 'https://tiemmeraccorderie.wslabs.it/it/prodotti/componenti-idraulici/tubi/tubi-multistrato-al-cobrapex/standard/0600/'
+            };
+            products.push(product);
+          }
+
+          if (!product.files.find(function (x) {
+            return x.fileName === item.fileName;
+          })) {
+            product.files.push({
+              fileName: item.fileName,
+              fileExtension: "." + item.fileName.split('.').pop(),
+              fileSize: 45000,
+              url: 'https://tiemmeraccorderie.wslabs.it/media/files/' + item.fileName
+            });
+          }
+        });
+        console.log(JSON.stringify(products));
+        var catalogues = [];
+        items.forEach(function (item) {
+          var catalogue = catalogues.find(function (x) {
+            return x.value === item.category2Id;
+          });
+
+          if (!catalogue) {
+            catalogues.push({
+              value: item.category2Id,
+              label: _this3.titleCase__(item.category2Description),
+              count: 1
+            });
+          } else {
+            catalogue.count++;
+          }
+        });
+        catalogues.sort(function (a, b) {
+          return (a.count - b.count) * -1;
+        });
+        console.log(JSON.stringify(catalogues.map(function (x) {
+          delete x.count;
+          return x;
+        })));
+        var departments = [];
+        items.forEach(function (item) {
+          var department = departments.find(function (x) {
+            return x.value === item.category1Id;
+          });
+
+          if (!department) {
+            departments.push({
+              value: item.category1Id,
+              label: _this3.titleCase__(item.category1Description),
+              count: 1
+            });
+          } else {
+            department.count++;
+          }
+        });
+        departments.sort(function (a, b) {
+          return (a.count - b.count) * -1;
+        });
+        console.log(JSON.stringify(departments.map(function (x) {
+          delete x.count;
+          return x;
+        })));
+        var menu = {
+          id: 'menu',
+          title: 'Area',
+          items: departments.map(function (d) {
+            var item = {
+              id: d.value,
+              label: d.label,
+              title: 'Catalogo',
+              items: catalogues.filter(function (c) {
+                return products.find(function (p) {
+                  return p.features.indexOf(d.value) !== -1 && p.features.indexOf(c.value) !== -1;
+                });
+              }).map(function (c) {
+                var item = {
+                  id: c.value,
+                  label: c.label,
+                  title: 'Prodotto',
+                  items: products.filter(function (p) {
+                    return p.features.indexOf(c.value) !== -1;
+                  }).map(function (p) {
+                    var item = {
+                      id: p.id,
+                      label: p.title
+                    };
+                    return item;
+                  })
+                };
+                return item;
+              })
+            };
+            return item;
+          })
+        };
+        console.log(JSON.stringify(menu));
+      });
+    };
+
+    _proto.titleCase__ = function titleCase__(str) {
+      return str.toLowerCase().split(' ').map(function (word) {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      }).join(' ');
+    };
+
+    return BimLibrary01Component;
+  }(rxcomp.Component);
+  BimLibrary01Component.meta = {
+    selector: '[bim-library-01]'
+  };
+
   var DROPDOWN_ID = 1000000;
 
   var DropdownDirective = /*#__PURE__*/function (_Directive) {
@@ -1165,17 +1385,17 @@
   };
   DropdownDirective.dropdown$ = new rxjs.BehaviorSubject(null);
 
-  var srcMore = STATIC ? '/tiemme-com/services-bim-modal-more.html' : '/Viewdoc.cshtml?co_id=25206';
-  var srcHint = STATIC ? '/tiemme-com/services-bim-modal-hint.html' : '/Viewdoc.cshtml?co_id=25207';
+  var srcMore$1 = STATIC ? '/tiemme-com/services-bim-modal-more.html' : '/Viewdoc.cshtml?co_id=25206';
+  var srcHint$1 = STATIC ? '/tiemme-com/services-bim-modal-hint.html' : '/Viewdoc.cshtml?co_id=25207';
 
-  var BimLibraryComponent = /*#__PURE__*/function (_Component) {
-    _inheritsLoose(BimLibraryComponent, _Component);
+  var BimLibrary02Component = /*#__PURE__*/function (_Component) {
+    _inheritsLoose(BimLibrary02Component, _Component);
 
-    function BimLibraryComponent() {
+    function BimLibrary02Component() {
       return _Component.apply(this, arguments) || this;
     }
 
-    var _proto = BimLibraryComponent.prototype;
+    var _proto = BimLibrary02Component.prototype;
 
     _proto.onInit = function onInit() {
       var menu = window.menu || {};
@@ -1231,18 +1451,18 @@
     _proto.openMore = function openMore(event) {
       event.preventDefault();
       ModalService.open$({
-        src: srcMore,
+        src: srcMore$1,
         data: null
-      }).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (event) {// console.log('BimLibraryComponent.onRegister', event);
+      }).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (event) {// console.log('BimLibrary02Component.onRegister', event);
       });
     };
 
     _proto.openHint = function openHint(event) {
       event.preventDefault();
       ModalService.open$({
-        src: srcHint,
+        src: srcHint$1,
         data: null
-      }).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (event) {// console.log('BimLibraryComponent.onRegister', event);
+      }).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (event) {// console.log('BimLibrary02Component.onRegister', event);
       });
     };
 
@@ -1465,111 +1685,516 @@
       }).join(' ');
     };
 
-    return BimLibraryComponent;
+    return BimLibrary02Component;
   }(rxcomp.Component);
-  BimLibraryComponent.meta = {
-    selector: '[bim-library]'
+  BimLibrary02Component.meta = {
+    selector: '[bim-library-02]'
   };
 
-  var srcMore$1 = STATIC ? '/tiemme-com/services-bim-modal-more.html' : '/Viewdoc.cshtml?co_id=25206';
-  var srcHint$1 = STATIC ? '/tiemme-com/services-bim-modal-hint.html' : '/Viewdoc.cshtml?co_id=25207';
+  var FilterMenuItem = /*#__PURE__*/function () {
+    _createClass(FilterMenuItem, [{
+      key: "values",
 
-  var BimLibrary02Component = /*#__PURE__*/function (_Component) {
-    _inheritsLoose(BimLibrary02Component, _Component);
+      /*
+      constructor(filter, parent) {
+      	filter.mode = filter.mode || FilterMode.OR;
+      	filter.options = filter.options ? filter.options.map(x => x.options ? new FilterMenuItem(x, parent || this) : x) : [];
+      	super(filter);
+      }
+      */
+      get: function get() {
+        return this.parent ? this.parent.values : this.values_;
+      }
+    }, {
+      key: "change$",
+      get: function get() {
+        if (this.parent) {
+          return this.parent.change$;
+        } else if (!this.change$_) {
+          this.change$_ = new rxjs.BehaviorSubject();
+        }
 
-    function BimLibrary02Component() {
+        return this.change$_;
+      }
+    }]);
+
+    function FilterMenuItem(filter, parent) {
+      var _this = this;
+
+      // this.change$ = new BehaviorSubject();
+      this.mode = FilterMode.SELECT;
+      this.placeholder = 'Select';
+      this.values_ = [];
+      this.options = [];
+      this.items = [];
+
+      if (filter) {
+        filter.mode = filter.mode || FilterMode.OR;
+        filter.options = filter.options ? filter.options.map(function (x) {
+          return x.options ? new FilterMenuItem(x, parent || _this) : x;
+        }) : [];
+
+        if (filter.mode === FilterMode.SELECT) {
+          filter.options.unshift({
+            label: filter.placeholder,
+            values: []
+          });
+        }
+
+        Object.assign(this, filter);
+      }
+
+      this.parent = parent;
+
+      if (parent) {
+        parent.items.push.apply(parent.items, this.options);
+      }
+    }
+
+    var _proto = FilterMenuItem.prototype;
+
+    _proto.filter = function filter(item, value) {
+      return true; // item.options.indexOf(value) !== -1;
+    };
+
+    _proto.match = function match(item) {
+      var _this2 = this;
+
+      var match;
+
+      if (this.mode === FilterMode.OR) {
+        match = this.values.length ? false : true;
+        this.values.forEach(function (value) {
+          match = match || _this2.filter(item, value);
+        });
+      } else {
+        match = true;
+        this.values.forEach(function (value) {
+          match = match && _this2.filter(item, value);
+        });
+      }
+
+      return match;
+    };
+
+    _proto.getLabel = function getLabel() {
+      if (this.mode === FilterMode.SELECT) {
+        return this.placeholder || this.label;
+      } else {
+        return this.label;
+      }
+    };
+
+    _proto.has = function has(item) {
+      return this.values.indexOf(item.value) !== -1;
+    };
+
+    _proto.set = function set(item) {
+      if (this.mode === FilterMode.SELECT) {
+        this.values_ = [];
+      }
+
+      var index = this.values.indexOf(item.value);
+
+      if (index === -1) {
+        if (item.value !== undefined) {
+          this.values.push(item.value);
+        }
+      }
+
+      if (this.mode === FilterMode.SELECT) {
+        this.placeholder = item.label;
+      } // console.log('FilterItem.set', item);
+
+
+      this.change$.next();
+    };
+
+    _proto.remove = function remove(item) {
+      var index = this.values.indexOf(item.value);
+
+      if (index !== -1) {
+        this.values.splice(index, 1);
+      }
+
+      if (this.mode === FilterMode.SELECT) {
+        var first = this.options[0];
+        this.placeholder = first.label;
+      } // console.log('FilterItem.remove', item);
+
+
+      this.change$.next();
+    };
+
+    _proto.toggle = function toggle(item) {
+      if (this.has(item)) {
+        this.remove(item);
+      } else {
+        this.set(item);
+      }
+    };
+
+    _proto.toggleActive = function toggleActive() {
+      this.active = !this.active;
+    };
+
+    _proto.isMenuItem = function isMenuItem(option) {
+      return option instanceof FilterMenuItem;
+    };
+
+    return FilterMenuItem;
+  }();
+
+  var FilterMenuService = /*#__PURE__*/function () {
+    function FilterMenuService() {
+      this.filters = [];
+    }
+
+    var _proto = FilterMenuService.prototype;
+
+    _proto.init = function init(tree, initialParams, callback) {
+      this.filters = Array.isArray(tree) ? tree.map(function (x) {
+        return new FilterMenuItem(x);
+      }) : [];
+      this.flat = this.flatMap(this.filters);
+
+      if (typeof callback === 'function') {
+        this.flat.forEach(function (x) {
+          return callback(x);
+        });
+      } // console.log(this.flat);
+
+
+      this.deserialize(this.filters, initialParams);
+      this.toggleActiveStates(this.filters);
+      return this.filters;
+    };
+
+    _proto.items$ = function items$(filters, items, callback) {
+      var _this = this;
+
+      filters = this.init(filters, null, callback);
+      var changes = filters.map(function (x) {
+        return x.change$;
+      });
+      return rxjs.merge.apply(void 0, changes).pipe(operators.auditTime(1), // tap(() => console.log(filters)),
+      operators.tap(function () {
+        return _this.serialize(filters);
+      }), operators.map(function () {
+        return _this.filterItems(items);
+      }), operators.tap(function () {
+        return _this.updateFilterStates(_this.flat, items);
+      }));
+    };
+
+    _proto.flatMap = function flatMap(filters, items) {
+      var _this2 = this;
+
+      items = items || [];
+      filters.forEach(function (x) {
+        if (x instanceof FilterMenuItem) {
+          items.push(x);
+        }
+
+        if (x.options) {
+          _this2.flatMap(x.options, items);
+        }
+      });
+      return items;
+    };
+
+    _proto.filterItems = function filterItems(items, skipFilter) {
+      // const filters = Object.keys(this.filters).map((x) => this.filters[x]).filter(x => x.value !== null);
+      // const filters = this.flat.filter(x => x.values && x.values.length > 0);
+      // console.log(this.filters);
+      var filters = this.filters.filter(function (x) {
+        return x.values && x.values.length > 0;
+      });
+
+      if (!skipFilter) {
+        console.log('cycles', filters.length, 'x', items.length, '=', filters.length * items.length);
+      }
+
+      if (filters.length) {
+        // console.log('filters', filters);
+        return items.filter(function (item) {
+          var has = true;
+          filters.forEach(function (filter) {
+            if (filter !== skipFilter) {
+              has = has && filter.match(item);
+            }
+          });
+          return has;
+        });
+      } else {
+        return items.slice();
+      }
+    };
+
+    _proto.updateFilterStates = function updateFilterStates(filters, items) {
+      var _this3 = this;
+
+      // console.log(filters);
+      filters.forEach(function (filter) {
+        var filteredItems = _this3.filterItems(items, filter.parent ? filter.parent : filter);
+
+        filter.options.forEach(function (option) {
+          var count = 0;
+
+          if (option.value) {
+            var i = 0;
+
+            while (i < filteredItems.length) {
+              var item = filteredItems[i];
+
+              if (filter.filter(item, option.value)) {
+                count++;
+              }
+
+              i++;
+            }
+          } else {
+            count = filteredItems.length;
+          } // console.log(count);
+
+
+          option.count = count;
+          option.disabled = count === 0;
+        });
+      });
+    };
+
+    _proto.deserialize = function deserialize(filters, initialParams) {
+      var params;
+
+      if (initialParams && this.getParamsCount(initialParams)) {
+        params = initialParams;
+      }
+
+      var locationParams = LocationService.deserialize('filters');
+
+      if (locationParams && this.getParamsCount(locationParams)) {
+        params = locationParams;
+      }
+
+      if (params) {
+        filters.forEach(function (filter) {
+          filter.values_ = params[filter.key + '-' + filter.value] || [];
+          console.log('deserialize', filter.key + '-' + filter.value, filter.values_);
+        });
+      }
+
+      return filters;
+    };
+
+    _proto.hasActiveState = function hasActiveState(filter) {
+      var _this4 = this;
+
+      if (filter.values && filter.values.indexOf(filter.value) !== -1) {
+        return true;
+      } else if (filter.options) {
+        return filter.options.reduce(function (p, filter) {
+          filter.active = _this4.hasActiveState(filter);
+          return p || filter.active;
+        }, false);
+      }
+    };
+
+    _proto.toggleActiveStates = function toggleActiveStates(filters) {
+      var _this5 = this;
+
+      if (filters) {
+        filters.forEach(function (filter) {
+          filter.active = _this5.hasActiveState(filter);
+
+          _this5.toggleActiveStates(filter.options);
+        });
+      }
+    };
+
+    _proto.serialize = function serialize(filters) {
+      var params = {};
+      var any = false;
+      filters.forEach(function (filter) {
+        if (filter.values && filter.values.length > 0) {
+          params[filter.key + '-' + filter.value] = filter.values;
+          console.log('serialize', filter.values);
+          any = true;
+        }
+      });
+
+      if (!any) {
+        params = null;
+      }
+
+      console.log('FilterMenuService.serialize', params);
+      LocationService.serialize('filters', params);
+      return params;
+    };
+
+    _proto.getParamsCount = function getParamsCount(params) {
+      if (params) {
+        var paramsCount = Object.keys(params).reduce(function (p, c, i) {
+          var values = params[c];
+          return p + (values ? values.length : 0);
+        }, 0);
+        return paramsCount;
+      } else {
+        return 0;
+      }
+    };
+
+    return FilterMenuService;
+  }();
+
+  var srcMore$2 = STATIC ? '/tiemme-com/services-bim-modal-more.html' : '/Viewdoc.cshtml?co_id=25206';
+  var srcHint$2 = STATIC ? '/tiemme-com/services-bim-modal-hint.html' : '/Viewdoc.cshtml?co_id=25207';
+  var MAX_VISIBLE_ITEMS = 20;
+
+  var BimLibraryComponent = /*#__PURE__*/function (_Component) {
+    _inheritsLoose(BimLibraryComponent, _Component);
+
+    function BimLibraryComponent() {
       return _Component.apply(this, arguments) || this;
     }
 
-    var _proto = BimLibrary02Component.prototype;
+    var _proto = BimLibraryComponent.prototype;
 
     _proto.onInit = function onInit() {
       var _this = this;
 
-      var items = window.files || [];
-      var filters = window.filters || {};
-      var initialParams = window.params || {};
-      filters.departments.mode = FilterMode.OR;
-      filters.catalogues.mode = FilterMode.OR; // filters.extensions.mode = FilterMode.OR;
+      this.filters = [];
+      this.items = [];
+      this.visibleItems = [];
+      this.filterService = new FilterMenuService();
+      this.maxVisibleItems = MAX_VISIBLE_ITEMS;
+      this.busy = false; // this.fake__();
 
-      var filterService = new FilterService(filters, initialParams, function (key, filter) {
-        switch (key) {
-          case 'extensions':
-            filter.filter = function (item, value) {
-              return item.files.find(function (x) {
-                return x.fileExtension === value;
-              });
-            };
+      this.load$().pipe(operators.first()).subscribe(function (data) {
+        // console.log(data);
+        _this.filterService.items$(data[0], data[1], function (filter) {
+          switch (filter.key) {
+            case 'feature':
+              filter.filter = function (item, value) {
+                return item.features.indexOf(value) !== -1;
+              };
 
-            break;
+              break;
 
-          default:
-            filter.filter = function (item, value) {
-              return item.features.indexOf(value) !== -1;
-            };
+            case 'extension':
+              filter.filter = function (item, value) {
+                return item.files.find(function (x) {
+                  return x.fileExtension === value;
+                });
+              };
 
+              break;
+          }
+        }).pipe(operators.takeUntil(_this.unsubscribe$)).subscribe(function (items) {
+          _this.maxVisibleItems = MAX_VISIBLE_ITEMS;
+          _this.items = items;
+          _this.visibleItems = items.slice(0, _this.maxVisibleItems);
+
+          _this.pushChanges(); // console.log('BimLibrary01Component.items', items.length);
+
+        });
+
+        _this.scroll$().pipe(operators.takeUntil(_this.unsubscribe$)).subscribe();
+
+        _this.filters = _this.filterService.filters; // data[0].map(x => new FilterMenuItem(x));
+
+        _this.pushChanges();
+      });
+    };
+
+    _proto.scroll$ = function scroll$() {
+      var _this2 = this;
+
+      var _getContext = rxcomp.getContext(this),
+          node = _getContext.node;
+
+      return rxjs.fromEvent(window, 'scroll').pipe(operators.tap(function () {
+        if (_this2.items.length > _this2.visibleItems.length) {
+          var rect = node.getBoundingClientRect();
+
+          if (rect.bottom < window.innerHeight) {
+            _this2.maxVisibleItems += MAX_VISIBLE_ITEMS;
+            _this2.visibleItems = _this2.items.slice(0, _this2.maxVisibleItems);
+
+            _this2.pushChanges();
+          }
         }
-      });
-      filterService.items$(items).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (items) {
-        _this.items = items;
+      }));
+    };
 
-        _this.pushChanges(); // console.log('BimLibrary02Component.items', items.length);
+    _proto.load$ = function load$() {
+      return rxjs.combineLatest(HttpService.get$('/api/bim/03/filters'), HttpService.get$('/api/bim/03/files'));
+    };
 
-      });
-      this.filterService = filterService;
-      this.filters = filterService.filters;
-      this.visibleFilters = {
-        departments: filterService.filters.departments
-      };
-      this.fake__();
+    _proto.toggleFilter = function toggleFilter(filter) {
+      filter.active = !filter.active;
+      this.pushChanges();
+    };
+
+    _proto.toggleMenuItem = function toggleMenuItem(filter, option) {
+      if (filter.isMenuItem(option)) {
+        option.toggleActive();
+        this.pushChanges();
+      }
     };
 
     _proto.openMore = function openMore(event) {
       event.preventDefault();
       ModalService.open$({
-        src: srcMore$1,
+        src: srcMore$2,
         data: null
-      }).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (event) {// console.log('BimLibrary02Component.onRegister', event);
+      }).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (event) {// console.log('BimLibraryComponent.onRegister', event);
       });
     };
 
     _proto.openHint = function openHint(event) {
       event.preventDefault();
       ModalService.open$({
-        src: srcHint$1,
+        src: srcHint$2,
         data: null
-      }).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (event) {// console.log('BimLibrary02Component.onRegister', event);
+      }).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (event) {// console.log('BimLibraryComponent.onRegister', event);
       });
     };
 
     _proto.fake__ = function fake__() {
-      var _this2 = this;
+      var _this3 = this;
 
       HttpService.get$('/api/bim/excel').pipe(operators.first()).subscribe(function (items) {
         var products = [];
         items.forEach(function (item) {
-          var product = products.find(function (x) {
+          var f = products.find(function (x) {
             return x.id === item.productId;
           });
 
-          if (!product) {
-            product = {
+          if (!f) {
+            var _f;
+
+            f = (_f = {
               id: item.productId,
               image: item.image,
               code: item.productCode,
               title: item.productName,
-              abstract: item.description,
               files: [],
-              features: [item.category1Id, item.category2Id],
-              slug: 'https://tiemmeraccorderie.wslabs.it/it/prodotti/componenti-idraulici/tubi/tubi-multistrato-al-cobrapex/standard/0600/'
-            };
-            products.push(product);
+              features: [item.category1Id, item.category2Id, item.category3Id]
+            }, _f["image"] = 'https://tiemmeraccorderie.wslabs.it/' + item.image, _f.slug = 'https://tiemmeraccorderie.wslabs.it/it/prodotti/componenti-idraulici/tubi/tubi-multistrato-al-cobrapex/standard/0600/', _f);
+
+            if (item.category4Id) {
+              f.features.push(item.category4Id);
+            }
+
+            products.push(f);
           }
 
-          if (!product.files.find(function (x) {
+          if (!f.files.find(function (x) {
             return x.fileName === item.fileName;
           })) {
-            product.files.push({
+            f.files.push({
+              description: item.description,
               fileName: item.fileName,
               fileExtension: "." + item.fileName.split('.').pop(),
               fileSize: 45000,
@@ -1577,87 +2202,163 @@
             });
           }
         });
-        console.log(JSON.stringify(products));
-        var catalogues = [];
+        console.log('products', JSON.stringify(products));
+        var families = [];
         items.forEach(function (item) {
-          var catalogue = catalogues.find(function (x) {
-            return x.value === item.category2Id;
+          var f = families.find(function (x) {
+            return x.value === item.category4Id;
           });
 
-          if (!catalogue) {
-            catalogues.push({
-              value: item.category2Id,
-              label: _this2.titleCase__(item.category2Description),
+          if (!f) {
+            families.push({
+              value: item.category4Id,
+              label: _this3.titleCase__(item.category4Description),
               count: 1
             });
           } else {
-            catalogue.count++;
+            f.count++;
+          }
+        });
+        families.sort(function (a, b) {
+          return (a.count - b.count) * -1;
+        });
+        console.log('families', JSON.stringify(families.map(function (x) {
+          delete x.count;
+          return x;
+        })));
+        var solutions = [];
+        items.forEach(function (item) {
+          var f = solutions.find(function (x) {
+            return x.value === item.category3Id;
+          });
+
+          if (!f) {
+            solutions.push({
+              value: item.category3Id,
+              label: _this3.titleCase__(item.category3Description),
+              count: 1
+            });
+          } else {
+            f.count++;
+          }
+        });
+        solutions.sort(function (a, b) {
+          return (a.count - b.count) * -1;
+        });
+        console.log('solutions', JSON.stringify(solutions.map(function (x) {
+          delete x.count;
+          return x;
+        })));
+        var catalogues = [];
+        items.forEach(function (item) {
+          var f = catalogues.find(function (x) {
+            return x.value === item.category2Id;
+          });
+
+          if (!f) {
+            catalogues.push({
+              value: item.category2Id,
+              label: _this3.titleCase__(item.category2Description),
+              count: 1
+            });
+          } else {
+            f.count++;
           }
         });
         catalogues.sort(function (a, b) {
           return (a.count - b.count) * -1;
         });
-        console.log(JSON.stringify(catalogues.map(function (x) {
+        console.log('catalogues', JSON.stringify(catalogues.map(function (x) {
           delete x.count;
           return x;
         })));
         var departments = [];
         items.forEach(function (item) {
-          var department = departments.find(function (x) {
+          var f = departments.find(function (x) {
             return x.value === item.category1Id;
           });
 
-          if (!department) {
+          if (!f) {
             departments.push({
               value: item.category1Id,
-              label: _this2.titleCase__(item.category1Description),
+              label: _this3.titleCase__(item.category1Description),
               count: 1
             });
           } else {
-            department.count++;
+            f.count++;
           }
         });
         departments.sort(function (a, b) {
           return (a.count - b.count) * -1;
         });
-        console.log(JSON.stringify(departments.map(function (x) {
+        console.log('departments', JSON.stringify(departments.map(function (x) {
           delete x.count;
           return x;
         })));
-        var menu = {
-          id: 'menu',
-          title: 'Area',
-          items: departments.map(function (d) {
-            var item = {
-              id: d.value,
-              label: d.label,
-              title: 'Catalogo',
-              items: catalogues.filter(function (c) {
-                return products.find(function (p) {
-                  return p.features.indexOf(d.value) !== -1 && p.features.indexOf(c.value) !== -1;
-                });
-              }).map(function (c) {
-                var item = {
-                  id: c.value,
-                  label: c.label,
-                  title: 'Prodotto',
-                  items: products.filter(function (p) {
-                    return p.features.indexOf(c.value) !== -1;
-                  }).map(function (p) {
-                    var item = {
-                      id: p.id,
-                      label: p.title
+        var menu = departments.map(function (d) {
+          var item = {
+            value: d.value,
+            label: d.label,
+            key: 'feature',
+            options: catalogues.filter(function (c) {
+              return products.find(function (p) {
+                return p.features.indexOf(d.value) !== -1 && p.features.indexOf(c.value) !== -1;
+              });
+            }).map(function (c) {
+              var item = {
+                value: c.value,
+                label: c.label,
+                key: 'feature',
+                options: solutions.filter(function (s) {
+                  return products.find(function (p) {
+                    return p.features.indexOf(d.value) !== -1 && p.features.indexOf(c.value) !== -1 && p.features.indexOf(s.value) !== -1;
+                  });
+                }).map(function (s) {
+                  var item = {
+                    value: s.value,
+                    label: s.label,
+                    key: 'feature',
+                    options: families.filter(function (f) {
+                      return products.find(function (p) {
+                        return p.features.indexOf(d.value) !== -1 && p.features.indexOf(c.value) !== -1 && p.features.indexOf(s.value) !== -1 && p.features.indexOf(f.value) !== -1;
+                      });
+                    }).map(function (f) {
+                      var item = {
+                        value: f.value,
+                        label: f.label
+                      };
+                      return item;
+                    })
+                  };
+
+                  if (item.options.length === 0) {
+                    item = {
+                      value: s.value,
+                      label: s.label
                     };
-                    return item;
-                  })
-                };
-                return item;
-              })
-            };
-            return item;
-          })
-        };
-        console.log(JSON.stringify(menu));
+                  }
+
+                  return item;
+                })
+              };
+              return item;
+            })
+          };
+          return item;
+        });
+        menu.push({
+          "value": null,
+          "label": "Estensione",
+          "key": "extension",
+          "options": [{
+            "value": ".rte",
+            "label": ".rte"
+          }, {
+            "value": ".rfa",
+            "label": ".rfa"
+          }]
+        });
+        console.log('menu', JSON.stringify(menu));
       });
     };
 
@@ -1667,10 +2368,10 @@
       }).join(' ');
     };
 
-    return BimLibrary02Component;
+    return BimLibraryComponent;
   }(rxcomp.Component);
-  BimLibrary02Component.meta = {
-    selector: '[bim-library-02]'
+  BimLibraryComponent.meta = {
+    selector: '[bim-library]'
   };
 
   var ClickOutsideDirective = /*#__PURE__*/function (_Directive) {
@@ -2650,6 +3351,37 @@
     inputs: ['dropdown-item']
   };
 
+  var FilterMenuItemComponent = /*#__PURE__*/function (_Component) {
+    _inheritsLoose(FilterMenuItemComponent, _Component);
+
+    function FilterMenuItemComponent() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = FilterMenuItemComponent.prototype;
+
+    _proto.onInit = function onInit() {// console.log('FilterMenuItemComponent.onInit', this);
+    };
+
+    _proto.toggleActive = function toggleActive(option) {
+      if (option instanceof FilterMenuItem) {
+        option.toggleActive();
+        this.pushChanges();
+      } else {
+        this.filter.toggle(option);
+      }
+    };
+
+    return FilterMenuItemComponent;
+  }(rxcomp.Component);
+  FilterMenuItemComponent.meta = {
+    selector: '[menu-item]',
+    inputs: ['filter', 'item'],
+    template:
+    /* html */
+    "\n\t\t<span class=\"option\" [class]=\"{ active: filter.has(item), disabled: item.disabled }\">\n\t\t\t<span class=\"checkbox\" (click)=\"filter.toggle(item)\"></span>\n\t\t\t<span class=\"name\" [class]=\"{ menu: filter.isMenuItem(item), active: item.active }\" (click)=\"toggleActive(item)\" [innerHTML]=\"item.label\"></span>\n\t\t\t<span class=\"count\" [innerHTML]=\"item.count || ''\"></span>\n\t\t</span>\n\t\t<ul class=\"nav--options\" *if=\"filter.isMenuItem(item) && item.active\">\n\t\t\t<li class=\"nav--options__menu\" menu-item [filter]=\"item\" [item]=\"option\" *for=\"let option of item.options\"></li>\n\t\t</ul>\n\t"
+  };
+
   var ControlComponent = /*#__PURE__*/function (_Component) {
     _inheritsLoose(ControlComponent, _Component);
 
@@ -3422,7 +4154,7 @@
     _proto.onInit = function onInit() {
       var _this = this;
 
-      var items = window.medias || [];
+      var items = this.items = window.medias || [];
       var filters = window.filters || {};
       var initialParams = window.params || {};
       filters.departments.mode = FilterMode.OR;
@@ -3454,11 +4186,27 @@
       filterService.items$(items).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (items) {
         _this.items = items;
 
-        _this.pushChanges(); // console.log('MediaLibraryComponent.items', items.length);
+        _this.pushChanges();
 
+        console.log('MediaLibraryComponent.items', items.length);
       });
       this.filterService = filterService;
       this.filters = filterService.filters;
+    };
+
+    _proto.toggleFilter = function toggleFilter(filter) {
+      var _this2 = this;
+
+      Object.keys(this.filters).forEach(function (key) {
+        var f = _this2.filters[key];
+
+        if (f === filter) {
+          f.active = !f.active;
+        } else {
+          f.active = false;
+        }
+      });
+      this.pushChanges();
     };
 
     return MediaLibraryComponent;
@@ -4620,6 +5368,21 @@
       });
       this.filterService = filterService;
       this.filters = filterService.filters;
+    };
+
+    _proto.toggleFilter = function toggleFilter(filter) {
+      var _this2 = this;
+
+      Object.keys(this.filters).forEach(function (key) {
+        var f = _this2.filters[key];
+
+        if (f === filter) {
+          f.active = !f.active;
+        } else {
+          f.active = false;
+        }
+      });
+      this.pushChanges();
     };
 
     return PriceListComponent;
@@ -5926,7 +6689,7 @@
   }(rxcomp.Module);
   AppModule.meta = {
     imports: [rxcomp.CoreModule, rxcompForm.FormModule],
-    declarations: [AgentsComponent, AppearDirective, BimLibraryComponent, BimLibrary02Component, ClickOutsideDirective, ClubComponent, ClubForgotComponent, ClubModalComponent, ClubPasswordRecoveryComponent, ClubPasswordEditComponent, ClubProfileComponent, ClubSigninComponent, ClubSignupComponent, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlPasswordComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, FileSizePipe, HtmlPipe, HeaderComponent, LazyDirective, MainMenuComponent, MediaLibraryComponent, ModalOutletComponent, ModalComponent, PriceListComponent, NaturalFormComponent, NaturalFormSearchComponent, NaturalFormContactComponent, NaturalFormRequestInfoComponent, NaturalFormControlComponent, NaturalFormNewsletterComponent, NaturalFormSignupComponent, RequestInfoCommercialComponent, RegisterOrLoginComponent, ReservedAreaComponent, SecureDirective, ScrollToDirective, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, TestComponent, // ValueDirective,
+    declarations: [AgentsComponent, AppearDirective, BimLibraryComponent, BimLibrary01Component, BimLibrary02Component, ClickOutsideDirective, ClubComponent, ClubForgotComponent, ClubModalComponent, ClubPasswordRecoveryComponent, ClubPasswordEditComponent, ClubProfileComponent, ClubSigninComponent, ClubSignupComponent, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlPasswordComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, FilterMenuItemComponent, FileSizePipe, HtmlPipe, HeaderComponent, LazyDirective, MainMenuComponent, MediaLibraryComponent, ModalOutletComponent, ModalComponent, PriceListComponent, NaturalFormComponent, NaturalFormSearchComponent, NaturalFormContactComponent, NaturalFormRequestInfoComponent, NaturalFormControlComponent, NaturalFormNewsletterComponent, NaturalFormSignupComponent, RequestInfoCommercialComponent, RegisterOrLoginComponent, ReservedAreaComponent, SecureDirective, ScrollToDirective, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, TestComponent, // ValueDirective,
     VideoComponent, WorkWithUsComponent, YoutubeComponent, ZoomableDirective],
     bootstrap: AppComponent
   };

@@ -1,0 +1,23 @@
+.loader {
+	margin: auto;
+	text-align: center;
+	font-size: 15px;
+	font-weight: $font-semibold;
+	text-transform: lowercase;
+	color: $foreground;
+
+	svg {
+		width: 100px;
+		height: 100px;
+		margin: 0 auto;
+
+		circle:first-child {
+			stroke: $background-tertiary;
+		}
+
+		circle:last-child {
+			stroke: $foreground;
+		}
+	}
+
+}

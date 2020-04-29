@@ -36,6 +36,18 @@ export default class PriceListComponent extends Component {
 		this.filters = filterService.filters;
 	}
 
+	toggleFilter(filter) {
+		Object.keys(this.filters).forEach(key => {
+			const f = this.filters[key];
+			if (f === filter) {
+				f.active = !f.active;
+			} else {
+				f.active = false;
+			}
+		});
+		this.pushChanges();
+	}
+
 }
 
 PriceListComponent.meta = {

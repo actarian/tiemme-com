@@ -1,59 +1,91 @@
-import { Component } from 'rxcomp';
-import { first, takeUntil } from 'rxjs/operators';
-import DropdownDirective from '../dropdown/dropdown.directive';
+import { Component, getContext } from 'rxcomp';
+import { combineLatest, fromEvent } from 'rxjs';
+import { first, takeUntil, tap } from 'rxjs/operators';
 import { STATIC } from '../environment/environment';
+import FilterMenuService from '../filter/filter-menu.service';
 import HttpService from '../http/http.service';
 import ModalService from '../modal/modal.service';
 
 const srcMore = STATIC ? '/tiemme-com/services-bim-modal-more.html' : '/Viewdoc.cshtml?co_id=25206';
 const srcHint = STATIC ? '/tiemme-com/services-bim-modal-hint.html' : '/Viewdoc.cshtml?co_id=25207';
 
+const MAX_VISIBLE_ITEMS = 20;
+
 export default class BimLibraryComponent extends Component {
 
 	onInit() {
-		const menu = window.menu || {};
-		const items = window.files || [];
-		this.menu = menu;
-		this.items = items;
-		this.visibleItems = items.slice();
-		this.breadcrumb = [menu];
+		this.filters = [];
+		this.items = [];
+		this.visibleItems = [];
+		this.filterService = new FilterMenuService();
+		this.maxVisibleItems = MAX_VISIBLE_ITEMS;
+		this.busy = false;
 		// this.fake__();
+		this.load$().pipe(
+			first(),
+		).subscribe(data => {
+			// console.log(data);
+			this.filterService.items$(data[0], data[1], (filter) => {
+				switch (filter.key) {
+					case 'feature':
+						filter.filter = (item, value) => {
+							return item.features.indexOf(value) !== -1;
+						};
+						break;
+					case 'extension':
+						filter.filter = (item, value) => {
+							return item.files.find(x => x.fileExtension === value);
+						};
+						break;
+				}
+			}).pipe(
+				takeUntil(this.unsubscribe$),
+			).subscribe(items => {
+				this.maxVisibleItems = MAX_VISIBLE_ITEMS;
+				this.items = items;
+				this.visibleItems = items.slice(0, this.maxVisibleItems);
+				this.pushChanges();
+				// console.log('BimLibrary01Component.items', items.length);
+			});
+			this.scroll$().pipe(
+				takeUntil(this.unsubscribe$)
+			).subscribe();
+			this.filters = this.filterService.filters; // data[0].map(x => new FilterMenuItem(x));
+			this.pushChanges();
+		});
 	}
 
-	setMenuItem(child, parent) {
-		const clear = (items) => {
-			if (items) {
-				items.forEach(x => {
-					delete x.selectedId;
-					delete x.selectedLabel;
-					clear(x.items);
-				});
-			}
-		};
-		clear(parent.items);
-		let index = this.breadcrumb.reduce((p, c, i) => {
-			return c.id === parent.id ? i : p;
-		}, -1);
-		if (index !== -1) {
-			parent.selectedId = child.id;
-			parent.selectedLabel = child.label;
-			const breadcrumb = this.breadcrumb.slice(0, index + 1);
-			if (child.items) {
-				breadcrumb.push(child);
-			}
-			this.breadcrumb = [];
-			DropdownDirective.dropdown$.next(null);
-			this.pushChanges();
-			this.breadcrumb = breadcrumb;
-			this.visibleItems = this.items.filter(x => {
-				return breadcrumb.reduce((p, c) => {
-					if (c.selectedId) {
-						return p && (x.features.indexOf(c.selectedId) !== -1 || x.id === c.selectedId);
-					} else {
-						return p;
+	scroll$() {
+		const { node } = getContext(this);
+		return fromEvent(window, 'scroll').pipe(
+			tap(() => {
+				if (this.items.length > this.visibleItems.length) {
+					const rect = node.getBoundingClientRect();
+					if (rect.bottom < window.innerHeight) {
+						this.maxVisibleItems += MAX_VISIBLE_ITEMS;
+						this.visibleItems = this.items.slice(0, this.maxVisibleItems);
+						this.pushChanges();
 					}
-				}, true);
-			});
+				}
+			})
+		);
+	}
+
+	load$() {
+		return combineLatest(
+			HttpService.get$('/api/bim/03/filters'),
+			HttpService.get$('/api/bim/03/files')
+		);
+	}
+
+	toggleFilter(filter) {
+		filter.active = !filter.active;
+		this.pushChanges();
+	}
+
+	toggleMenuItem(filter, option) {
+		if (filter.isMenuItem(option)) {
+			option.toggleActive();
 			this.pushChanges();
 		}
 	}
@@ -190,73 +222,64 @@ export default class BimLibraryComponent extends Component {
 				delete x.count;
 				return x;
 			})));
-			const menu = {
-				id: 'menu',
-				title: 'Area',
-				items: departments.map(d => {
-					const item = {
-						id: d.value,
-						label: d.label,
-						title: 'Catalogo',
-						items: catalogues.filter(c => {
-							return products.find(p => p.features.indexOf(d.value) !== -1 && p.features.indexOf(c.value) !== -1);
-						}).map(c => {
-							const item = {
-								id: c.value,
-								label: c.label,
-								title: 'Soluzione',
-								items: solutions.filter(s => {
-									return products.find(p => p.features.indexOf(d.value) !== -1 && p.features.indexOf(c.value) !== -1 && p.features.indexOf(s.value) !== -1);
-								}).map(s => {
-									let item = {
-										id: s.value,
-										label: s.label,
-										title: 'Famiglia',
-										items: families.filter(f => {
-											return products.find(p => p.features.indexOf(d.value) !== -1 && p.features.indexOf(c.value) !== -1 && p.features.indexOf(s.value) !== -1 && p.features.indexOf(f.value) !== -1);
-										}).map(f => {
-											const item = {
-												id: f.value,
-												label: f.label,
-												title: 'Prodotto',
-												items: products.filter(p => {
-													return p.features.indexOf(f.value) !== -1;
-												}).map(p => {
-													const item = {
-														id: p.id,
-														label: p.title,
-													};
-													return item;
-												})
-											};
-											return item;
-										})
-									};
-									if (item.items.length === 0) {
-										item = {
-											id: s.value,
-											label: s.label,
-											title: 'Prodotto',
-											items: products.filter(p => {
-												return p.features.indexOf(s.value) !== -1;
-											}).map(p => {
-												const item = {
-													id: p.id,
-													label: p.title,
-												};
-												return item;
-											})
+			const menu = departments.map(d => {
+				const item = {
+					value: d.value,
+					label: d.label,
+					key: 'feature',
+					options: catalogues.filter(c => {
+						return products.find(p => p.features.indexOf(d.value) !== -1 && p.features.indexOf(c.value) !== -1);
+					}).map(c => {
+						const item = {
+							value: c.value,
+							label: c.label,
+							key: 'feature',
+							options: solutions.filter(s => {
+								return products.find(p => p.features.indexOf(d.value) !== -1 && p.features.indexOf(c.value) !== -1 && p.features.indexOf(s.value) !== -1);
+							}).map(s => {
+								let item = {
+									value: s.value,
+									label: s.label,
+									key: 'feature',
+									options: families.filter(f => {
+										return products.find(p => p.features.indexOf(d.value) !== -1 && p.features.indexOf(c.value) !== -1 && p.features.indexOf(s.value) !== -1 && p.features.indexOf(f.value) !== -1);
+									}).map(f => {
+										const item = {
+											value: f.value,
+											label: f.label
 										};
-									}
-									return item;
-								})
-							};
-							return item;
-						})
-					};
-					return item;
-				})
-			};
+										return item;
+									})
+								};
+								if (item.options.length === 0) {
+									item = {
+										value: s.value,
+										label: s.label
+									};
+								}
+								return item;
+							})
+						};
+						return item;
+					})
+				};
+				return item;
+			});
+			menu.push({
+				"value": null,
+				"label": "Estensione",
+				"key": "extension",
+				"options": [
+					{
+						"value": ".rte",
+						"label": ".rte"
+					  },
+					{
+						"value": ".rfa",
+						"label": ".rfa"
+					  }
+					]
+			});
 			console.log('menu', JSON.stringify(menu));
 		});
 	}

@@ -1,20 +1,40 @@
+// import FilterItem, { FilterMode } from './filter-item';
 import { BehaviorSubject } from 'rxjs';
+import { FilterMode } from './filter-item';
 
-export const FilterMode = {
-	SELECT: 'select',
-	AND: 'and',
-	OR: 'or',
-};
+export default class FilterMenuItem {
 
-export default class FilterItem {
+	/*
+	constructor(filter, parent) {
+		filter.mode = filter.mode || FilterMode.OR;
+		filter.options = filter.options ? filter.options.map(x => x.options ? new FilterMenuItem(x, parent || this) : x) : [];
+		super(filter);
+	}
+	*/
 
-	constructor(filter) {
-		this.change$ = new BehaviorSubject();
+	get values() {
+		return this.parent ? this.parent.values : this.values_;
+	}
+
+	get change$() {
+		if (this.parent) {
+			return this.parent.change$;
+		} else if (!this.change$_) {
+			this.change$_ = new BehaviorSubject();
+		}
+		return this.change$_;
+	}
+
+	constructor(filter, parent) {
+		// this.change$ = new BehaviorSubject();
 		this.mode = FilterMode.SELECT;
 		this.placeholder = 'Select';
-		this.values = [];
+		this.values_ = [];
 		this.options = [];
+		this.items = [];
 		if (filter) {
+			filter.mode = filter.mode || FilterMode.OR;
+			filter.options = filter.options ? filter.options.map(x => x.options ? new FilterMenuItem(x, parent || this) : x) : [];
 			if (filter.mode === FilterMode.SELECT) {
 				filter.options.unshift({
 					label: filter.placeholder,
@@ -22,6 +42,10 @@ export default class FilterItem {
 				});
 			}
 			Object.assign(this, filter);
+		}
+		this.parent = parent;
+		if (parent) {
+			parent.items.push.apply(parent.items, this.options);
 		}
 	}
 
@@ -59,7 +83,7 @@ export default class FilterItem {
 
 	set(item) {
 		if (this.mode === FilterMode.SELECT) {
-			this.values = [];
+			this.values_ = [];
 		}
 		const index = this.values.indexOf(item.value);
 		if (index === -1) {
@@ -97,6 +121,10 @@ export default class FilterItem {
 
 	toggleActive() {
 		this.active = !this.active;
+	}
+
+	isMenuItem(option) {
+		return option instanceof FilterMenuItem;
 	}
 
 }

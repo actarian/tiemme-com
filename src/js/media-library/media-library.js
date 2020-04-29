@@ -6,7 +6,7 @@ import FilterService from '../filter/filter.service';
 export default class MediaLibraryComponent extends Component {
 
 	onInit() {
-		const items = window.medias || [];
+		const items = this.items = window.medias || [];
 		const filters = window.filters || {};
 		const initialParams = window.params || {};
 		filters.departments.mode = FilterMode.OR;
@@ -35,11 +35,23 @@ export default class MediaLibraryComponent extends Component {
 		).subscribe(items => {
 			this.items = items;
 			this.pushChanges();
-			// console.log('MediaLibraryComponent.items', items.length);
+			console.log('MediaLibraryComponent.items', items.length);
 		});
 
 		this.filterService = filterService;
 		this.filters = filterService.filters;
+	}
+
+	toggleFilter(filter) {
+		Object.keys(this.filters).forEach(key => {
+			const f = this.filters[key];
+			if (f === filter) {
+				f.active = !f.active;
+			} else {
+				f.active = false;
+			}
+		});
+		this.pushChanges();
 	}
 
 }

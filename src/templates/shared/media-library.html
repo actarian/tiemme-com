@@ -815,11 +815,11 @@
 				<div class="col-sm-4 col-md-3 col-lg-2">
 					<!-- filters -->
 					<ul class="nav--aside">
-						<li *for="let [key, filter] of filters">
-							<span class="label" [innerHTML]="filter.label"></span>
+						<li *for="let [key, filter] of filters" [class]="{ active: filter.active }">
+							<span class="label" [innerHTML]="filter.label" (click)="toggleFilter(filter)"></span> <svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
 							<ul class="nav--options">
-								<li *for="let item of filter.options">
-									<span class="label" [class]="{ active: filter.has(item), disabled: item.disabled }" (click)="filter.toggle(item)">
+								<li class="nav--options__item" *for="let item of filter.options">
+									<span class="option" [class]="{ active: filter.has(item), disabled: item.disabled }" (click)="filter.toggle(item)">
 										<span class="name" [innerHTML]="item.label"></span>
 										<span class="count" [innerHTML]="item.count || ''"></span>
 									</span>
