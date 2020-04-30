@@ -62,7 +62,7 @@ export default class SwiperDirective extends Component {
 				this.index = swiper.activeIndex;
 				this.events$.next(this.index);
 				this.pushChanges();
-			}
+			};
 			this.options.on = on;
 			this.addListeners_();
 		}

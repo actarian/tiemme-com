@@ -85,6 +85,7 @@
 }
 
 .section--advantages {
+	// background: url('../img/services/club-tiemme/pattern.jpg');
 
 	.row {
 		align-items: stretch;
@@ -113,7 +114,7 @@
 	}
 
 	.content {
-		max-width: 580px;
+		max-width: 470px;
 	}
 
 	& .content+.content {
@@ -264,6 +265,7 @@
 	border: 1px solid;
 	padding: 40px;
 	height: 100%;
+	background: white;
 	box-shadow: 0 20px 20px -10px rgba($foreground, 0.1);
 }
 

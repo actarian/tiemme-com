@@ -6258,7 +6258,7 @@ ul {
   margin-right: 30px; }
 
 .section--advantages .content {
-  max-width: 580px; }
+  max-width: 470px; }
 
 .section--advantages .content + .content {
   margin-top: 30px; }
@@ -6355,6 +6355,7 @@ ul {
   border: 1px solid;
   padding: 40px;
   height: 100%;
+  background: white;
   box-shadow: 0 20px 20px -10px rgba(22, 37, 91, 0.1); }
 
 .club--register-or-login {
