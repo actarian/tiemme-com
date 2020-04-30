@@ -6236,8 +6236,11 @@ ul {
     justify-content: center;
     margin: 20px auto 0 auto; }
 
-.section--advantages .container {
-  max-width: 1100px; }
+.section--advantages .row {
+  align-items: stretch; }
+
+.section--advantages .col-md-6 {
+  margin-bottom: 40px; }
 
 .section--advantages svg {
   flex: 0 0 30px;
@@ -6254,26 +6257,31 @@ ul {
   height: 36px;
   margin-right: 30px; }
 
+.section--advantages .content {
+  max-width: 580px; }
+
+.section--advantages .content + .content {
+  margin-top: 30px; }
+
+.section--advantages .title {
+  font-family: "Barlow Condensed", sans-serif;
+  text-transform: uppercase;
+  line-height: 1;
+  margin-bottom: 1em; }
+
+.section--advantages .subtitle {
+  font-family: "Barlow Condensed", sans-serif;
+  text-transform: uppercase;
+  line-height: 1;
+  margin-bottom: 0.5em; }
+
+.section--advantages p {
+  margin: 0 0 1em 0; }
+
 .section--advantages .flex--table > .flex--row {
   border: 2px solid rgba(22, 37, 91, 0.2);
   padding: 60px 20px;
   margin: 0 0 40px; }
-  .section--advantages .flex--table > .flex--row > .flex--item .content {
-    max-width: 580px; }
-  .section--advantages .flex--table > .flex--row > .flex--item .content + .content {
-    margin-top: 30px; }
-  .section--advantages .flex--table > .flex--row > .flex--item .title {
-    font-family: "Barlow Condensed", sans-serif;
-    text-transform: uppercase;
-    line-height: 1;
-    margin-bottom: 1em; }
-  .section--advantages .flex--table > .flex--row > .flex--item .subtitle {
-    font-family: "Barlow Condensed", sans-serif;
-    text-transform: uppercase;
-    line-height: 1;
-    margin-bottom: 0.5em; }
-  .section--advantages .flex--table > .flex--row > .flex--item p {
-    margin: 0 0 1em 0; }
 
 @media (min-width: 768px) {
   .section--advantages .flex--table > .flex--row {
@@ -6287,10 +6295,10 @@ ul {
     .section--advantages .flex--table > .flex--row > .flex--item:last-child {
       flex: 1 0 70%;
       padding-right: 40px; }
-    .section--advantages .flex--table > .flex--row > .flex--item .title {
-      font-size: 30px; }
-    .section--advantages .flex--table > .flex--row > .flex--item .subtitle {
-      font-size: 30px; } }
+  .section--advantages .title {
+    font-size: 30px; }
+  .section--advantages .subtitle {
+    font-size: 30px; } }
 
 @media (min-width: 1024px) {
   .section--advantages .flex--table > .flex--row > .flex--item:first-child {
@@ -6299,18 +6307,18 @@ ul {
   .section--advantages .flex--table > .flex--row > .flex--item:last-child {
     flex: 1 0 calc(100% - 400px);
     padding-right: 40px; }
-  .section--advantages .flex--table > .flex--row > .flex--item .title {
+  .section--advantages .title {
     font-size: 36px; }
-  .section--advantages .flex--table > .flex--row > .flex--item .subtitle {
+  .section--advantages .subtitle {
     font-size: 36px; } }
 
 @media (max-width: 767.98px) {
   .section--advantages .flex--table > .flex--row {
     padding: 20px; }
-    .section--advantages .flex--table > .flex--row > .flex--item .title {
-      font-size: 36px; }
-    .section--advantages .flex--table > .flex--row > .flex--item .subtitle {
-      font-size: 26px; } }
+  .section--advantages .title {
+    font-size: 30px; }
+  .section--advantages .subtitle {
+    font-size: 26px; } }
 
 .section--advantages .nav--figures {
   display: inline-block; }
@@ -6343,10 +6351,14 @@ ul {
         height: 25px;
         margin-right: 5px; } }
 
+.card--advantage {
+  border: 1px solid;
+  padding: 40px;
+  height: 100%;
+  box-shadow: 0 20px 20px -10px rgba(22, 37, 91, 0.1); }
+
 .club--register-or-login {
   margin-bottom: 40px; }
-  .club--register-or-login .container {
-    max-width: 1100px; }
   .club--register-or-login .row {
     align-items: stretch; }
     .club--register-or-login .row > div {
@@ -6355,6 +6367,15 @@ ul {
       justify-content: flex-end; }
   .club--register-or-login .group--cta {
     margin-bottom: 40px; }
+  @media (min-width: 768px) {
+    .club--register-or-login .title {
+      font-size: 30px; } }
+  @media (min-width: 1024px) {
+    .club--register-or-login .title {
+      font-size: 36px; } }
+  @media (max-width: 767.98px) {
+    .club--register-or-login .title {
+      font-size: 30px; } }
 
 .section--footer {
   background: #b9bdcd;
