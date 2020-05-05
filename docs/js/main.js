@@ -1978,6 +1978,7 @@
       }
 
       if (params) {
+        console.log(params);
         filters.forEach(function (filter) {
           filter.values_ = params[filter.key + '-' + filter.value] || [];
           console.log('deserialize', filter.key + '-' + filter.value, filter.values_);
@@ -1987,29 +1988,28 @@
       return filters;
     };
 
-    _proto.hasActiveState = function hasActiveState(filter) {
+    _proto.toggleActiveStates = function toggleActiveStates(filters, parent) {
       var _this4 = this;
 
-      if (filter.values && filter.values.indexOf(filter.value) !== -1) {
-        return true;
-      } else if (filter.options) {
-        return filter.options.reduce(function (p, filter) {
-          filter.active = _this4.hasActiveState(filter);
-          return p || filter.active;
-        }, false);
-      }
-    };
-
-    _proto.toggleActiveStates = function toggleActiveStates(filters) {
-      var _this5 = this;
+      var active = false;
 
       if (filters) {
-        filters.forEach(function (filter) {
-          filter.active = _this5.hasActiveState(filter);
+        active = filters.reduce(function (p, c) {
+          var childActive = _this4.toggleActiveStates(c.options, c);
 
-          _this5.toggleActiveStates(filter.options);
-        });
+          if (childActive) {
+            console.log('childActive', parent);
+          }
+
+          return p || Boolean(parent && parent.has(c)) || childActive;
+        }, false);
       }
+
+      if (parent) {
+        parent.active = active;
+      }
+
+      return active;
     };
 
     _proto.serialize = function serialize(filters) {
@@ -2135,7 +2135,7 @@
     };
 
     _proto.load$ = function load$() {
-      return rxjs.combineLatest(HttpService.get$('/api/bim/03/filters'), HttpService.get$('/api/bim/03/files'));
+      return rxjs.combineLatest(HttpService.get$(window.location.port === '44316' ? '/Client/docs/api/bim/03/filters.json' : '/api/bim/filters'), HttpService.get$(window.location.port === '44316' ? '/Client/docs/api/bim/03/files.json' : '/api/bim/files'));
     };
 
     _proto.toggleFilter = function toggleFilter(filter) {

@@ -105,6 +105,7 @@ export default class FilterMenuService {
 			params = locationParams;
 		}
 		if (params) {
+			console.log(params);
 			filters.forEach(filter => {
 				filter.values_ = params[filter.key + '-' + filter.value] || [];
 				console.log('deserialize', filter.key + '-' + filter.value, filter.values_);
@@ -113,24 +114,21 @@ export default class FilterMenuService {
 		return filters;
 	}
 
-	hasActiveState(filter) {
-		if (filter.values && filter.values.indexOf(filter.value) !== -1) {
-			return true;
-		} else if (filter.options) {
-			return filter.options.reduce((p, filter) => {
-				filter.active = this.hasActiveState(filter);
-				return p || filter.active;
+	toggleActiveStates(filters, parent) {
+		let active = false;
+		if (filters) {
+			active = filters.reduce((p, c) => {
+				const childActive = this.toggleActiveStates(c.options, c);
+				if (childActive) {
+					console.log('childActive', parent);
+				}
+				return p || Boolean(parent && parent.has(c)) || childActive;
 			}, false);
 		}
-	}
-
-	toggleActiveStates(filters) {
-		if (filters) {
-			filters.forEach(filter => {
-				filter.active = this.hasActiveState(filter);
-				this.toggleActiveStates(filter.options);
-			});
+		if (parent) {
+			parent.active = active;
 		}
+		return active;
 	}
 
 	serialize(filters) {

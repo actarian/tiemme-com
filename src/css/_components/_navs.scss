@@ -1080,21 +1080,6 @@ ul {
 			}
 		}
 
-		/*
-		&.active {
-			&>.option {
-				&:not(.disabled) {
-					&>.name {
-						&:after {
-							content: '';
-							width: 100%;
-						}
-					}
-				}
-			}
-		}
-		*/
-
 		&:focus {
 			outline: 0;
 		}
@@ -1107,6 +1092,7 @@ ul {
 
 			&>.nav--options__menu {
 				position: static !important;
+				margin: 0;
 
 				&>.option {
 					position: static !important;

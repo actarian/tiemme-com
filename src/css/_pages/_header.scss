@@ -118,6 +118,10 @@
 		align-items: center;
 	}
 
+	h1{
+		margin: 0;
+	}
+
 	@include media-down(sm) {
 		margin: 10px 0;
 
