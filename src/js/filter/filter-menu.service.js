@@ -51,9 +51,11 @@ export default class FilterMenuService {
 		// const filters = this.flat.filter(x => x.values && x.values.length > 0);
 		// console.log(this.filters);
 		const filters = this.filters.filter(x => x.values && x.values.length > 0);
+		/*
 		if (!skipFilter) {
 			console.log('cycles', filters.length, 'x', items.length, '=', filters.length * items.length);
 		}
+		*/
 		if (filters.length) {
 			// console.log('filters', filters);
 			return items.filter(item => {
@@ -105,10 +107,9 @@ export default class FilterMenuService {
 			params = locationParams;
 		}
 		if (params) {
-			console.log(params);
 			filters.forEach(filter => {
 				filter.values_ = params[filter.key + '-' + filter.value] || [];
-				console.log('deserialize', filter.key + '-' + filter.value, filter.values_);
+				// console.log('deserialize', filter.key + '-' + filter.value, filter.values_);
 			});
 		}
 		return filters;
@@ -119,9 +120,6 @@ export default class FilterMenuService {
 		if (filters) {
 			active = filters.reduce((p, c) => {
 				const childActive = this.toggleActiveStates(c.options, c);
-				if (childActive) {
-					console.log('childActive', parent);
-				}
 				return p || Boolean(parent && parent.has(c)) || childActive;
 			}, false);
 		}
@@ -137,14 +135,14 @@ export default class FilterMenuService {
 		filters.forEach((filter) => {
 			if (filter.values && filter.values.length > 0) {
 				params[filter.key + '-' + filter.value] = filter.values;
-				console.log('serialize', filter.values);
+				// console.log('serialize', filter.values);
 				any = true;
 			}
 		});
 		if (!any) {
 			params = null;
 		}
-		console.log('FilterMenuService.serialize', params);
+		// console.log('FilterMenuService.serialize', params);
 		LocationService.serialize('filters', params);
 		return params;
 	}

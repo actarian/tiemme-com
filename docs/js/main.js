@@ -1910,10 +1910,11 @@
       var filters = this.filters.filter(function (x) {
         return x.values && x.values.length > 0;
       });
-
+      /*
       if (!skipFilter) {
-        console.log('cycles', filters.length, 'x', items.length, '=', filters.length * items.length);
+      	console.log('cycles', filters.length, 'x', items.length, '=', filters.length * items.length);
       }
+      */
 
       if (filters.length) {
         // console.log('filters', filters);
@@ -1978,10 +1979,8 @@
       }
 
       if (params) {
-        console.log(params);
         filters.forEach(function (filter) {
-          filter.values_ = params[filter.key + '-' + filter.value] || [];
-          console.log('deserialize', filter.key + '-' + filter.value, filter.values_);
+          filter.values_ = params[filter.key + '-' + filter.value] || []; // console.log('deserialize', filter.key + '-' + filter.value, filter.values_);
         });
       }
 
@@ -1996,10 +1995,6 @@
       if (filters) {
         active = filters.reduce(function (p, c) {
           var childActive = _this4.toggleActiveStates(c.options, c);
-
-          if (childActive) {
-            console.log('childActive', parent);
-          }
 
           return p || Boolean(parent && parent.has(c)) || childActive;
         }, false);
@@ -2017,17 +2012,17 @@
       var any = false;
       filters.forEach(function (filter) {
         if (filter.values && filter.values.length > 0) {
-          params[filter.key + '-' + filter.value] = filter.values;
-          console.log('serialize', filter.values);
+          params[filter.key + '-' + filter.value] = filter.values; // console.log('serialize', filter.values);
+
           any = true;
         }
       });
 
       if (!any) {
         params = null;
-      }
+      } // console.log('FilterMenuService.serialize', params);
 
-      console.log('FilterMenuService.serialize', params);
+
       LocationService.serialize('filters', params);
       return params;
     };
@@ -2135,7 +2130,7 @@
     };
 
     _proto.load$ = function load$() {
-      return rxjs.combineLatest(HttpService.get$(window.location.port === '44316' ? '/Client/docs/api/bim/03/filters.json' : '/api/bim/filters'), HttpService.get$(window.location.port === '44316' ? '/Client/docs/api/bim/03/files.json' : '/api/bim/files'));
+      return rxjs.combineLatest(HttpService.get$(STATIC ? '/api/bim/filters' : '/Client/docs/api/bim/filters.json'), HttpService.get$(STATIC ? '/api/bim/files' : '/Client/docs/api/bim/files.json'));
     };
 
     _proto.toggleFilter = function toggleFilter(filter) {

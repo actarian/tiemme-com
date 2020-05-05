@@ -77,10 +77,9 @@ export default class BimLibraryComponent extends Component {
 	}
 
 	load$() {
-
 		return combineLatest(
-			HttpService.get$(window.location.port === '44316' ? '/Client/docs/api/bim/03/filters.json' : '/api/bim/filters'),
-			HttpService.get$(window.location.port === '44316' ? '/Client/docs/api/bim/03/files.json' : '/api/bim/files')
+			HttpService.get$(STATIC ? '/api/bim/filters' : '/Client/docs/api/bim/filters.json'),
+			HttpService.get$(STATIC ? '/api/bim/files' : '/Client/docs/api/bim/files.json')
 		);
 	}
 
