@@ -431,7 +431,7 @@
     _proto.onInit = function onInit() {
       var _this = this;
 
-      var items = window.agents || [];
+      var items = this.items = window.agents || [];
       var filters = window.filters || {};
       var initialParams = window.params || {};
       filters.countries.mode = FilterMode.SELECT;
@@ -2130,7 +2130,7 @@
     };
 
     _proto.load$ = function load$() {
-      return rxjs.combineLatest(HttpService.get$(STATIC ? '/api/bim/filters' : '/Client/docs/api/bim/filters.json'), HttpService.get$(STATIC ? '/api/bim/files' : '/Client/docs/api/bim/files.json'));
+      return rxjs.combineLatest(HttpService.get$(!STATIC ? '/api/bim/filters' : '/Client/docs/api/bim/filters.json'), HttpService.get$(!STATIC ? '/api/bim/files' : '/Client/docs/api/bim/files.json'));
     };
 
     _proto.toggleFilter = function toggleFilter(filter) {

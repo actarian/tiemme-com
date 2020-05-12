@@ -6,7 +6,7 @@ import FilterService from '../filter/filter.service';
 export default class AgentsComponent extends Component {
 
 	onInit() {
-		const items = window.agents || [];
+		const items = this.items = window.agents || [];
 		const filters = window.filters || {};
 		const initialParams = window.params || {};
 		filters.countries.mode = FilterMode.SELECT;

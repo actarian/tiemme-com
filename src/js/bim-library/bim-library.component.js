@@ -78,8 +78,8 @@ export default class BimLibraryComponent extends Component {
 
 	load$() {
 		return combineLatest(
-			HttpService.get$(STATIC ? '/api/bim/filters' : '/Client/docs/api/bim/filters.json'),
-			HttpService.get$(STATIC ? '/api/bim/files' : '/Client/docs/api/bim/files.json')
+			HttpService.get$(!STATIC ? '/api/bim/filters' : '/Client/docs/api/bim/filters.json'),
+			HttpService.get$(!STATIC ? '/api/bim/files' : '/Client/docs/api/bim/files.json')
 		);
 	}
 
