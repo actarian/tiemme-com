@@ -133,9 +133,18 @@
       return match;
     };
 
+    _proto.getSelectedOption = function getSelectedOption() {
+      var _this2 = this;
+
+      return this.options.find(function (x) {
+        return _this2.has(x);
+      });
+    };
+
     _proto.getLabel = function getLabel() {
       if (this.mode === FilterMode.SELECT) {
-        return this.placeholder || this.label;
+        var selectedOption = this.getSelectedOption();
+        return selectedOption ? selectedOption.label : this.placeholder;
       } else {
         return this.label;
       }
@@ -431,7 +440,7 @@
     _proto.onInit = function onInit() {
       var _this = this;
 
-      var items = this.items = window.agents || [];
+      var items = window.agents || [];
       var filters = window.filters || {};
       var initialParams = window.params || {};
       filters.countries.mode = FilterMode.SELECT;
@@ -476,6 +485,7 @@
 
         }
       });
+      this.items = [];
       filterService.items$(items).pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (items) {
         _this.items = items;
 
@@ -1820,6 +1830,13 @@
       if (this.mode === FilterMode.SELECT) {
         var first = this.options[0];
         this.placeholder = first.label;
+      } // remove all child items
+
+
+      if (item instanceof FilterMenuItem) {
+        item.options.forEach(function (x) {
+          return item.remove(x);
+        });
       } // console.log('FilterItem.remove', item);
 
 
@@ -1866,7 +1883,7 @@
 
 
       this.deserialize(this.filters, initialParams);
-      this.toggleActiveStates(this.filters);
+      this.toggleSelectedAndActiveStates(this.filters);
       return this.filters;
     };
 
@@ -1884,7 +1901,10 @@
         return _this.filterItems(items);
       }), operators.tap(function () {
         return _this.updateFilterStates(_this.flat, items);
-      }));
+      }), operators.tap(function () {
+        return _this.toggleSelectedStates(filters);
+      }) // forza apertura menu
+      );
     };
 
     _proto.flatMap = function flatMap(filters, items) {
@@ -1987,24 +2007,45 @@
       return filters;
     };
 
-    _proto.toggleActiveStates = function toggleActiveStates(filters, parent) {
+    _proto.toggleSelectedAndActiveStates = function toggleSelectedAndActiveStates(filters, parent) {
       var _this4 = this;
 
-      var active = false;
+      var selected = false;
 
       if (filters) {
-        active = filters.reduce(function (p, c) {
-          var childActive = _this4.toggleActiveStates(c.options, c);
+        selected = filters.reduce(function (p, c) {
+          var childSelected = _this4.toggleSelectedAndActiveStates(c.options, c);
 
-          return p || Boolean(parent && parent.has(c)) || childActive;
+          return p || Boolean(parent && parent.has(c)) || childSelected;
         }, false);
       }
 
       if (parent) {
-        parent.active = active;
+        parent.selected = selected;
+        parent.active = selected;
       }
 
-      return active;
+      return selected;
+    };
+
+    _proto.toggleSelectedStates = function toggleSelectedStates(filters, parent) {
+      var _this5 = this;
+
+      var selected = false;
+
+      if (filters) {
+        selected = filters.reduce(function (p, c) {
+          var childSelected = _this5.toggleSelectedStates(c.options, c);
+
+          return p || Boolean(parent && parent.has(c)) || childSelected;
+        }, false);
+      }
+
+      if (parent) {
+        parent.selected = selected;
+      }
+
+      return selected;
     };
 
     _proto.serialize = function serialize(filters) {
@@ -2130,7 +2171,7 @@
     };
 
     _proto.load$ = function load$() {
-      return rxjs.combineLatest(HttpService.get$(!STATIC ? '/api/bim/filters' : '/Client/docs/api/bim/filters.json'), HttpService.get$(!STATIC ? '/api/bim/files' : '/Client/docs/api/bim/files.json'));
+      return rxjs.combineLatest(HttpService.get$('/api/bim/filters'), HttpService.get$('/api/bim/files'));
     };
 
     _proto.toggleFilter = function toggleFilter(filter) {
@@ -3313,6 +3354,34 @@
 
   };
 
+  var DownloadsComponent = /*#__PURE__*/function (_Component) {
+    _inheritsLoose(DownloadsComponent, _Component);
+
+    function DownloadsComponent() {
+      return _Component.apply(this, arguments) || this;
+    }
+
+    var _proto = DownloadsComponent.prototype;
+
+    _proto.onInit = function onInit() {
+      var _this = this;
+
+      console.log(this.downloads);
+      this.items = window[this.downloads];
+      this.control = new rxcompForm.FormControl(this.items[0].id);
+      this.control.options = this.items;
+      this.control.changes$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (changes) {
+        return _this.pushChanges();
+      });
+    };
+
+    return DownloadsComponent;
+  }(rxcomp.Component);
+  DownloadsComponent.meta = {
+    selector: '[downloads]',
+    inputs: ['downloads']
+  };
+
   var DropdownItemDirective = /*#__PURE__*/function (_Directive) {
     _inheritsLoose(DropdownItemDirective, _Directive);
 
@@ -3381,7 +3450,7 @@
     inputs: ['filter', 'item'],
     template:
     /* html */
-    "\n\t\t<span class=\"option\" [class]=\"{ active: filter.has(item), disabled: item.disabled }\">\n\t\t\t<span class=\"checkbox\" (click)=\"filter.toggle(item)\"></span>\n\t\t\t<span class=\"name\" [class]=\"{ menu: filter.isMenuItem(item), active: item.active }\" (click)=\"toggleActive(item)\" [innerHTML]=\"item.label\"></span>\n\t\t\t<span class=\"count\" [innerHTML]=\"item.count || ''\"></span>\n\t\t</span>\n\t\t<ul class=\"nav--options\" *if=\"filter.isMenuItem(item) && item.active\">\n\t\t\t<li class=\"nav--options__menu\" menu-item [filter]=\"item\" [item]=\"option\" *for=\"let option of item.options\"></li>\n\t\t</ul>\n\t"
+    "\n\t\t<span class=\"option\" [class]=\"{ active: filter.has(item), disabled: item.disabled, selected: item.selected }\">\n\t\t\t<span class=\"checkbox\" (click)=\"filter.toggle(item)\"></span>\n\t\t\t<span class=\"name\" [class]=\"{ menu: filter.isMenuItem(item), active: item.active }\" (click)=\"toggleActive(item)\" [innerHTML]=\"item.label\"></span>\n\t\t\t<span class=\"count\" [innerHTML]=\"item.count || ''\"></span>\n\t\t</span>\n\t\t<ul class=\"nav--options\" *if=\"filter.isMenuItem(item) && (item.active)\">\n\t\t\t<li class=\"nav--options__menu\" menu-item [filter]=\"item\" [item]=\"option\" *for=\"let option of item.options\"></li>\n\t\t</ul>\n\t"
   };
 
   var ControlComponent = /*#__PURE__*/function (_Component) {
@@ -6696,7 +6765,7 @@
   }(rxcomp.Module);
   AppModule.meta = {
     imports: [rxcomp.CoreModule, rxcompForm.FormModule],
-    declarations: [AgentsComponent, AppearDirective, BimLibraryComponent, BimLibrary01Component, BimLibrary02Component, ClickOutsideDirective, ClubComponent, ClubForgotComponent, ClubModalComponent, ClubPasswordRecoveryComponent, ClubPasswordEditComponent, ClubProfileComponent, ClubSigninComponent, ClubSignupComponent, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlPasswordComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, FilterMenuItemComponent, FileSizePipe, HtmlPipe, HeaderComponent, LazyDirective, MainMenuComponent, MediaLibraryComponent, ModalOutletComponent, ModalComponent, PriceListComponent, NaturalFormComponent, NaturalFormSearchComponent, NaturalFormContactComponent, NaturalFormRequestInfoComponent, NaturalFormControlComponent, NaturalFormNewsletterComponent, NaturalFormSignupComponent, RequestInfoCommercialComponent, RegisterOrLoginComponent, ReservedAreaComponent, SecureDirective, ScrollToDirective, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, TestComponent, // ValueDirective,
+    declarations: [AgentsComponent, AppearDirective, BimLibraryComponent, BimLibrary01Component, BimLibrary02Component, ClickOutsideDirective, ClubComponent, ClubForgotComponent, ClubModalComponent, ClubPasswordRecoveryComponent, ClubPasswordEditComponent, ClubProfileComponent, ClubSigninComponent, ClubSignupComponent, ControlCheckboxComponent, ControlCustomSelectComponent, ControlEmailComponent, ControlFileComponent, ControlPasswordComponent, ControlSelectComponent, ControlTextComponent, ControlTextareaComponent, DownloadsComponent, DropdownDirective, DropdownItemDirective, ErrorsComponent, FilterMenuItemComponent, FileSizePipe, HtmlPipe, HeaderComponent, LazyDirective, MainMenuComponent, MediaLibraryComponent, ModalOutletComponent, ModalComponent, PriceListComponent, NaturalFormComponent, NaturalFormSearchComponent, NaturalFormContactComponent, NaturalFormRequestInfoComponent, NaturalFormControlComponent, NaturalFormNewsletterComponent, NaturalFormSignupComponent, RequestInfoCommercialComponent, RegisterOrLoginComponent, ReservedAreaComponent, SecureDirective, ScrollToDirective, SwiperDirective, SwiperListingDirective, SwiperSlidesDirective, TestComponent, // ValueDirective,
     VideoComponent, WorkWithUsComponent, YoutubeComponent, ZoomableDirective],
     bootstrap: AppComponent
   };

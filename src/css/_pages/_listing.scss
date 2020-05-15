@@ -178,13 +178,13 @@
 			margin-bottom: 40px;
 		}
 
-		@include media-up(lg) {
+		@include media-up(md) {
 			$gutter: 30px;
 			margin-left: - $gutter / 2;
 			margin-right: - $gutter / 2;
 
 			.card--product {
-				@include as-col(4, 12, $gutter);
+				@include as-col(3, 12, $gutter);
 			}
 		}
 
@@ -194,18 +194,29 @@
 			margin-right: - $gutter / 2;
 
 			.card--product {
-				@include as-col(6, 12, $gutter);
+				@include as-col(4, 12, $gutter);
 			}
 		}
 
 		@include media-down(xs) {
-			margin-left: 0;
-			margin-right: 0;
+			$gutter: 15px;
+			margin-left: - $gutter / 2;
+			margin-right: - $gutter / 2;
 
 			.card--product {
-				@include as-col(12, 12, 0px);
+				@include as-col(6, 12, $gutter);
+
+				.abstract {
+					font-size: 14px;
+					line-height: 19px;
+				}
+
+				.btn--link {
+					font-size: 12px;
+				}
 			}
 		}
+
 	}
 
 	@include media-down(sm) {

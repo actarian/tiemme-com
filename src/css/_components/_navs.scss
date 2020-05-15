@@ -1065,6 +1065,14 @@ ul {
 				margin-right: 10px;
 			}
 
+			&.selected {
+				&>.checkbox {
+					&:before {
+						background: rgba($foreground, 0.25);
+					}
+				}
+			}
+
 			&.active {
 				&>.checkbox {
 					&:before {

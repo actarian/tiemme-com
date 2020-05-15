@@ -141,6 +141,15 @@
 		}
 
 		@include media-down(xs) {
+
+			.swiper-wrapper {
+				align-items: stretch;
+
+				.swiper-slide {
+					height: auto;
+				}
+			}
+
 			.swiper-pagination-bullets {
 
 				&,

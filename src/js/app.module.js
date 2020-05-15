@@ -15,6 +15,7 @@ import ClubProfileComponent from './club/club-profile.component';
 import ClubSigninComponent from './club/club-signin.component';
 import ClubSignupComponent from './club/club-signup.component';
 import ClubComponent from './club/club.component';
+import DownloadsComponent from './download/downloads.component';
 import DropdownItemDirective from './dropdown/dropdown-item.directive';
 import DropdownDirective from './dropdown/dropdown.directive';
 import FilterMenuItemComponent from './filter/filter-menu-item.component';
@@ -88,6 +89,7 @@ AppModule.meta = {
 		ControlSelectComponent,
 		ControlTextComponent,
 		ControlTextareaComponent,
+		DownloadsComponent,
 		DropdownDirective,
 		DropdownItemDirective,
 		ErrorsComponent,

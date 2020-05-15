@@ -107,6 +107,10 @@ export default class FilterMenuItem {
 			const first = this.options[0];
 			this.placeholder = first.label;
 		}
+		// remove all child items
+		if (item instanceof FilterMenuItem) {
+			item.options.forEach(x => item.remove(x));
+		}
 		// console.log('FilterItem.remove', item);
 		this.change$.next();
 	}

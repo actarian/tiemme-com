@@ -17,7 +17,7 @@ export default class FilterMenuService {
 		}
 		// console.log(this.flat);
 		this.deserialize(this.filters, initialParams);
-		this.toggleActiveStates(this.filters);
+		this.toggleSelectedAndActiveStates(this.filters);
 		return this.filters;
 	}
 
@@ -29,7 +29,8 @@ export default class FilterMenuService {
 			// tap(() => console.log(filters)),
 			tap(() => this.serialize(filters)),
 			map(() => this.filterItems(items)),
-			tap(() => this.updateFilterStates(this.flat, items))
+			tap(() => this.updateFilterStates(this.flat, items)),
+			tap(() => this.toggleSelectedStates(filters)), // forza apertura menu
 		);
 	}
 
@@ -115,18 +116,33 @@ export default class FilterMenuService {
 		return filters;
 	}
 
-	toggleActiveStates(filters, parent) {
-		let active = false;
+	toggleSelectedAndActiveStates(filters, parent) {
+		let selected = false;
 		if (filters) {
-			active = filters.reduce((p, c) => {
-				const childActive = this.toggleActiveStates(c.options, c);
-				return p || Boolean(parent && parent.has(c)) || childActive;
+			selected = filters.reduce((p, c) => {
+				const childSelected = this.toggleSelectedAndActiveStates(c.options, c);
+				return p || Boolean(parent && parent.has(c)) || childSelected;
 			}, false);
 		}
 		if (parent) {
-			parent.active = active;
+			parent.selected = selected;
+			parent.active = selected;
 		}
-		return active;
+		return selected;
+	}
+
+	toggleSelectedStates(filters, parent) {
+		let selected = false;
+		if (filters) {
+			selected = filters.reduce((p, c) => {
+				const childSelected = this.toggleSelectedStates(c.options, c);
+				return p || Boolean(parent && parent.has(c)) || childSelected;
+			}, false);
+		}
+		if (parent) {
+			parent.selected = selected;
+		}
+		return selected;
 	}
 
 	serialize(filters) {

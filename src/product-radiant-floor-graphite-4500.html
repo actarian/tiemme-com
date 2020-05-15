@@ -196,6 +196,68 @@
 	</div>
 </section>
 
+<script>
+	window.certifications = [{
+		id: 'download_certification_S51.pdf',
+		name: 'S51 - AENOR - ESP - TECNICO (0,25 MB)',
+	}, {
+		id: 'download_certification_S52.pdf',
+		name: 'S52 - AENOR - ESP - TECNICO (0,25 MB)',
+	}, {
+		id: 'download_certification_S53.pdf',
+		name: 'S53 - AENOR - ESP - TECNICO (0,25 MB)',
+	}];
+
+</script>
+
+<script>
+	window.conformities = [{
+		id: 'download_certification_S51.pdf',
+		name: 'DC-00C - ENU - Assicurazione di prodotto (0,6 MB)',
+	}, {
+		id: 'download_certification_S52.pdf',
+		name: 'DC-01C - ENU - Assicurazione di prodotto (0,6 MB)',
+	}, {
+		id: 'download_certification_S53.pdf',
+		name: 'DC-02C - ENU - Assicurazione di prodotto (0,6 MB)',
+	}];
+
+</script>
+
+<script>
+	window.performances = [{
+		id: 'download_certification_S51.pdf',
+		name: '4500480 - DP-028 - ENU - CPR 305/2011 (0,25 MB)',
+	}, {
+		id: 'download_certification_S52.pdf',
+		name: '4500481 - DP-028 - ENU - CPR 305/2011 (0,25 MB)',
+	}, {
+		id: 'download_certification_S53.pdf',
+		name: '4500482 - DP-028 - ENU - CPR 305/2011 (0,25 MB)',
+	}];
+
+</script>
+
+<section class="section--downloads">
+	<div class="container">
+		<div class="group--downloads" downloads="certifications">
+			<div class="group--downloads__title">Certificazioni</div>
+			<div control-custom-select [control]="control" label="Certificazioni"></div>
+			<a [href]="control.value" class="btn--download" target="_blank" download secure><svg class="icon icon--download"><use xlink:href="#download"></use></svg>download</a>
+		</div>
+		<div class="group--downloads" downloads="conformities">
+			<div class="group--downloads__title">Dichiarazione di conformità</div>
+			<div control-custom-select [control]="control" label="Dichiarazione di conformità"></div>
+			<a [href]="control.value" class="btn--download" target="_blank" download secure><svg class="icon icon--download"><use xlink:href="#download"></use></svg>download</a>
+		</div>
+		<div class="group--downloads" downloads="performances">
+			<div class="group--downloads__title">Dichiarazione di prestazione</div>
+			<div control-custom-select [control]="control" label="Dichiarazione di prestazione"></div>
+			<a [href]="control.value" class="btn--download" target="_blank" download secure><svg class="icon icon--download"><use xlink:href="#download"></use></svg>download</a>
+		</div>
+	</div>
+</section>
+
 <section class="section--certifications">
 	<div class="container">
 		<div class="row">

@@ -45,9 +45,14 @@ export default class FilterItem {
 		return match;
 	}
 
+	getSelectedOption() {
+		return this.options.find(x => this.has(x));
+	}
+
 	getLabel() {
 		if (this.mode === FilterMode.SELECT) {
-			return this.placeholder || this.label;
+			const selectedOption = this.getSelectedOption();
+			return selectedOption ? selectedOption.label : this.placeholder;
 		} else {
 			return this.label;
 		}
