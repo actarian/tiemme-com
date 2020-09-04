@@ -169,6 +169,23 @@ strong {
 	}
 }
 
+%picture-category {
+	display: flex;
+	align-items: center;
+	height: 26px;
+	padding: 0 10px;
+	max-width: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-size: 14px;
+	font-family: $font-secondary;
+	font-weight: $font-medium;
+	text-transform: uppercase;
+	background: $background-secondary;
+	color: $foreground;
+}
+
 .text--center {
 	text-align: center;
 }

@@ -450,6 +450,16 @@
         return t;
     };
 
+    function __rest(s, e) {
+        var t = {};
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+            t[p] = s[p];
+        if (s != null && typeof Object.getOwnPropertySymbols === "function")
+            for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
+                t[p[i]] = s[p[i]];
+        return t;
+    }
+
     function isFunction(x) {
         return typeof x === 'function';
     }
@@ -516,6 +526,7 @@
             this._parentOrParents = null;
             this._subscriptions = null;
             if (unsubscribe) {
+                this._ctorUnsubscribe = true;
                 this._unsubscribe = unsubscribe;
             }
         }
@@ -524,7 +535,7 @@
             if (this.closed) {
                 return;
             }
-            var _a = this, _parentOrParents = _a._parentOrParents, _unsubscribe = _a._unsubscribe, _subscriptions = _a._subscriptions;
+            var _a = this, _parentOrParents = _a._parentOrParents, _ctorUnsubscribe = _a._ctorUnsubscribe, _unsubscribe = _a._unsubscribe, _subscriptions = _a._subscriptions;
             this.closed = true;
             this._parentOrParents = null;
             this._subscriptions = null;
@@ -538,6 +549,9 @@
                 }
             }
             if (isFunction(_unsubscribe)) {
+                if (_ctorUnsubscribe) {
+                    this._unsubscribe = undefined;
+                }
                 try {
                     _unsubscribe.call(this);
                 }
@@ -902,7 +916,9 @@
 
     var observable = (function () { return typeof Symbol === 'function' && Symbol.observable || '@@observable'; })();
 
-    function noop() { }
+    function identity(x) {
+        return x;
+    }
 
     function pipe() {
         var fns = [];
@@ -912,8 +928,8 @@
         return pipeFromArray(fns);
     }
     function pipeFromArray(fns) {
-        if (!fns) {
-            return noop;
+        if (fns.length === 0) {
+            return identity;
         }
         if (fns.length === 1) {
             return fns[0];
@@ -1807,7 +1823,8 @@
         return QueueScheduler;
     }(AsyncScheduler));
 
-    var queue = new QueueScheduler(QueueAction);
+    var queueScheduler = new QueueScheduler(QueueAction);
+    var queue = queueScheduler;
 
     var EMPTY = new Observable(function (subscriber) { return subscriber.complete(); });
     function empty$1(scheduler) {
@@ -2236,9 +2253,11 @@
         return AsapScheduler;
     }(AsyncScheduler));
 
-    var asap = new AsapScheduler(AsapAction);
+    var asapScheduler = new AsapScheduler(AsapAction);
+    var asap = asapScheduler;
 
-    var async = new AsyncScheduler(AsyncAction);
+    var asyncScheduler = new AsyncScheduler(AsyncAction);
+    var async = asyncScheduler;
 
     var AnimationFrameAction = (function (_super) {
         __extends(AnimationFrameAction, _super);
@@ -2299,7 +2318,8 @@
         return AnimationFrameScheduler;
     }(AsyncScheduler));
 
-    var animationFrame = new AnimationFrameScheduler(AnimationFrameAction);
+    var animationFrameScheduler = new AnimationFrameScheduler(AnimationFrameAction);
+    var animationFrame = animationFrameScheduler;
 
     var VirtualTimeScheduler = (function (_super) {
         __extends(VirtualTimeScheduler, _super);
@@ -2393,9 +2413,7 @@
         return VirtualAction;
     }(AsyncAction));
 
-    function identity(x) {
-        return x;
-    }
+    function noop() { }
 
     function isObservable(obj) {
         return !!obj && (obj instanceof Observable || (typeof obj.lift === 'function' && typeof obj.subscribe === 'function'));
@@ -2740,7 +2758,14 @@
     var subscribeToIterable = function (iterable) { return function (subscriber) {
         var iterator$$1 = iterable[iterator]();
         do {
-            var item = iterator$$1.next();
+            var item = void 0;
+            try {
+                item = iterator$$1.next();
+            }
+            catch (err) {
+                subscriber.error(err);
+                return subscriber;
+            }
             if (item.done) {
                 subscriber.complete();
                 break;
@@ -2814,8 +2839,8 @@
         for (var _i = 0; _i < arguments.length; _i++) {
             observables[_i] = arguments[_i];
         }
-        var resultSelector = null;
-        var scheduler = null;
+        var resultSelector = undefined;
+        var scheduler = undefined;
         if (isScheduler(observables[observables.length - 1])) {
             scheduler = observables.pop();
         }
@@ -2861,7 +2886,7 @@
                 this.toRespond = len;
                 for (var i = 0; i < len; i++) {
                     var observable = observables[i];
-                    this.add(subscribeToResult(this, observable, observable, i));
+                    this.add(subscribeToResult(this, observable, undefined, i));
                 }
             }
         };
@@ -2870,7 +2895,7 @@
                 this.destination.complete();
             }
         };
-        CombineLatestSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        CombineLatestSubscriber.prototype.notifyNext = function (_outerValue, innerValue, outerIndex) {
             var values = this.values;
             var oldVal = values[outerIndex];
             var toRespond = !this.toRespond
@@ -3010,6 +3035,90 @@
         }
     }
 
+    var SimpleInnerSubscriber = (function (_super) {
+        __extends(SimpleInnerSubscriber, _super);
+        function SimpleInnerSubscriber(parent) {
+            var _this = _super.call(this) || this;
+            _this.parent = parent;
+            return _this;
+        }
+        SimpleInnerSubscriber.prototype._next = function (value) {
+            this.parent.notifyNext(value);
+        };
+        SimpleInnerSubscriber.prototype._error = function (error) {
+            this.parent.notifyError(error);
+            this.unsubscribe();
+        };
+        SimpleInnerSubscriber.prototype._complete = function () {
+            this.parent.notifyComplete();
+            this.unsubscribe();
+        };
+        return SimpleInnerSubscriber;
+    }(Subscriber));
+    var ComplexInnerSubscriber = (function (_super) {
+        __extends(ComplexInnerSubscriber, _super);
+        function ComplexInnerSubscriber(parent, outerValue, outerIndex) {
+            var _this = _super.call(this) || this;
+            _this.parent = parent;
+            _this.outerValue = outerValue;
+            _this.outerIndex = outerIndex;
+            return _this;
+        }
+        ComplexInnerSubscriber.prototype._next = function (value) {
+            this.parent.notifyNext(this.outerValue, value, this.outerIndex, this);
+        };
+        ComplexInnerSubscriber.prototype._error = function (error) {
+            this.parent.notifyError(error);
+            this.unsubscribe();
+        };
+        ComplexInnerSubscriber.prototype._complete = function () {
+            this.parent.notifyComplete(this);
+            this.unsubscribe();
+        };
+        return ComplexInnerSubscriber;
+    }(Subscriber));
+    var SimpleOuterSubscriber = (function (_super) {
+        __extends(SimpleOuterSubscriber, _super);
+        function SimpleOuterSubscriber() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        SimpleOuterSubscriber.prototype.notifyNext = function (innerValue) {
+            this.destination.next(innerValue);
+        };
+        SimpleOuterSubscriber.prototype.notifyError = function (err) {
+            this.destination.error(err);
+        };
+        SimpleOuterSubscriber.prototype.notifyComplete = function () {
+            this.destination.complete();
+        };
+        return SimpleOuterSubscriber;
+    }(Subscriber));
+    var ComplexOuterSubscriber = (function (_super) {
+        __extends(ComplexOuterSubscriber, _super);
+        function ComplexOuterSubscriber() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        ComplexOuterSubscriber.prototype.notifyNext = function (_outerValue, innerValue, _outerIndex, _innerSub) {
+            this.destination.next(innerValue);
+        };
+        ComplexOuterSubscriber.prototype.notifyError = function (error) {
+            this.destination.error(error);
+        };
+        ComplexOuterSubscriber.prototype.notifyComplete = function (_innerSub) {
+            this.destination.complete();
+        };
+        return ComplexOuterSubscriber;
+    }(Subscriber));
+    function innerSubscribe(result, innerSubscriber) {
+        if (innerSubscriber.closed) {
+            return undefined;
+        }
+        if (result instanceof Observable) {
+            return result.subscribe(innerSubscriber);
+        }
+        return subscribeTo(result)(innerSubscriber);
+    }
+
     function mergeMap(project, resultSelector, concurrent) {
         if (concurrent === void 0) { concurrent = Number.POSITIVE_INFINITY; }
         if (typeof resultSelector === 'function') {
@@ -3063,13 +3172,13 @@
                 return;
             }
             this.active++;
-            this._innerSub(result, value, index);
+            this._innerSub(result);
         };
-        MergeMapSubscriber.prototype._innerSub = function (ish, value, index) {
-            var innerSubscriber = new InnerSubscriber(this, value, index);
+        MergeMapSubscriber.prototype._innerSub = function (ish) {
+            var innerSubscriber = new SimpleInnerSubscriber(this);
             var destination = this.destination;
             destination.add(innerSubscriber);
-            var innerSubscription = subscribeToResult(this, ish, undefined, undefined, innerSubscriber);
+            var innerSubscription = innerSubscribe(ish, innerSubscriber);
             if (innerSubscription !== innerSubscriber) {
                 destination.add(innerSubscription);
             }
@@ -3081,12 +3190,11 @@
             }
             this.unsubscribe();
         };
-        MergeMapSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        MergeMapSubscriber.prototype.notifyNext = function (innerValue) {
             this.destination.next(innerValue);
         };
-        MergeMapSubscriber.prototype.notifyComplete = function (innerSub) {
+        MergeMapSubscriber.prototype.notifyComplete = function () {
             var buffer = this.buffer;
-            this.remove(innerSub);
             this.active--;
             if (buffer.length > 0) {
                 this._next(buffer.shift());
@@ -3096,7 +3204,8 @@
             }
         };
         return MergeMapSubscriber;
-    }(OuterSubscriber));
+    }(SimpleOuterSubscriber));
+    var flatMap = mergeMap;
 
     function mergeAll(concurrent) {
         if (concurrent === void 0) { concurrent = Number.POSITIVE_INFINITY; }
@@ -3614,7 +3723,7 @@
             else {
                 for (var i = 0; i < len && !this.hasFirst; i++) {
                     var observable = observables[i];
-                    var subscription = subscribeToResult(this, observable, observable, i);
+                    var subscription = subscribeToResult(this, observable, undefined, i);
                     if (this.subscriptions) {
                         this.subscriptions.push(subscription);
                     }
@@ -3623,7 +3732,7 @@
                 this.observables = null;
             }
         };
-        RaceSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        RaceSubscriber.prototype.notifyNext = function (_outerValue, innerValue, outerIndex) {
             if (!this.hasFirst) {
                 this.hasFirst = true;
                 for (var i = 0; i < this.subscriptions.length; i++) {
@@ -3772,10 +3881,10 @@
         function ZipSubscriber(destination, resultSelector, values) {
             if (values === void 0) { values = Object.create(null); }
             var _this = _super.call(this, destination) || this;
+            _this.resultSelector = resultSelector;
             _this.iterators = [];
             _this.active = 0;
-            _this.resultSelector = (typeof resultSelector === 'function') ? resultSelector : null;
-            _this.values = values;
+            _this.resultSelector = (typeof resultSelector === 'function') ? resultSelector : undefined;
             return _this;
         }
         ZipSubscriber.prototype._next = function (value) {
@@ -3803,7 +3912,7 @@
                 var iterator$$1 = iterators[i];
                 if (iterator$$1.stillUnsubscribed) {
                     var destination = this.destination;
-                    destination.add(iterator$$1.subscribe(iterator$$1, i));
+                    destination.add(iterator$$1.subscribe());
                 }
                 else {
                     this.active--;
@@ -3878,7 +3987,7 @@
         };
         StaticIterator.prototype.hasCompleted = function () {
             var nextResult = this.nextResult;
-            return nextResult && nextResult.done;
+            return Boolean(nextResult && nextResult.done);
         };
         return StaticIterator;
     }());
@@ -3943,15 +4052,15 @@
                 this.destination.complete();
             }
         };
-        ZipBufferIterator.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        ZipBufferIterator.prototype.notifyNext = function (innerValue) {
             this.buffer.push(innerValue);
             this.parent.checkIterators();
         };
-        ZipBufferIterator.prototype.subscribe = function (value, index) {
-            return subscribeToResult(this, this.observable, this, index);
+        ZipBufferIterator.prototype.subscribe = function () {
+            return innerSubscribe(this.observable, new SimpleInnerSubscriber(this));
         };
         return ZipBufferIterator;
-    }(OuterSubscriber));
+    }(SimpleOuterSubscriber));
 
     function audit(durationSelector) {
         return function auditOperatorFunction(source) {
@@ -3987,7 +4096,7 @@
                 catch (err) {
                     return this.destination.error(err);
                 }
-                var innerSubscription = subscribeToResult(this, duration);
+                var innerSubscription = innerSubscribe(duration, new SimpleInnerSubscriber(this));
                 if (!innerSubscription || innerSubscription.closed) {
                     this.clearThrottle();
                 }
@@ -4000,23 +4109,23 @@
             var _a = this, value = _a.value, hasValue = _a.hasValue, throttled = _a.throttled;
             if (throttled) {
                 this.remove(throttled);
-                this.throttled = null;
+                this.throttled = undefined;
                 throttled.unsubscribe();
             }
             if (hasValue) {
-                this.value = null;
+                this.value = undefined;
                 this.hasValue = false;
                 this.destination.next(value);
             }
         };
-        AuditSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex) {
+        AuditSubscriber.prototype.notifyNext = function () {
             this.clearThrottle();
         };
         AuditSubscriber.prototype.notifyComplete = function () {
             this.clearThrottle();
         };
         return AuditSubscriber;
-    }(OuterSubscriber));
+    }(SimpleOuterSubscriber));
 
     function auditTime(duration, scheduler) {
         if (scheduler === void 0) { scheduler = async; }
@@ -4042,19 +4151,19 @@
         function BufferSubscriber(destination, closingNotifier) {
             var _this = _super.call(this, destination) || this;
             _this.buffer = [];
-            _this.add(subscribeToResult(_this, closingNotifier));
+            _this.add(innerSubscribe(closingNotifier, new SimpleInnerSubscriber(_this)));
             return _this;
         }
         BufferSubscriber.prototype._next = function (value) {
             this.buffer.push(value);
         };
-        BufferSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        BufferSubscriber.prototype.notifyNext = function () {
             var buffer = this.buffer;
             this.buffer = [];
             this.destination.next(buffer);
         };
         return BufferSubscriber;
-    }(OuterSubscriber));
+    }(SimpleOuterSubscriber));
 
     function bufferCount(bufferSize, startBufferEvery) {
         if (startBufferEvery === void 0) { startBufferEvery = null; }
@@ -4303,7 +4412,6 @@
         __extends(BufferToggleSubscriber, _super);
         function BufferToggleSubscriber(destination, openings, closingSelector) {
             var _this = _super.call(this, destination) || this;
-            _this.openings = openings;
             _this.closingSelector = closingSelector;
             _this.contexts = [];
             _this.add(subscribeToResult(_this, openings));
@@ -4339,7 +4447,7 @@
             this.contexts = null;
             _super.prototype._complete.call(this);
         };
-        BufferToggleSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        BufferToggleSubscriber.prototype.notifyNext = function (outerValue, innerValue) {
             outerValue ? this.closeBuffer(outerValue) : this.openBuffer(innerValue);
         };
         BufferToggleSubscriber.prototype.notifyComplete = function (innerSub) {
@@ -4420,10 +4528,10 @@
             _super.prototype._complete.call(this);
         };
         BufferWhenSubscriber.prototype._unsubscribe = function () {
-            this.buffer = null;
+            this.buffer = undefined;
             this.subscribing = false;
         };
-        BufferWhenSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        BufferWhenSubscriber.prototype.notifyNext = function () {
             this.openBuffer();
         };
         BufferWhenSubscriber.prototype.notifyComplete = function () {
@@ -4457,11 +4565,11 @@
             this.closingSubscription = closingSubscription;
             this.add(closingSubscription);
             this.subscribing = true;
-            closingSubscription.add(subscribeToResult(this, closingNotifier));
+            closingSubscription.add(innerSubscribe(closingNotifier, new SimpleInnerSubscriber(this)));
             this.subscribing = false;
         };
         return BufferWhenSubscriber;
-    }(OuterSubscriber));
+    }(SimpleOuterSubscriber));
 
     function catchError(selector) {
         return function catchErrorOperatorFunction(source) {
@@ -4498,16 +4606,16 @@
                     return;
                 }
                 this._unsubscribeAndRecycle();
-                var innerSubscriber = new InnerSubscriber(this, undefined, undefined);
+                var innerSubscriber = new SimpleInnerSubscriber(this);
                 this.add(innerSubscriber);
-                var innerSubscription = subscribeToResult(this, result, undefined, undefined, innerSubscriber);
+                var innerSubscription = innerSubscribe(result, innerSubscriber);
                 if (innerSubscription !== innerSubscriber) {
                     this.add(innerSubscription);
                 }
             }
         };
         return CatchSubscriber;
-    }(OuterSubscriber));
+    }(SimpleOuterSubscriber));
 
     function combineAll(project) {
         return function (source) { return source.lift(new CombineLatestOperator(project)); };
@@ -4613,7 +4721,6 @@
             var _this = _super.call(this, destination) || this;
             _this.durationSelector = durationSelector;
             _this.hasValue = false;
-            _this.durationSubscription = null;
             return _this;
         }
         DebounceSubscriber.prototype._next = function (value) {
@@ -4639,12 +4746,12 @@
                 subscription.unsubscribe();
                 this.remove(subscription);
             }
-            subscription = subscribeToResult(this, duration);
+            subscription = innerSubscribe(duration, new SimpleInnerSubscriber(this));
             if (subscription && !subscription.closed) {
                 this.add(this.durationSubscription = subscription);
             }
         };
-        DebounceSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        DebounceSubscriber.prototype.notifyNext = function () {
             this.emitValue();
         };
         DebounceSubscriber.prototype.notifyComplete = function () {
@@ -4655,17 +4762,17 @@
                 var value = this.value;
                 var subscription = this.durationSubscription;
                 if (subscription) {
-                    this.durationSubscription = null;
+                    this.durationSubscription = undefined;
                     subscription.unsubscribe();
                     this.remove(subscription);
                 }
-                this.value = null;
+                this.value = undefined;
                 this.hasValue = false;
                 _super.prototype._next.call(this, value);
             }
         };
         return DebounceSubscriber;
-    }(OuterSubscriber));
+    }(SimpleOuterSubscriber));
 
     function debounceTime(dueTime, scheduler) {
         if (scheduler === void 0) { scheduler = async; }
@@ -4876,7 +4983,7 @@
             _this.index = 0;
             return _this;
         }
-        DelayWhenSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        DelayWhenSubscriber.prototype.notifyNext = function (outerValue, _innerValue, _outerIndex, _innerIndex, innerSub) {
             this.destination.next(outerValue);
             this.removeSubscription(innerSub);
             this.tryComplete();
@@ -5018,14 +5125,14 @@
             _this.keySelector = keySelector;
             _this.values = new Set();
             if (flushes) {
-                _this.add(subscribeToResult(_this, flushes));
+                _this.add(innerSubscribe(flushes, new SimpleInnerSubscriber(_this)));
             }
             return _this;
         }
-        DistinctSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        DistinctSubscriber.prototype.notifyNext = function () {
             this.values.clear();
         };
-        DistinctSubscriber.prototype.notifyError = function (error, innerSub) {
+        DistinctSubscriber.prototype.notifyError = function (error) {
             this._error(error);
         };
         DistinctSubscriber.prototype._next = function (value) {
@@ -5056,7 +5163,7 @@
             }
         };
         return DistinctSubscriber;
-    }(OuterSubscriber));
+    }(SimpleOuterSubscriber));
 
     function distinctUntilChanged(compare, keySelector) {
         return function (source) { return source.lift(new DistinctUntilChangedOperator(compare, keySelector)); };
@@ -5299,7 +5406,7 @@
         SwitchFirstSubscriber.prototype._next = function (value) {
             if (!this.hasSubscription) {
                 this.hasSubscription = true;
-                this.add(subscribeToResult(this, value));
+                this.add(innerSubscribe(value, new SimpleInnerSubscriber(this)));
             }
         };
         SwitchFirstSubscriber.prototype._complete = function () {
@@ -5308,15 +5415,14 @@
                 this.destination.complete();
             }
         };
-        SwitchFirstSubscriber.prototype.notifyComplete = function (innerSub) {
-            this.remove(innerSub);
+        SwitchFirstSubscriber.prototype.notifyComplete = function () {
             this.hasSubscription = false;
             if (this.hasCompleted) {
                 this.destination.complete();
             }
         };
         return SwitchFirstSubscriber;
-    }(OuterSubscriber));
+    }(SimpleOuterSubscriber));
 
     function exhaustMap(project, resultSelector) {
         if (resultSelector) {
@@ -5361,13 +5467,13 @@
                 return;
             }
             this.hasSubscription = true;
-            this._innerSub(result, value, index);
+            this._innerSub(result);
         };
-        ExhaustMapSubscriber.prototype._innerSub = function (result, value, index) {
-            var innerSubscriber = new InnerSubscriber(this, value, index);
+        ExhaustMapSubscriber.prototype._innerSub = function (result) {
+            var innerSubscriber = new SimpleInnerSubscriber(this);
             var destination = this.destination;
             destination.add(innerSubscriber);
-            var innerSubscription = subscribeToResult(this, result, undefined, undefined, innerSubscriber);
+            var innerSubscription = innerSubscribe(result, innerSubscriber);
             if (innerSubscription !== innerSubscriber) {
                 destination.add(innerSubscription);
             }
@@ -5379,26 +5485,23 @@
             }
             this.unsubscribe();
         };
-        ExhaustMapSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        ExhaustMapSubscriber.prototype.notifyNext = function (innerValue) {
             this.destination.next(innerValue);
         };
         ExhaustMapSubscriber.prototype.notifyError = function (err) {
             this.destination.error(err);
         };
-        ExhaustMapSubscriber.prototype.notifyComplete = function (innerSub) {
-            var destination = this.destination;
-            destination.remove(innerSub);
+        ExhaustMapSubscriber.prototype.notifyComplete = function () {
             this.hasSubscription = false;
             if (this.hasCompleted) {
                 this.destination.complete();
             }
         };
         return ExhaustMapSubscriber;
-    }(OuterSubscriber));
+    }(SimpleOuterSubscriber));
 
     function expand(project, concurrent, scheduler) {
         if (concurrent === void 0) { concurrent = Number.POSITIVE_INFINITY; }
-        if (scheduler === void 0) { scheduler = undefined; }
         concurrent = (concurrent || 0) < 1 ? Number.POSITIVE_INFINITY : concurrent;
         return function (source) { return source.lift(new ExpandOperator(project, concurrent, scheduler)); };
     }
@@ -5464,7 +5567,7 @@
         ExpandSubscriber.prototype.subscribeToProjection = function (result, value, index) {
             this.active++;
             var destination = this.destination;
-            destination.add(subscribeToResult(this, result, value, index));
+            destination.add(innerSubscribe(result, new SimpleInnerSubscriber(this)));
         };
         ExpandSubscriber.prototype._complete = function () {
             this.hasCompleted = true;
@@ -5473,13 +5576,11 @@
             }
             this.unsubscribe();
         };
-        ExpandSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        ExpandSubscriber.prototype.notifyNext = function (innerValue) {
             this._next(innerValue);
         };
-        ExpandSubscriber.prototype.notifyComplete = function (innerSub) {
+        ExpandSubscriber.prototype.notifyComplete = function () {
             var buffer = this.buffer;
-            var destination = this.destination;
-            destination.remove(innerSub);
             this.active--;
             if (buffer && buffer.length > 0) {
                 this._next(buffer.shift());
@@ -5489,7 +5590,7 @@
             }
         };
         return ExpandSubscriber;
-    }(OuterSubscriber));
+    }(SimpleOuterSubscriber));
 
     function finalize(callback) {
         return function (source) { return source.lift(new FinallyOperator(callback)); };
@@ -5897,17 +5998,17 @@
                     return destination.error(e);
                 }
                 this.active++;
-                this._innerSub(ish, value, index);
+                this._innerSub(ish);
             }
             else {
                 this.buffer.push(value);
             }
         };
-        MergeScanSubscriber.prototype._innerSub = function (ish, value, index) {
-            var innerSubscriber = new InnerSubscriber(this, value, index);
+        MergeScanSubscriber.prototype._innerSub = function (ish) {
+            var innerSubscriber = new SimpleInnerSubscriber(this);
             var destination = this.destination;
             destination.add(innerSubscriber);
-            var innerSubscription = subscribeToResult(this, ish, undefined, undefined, innerSubscriber);
+            var innerSubscription = innerSubscribe(ish, innerSubscriber);
             if (innerSubscription !== innerSubscriber) {
                 destination.add(innerSubscription);
             }
@@ -5922,16 +6023,14 @@
             }
             this.unsubscribe();
         };
-        MergeScanSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        MergeScanSubscriber.prototype.notifyNext = function (innerValue) {
             var destination = this.destination;
             this.acc = innerValue;
             this.hasValue = true;
             destination.next(innerValue);
         };
-        MergeScanSubscriber.prototype.notifyComplete = function (innerSub) {
+        MergeScanSubscriber.prototype.notifyComplete = function () {
             var buffer = this.buffer;
-            var destination = this.destination;
-            destination.remove(innerSub);
             this.active--;
             if (buffer.length > 0) {
                 this._next(buffer.shift());
@@ -5944,7 +6043,7 @@
             }
         };
         return MergeScanSubscriber;
-    }(OuterSubscriber));
+    }(SimpleOuterSubscriber));
 
     function min(comparer) {
         var min = (typeof comparer === 'function')
@@ -6015,10 +6114,10 @@
             _this.nextSources = nextSources;
             return _this;
         }
-        OnErrorResumeNextSubscriber.prototype.notifyError = function (error, innerSub) {
+        OnErrorResumeNextSubscriber.prototype.notifyError = function () {
             this.subscribeToNextSource();
         };
-        OnErrorResumeNextSubscriber.prototype.notifyComplete = function (innerSub) {
+        OnErrorResumeNextSubscriber.prototype.notifyComplete = function () {
             this.subscribeToNextSource();
         };
         OnErrorResumeNextSubscriber.prototype._error = function (err) {
@@ -6032,10 +6131,10 @@
         OnErrorResumeNextSubscriber.prototype.subscribeToNextSource = function () {
             var next = this.nextSources.shift();
             if (!!next) {
-                var innerSubscriber = new InnerSubscriber(this, undefined, undefined);
+                var innerSubscriber = new SimpleInnerSubscriber(this);
                 var destination = this.destination;
                 destination.add(innerSubscriber);
-                var innerSubscription = subscribeToResult(this, next, undefined, undefined, innerSubscriber);
+                var innerSubscription = innerSubscribe(next, innerSubscriber);
                 if (innerSubscription !== innerSubscriber) {
                     destination.add(innerSubscription);
                 }
@@ -6045,7 +6144,7 @@
             }
         };
         return OnErrorResumeNextSubscriber;
-    }(OuterSubscriber));
+    }(SimpleOuterSubscriber));
 
     function pairwise() {
         return function (source) { return source.lift(new PairwiseOperator()); };
@@ -6103,8 +6202,8 @@
         var mapper = function (x) {
             var currentProp = x;
             for (var i = 0; i < length; i++) {
-                var p = currentProp[props[i]];
-                if (typeof p !== 'undefined') {
+                var p = currentProp != null ? currentProp[props[i]] : undefined;
+                if (p !== void 0) {
                     currentProp = p;
                 }
                 else {
@@ -6220,11 +6319,11 @@
             _this.sourceIsBeingSubscribedTo = true;
             return _this;
         }
-        RepeatWhenSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        RepeatWhenSubscriber.prototype.notifyNext = function () {
             this.sourceIsBeingSubscribedTo = true;
             this.source.subscribe(this);
         };
-        RepeatWhenSubscriber.prototype.notifyComplete = function (innerSub) {
+        RepeatWhenSubscriber.prototype.notifyComplete = function () {
             if (this.sourceIsBeingSubscribedTo === false) {
                 return _super.prototype.complete.call(this);
             }
@@ -6239,20 +6338,20 @@
                     return _super.prototype.complete.call(this);
                 }
                 this._unsubscribeAndRecycle();
-                this.notifications.next();
+                this.notifications.next(undefined);
             }
         };
         RepeatWhenSubscriber.prototype._unsubscribe = function () {
             var _a = this, notifications = _a.notifications, retriesSubscription = _a.retriesSubscription;
             if (notifications) {
                 notifications.unsubscribe();
-                this.notifications = null;
+                this.notifications = undefined;
             }
             if (retriesSubscription) {
                 retriesSubscription.unsubscribe();
-                this.retriesSubscription = null;
+                this.retriesSubscription = undefined;
             }
-            this.retries = null;
+            this.retries = undefined;
         };
         RepeatWhenSubscriber.prototype._unsubscribeAndRecycle = function () {
             var _unsubscribe = this._unsubscribe;
@@ -6272,10 +6371,10 @@
                 return _super.prototype.complete.call(this);
             }
             this.retries = retries;
-            this.retriesSubscription = subscribeToResult(this, retries);
+            this.retriesSubscription = innerSubscribe(retries, new SimpleInnerSubscriber(this));
         };
         return RepeatWhenSubscriber;
-    }(OuterSubscriber));
+    }(SimpleOuterSubscriber));
 
     function retry(count) {
         if (count === void 0) { count = -1; }
@@ -6349,11 +6448,11 @@
                     catch (e) {
                         return _super.prototype.error.call(this, e);
                     }
-                    retriesSubscription = subscribeToResult(this, retries);
+                    retriesSubscription = innerSubscribe(retries, new SimpleInnerSubscriber(this));
                 }
                 else {
-                    this.errors = null;
-                    this.retriesSubscription = null;
+                    this.errors = undefined;
+                    this.retriesSubscription = undefined;
                 }
                 this._unsubscribeAndRecycle();
                 this.errors = errors;
@@ -6366,15 +6465,15 @@
             var _a = this, errors = _a.errors, retriesSubscription = _a.retriesSubscription;
             if (errors) {
                 errors.unsubscribe();
-                this.errors = null;
+                this.errors = undefined;
             }
             if (retriesSubscription) {
                 retriesSubscription.unsubscribe();
-                this.retriesSubscription = null;
+                this.retriesSubscription = undefined;
             }
-            this.retries = null;
+            this.retries = undefined;
         };
-        RetryWhenSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        RetryWhenSubscriber.prototype.notifyNext = function () {
             var _unsubscribe = this._unsubscribe;
             this._unsubscribe = null;
             this._unsubscribeAndRecycle();
@@ -6382,7 +6481,7 @@
             this.source.subscribe(this);
         };
         return RetryWhenSubscriber;
-    }(OuterSubscriber));
+    }(SimpleOuterSubscriber));
 
     function sample(notifier) {
         return function (source) { return source.lift(new SampleOperator(notifier)); };
@@ -6394,7 +6493,7 @@
         SampleOperator.prototype.call = function (subscriber, source) {
             var sampleSubscriber = new SampleSubscriber(subscriber);
             var subscription = source.subscribe(sampleSubscriber);
-            subscription.add(subscribeToResult(sampleSubscriber, this.notifier));
+            subscription.add(innerSubscribe(this.notifier, new SimpleInnerSubscriber(sampleSubscriber)));
             return subscription;
         };
         return SampleOperator;
@@ -6410,7 +6509,7 @@
             this.value = value;
             this.hasValue = true;
         };
-        SampleSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        SampleSubscriber.prototype.notifyNext = function () {
             this.emitValue();
         };
         SampleSubscriber.prototype.notifyComplete = function () {
@@ -6423,7 +6522,7 @@
             }
         };
         return SampleSubscriber;
-    }(OuterSubscriber));
+    }(SimpleOuterSubscriber));
 
     function sampleTime(period, scheduler) {
         if (scheduler === void 0) { scheduler = async; }
@@ -6603,9 +6702,11 @@
         var isComplete = false;
         return function shareReplayOperation(source) {
             refCount++;
+            var innerSub;
             if (!subject || hasError) {
                 hasError = false;
                 subject = new ReplaySubject(bufferSize, windowTime, scheduler);
+                innerSub = subject.subscribe(this);
                 subscription = source.subscribe({
                     next: function (value) { subject.next(value); },
                     error: function (err) {
@@ -6619,7 +6720,9 @@
                     },
                 });
             }
-            var innerSub = subject.subscribe(this);
+            else {
+                innerSub = subject.subscribe(this);
+            }
             this.add(function () {
                 refCount--;
                 innerSub.unsubscribe();
@@ -6787,10 +6890,10 @@
         function SkipUntilSubscriber(destination, notifier) {
             var _this = _super.call(this, destination) || this;
             _this.hasValue = false;
-            var innerSubscriber = new InnerSubscriber(_this, undefined, undefined);
+            var innerSubscriber = new SimpleInnerSubscriber(_this);
             _this.add(innerSubscriber);
             _this.innerSubscription = innerSubscriber;
-            var innerSubscription = subscribeToResult(_this, notifier, undefined, undefined, innerSubscriber);
+            var innerSubscription = innerSubscribe(notifier, innerSubscriber);
             if (innerSubscription !== innerSubscriber) {
                 _this.add(innerSubscription);
                 _this.innerSubscription = innerSubscription;
@@ -6802,7 +6905,7 @@
                 _super.prototype._next.call(this, value);
             }
         };
-        SkipUntilSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        SkipUntilSubscriber.prototype.notifyNext = function () {
             this.hasValue = true;
             if (this.innerSubscription) {
                 this.innerSubscription.unsubscribe();
@@ -6811,7 +6914,7 @@
         SkipUntilSubscriber.prototype.notifyComplete = function () {
         };
         return SkipUntilSubscriber;
-    }(OuterSubscriber));
+    }(SimpleOuterSubscriber));
 
     function skipWhile(predicate) {
         return function (source) { return source.lift(new SkipWhileOperator(predicate)); };
@@ -6957,17 +7060,17 @@
                 this.destination.error(error);
                 return;
             }
-            this._innerSub(result, value, index);
+            this._innerSub(result);
         };
-        SwitchMapSubscriber.prototype._innerSub = function (result, value, index) {
+        SwitchMapSubscriber.prototype._innerSub = function (result) {
             var innerSubscription = this.innerSubscription;
             if (innerSubscription) {
                 innerSubscription.unsubscribe();
             }
-            var innerSubscriber = new InnerSubscriber(this, value, index);
+            var innerSubscriber = new SimpleInnerSubscriber(this);
             var destination = this.destination;
             destination.add(innerSubscriber);
-            this.innerSubscription = subscribeToResult(this, result, undefined, undefined, innerSubscriber);
+            this.innerSubscription = innerSubscribe(result, innerSubscriber);
             if (this.innerSubscription !== innerSubscriber) {
                 destination.add(this.innerSubscription);
             }
@@ -6980,21 +7083,19 @@
             this.unsubscribe();
         };
         SwitchMapSubscriber.prototype._unsubscribe = function () {
-            this.innerSubscription = null;
+            this.innerSubscription = undefined;
         };
-        SwitchMapSubscriber.prototype.notifyComplete = function (innerSub) {
-            var destination = this.destination;
-            destination.remove(innerSub);
-            this.innerSubscription = null;
+        SwitchMapSubscriber.prototype.notifyComplete = function () {
+            this.innerSubscription = undefined;
             if (this.isStopped) {
                 _super.prototype._complete.call(this);
             }
         };
-        SwitchMapSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        SwitchMapSubscriber.prototype.notifyNext = function (innerValue) {
             this.destination.next(innerValue);
         };
         return SwitchMapSubscriber;
-    }(OuterSubscriber));
+    }(SimpleOuterSubscriber));
 
     function switchAll() {
         return switchMap(identity);
@@ -7013,7 +7114,7 @@
         }
         TakeUntilOperator.prototype.call = function (subscriber, source) {
             var takeUntilSubscriber = new TakeUntilSubscriber(subscriber);
-            var notifierSubscription = subscribeToResult(takeUntilSubscriber, this.notifier);
+            var notifierSubscription = innerSubscribe(this.notifier, new SimpleInnerSubscriber(takeUntilSubscriber));
             if (notifierSubscription && !takeUntilSubscriber.seenValue) {
                 takeUntilSubscriber.add(notifierSubscription);
                 return source.subscribe(takeUntilSubscriber);
@@ -7029,14 +7130,14 @@
             _this.seenValue = false;
             return _this;
         }
-        TakeUntilSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        TakeUntilSubscriber.prototype.notifyNext = function () {
             this.seenValue = true;
             this.complete();
         };
         TakeUntilSubscriber.prototype.notifyComplete = function () {
         };
         return TakeUntilSubscriber;
-    }(OuterSubscriber));
+    }(SimpleOuterSubscriber));
 
     function takeWhile(predicate, inclusive) {
         if (inclusive === void 0) { inclusive = false; }
@@ -7166,7 +7267,7 @@
     };
     function throttle(durationSelector, config) {
         if (config === void 0) { config = defaultThrottleConfig; }
-        return function (source) { return source.lift(new ThrottleOperator(durationSelector, config.leading, config.trailing)); };
+        return function (source) { return source.lift(new ThrottleOperator(durationSelector, !!config.leading, !!config.trailing)); };
     }
     var ThrottleOperator = (function () {
         function ThrottleOperator(durationSelector, leading, trailing) {
@@ -7209,12 +7310,12 @@
                 this.throttle(_sendValue);
             }
             this._hasValue = false;
-            this._sendValue = null;
+            this._sendValue = undefined;
         };
         ThrottleSubscriber.prototype.throttle = function (value) {
             var duration = this.tryDurationSelector(value);
             if (!!duration) {
-                this.add(this._throttled = subscribeToResult(this, duration));
+                this.add(this._throttled = innerSubscribe(duration, new SimpleInnerSubscriber(this)));
             }
         };
         ThrottleSubscriber.prototype.tryDurationSelector = function (value) {
@@ -7231,19 +7332,19 @@
             if (_throttled) {
                 _throttled.unsubscribe();
             }
-            this._throttled = null;
+            this._throttled = undefined;
             if (_trailing) {
                 this.send();
             }
         };
-        ThrottleSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        ThrottleSubscriber.prototype.notifyNext = function () {
             this.throttlingDone();
         };
         ThrottleSubscriber.prototype.notifyComplete = function () {
             this.throttlingDone();
         };
         return ThrottleSubscriber;
-    }(OuterSubscriber));
+    }(SimpleOuterSubscriber));
 
     function throttleTime(duration, scheduler, config) {
         if (scheduler === void 0) { scheduler = async; }
@@ -7369,14 +7470,13 @@
             _this.waitFor = waitFor;
             _this.withObservable = withObservable;
             _this.scheduler = scheduler;
-            _this.action = null;
             _this.scheduleTimeout();
             return _this;
         }
         TimeoutWithSubscriber.dispatchTimeout = function (subscriber) {
             var withObservable = subscriber.withObservable;
             subscriber._unsubscribeAndRecycle();
-            subscriber.add(subscribeToResult(subscriber, withObservable));
+            subscriber.add(innerSubscribe(withObservable, new SimpleInnerSubscriber(subscriber)));
         };
         TimeoutWithSubscriber.prototype.scheduleTimeout = function () {
             var action = this.action;
@@ -7394,12 +7494,12 @@
             _super.prototype._next.call(this, value);
         };
         TimeoutWithSubscriber.prototype._unsubscribe = function () {
-            this.action = null;
+            this.action = undefined;
             this.scheduler = null;
             this.withObservable = null;
         };
         return TimeoutWithSubscriber;
-    }(OuterSubscriber));
+    }(SimpleOuterSubscriber));
 
     function timeout(due, scheduler) {
         if (scheduler === void 0) { scheduler = async; }
@@ -7442,7 +7542,7 @@
             var windowSubscriber = new WindowSubscriber(subscriber);
             var sourceSubscription = source.subscribe(windowSubscriber);
             if (!sourceSubscription.closed) {
-                windowSubscriber.add(subscribeToResult(windowSubscriber, this.windowBoundaries));
+                windowSubscriber.add(innerSubscribe(this.windowBoundaries, new SimpleInnerSubscriber(windowSubscriber)));
             }
             return sourceSubscription;
         };
@@ -7456,13 +7556,13 @@
             destination.next(_this.window);
             return _this;
         }
-        WindowSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        WindowSubscriber.prototype.notifyNext = function () {
             this.openWindow();
         };
-        WindowSubscriber.prototype.notifyError = function (error, innerSub) {
+        WindowSubscriber.prototype.notifyError = function (error) {
             this._error(error);
         };
-        WindowSubscriber.prototype.notifyComplete = function (innerSub) {
+        WindowSubscriber.prototype.notifyComplete = function () {
             this._complete();
         };
         WindowSubscriber.prototype._next = function (value) {
@@ -7489,7 +7589,7 @@
             destination.next(newWindow);
         };
         return WindowSubscriber;
-    }(OuterSubscriber));
+    }(SimpleOuterSubscriber));
 
     function windowCount(windowSize, startWindowEvery) {
         if (startWindowEvery === void 0) { startWindowEvery = 0; }
@@ -7574,13 +7674,13 @@
             scheduler = arguments[2];
         }
         else if (isNumeric(arguments[2])) {
-            maxWindowSize = arguments[2];
+            maxWindowSize = Number(arguments[2]);
         }
         if (isScheduler(arguments[1])) {
             scheduler = arguments[1];
         }
         else if (isNumeric(arguments[1])) {
-            windowCreationInterval = arguments[1];
+            windowCreationInterval = Number(arguments[1]);
         }
         return function windowTimeOperatorFunction(source) {
             return source.lift(new WindowTimeOperator(windowTimeSpan, windowCreationInterval, maxWindowSize, scheduler));
@@ -7857,10 +7957,10 @@
             _this.openWindow();
             return _this;
         }
-        WindowSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        WindowSubscriber.prototype.notifyNext = function (_outerValue, _innerValue, _outerIndex, _innerIndex, innerSub) {
             this.openWindow(innerSub);
         };
-        WindowSubscriber.prototype.notifyError = function (error, innerSub) {
+        WindowSubscriber.prototype.notifyError = function (error) {
             this._error(error);
         };
         WindowSubscriber.prototype.notifyComplete = function (innerSub) {
@@ -7949,11 +8049,11 @@
             }
             for (var i = 0; i < len; i++) {
                 var observable = observables[i];
-                _this.add(subscribeToResult(_this, observable, observable, i));
+                _this.add(subscribeToResult(_this, observable, undefined, i));
             }
             return _this;
         }
-        WithLatestFromSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        WithLatestFromSubscriber.prototype.notifyNext = function (_outerValue, innerValue, outerIndex) {
             this.values[outerIndex] = innerValue;
             var toRespond = this.toRespond;
             if (toRespond.length > 0) {
@@ -8053,7 +8153,7 @@
         merge: merge$1,
         mergeAll: mergeAll,
         mergeMap: mergeMap,
-        flatMap: mergeMap,
+        flatMap: flatMap,
         mergeMapTo: mergeMapTo,
         mergeScan: mergeScan,
         min: min,
@@ -9166,48 +9266,67 @@
         WebSocketSubject: WebSocketSubject
     });
 
-    function fromFetch(input, init) {
+    function fromFetch(input, initWithSelector) {
+        if (initWithSelector === void 0) { initWithSelector = {}; }
+        var selector = initWithSelector.selector, init = __rest(initWithSelector, ["selector"]);
         return new Observable(function (subscriber) {
             var controller = new AbortController();
             var signal = controller.signal;
-            var outerSignalHandler;
             var abortable = true;
             var unsubscribed = false;
+            var subscription = new Subscription();
+            subscription.add(function () {
+                unsubscribed = true;
+                if (abortable) {
+                    controller.abort();
+                }
+            });
+            var perSubscriberInit;
             if (init) {
                 if (init.signal) {
                     if (init.signal.aborted) {
                         controller.abort();
                     }
                     else {
-                        outerSignalHandler = function () {
+                        var outerSignal_1 = init.signal;
+                        var outerSignalHandler_1 = function () {
                             if (!signal.aborted) {
                                 controller.abort();
                             }
                         };
-                        init.signal.addEventListener('abort', outerSignalHandler);
+                        outerSignal_1.addEventListener('abort', outerSignalHandler_1);
+                        subscription.add(function () { return outerSignal_1.removeEventListener('abort', outerSignalHandler_1); });
                     }
                 }
-                init = __assign({}, init, { signal: signal });
+                perSubscriberInit = __assign({}, init, { signal: signal });
             }
             else {
-                init = { signal: signal };
+                perSubscriberInit = { signal: signal };
             }
-            fetch(input, init).then(function (response) {
-                abortable = false;
-                subscriber.next(response);
-                subscriber.complete();
+            fetch(input, perSubscriberInit).then(function (response) {
+                if (selector) {
+                    subscription.add(from(selector(response)).subscribe(function (value) { return subscriber.next(value); }, function (err) {
+                        abortable = false;
+                        if (!unsubscribed) {
+                            subscriber.error(err);
+                        }
+                    }, function () {
+                        abortable = false;
+                        subscriber.complete();
+                    }));
+                }
+                else {
+                    abortable = false;
+                    subscriber.next(response);
+                    subscriber.complete();
+                }
             }).catch(function (err) {
                 abortable = false;
                 if (!unsubscribed) {
                     subscriber.error(err);
                 }
             });
-            return function () {
-                unsubscribed = true;
-                if (abortable) {
-                    controller.abort();
-                }
-            };
+            return subscription;
         });
     }
 
@@ -9236,10 +9355,14 @@
     exports.BehaviorSubject = BehaviorSubject;
     exports.ReplaySubject = ReplaySubject;
     exports.AsyncSubject = AsyncSubject;
-    exports.asapScheduler = asap;
-    exports.asyncScheduler = async;
-    exports.queueScheduler = queue;
-    exports.animationFrameScheduler = animationFrame;
+    exports.asap = asap;
+    exports.asapScheduler = asapScheduler;
+    exports.async = async;
+    exports.asyncScheduler = asyncScheduler;
+    exports.queue = queue;
+    exports.queueScheduler = queueScheduler;
+    exports.animationFrame = animationFrame;
+    exports.animationFrameScheduler = animationFrameScheduler;
     exports.VirtualTimeScheduler = VirtualTimeScheduler;
     exports.VirtualAction = VirtualAction;
     exports.Scheduler = Scheduler;
@@ -9293,771 +9416,1292 @@
 
 
 /**
- * @license rxcomp v1.0.0-beta.9
+ * @license rxcomp v1.0.0-beta.14
  * (c) 2020 Luca Zampetti <lzampetti@gmail.com>
  * License: MIT
  */
 
-var rxcomp = (function (exports, rxjs, operators) {
-  'use strict';
-
-  function _defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
-    }
+var rxcomp=(function(exports,rxjs,operators){'use strict';function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
   }
+}
 
-  function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _inheritsLoose(subClass, superClass) {
+  subClass.prototype = Object.create(superClass.prototype);
+  subClass.prototype.constructor = subClass;
+  subClass.__proto__ = superClass;
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
+
+function _isNativeReflectConstruct() {
+  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+  if (Reflect.construct.sham) return false;
+  if (typeof Proxy === "function") return true;
+
+  try {
+    Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
+    return true;
+  } catch (e) {
+    return false;
   }
+}
 
-  function _inheritsLoose(subClass, superClass) {
-    subClass.prototype = Object.create(superClass.prototype);
-    subClass.prototype.constructor = subClass;
-    subClass.__proto__ = superClass;
-  }
-
-  function _setPrototypeOf(o, p) {
-    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-      o.__proto__ = p;
-      return o;
+function _construct(Parent, args, Class) {
+  if (_isNativeReflectConstruct()) {
+    _construct = Reflect.construct;
+  } else {
+    _construct = function _construct(Parent, args, Class) {
+      var a = [null];
+      a.push.apply(a, args);
+      var Constructor = Function.bind.apply(Parent, a);
+      var instance = new Constructor();
+      if (Class) _setPrototypeOf(instance, Class.prototype);
+      return instance;
     };
-
-    return _setPrototypeOf(o, p);
   }
 
-  function isNativeReflectConstruct() {
-    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-    if (Reflect.construct.sham) return false;
-    if (typeof Proxy === "function") return true;
+  return _construct.apply(null, arguments);
+}
 
-    try {
-      Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
-      return true;
-    } catch (e) {
-      return false;
+function _isNativeFunction(fn) {
+  return Function.toString.call(fn).indexOf("[native code]") !== -1;
+}
+
+function _wrapNativeSuper(Class) {
+  var _cache = typeof Map === "function" ? new Map() : undefined;
+
+  _wrapNativeSuper = function _wrapNativeSuper(Class) {
+    if (Class === null || !_isNativeFunction(Class)) return Class;
+
+    if (typeof Class !== "function") {
+      throw new TypeError("Super expression must either be null or a function");
     }
+
+    if (typeof _cache !== "undefined") {
+      if (_cache.has(Class)) return _cache.get(Class);
+
+      _cache.set(Class, Wrapper);
+    }
+
+    function Wrapper() {
+      return _construct(Class, arguments, _getPrototypeOf(this).constructor);
+    }
+
+    Wrapper.prototype = Object.create(Class.prototype, {
+      constructor: {
+        value: Wrapper,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+    return _setPrototypeOf(Wrapper, Class);
+  };
+
+  return _wrapNativeSuper(Class);
+}
+
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
   }
 
-  function _construct(Parent, args, Class) {
-    if (isNativeReflectConstruct()) {
-      _construct = Reflect.construct;
-    } else {
-      _construct = function _construct(Parent, args, Class) {
-        var a = [null];
-        a.push.apply(a, args);
-        var Constructor = Function.bind.apply(Parent, a);
-        var instance = new Constructor();
-        if (Class) _setPrototypeOf(instance, Class.prototype);
-        return instance;
+  return self;
+}
+
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+
+  return arr2;
+}
+
+function _createForOfIteratorHelperLoose(o, allowArrayLike) {
+  var it;
+
+  if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) {
+    if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
+      if (it) o = it;
+      var i = 0;
+      return function () {
+        if (i >= o.length) return {
+          done: true
+        };
+        return {
+          done: false,
+          value: o[i++]
+        };
       };
     }
 
-    return _construct.apply(null, arguments);
+    throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
 
-  function _assertThisInitialized(self) {
-    if (self === void 0) {
-      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-    }
+  it = o[Symbol.iterator]();
+  return it.next.bind(it);
+}var CONTEXTS = {};
+var NODES = {};
 
-    return self;
+var Factory = function () {
+  function Factory() {
+    this.rxcompId = -1;
+    this.unsubscribe$ = new rxjs.Subject();
+    this.changes$ = new rxjs.ReplaySubject(1);
   }
 
-  var CONTEXTS = {};
-  var NODES = {};
+  var _proto = Factory.prototype;
 
-  var Factory = function () {
-    function Factory() {
-      this.rxcompId = -1;
-      this.unsubscribe$ = new rxjs.Subject();
-      this.changes$ = new rxjs.ReplaySubject(1);
-    }
+  _proto.onInit = function onInit() {};
 
-    var _proto = Factory.prototype;
+  _proto.onChanges = function onChanges(changes) {};
 
-    _proto.onInit = function onInit() {};
+  _proto.onView = function onView() {};
 
-    _proto.onChanges = function onChanges(changes) {};
+  _proto.onDestroy = function onDestroy() {};
 
-    _proto.onView = function onView() {};
+  _proto.pushChanges = function pushChanges() {
+    var _getContext = getContext(this),
+        module = _getContext.module;
 
-    _proto.onDestroy = function onDestroy() {};
-
-    _proto.pushChanges = function pushChanges() {
+    if (module.instances) {
       this.changes$.next(this);
       this.onView();
-    };
+    }
+  };
 
-    return Factory;
-  }();
-  function getContext(instance) {
-    return CONTEXTS[instance.rxcompId];
+  return Factory;
+}();
+function getContext(instance) {
+  return CONTEXTS[instance.rxcompId];
+}var Directive = function (_Factory) {
+  _inheritsLoose(Directive, _Factory);
+
+  function Directive() {
+    return _Factory.apply(this, arguments) || this;
   }
 
-  var Directive = function (_Factory) {
-    _inheritsLoose(Directive, _Factory);
+  return Directive;
+}(Factory);var ClassDirective = function (_Directive) {
+  _inheritsLoose(ClassDirective, _Directive);
 
-    function Directive() {
-      return _Factory.apply(this, arguments) || this;
-    }
+  function ClassDirective() {
+    var _this;
 
-    return Directive;
-  }(Factory);
+    _this = _Directive.apply(this, arguments) || this;
+    _this.class = '';
+    _this.keys = [];
+    return _this;
+  }
 
-  var ClassDirective = function (_Directive) {
-    _inheritsLoose(ClassDirective, _Directive);
+  var _proto = ClassDirective.prototype;
 
-    function ClassDirective() {
-      var _this;
+  _proto.onInit = function onInit() {
+    var _this2 = this;
 
-      _this = _Directive.apply(this, arguments) || this;
-      _this.class = '';
-      _this.keys = [];
-      return _this;
-    }
+    var _getContext = getContext(this),
+        node = _getContext.node;
 
-    var _proto = ClassDirective.prototype;
+    Array.prototype.slice.call(node.classList).forEach(function (x) {
+      return _this2.keys.push(x);
+    });
+  };
 
-    _proto.onInit = function onInit() {
-      var _this2 = this;
+  _proto.onChanges = function onChanges() {
+    var _getContext2 = getContext(this),
+        node = _getContext2.node;
 
-      var _getContext = getContext(this),
-          node = _getContext.node;
+    var keys = [];
+    var object = this.class;
 
-      Array.prototype.slice.call(node.classList).forEach(function (x) {
-        return _this2.keys.push(x);
-      });
-    };
-
-    _proto.onChanges = function onChanges() {
-      var _getContext2 = getContext(this),
-          node = _getContext2.node;
-
-      var keys = [];
-      var object = this.class;
-
-      if (typeof object === 'object') {
-        for (var key in object) {
-          if (object[key]) {
-            keys.push(key);
-          }
+    if (typeof object === 'object') {
+      for (var key in object) {
+        if (object[key]) {
+          keys.push(key);
         }
-      } else if (typeof object === 'string') {
-        keys = object.split(/\s+/);
       }
+    } else if (typeof object === 'string') {
+      keys = object.split(/\s+/);
+    }
 
-      keys = keys.concat(this.keys);
-      node.setAttribute('class', keys.join(' '));
-    };
-
-    return ClassDirective;
-  }(Directive);
-  ClassDirective.meta = {
-    selector: "[[class]]",
-    inputs: ['class']
+    keys = keys.concat(this.keys);
+    node.setAttribute('class', keys.join(' '));
   };
 
-  var EVENTS = ['mousedown', 'mouseup', 'mousemove', 'click', 'dblclick', 'mouseover', 'mouseout', 'mouseenter', 'mouseleave', 'contextmenu', 'touchstart', 'touchmove', 'touchend', 'keydown', 'keyup', 'input', 'change', 'loaded'];
+  return ClassDirective;
+}(Directive);
+ClassDirective.meta = {
+  selector: "[[class]]",
+  inputs: ['class']
+};var ModuleError = function (_Error) {
+  _inheritsLoose(ModuleError, _Error);
 
-  var EventDirective = function (_Directive) {
-    _inheritsLoose(EventDirective, _Directive);
+  function ModuleError() {
+    return _Error.apply(this, arguments) || this;
+  }
 
-    function EventDirective() {
-      var _this;
+  return ModuleError;
+}(_wrapNativeSuper(Error));
+var ExpressionError = function (_Error2) {
+  _inheritsLoose(ExpressionError, _Error2);
 
-      _this = _Directive.apply(this, arguments) || this;
-      _this.event = '';
-      return _this;
-    }
+  function ExpressionError(error, module, instance, expression, params) {
+    var _this;
 
-    var _proto = EventDirective.prototype;
+    var message = "ExpressionError in " + instance.constructor.name + " \"" + expression + "\"\n\t\t" + error.message;
+    _this = _Error2.call(this, message) || this;
+    _this.name = error.name;
+    _this.module = module;
+    _this.instance = instance;
+    _this.expression = expression;
+    _this.params = params;
 
-    _proto.onInit = function onInit() {
-      var _getContext = getContext(this),
-          module = _getContext.module,
-          node = _getContext.node,
-          parentInstance = _getContext.parentInstance,
-          selector = _getContext.selector;
+    var _getContext = getContext(instance),
+        node = _getContext.node;
 
-      var event = this.event = selector.replace(/\[|\]|\(|\)/g, '');
-      var event$ = rxjs.fromEvent(node, event).pipe(operators.shareReplay(1));
-      var expression = node.getAttribute("(" + event + ")");
+    _this.template = node.outerHTML;
+    return _this;
+  }
 
-      if (expression) {
-        var outputFunction = module.makeFunction(expression, ['$event']);
-        event$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (event) {
-          module.resolve(outputFunction, parentInstance, event);
-        });
-      } else {
-        parentInstance[event + "$"] = event$;
-      }
-    };
+  return ExpressionError;
+}(_wrapNativeSuper(Error));
+var ErrorInterceptorHandler = function () {
+  function ErrorInterceptorHandler(next, interceptor) {
+    this.next = next;
+    this.interceptor = interceptor;
+  }
 
-    return EventDirective;
-  }(Directive);
-  EventDirective.meta = {
-    selector: "[(" + EVENTS.join(')],[(') + ")]"
+  var _proto = ErrorInterceptorHandler.prototype;
+
+  _proto.handle = function handle(error) {
+    return this.interceptor.intercept(error, this.next);
   };
 
-  var Structure = function (_Factory) {
-    _inheritsLoose(Structure, _Factory);
+  return ErrorInterceptorHandler;
+}();
+var DefaultErrorHandler = function () {
+  function DefaultErrorHandler() {}
 
-    function Structure() {
-      return _Factory.apply(this, arguments) || this;
+  var _proto2 = DefaultErrorHandler.prototype;
+
+  _proto2.handle = function handle(error) {
+    return rxjs.of(error);
+  };
+
+  return DefaultErrorHandler;
+}();
+var ErrorInterceptors = [];
+var nextError$ = new rxjs.ReplaySubject(1);
+var errors$ = nextError$.pipe(operators.switchMap(function (error) {
+  var chain = ErrorInterceptors.reduceRight(function (next, interceptor) {
+    return new ErrorInterceptorHandler(next, interceptor);
+  }, new DefaultErrorHandler());
+  return chain.handle(error);
+}), operators.tap(function (error) {
+  if (error) {
+    console.error(error);
+  }
+}));var EVENTS = ['mousedown', 'mouseup', 'mousemove', 'click', 'dblclick', 'mouseover', 'mouseout', 'mouseenter', 'mouseleave', 'contextmenu', 'touchstart', 'touchmove', 'touchend', 'keydown', 'keyup', 'input', 'change', 'loaded'];
+
+var EventDirective = function (_Directive) {
+  _inheritsLoose(EventDirective, _Directive);
+
+  function EventDirective() {
+    var _this;
+
+    _this = _Directive.apply(this, arguments) || this;
+    _this.event = '';
+    return _this;
+  }
+
+  var _proto = EventDirective.prototype;
+
+  _proto.onInit = function onInit() {
+    var _getContext = getContext(this),
+        module = _getContext.module,
+        node = _getContext.node,
+        parentInstance = _getContext.parentInstance,
+        selector = _getContext.selector;
+
+    var event = this.event = selector.replace(/\[|\]|\(|\)/g, '');
+    var event$ = rxjs.fromEvent(node, event).pipe(operators.shareReplay(1));
+    var expression = node.getAttribute("(" + event + ")");
+
+    if (expression) {
+      var outputFunction = module.makeFunction(expression, ['$event']);
+      event$.pipe(operators.takeUntil(this.unsubscribe$)).subscribe(function (event) {
+        module.resolve(outputFunction, parentInstance, event);
+      });
+    } else {
+      parentInstance[event + "$"] = event$;
     }
+  };
 
-    return Structure;
-  }(Factory);
+  return EventDirective;
+}(Directive);
+EventDirective.meta = {
+  selector: "[(" + EVENTS.join(')],[(') + ")]"
+};var Structure = function (_Factory) {
+  _inheritsLoose(Structure, _Factory);
 
-  var Component = function (_Factory) {
-    _inheritsLoose(Component, _Factory);
+  function Structure() {
+    return _Factory.apply(this, arguments) || this;
+  }
 
-    function Component() {
-      return _Factory.apply(this, arguments) || this;
-    }
+  return Structure;
+}(Factory);var Component = function (_Factory) {
+  _inheritsLoose(Component, _Factory);
 
-    var _proto = Component.prototype;
+  function Component() {
+    return _Factory.apply(this, arguments) || this;
+  }
 
-    _proto.pushChanges = function pushChanges() {
-      var _getContext = getContext(this),
-          module = _getContext.module,
-          node = _getContext.node;
+  var _proto = Component.prototype;
 
+  _proto.pushChanges = function pushChanges() {
+    var _getContext = getContext(this),
+        module = _getContext.module,
+        node = _getContext.node;
+
+    if (module.instances) {
       this.changes$.next(this);
       module.parse(node, this);
       this.onView();
-    };
+    }
+  };
 
-    return Component;
-  }(Factory);
+  return Component;
+}(Factory);var RESERVED_PROPERTIES = ['constructor', 'rxcompId', 'onInit', 'onChanges', 'onDestroy', 'pushChanges', 'changes$', 'unsubscribe$'];
 
-  var RESERVED_PROPERTIES = ['constructor', 'rxcompId', 'onInit', 'onChanges', 'onDestroy', 'pushChanges', 'changes$', 'unsubscribe$'];
+var Context = function (_Component) {
+  _inheritsLoose(Context, _Component);
 
-  var Context = function (_Component) {
-    _inheritsLoose(Context, _Component);
+  function Context(parentInstance, descriptors) {
+    var _this;
 
-    function Context(instance, descriptors) {
-      var _this;
-
-      if (descriptors === void 0) {
-        descriptors = {};
-      }
-
-      _this = _Component.call(this) || this;
-      descriptors = Context.mergeDescriptors(instance, instance, descriptors);
-      descriptors = Context.mergeDescriptors(Object.getPrototypeOf(instance), instance, descriptors);
-      Object.defineProperties(_assertThisInitialized(_this), descriptors);
-      return _this;
+    if (descriptors === void 0) {
+      descriptors = {};
     }
 
-    Context.mergeDescriptors = function mergeDescriptors(source, instance, descriptors) {
-      if (descriptors === void 0) {
-        descriptors = {};
-      }
+    _this = _Component.call(this) || this;
+    descriptors = Context.mergeDescriptors(parentInstance, parentInstance, descriptors);
+    descriptors = Context.mergeDescriptors(Object.getPrototypeOf(parentInstance), parentInstance, descriptors);
+    Object.defineProperties(_assertThisInitialized(_this), descriptors);
+    return _this;
+  }
 
-      var properties = Object.getOwnPropertyNames(source);
+  var _proto = Context.prototype;
 
-      var _loop = function _loop() {
-        var key = properties.shift();
+  _proto.pushChanges = function pushChanges() {
+    var _this2 = this;
 
-        if (RESERVED_PROPERTIES.indexOf(key) === -1 && !descriptors.hasOwnProperty(key)) {
-          var descriptor = Object.getOwnPropertyDescriptor(source, key);
+    var context = getContext(this);
 
-          if (typeof descriptor.value == 'function') {
-            descriptor.value = function () {
-              for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-                args[_key] = arguments[_key];
-              }
-
-              return instance[key].apply(instance, args);
-            };
-          }
-
-          descriptors[key] = descriptor;
-        }
-      };
-
-      while (properties.length) {
-        _loop();
-      }
-
-      return descriptors;
-    };
-
-    return Context;
-  }(Component);
-
-  var ForItem = function (_Context) {
-    _inheritsLoose(ForItem, _Context);
-
-    function ForItem(key, $key, value, $value, index, count, parentInstance) {
-      var _this;
-
-      _this = _Context.call(this, parentInstance) || this;
-      _this[key] = $key;
-      _this[value] = $value;
-      _this.index = index;
-      _this.count = count;
-      return _this;
+    if (!context.keys) {
+      context.keys = Object.keys(context.parentInstance).filter(function (key) {
+        return RESERVED_PROPERTIES.indexOf(key) === -1;
+      });
     }
 
-    _createClass(ForItem, [{
-      key: "first",
-      get: function get() {
-        return this.index === 0;
-      }
-    }, {
-      key: "last",
-      get: function get() {
-        return this.index === this.count - 1;
-      }
-    }, {
-      key: "even",
-      get: function get() {
-        return this.index % 2 === 0;
-      }
-    }, {
-      key: "odd",
-      get: function get() {
-        return !this.even;
-      }
-    }]);
-
-    return ForItem;
-  }(Context);
-
-  var ForStructure = function (_Structure) {
-    _inheritsLoose(ForStructure, _Structure);
-
-    function ForStructure() {
-      var _this;
-
-      _this = _Structure.apply(this, arguments) || this;
-      _this.instances = [];
-      return _this;
+    if (context.module.instances) {
+      context.keys.forEach(function (key) {
+        _this2[key] = context.parentInstance[key];
+      });
     }
 
-    var _proto = ForStructure.prototype;
+    _Component.prototype.pushChanges.call(this);
+  };
 
-    _proto.onInit = function onInit() {
-      var _getContext = getContext(this),
-          module = _getContext.module,
-          node = _getContext.node;
+  Context.mergeDescriptors = function mergeDescriptors(source, instance, descriptors) {
+    if (descriptors === void 0) {
+      descriptors = {};
+    }
 
-      var forbegin = document.createComment("*for begin");
-      forbegin.rxcompId = node.rxcompId;
-      node.parentNode.replaceChild(forbegin, node);
-      var forend = this.forend = document.createComment("*for end");
-      forbegin.parentNode.insertBefore(forend, forbegin.nextSibling);
-      var expression = node.getAttribute('*for');
-      node.removeAttribute('*for');
-      var token = this.token = this.getExpressionToken(expression);
-      this.forFunction = module.makeFunction(token.iterable);
-    };
+    var properties = Object.getOwnPropertyNames(source);
 
-    _proto.onChanges = function onChanges(changes) {
-      var context = getContext(this);
-      var module = context.module;
-      var node = context.node;
-      var token = this.token;
-      var result = module.resolve(this.forFunction, changes, this) || [];
-      var isArray = Array.isArray(result);
-      var array = isArray ? result : Object.keys(result);
-      var total = array.length;
-      var previous = this.instances.length;
+    var _loop = function _loop() {
+      var key = properties.shift();
 
-      for (var i = 0; i < Math.max(previous, total); i++) {
-        if (i < total) {
-          var key = isArray ? i : array[i];
-          var value = isArray ? array[key] : result[key];
+      if (RESERVED_PROPERTIES.indexOf(key) === -1 && !descriptors.hasOwnProperty(key)) {
+        var descriptor = Object.getOwnPropertyDescriptor(source, key);
 
-          if (i < previous) {
-            var instance = this.instances[i];
-            instance[token.key] = key;
-            instance[token.value] = value;
-          } else {
-            var clonedNode = node.cloneNode(true);
-            delete clonedNode.rxcompId;
-            this.forend.parentNode.insertBefore(clonedNode, this.forend);
-            var args = [token.key, key, token.value, value, i, total, context.parentInstance];
-
-            var _instance = module.makeInstance(clonedNode, ForItem, context.selector, context.parentInstance, args);
-
-            if (_instance) {
-              var forItemContext = getContext(_instance);
-              module.compile(clonedNode, forItemContext.instance);
-              this.instances.push(_instance);
+        if (typeof descriptor.value == 'function') {
+          descriptor.value = function () {
+            for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+              args[_key] = arguments[_key];
             }
-          }
+
+            return instance[key].apply(instance, args);
+          };
+        }
+
+        descriptors[key] = descriptor;
+      }
+    };
+
+    while (properties.length) {
+      _loop();
+    }
+
+    return descriptors;
+  };
+
+  return Context;
+}(Component);var ForItem = function (_Context) {
+  _inheritsLoose(ForItem, _Context);
+
+  function ForItem(key, $key, value, $value, index, count, parentInstance) {
+    var _this;
+
+    _this = _Context.call(this, parentInstance) || this;
+    _this[key] = $key;
+    _this[value] = $value;
+    _this.index = index;
+    _this.count = count;
+    return _this;
+  }
+
+  _createClass(ForItem, [{
+    key: "first",
+    get: function get() {
+      return this.index === 0;
+    }
+  }, {
+    key: "last",
+    get: function get() {
+      return this.index === this.count - 1;
+    }
+  }, {
+    key: "even",
+    get: function get() {
+      return this.index % 2 === 0;
+    }
+  }, {
+    key: "odd",
+    get: function get() {
+      return !this.even;
+    }
+  }]);
+
+  return ForItem;
+}(Context);var ForStructure = function (_Structure) {
+  _inheritsLoose(ForStructure, _Structure);
+
+  function ForStructure() {
+    var _this;
+
+    _this = _Structure.apply(this, arguments) || this;
+    _this.instances = [];
+    return _this;
+  }
+
+  var _proto = ForStructure.prototype;
+
+  _proto.onInit = function onInit() {
+    var _getContext = getContext(this),
+        module = _getContext.module,
+        node = _getContext.node;
+
+    var forbegin = document.createComment("*for begin");
+    forbegin.rxcompId = node.rxcompId;
+    node.parentNode.replaceChild(forbegin, node);
+    var forend = this.forend = document.createComment("*for end");
+    forbegin.parentNode.insertBefore(forend, forbegin.nextSibling);
+    var expression = node.getAttribute('*for');
+    node.removeAttribute('*for');
+    var token = this.token = this.getExpressionToken(expression);
+    this.forFunction = module.makeFunction(token.iterable);
+  };
+
+  _proto.onChanges = function onChanges(changes) {
+    var context = getContext(this);
+    var module = context.module;
+    var node = context.node;
+    var token = this.token;
+    var result = module.resolve(this.forFunction, changes, this) || [];
+    var isArray = Array.isArray(result);
+    var array = isArray ? result : Object.keys(result);
+    var total = array.length;
+    var previous = this.instances.length;
+
+    for (var i = 0; i < Math.max(previous, total); i++) {
+      if (i < total) {
+        var key = isArray ? i : array[i];
+        var value = isArray ? array[key] : result[key];
+
+        if (i < previous) {
+          var instance = this.instances[i];
+          instance[token.key] = key;
+          instance[token.value] = value;
         } else {
-          var _instance2 = this.instances[i];
+          var clonedNode = node.cloneNode(true);
+          delete clonedNode.rxcompId;
+          this.forend.parentNode.insertBefore(clonedNode, this.forend);
+          var args = [token.key, key, token.value, value, i, total, context.parentInstance];
 
-          var _getContext2 = getContext(_instance2),
-              _node = _getContext2.node;
+          var _instance = module.makeInstance(clonedNode, ForItem, context.selector, context.parentInstance, args);
 
-          _node.parentNode.removeChild(_node);
-
-          module.remove(_node);
-        }
-      }
-
-      this.instances.length = array.length;
-    };
-
-    _proto.getExpressionToken = function getExpressionToken(expression) {
-      if (expression === null) {
-        throw 'invalid for';
-      }
-
-      if (expression.trim().indexOf('let ') === -1 || expression.trim().indexOf(' of ') === -1) {
-        throw 'invalid for';
-      }
-
-      var expressions = expression.split(';').map(function (x) {
-        return x.trim();
-      }).filter(function (x) {
-        return x !== '';
-      });
-      var forExpressions = expressions[0].split(' of ').map(function (x) {
-        return x.trim();
-      });
-      var value = forExpressions[0].replace(/\s*let\s*/, '');
-      var iterable = forExpressions[1];
-      var key = 'index';
-      var keyValueMatches = value.match(/\[(.+)\s*,\s*(.+)\]/);
-
-      if (keyValueMatches) {
-        key = keyValueMatches[1];
-        value = keyValueMatches[2];
-      }
-
-      if (expressions.length > 1) {
-        var indexExpressions = expressions[1].split(/\s*let\s*|\s*=\s*index/).map(function (x) {
-          return x.trim();
-        });
-
-        if (indexExpressions.length === 3) {
-          key = indexExpressions[1];
-        }
-      }
-
-      return {
-        key: key,
-        value: value,
-        iterable: iterable
-      };
-    };
-
-    return ForStructure;
-  }(Structure);
-  ForStructure.meta = {
-    selector: '[*for]'
-  };
-
-  var HrefDirective = function (_Directive) {
-    _inheritsLoose(HrefDirective, _Directive);
-
-    function HrefDirective() {
-      return _Directive.apply(this, arguments) || this;
-    }
-
-    var _proto = HrefDirective.prototype;
-
-    _proto.onChanges = function onChanges() {
-      var _getContext = getContext(this),
-          node = _getContext.node;
-
-      node.setAttribute('href', this.href || '');
-    };
-
-    return HrefDirective;
-  }(Directive);
-  HrefDirective.meta = {
-    selector: '[[href]]',
-    inputs: ['href']
-  };
-
-  var IfStructure = function (_Structure) {
-    _inheritsLoose(IfStructure, _Structure);
-
-    function IfStructure() {
-      return _Structure.apply(this, arguments) || this;
-    }
-
-    var _proto = IfStructure.prototype;
-
-    _proto.onInit = function onInit() {
-      var _getContext = getContext(this),
-          module = _getContext.module,
-          node = _getContext.node;
-
-      var ifbegin = this.ifbegin = document.createComment("*if begin");
-      ifbegin.rxcompId = node.rxcompId;
-      node.parentNode.replaceChild(ifbegin, node);
-      var ifend = this.ifend = document.createComment("*if end");
-      ifbegin.parentNode.insertBefore(ifend, ifbegin.nextSibling);
-      var expression = node.getAttribute('*if');
-      this.ifFunction = module.makeFunction(expression);
-      var clonedNode = node.cloneNode(true);
-      clonedNode.removeAttribute('*if');
-      this.clonedNode = clonedNode;
-      this.element = clonedNode.cloneNode(true);
-    };
-
-    _proto.onChanges = function onChanges(changes) {
-      var _getContext2 = getContext(this),
-          module = _getContext2.module;
-
-      var value = module.resolve(this.ifFunction, changes, this);
-      var element = this.element;
-
-      if (value) {
-        if (!element.parentNode) {
-          var ifend = this.ifend;
-          ifend.parentNode.insertBefore(element, ifend);
-          module.compile(element);
+          if (_instance) {
+            module.compile(clonedNode, _instance);
+            this.instances.push(_instance);
+          }
         }
       } else {
-        if (element.parentNode) {
-          module.remove(element, this);
-          element.parentNode.removeChild(element);
-          this.element = this.clonedNode.cloneNode(true);
-        }
+        var _instance2 = this.instances[i];
+
+        var _getContext2 = getContext(_instance2),
+            _node = _getContext2.node;
+
+        _node.parentNode.removeChild(_node);
+
+        module.remove(_node);
       }
-    };
-
-    return IfStructure;
-  }(Structure);
-  IfStructure.meta = {
-    selector: '[*if]'
-  };
-
-  var InnerHtmlDirective = function (_Directive) {
-    _inheritsLoose(InnerHtmlDirective, _Directive);
-
-    function InnerHtmlDirective() {
-      return _Directive.apply(this, arguments) || this;
     }
 
-    var _proto = InnerHtmlDirective.prototype;
-
-    _proto.onChanges = function onChanges() {
-      var _getContext = getContext(this),
-          node = _getContext.node;
-
-      node.innerHTML = this.innerHTML == undefined ? '' : this.innerHTML;
-    };
-
-    return InnerHtmlDirective;
-  }(Directive);
-  InnerHtmlDirective.meta = {
-    selector: "[innerHTML]",
-    inputs: ['innerHTML']
+    this.instances.length = array.length;
   };
 
-  var Pipe = function () {
-    function Pipe() {}
-
-    Pipe.transform = function transform(value) {
-      return value;
-    };
-
-    return Pipe;
-  }();
-
-  var JsonPipe = function (_Pipe) {
-    _inheritsLoose(JsonPipe, _Pipe);
-
-    function JsonPipe() {
-      return _Pipe.apply(this, arguments) || this;
+  _proto.getExpressionToken = function getExpressionToken(expression) {
+    if (expression === null) {
+      throw new Error('invalid for');
     }
 
-    JsonPipe.transform = function transform(value) {
-      return JSON.stringify(value, null, '\t');
-    };
+    if (expression.trim().indexOf('let ') === -1 || expression.trim().indexOf(' of ') === -1) {
+      throw new Error('invalid for');
+    }
 
-    return JsonPipe;
-  }(Pipe);
-  JsonPipe.meta = {
-    name: 'json'
-  };
+    var expressions = expression.split(';').map(function (x) {
+      return x.trim();
+    }).filter(function (x) {
+      return x !== '';
+    });
+    var forExpressions = expressions[0].split(' of ').map(function (x) {
+      return x.trim();
+    });
+    var value = forExpressions[0].replace(/\s*let\s*/, '');
+    var iterable = forExpressions[1];
+    var key = 'index';
+    var keyValueMatches = value.match(/\[(.+)\s*,\s*(.+)\]/);
 
-  var ID = 0;
+    if (keyValueMatches) {
+      key = keyValueMatches[1];
+      value = keyValueMatches[2];
+    }
 
-  var Module = function () {
-    function Module() {}
-
-    var _proto = Module.prototype;
-
-    _proto.compile = function compile(node, parentInstance) {
-      var _this = this;
-
-      var componentNode;
-      var instances = Module.querySelectorsAll(node, this.meta.selectors, []).map(function (match) {
-        if (componentNode && componentNode !== match.node) {
-          parentInstance = undefined;
-        }
-
-        var instance = _this.makeInstance(match.node, match.factory, match.selector, parentInstance);
-
-        if (match.factory.prototype instanceof Component) {
-          componentNode = match.node;
-        }
-
-        return instance;
-      }).filter(function (x) {
-        return x !== undefined;
+    if (expressions.length > 1) {
+      var indexExpressions = expressions[1].split(/\s*let\s*|\s*=\s*index/).map(function (x) {
+        return x.trim();
       });
-      return instances;
+
+      if (indexExpressions.length === 3) {
+        key = indexExpressions[1];
+      }
+    }
+
+    return {
+      key: key,
+      value: value,
+      iterable: iterable
     };
+  };
 
-    _proto.makeInstance = function makeInstance(node, factory, selector, parentInstance, args) {
-      var _this2 = this;
+  return ForStructure;
+}(Structure);
+ForStructure.meta = {
+  selector: '[*for]'
+};var HrefDirective = function (_Directive) {
+  _inheritsLoose(HrefDirective, _Directive);
 
-      if (parentInstance || node.parentNode) {
-        var meta = factory.meta;
-        parentInstance = parentInstance || this.getParentInstance(node.parentNode);
+  function HrefDirective() {
+    return _Directive.apply(this, arguments) || this;
+  }
 
-        if (!parentInstance) {
-          return undefined;
+  _createClass(HrefDirective, [{
+    key: "href",
+    set: function set(href) {
+      if (this.href_ !== href) {
+        this.href_ = href;
+
+        var _getContext = getContext(this),
+            node = _getContext.node;
+
+        href ? node.setAttribute('href', href) : node.removeAttribute('href');
+      }
+    },
+    get: function get() {
+      return this.href_;
+    }
+  }]);
+
+  return HrefDirective;
+}(Directive);
+HrefDirective.meta = {
+  selector: '[[href]]',
+  inputs: ['href']
+};var IfStructure = function (_Structure) {
+  _inheritsLoose(IfStructure, _Structure);
+
+  function IfStructure() {
+    return _Structure.apply(this, arguments) || this;
+  }
+
+  var _proto = IfStructure.prototype;
+
+  _proto.onInit = function onInit() {
+    var _getContext = getContext(this),
+        module = _getContext.module,
+        node = _getContext.node;
+
+    var ifbegin = this.ifbegin = document.createComment("*if begin");
+    ifbegin.rxcompId = node.rxcompId;
+    node.parentNode.replaceChild(ifbegin, node);
+    var ifend = this.ifend = document.createComment("*if end");
+    ifbegin.parentNode.insertBefore(ifend, ifbegin.nextSibling);
+    var expression = node.getAttribute('*if');
+    this.ifFunction = module.makeFunction(expression);
+    var clonedNode = node.cloneNode(true);
+    clonedNode.removeAttribute('*if');
+    this.clonedNode = clonedNode;
+    this.element = clonedNode.cloneNode(true);
+  };
+
+  _proto.onChanges = function onChanges(changes) {
+    var _getContext2 = getContext(this),
+        module = _getContext2.module;
+
+    var value = module.resolve(this.ifFunction, changes, this);
+    var element = this.element;
+
+    if (value) {
+      if (!element.parentNode) {
+        var ifend = this.ifend;
+        ifend.parentNode.insertBefore(element, ifend);
+        module.compile(element);
+      }
+    } else {
+      if (element.parentNode) {
+        module.remove(element, this);
+        element.parentNode.removeChild(element);
+        this.element = this.clonedNode.cloneNode(true);
+      }
+    }
+  };
+
+  return IfStructure;
+}(Structure);
+IfStructure.meta = {
+  selector: '[*if]'
+};var InnerHtmlDirective = function (_Directive) {
+  _inheritsLoose(InnerHtmlDirective, _Directive);
+
+  function InnerHtmlDirective() {
+    return _Directive.apply(this, arguments) || this;
+  }
+
+  _createClass(InnerHtmlDirective, [{
+    key: "innerHTML",
+    set: function set(innerHTML) {
+      if (this.innerHTML_ !== innerHTML) {
+        this.innerHTML_ = innerHTML;
+
+        var _getContext = getContext(this),
+            node = _getContext.node;
+
+        node.innerHTML = innerHTML == undefined ? '' : innerHTML;
+      }
+    },
+    get: function get() {
+      return this.innerHTML_;
+    }
+  }]);
+
+  return InnerHtmlDirective;
+}(Directive);
+InnerHtmlDirective.meta = {
+  selector: "[innerHTML]",
+  inputs: ['innerHTML']
+};var JsonComponent = function (_Component) {
+  _inheritsLoose(JsonComponent, _Component);
+
+  function JsonComponent() {
+    var _this;
+
+    _this = _Component.apply(this, arguments) || this;
+    _this.active = false;
+    return _this;
+  }
+
+  var _proto = JsonComponent.prototype;
+
+  _proto.onToggle = function onToggle() {
+    this.active = !this.active;
+    this.pushChanges();
+  };
+
+  return JsonComponent;
+}(Component);
+JsonComponent.meta = {
+  selector: 'json-component',
+  inputs: ['item'],
+  template: "\n\t\t<div class=\"rxc-block\">\n\t\t\t<div class=\"rxc-head\">\n\t\t\t\t<span class=\"rxc-head__title\" (click)=\"onToggle()\">\n\t\t\t\t\t<span *if=\"!active\">+ json </span>\n\t\t\t\t\t<span *if=\"active\">- json </span>\n\t\t\t\t\t<span [innerHTML]=\"item\"></span>\n\t\t\t\t</span>\n\t\t\t</div>\n\t\t\t<ul class=\"rxc-list\" *if=\"active\">\n\t\t\t\t<li class=\"rxc-list__item\">\n\t\t\t\t\t<span class=\"rxc-list__value\" [innerHTML]=\"item | json\"></span>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t</div>"
+};var Pipe = function () {
+  function Pipe() {}
+
+  Pipe.transform = function transform(value) {
+    return value;
+  };
+
+  return Pipe;
+}();var ORDER = [Structure, Component, Directive];
+
+var Platform = function () {
+  function Platform() {}
+
+  Platform.bootstrap = function bootstrap(moduleFactory) {
+    if (!moduleFactory) {
+      throw new ModuleError('missing moduleFactory');
+    }
+
+    if (!moduleFactory.meta) {
+      throw new ModuleError('missing moduleFactory meta');
+    }
+
+    if (!moduleFactory.meta.bootstrap) {
+      throw new ModuleError('missing bootstrap');
+    }
+
+    if (!moduleFactory.meta.bootstrap.meta) {
+      throw new ModuleError('missing bootstrap meta');
+    }
+
+    if (!moduleFactory.meta.bootstrap.meta.selector) {
+      throw new ModuleError('missing bootstrap meta selector');
+    }
+
+    var meta = this.resolveMeta(moduleFactory);
+    var module = new moduleFactory();
+    module.meta = meta;
+    meta.imports.forEach(function (moduleFactory) {
+      moduleFactory.prototype.constructor.call(module);
+    });
+    return module;
+  };
+
+  Platform.querySelector = function querySelector(selector) {
+    return document.querySelector(selector);
+  };
+
+  Platform.resolveMeta = function resolveMeta(moduleFactory) {
+    var meta = this.resolveImportedMeta(moduleFactory);
+    var bootstrap = moduleFactory.meta.bootstrap;
+    var node = this.querySelector(bootstrap.meta.selector);
+
+    if (!node) {
+      throw new ModuleError("missing node " + bootstrap.meta.selector);
+    }
+
+    var nodeInnerHTML = node.innerHTML;
+    var pipes = this.resolvePipes(meta);
+    var factories = this.resolveFactories(meta);
+    this.sortFactories(factories);
+    factories.unshift(bootstrap);
+    var selectors = this.unwrapSelectors(factories);
+    return {
+      factories: factories,
+      pipes: pipes,
+      selectors: selectors,
+      bootstrap: bootstrap,
+      node: node,
+      nodeInnerHTML: nodeInnerHTML,
+      imports: moduleFactory.meta.imports || []
+    };
+  };
+
+  Platform.resolveImportedMeta = function resolveImportedMeta(moduleFactory) {
+    var _this = this;
+
+    var meta = Object.assign({
+      imports: [],
+      declarations: [],
+      pipes: [],
+      exports: []
+    }, moduleFactory.meta);
+    meta.imports = (moduleFactory.meta.imports || []).map(function (moduleFactory) {
+      return _this.resolveImportedMeta(moduleFactory);
+    });
+    return meta;
+  };
+
+  Platform.resolvePipes = function resolvePipes(meta, exported) {
+    var _this2 = this;
+
+    var importedPipes = meta.imports.map(function (importMeta) {
+      return _this2.resolvePipes(importMeta, true);
+    });
+    var pipes = {};
+    var pipeList = (exported ? meta.exports : meta.declarations).filter(function (x) {
+      return x.prototype instanceof Pipe;
+    });
+    pipeList.forEach(function (pipeFactory) {
+      return pipes[pipeFactory.meta.name] = pipeFactory;
+    });
+    return Object.assign.apply(Object, [{}].concat(importedPipes, [pipes]));
+  };
+
+  Platform.resolveFactories = function resolveFactories(meta, exported) {
+    var _this3 = this,
+        _Array$prototype$conc;
+
+    var importedFactories = meta.imports.map(function (importMeta) {
+      return _this3.resolveFactories(importMeta, true);
+    });
+    var factoryList = (exported ? meta.exports : meta.declarations).filter(function (x) {
+      return x.prototype instanceof Factory;
+    });
+    return (_Array$prototype$conc = Array.prototype.concat).call.apply(_Array$prototype$conc, [factoryList].concat(importedFactories));
+  };
+
+  Platform.sortFactories = function sortFactories(factories) {
+    factories.sort(function (a, b) {
+      var ai = ORDER.reduce(function (p, c, i) {
+        return a.prototype instanceof c ? i : p;
+      }, -1);
+      var bi = ORDER.reduce(function (p, c, i) {
+        return b.prototype instanceof c ? i : p;
+      }, -1);
+      var o = ai - bi;
+
+      if (o === 0) {
+        return (a.meta.hosts ? 1 : 0) - (b.meta.hosts ? 1 : 0);
+      }
+
+      return o;
+    });
+  };
+
+  Platform.getExpressions = function getExpressions(selector) {
+    var matchers = [];
+    selector.replace(/\.([\w\-\_]+)|\[(.+?\]*)(\=)(.*?)\]|\[(.+?\]*)\]|([\w\-\_]+)/g, function (value, c1, a2, u3, v4, a5, e6) {
+      if (c1) {
+        matchers.push(function (node) {
+          return node.classList.contains(c1);
+        });
+      }
+
+      if (a2) {
+        matchers.push(function (node) {
+          return node.hasAttribute(a2) && node.getAttribute(a2) === v4 || node.hasAttribute("[" + a2 + "]") && node.getAttribute("[" + a2 + "]") === v4;
+        });
+      }
+
+      if (a5) {
+        matchers.push(function (node) {
+          return node.hasAttribute(a5) || node.hasAttribute("[" + a5 + "]");
+        });
+      }
+
+      if (e6) {
+        matchers.push(function (node) {
+          return node.nodeName.toLowerCase() === e6.toLowerCase();
+        });
+      }
+
+      return '';
+    });
+    return matchers;
+  };
+
+  Platform.unwrapSelectors = function unwrapSelectors(factories) {
+    var _this4 = this;
+
+    var selectors = [];
+    factories.forEach(function (factory) {
+      if (factory.meta && factory.meta.selector) {
+        factory.meta.selector.split(',').forEach(function (selector) {
+          selector = selector.trim();
+          var excludes = [];
+          var matchSelector = selector.replace(/\:not\((.+?)\)/g, function (value, unmatchSelector) {
+            excludes = _this4.getExpressions(unmatchSelector);
+            return '';
+          });
+
+          var includes = _this4.getExpressions(matchSelector);
+
+          selectors.push(function (node) {
+            var included = includes.reduce(function (p, match) {
+              return p && match(node);
+            }, true);
+            var excluded = excludes.reduce(function (p, match) {
+              return p || match(node);
+            }, false);
+
+            if (included && !excluded) {
+              return {
+                node: node,
+                factory: factory,
+                selector: selector
+              };
+            } else {
+              return false;
+            }
+          });
+        });
+      }
+    });
+    return selectors;
+  };
+
+  return Platform;
+}();
+var PLATFORM_BROWSER = typeof window !== 'undefined' && typeof window.document !== 'undefined';
+var PLATFORM_JS_DOM = typeof window !== 'undefined' && window.name === 'nodejs' || typeof navigator !== 'undefined' && navigator.userAgent.includes('Node.js') || typeof navigator !== 'undefined' && navigator.userAgent.includes('jsdom');
+var PLATFORM_NODE = typeof process !== 'undefined' && process.versions != null && process.versions.node != null;
+var PLATFORM_WEB_WORKER = typeof self === 'object' && self.constructor && self.constructor.name === 'DedicatedWorkerGlobalScope';
+var isPlatformServer = PLATFORM_NODE;
+var isPlatformBrowser = !PLATFORM_NODE && PLATFORM_BROWSER;
+var isPlatformWorker = PLATFORM_WEB_WORKER;var Serializer = function () {
+  function Serializer() {}
+
+  Serializer.encode = function encode(value, encoders) {
+    if (encoders === void 0) {
+      encoders = [_encodeJson];
+    }
+
+    return encoders.reduce(function (p, c) {
+      return c(p);
+    }, value);
+  };
+
+  Serializer.decode = function decode(value, decoders) {
+    if (decoders === void 0) {
+      decoders = [_decodeJson];
+    }
+
+    return decoders.reduce(function (p, c) {
+      return c(p);
+    }, value);
+  };
+
+  Serializer.encodeJson = function encodeJson(value) {
+    return this.encode(value, [_encodeJson]);
+  };
+
+  Serializer.decodeJson = function decodeJson(value) {
+    return this.decode(value, [_decodeJson]);
+  };
+
+  Serializer.encodeBase64 = function encodeBase64(value) {
+    return this.encode(value, [_encodeJson, _encodeBase]);
+  };
+
+  Serializer.decodeBase64 = function decodeBase64(value) {
+    return this.decode(value, [_decodeBase, _decodeJson]);
+  };
+
+  return Serializer;
+}();
+
+function _encodeJson(value, circularRef, space) {
+  var decoded;
+
+  try {
+    var pool = [];
+    var json = JSON.stringify(value, function (key, value) {
+      if (typeof value === 'object' && value != null) {
+        if (pool.indexOf(value) !== -1) {
+          return circularRef;
         }
 
-        var instance = _construct(factory, args || []);
+        pool.push(value);
+      }
 
-        var context = Module.makeContext(this, instance, parentInstance, node, factory, selector);
+      return value;
+    }, space);
+    decoded = json;
+  } catch (error) {}
 
-        if (meta) {
-          this.makeHosts(meta, instance, node);
-          context.inputs = this.makeInputs(meta, instance);
-          context.outputs = this.makeOutputs(meta, instance);
+  return decoded;
+}
+function encodeJsonWithOptions(circularRef, space) {
+  return function (value) {
+    return _encodeJson(value, circularRef, space);
+  };
+}
 
-          if (parentInstance instanceof Factory) {
-            this.resolveInputsOutputs(instance, parentInstance);
-          }
-        }
+function _decodeJson(value) {
+  var decoded;
 
-        instance.onInit();
+  if (value) {
+    try {
+      decoded = JSON.parse(value);
+    } catch (error) {}
+  }
+
+  return decoded;
+}
+
+function _encodeBase(value) {
+  var encoded;
+
+  try {
+    encoded = isPlatformBrowser ? btoa(value) : Buffer.from(value).toString('base64');
+  } catch (error) {
+    encoded = value;
+  }
+
+  return encoded;
+}
+
+function _decodeBase(value) {
+  var decoded;
+
+  try {
+    decoded = isPlatformBrowser ? atob(value) : Buffer.from(value, 'base64').toString();
+  } catch (error) {
+    decoded = value;
+  }
+
+  return decoded;
+}var JsonPipe = function (_Pipe) {
+  _inheritsLoose(JsonPipe, _Pipe);
+
+  function JsonPipe() {
+    return _Pipe.apply(this, arguments) || this;
+  }
+
+  JsonPipe.transform = function transform(value) {
+    return Serializer.encode(value, [encodeJsonWithOptions('#ref', 2)]);
+  };
+
+  return JsonPipe;
+}(Pipe);
+JsonPipe.meta = {
+  name: 'json'
+};var ID = 0;
+
+var Module = function () {
+  function Module() {
+    this.unsubscribe$ = new rxjs.Subject();
+  }
+
+  var _proto = Module.prototype;
+
+  _proto.compile = function compile(node, parentInstance) {
+    var _this = this;
+
+    var componentNode;
+    var instances = Module.querySelectorsAll(node, this.meta.selectors, []).map(function (match) {
+      if (componentNode && componentNode !== match.node) {
+        parentInstance = undefined;
+      }
+
+      var instance = _this.makeInstance(match.node, match.factory, match.selector, parentInstance);
+
+      if (match.factory.prototype instanceof Component) {
+        componentNode = match.node;
+      }
+
+      return instance;
+    }).filter(function (x) {
+      return x !== undefined;
+    });
+    return instances;
+  };
+
+  _proto.makeInstance = function makeInstance(node, factory, selector, parentInstance, args, inject) {
+    var _this2 = this;
+
+    if (parentInstance || node.parentNode) {
+      var meta = factory.meta;
+      parentInstance = parentInstance || this.getParentInstance(node.parentNode);
+
+      if (!parentInstance) {
+        return undefined;
+      }
+
+      var instance = _construct(factory, args || []);
+
+      if (inject) {
+        Object.keys(inject).forEach(function (key) {
+          Object.defineProperty(instance, key, {
+            value: inject[key],
+            enumerable: true,
+            configurable: false,
+            writable: false
+          });
+        });
+      }
+
+      var context = Module.makeContext(this, instance, parentInstance, node, factory, selector);
+
+      if (meta) {
+        this.makeHosts(meta, instance, node);
+        context.inputs = this.makeInputs(meta, instance);
+        context.outputs = this.makeOutputs(meta, instance);
 
         if (parentInstance instanceof Factory) {
-          parentInstance.changes$.pipe(operators.takeUntil(instance.unsubscribe$)).subscribe(function (changes) {
-            if (meta) {
-              _this2.resolveInputsOutputs(instance, changes);
-            }
-
-            instance.onChanges(changes);
-            instance.pushChanges();
-          });
+          this.resolveInputsOutputs(instance, parentInstance);
         }
-
-        return instance;
-      } else {
-        return undefined;
-      }
-    };
-
-    _proto.makeFunction = function makeFunction(expression, params) {
-      if (params === void 0) {
-        params = ['$instance'];
       }
 
-      if (expression) {
-        expression = Module.parseExpression(expression);
-        var args = params.join(',');
-        var expression_func = new Function("with(this) {\n\t\t\t\treturn (function (" + args + ", $$module) {\n\t\t\t\t\tconst $$pipes = $$module.meta.pipes;\n\t\t\t\t\treturn " + expression + ";\n\t\t\t\t}.bind(this)).apply(this, arguments);\n\t\t\t}");
-        return expression_func;
-      } else {
-        return function () {
-          return null;
-        };
-      }
-    };
+      instance.onInit();
 
-    _proto.resolve = function resolve(expression, parentInstance, payload) {
-      return expression.apply(parentInstance, [payload, this]);
-    };
-
-    _proto.parse = function parse(node, instance) {
-      for (var i = 0; i < node.childNodes.length; i++) {
-        var child = node.childNodes[i];
-
-        if (child.nodeType === 1) {
-          var element = child;
-          var context = getContextByNode(element);
-
-          if (!context) {
-            this.parse(element, instance);
+      if (parentInstance instanceof Factory) {
+        parentInstance.changes$.pipe(operators.takeUntil(instance.unsubscribe$)).subscribe(function (changes) {
+          if (meta) {
+            _this2.resolveInputsOutputs(instance, changes);
           }
-        } else if (child.nodeType === 3) {
-          var text = child;
-          this.parseTextNode(text, instance);
+
+          instance.onChanges(changes);
+          instance.pushChanges();
+        });
+      }
+
+      return instance;
+    } else {
+      return undefined;
+    }
+  };
+
+  _proto.makeFunction = function makeFunction(expression, params) {
+    if (params === void 0) {
+      params = ['$instance'];
+    }
+
+    if (expression) {
+      expression = Module.parseExpression(expression);
+      var args = params.join(',');
+      var expression_func = new Function("with(this) {\n\t\t\t\treturn (function (" + args + ", $$module) {\n\t\t\t\t\ttry {\n\t\t\t\t\t\tconst $$pipes = $$module.meta.pipes;\n\t\t\t\t\t\treturn " + expression + ";\n\t\t\t\t\t} catch(error) {\n\t\t\t\t\t\t$$module.nextError(error, this, " + JSON.stringify(expression) + ", arguments);\n\t\t\t\t\t}\n\t\t\t\t}.bind(this)).apply(this, arguments);\n\t\t\t}");
+      return expression_func;
+    } else {
+      return function () {
+        return null;
+      };
+    }
+  };
+
+  _proto.nextError = function nextError(error, instance, expression, params) {
+    var expressionError = new ExpressionError(error, this, instance, expression, params);
+    nextError$.next(expressionError);
+  };
+
+  _proto.resolve = function resolve(expression, parentInstance, payload) {
+    return expression.apply(parentInstance, [payload, this]);
+  };
+
+  _proto.parse = function parse(node, instance) {
+    for (var i = 0; i < node.childNodes.length; i++) {
+      var child = node.childNodes[i];
+
+      if (child.nodeType === 1) {
+        var element = child;
+        var context = getParsableContextByNode(element);
+
+        if (!context) {
+          this.parse(element, instance);
+        }
+      } else if (child.nodeType === 3) {
+        var text = child;
+        this.parseTextNode(text, instance);
+      }
+    }
+  };
+
+  _proto.remove = function remove(node, keepInstance) {
+    var keepContext = keepInstance ? getContext(keepInstance) : undefined;
+    Module.traverseDown(node, function (node) {
+      var rxcompId = node.rxcompId;
+
+      if (rxcompId) {
+        var keepContexts = Module.deleteContext(rxcompId, keepContext);
+
+        if (keepContexts.length === 0) {
+          delete node.rxcompId;
         }
       }
-    };
+    });
+    return node;
+  };
 
-    _proto.remove = function remove(node, keepInstance) {
-      var keepContext = keepInstance ? getContext(keepInstance) : undefined;
-      Module.traverseDown(node, function (node) {
-        var rxcompId = node.rxcompId;
+  _proto.destroy = function destroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+    this.remove(this.meta.node);
+    this.meta.node.innerHTML = this.meta.nodeInnerHTML;
+  };
 
-        if (rxcompId) {
-          var keepContexts = Module.deleteContext(rxcompId, keepContext);
+  _proto.makeContext = function makeContext(instance, parentInstance, node, selector) {
+    var context = Module.makeContext(this, instance, parentInstance, node, instance.constructor, selector);
+    return context;
+  };
 
-          if (keepContexts.length === 0) {
-            delete node.rxcompId;
-          }
-        }
-      });
-      return node;
-    };
+  _proto.getInstance = function getInstance(node) {
+    if (node === document) {
+      return isPlatformBrowser ? window : global;
+    }
 
-    _proto.destroy = function destroy() {
-      this.remove(this.meta.node);
-      this.meta.node.innerHTML = this.meta.nodeInnerHTML;
-    };
+    var context = getContextByNode(node);
 
-    _proto.makeContext = function makeContext(instance, parentInstance, node, selector) {
-      var context = Module.makeContext(this, instance, parentInstance, node, instance.constructor, selector);
-      return context;
-    };
+    if (context) {
+      return context.instance;
+    } else {
+      return undefined;
+    }
+  };
 
-    _proto.getInstance = function getInstance(node) {
-      if (node instanceof Document) {
-        return window;
-      }
+  _proto.getParentInstance = function getParentInstance(node) {
+    var _this3 = this;
 
-      var context = getContextByNode(node);
+    return Module.traverseUp(node, function (node) {
+      return _this3.getInstance(node);
+    });
+  };
 
-      if (context) {
-        return context.instance;
-      } else {
-        return undefined;
-      }
-    };
+  _proto.parseTextNode = function parseTextNode(node, instance) {
+    var _this4 = this;
 
-    _proto.getParentInstance = function getParentInstance(node) {
-      var _this3 = this;
+    var expressions = node.nodeExpressions;
 
-      return Module.traverseUp(node, function (node) {
-        return _this3.getInstance(node);
-      });
-    };
+    if (!expressions) {
+      expressions = this.parseTextNodeExpression(node.wholeText);
+    }
 
-    _proto.parseTextNode = function parseTextNode(node, instance) {
-      var _this4 = this;
-
-      var expressions = node.nodeExpressions;
-
-      if (!expressions) {
-        expressions = this.parseTextNodeExpression(node.wholeText);
-      }
-
+    if (expressions.length) {
       var replacedText = expressions.reduce(function (p, c) {
         var text;
 
@@ -10079,802 +10723,750 @@ var rxcomp = (function (exports, rxjs, operators) {
         textNode.nodeExpressions = expressions;
         node.parentNode.replaceChild(textNode, node);
       }
-    };
-
-    _proto.pushFragment = function pushFragment(nodeValue, from, to, expressions) {
-      var fragment = nodeValue.substring(from, to);
-      expressions.push(fragment);
-    };
-
-    _proto.parseTextNodeExpression = function parseTextNodeExpression(nodeValue) {
-      var expressions = [];
-      var regex = /\{{2}((([^{}])|(\{([^{}]|(\{.*?\}))+?\}))*?)\}{2}/g;
-      var lastIndex = 0,
-          matches;
-
-      while ((matches = regex.exec(nodeValue)) !== null) {
-        var index = regex.lastIndex - matches[0].length;
-
-        if (index > lastIndex) {
-          this.pushFragment(nodeValue, index, lastIndex, expressions);
-        }
-
-        lastIndex = regex.lastIndex;
-        var expression = this.makeFunction(matches[1]);
-        expressions.push(expression);
-      }
-
-      var length = nodeValue.length;
-
-      if (length > lastIndex) {
-        this.pushFragment(nodeValue, lastIndex, length, expressions);
-      }
-
-      return expressions;
-    };
-
-    _proto.makeHosts = function makeHosts(meta, instance, node) {
-      if (meta.hosts) {
-        Object.keys(meta.hosts).forEach(function (key) {
-          var factory = meta.hosts[key];
-          instance[key] = getHost(instance, factory, node);
-        });
-      }
-    };
-
-    _proto.makeInput = function makeInput(instance, key) {
-      var _getContext = getContext(instance),
-          node = _getContext.node;
-
-      var input = null,
-          expression = null;
-
-      if (node.hasAttribute("[" + key + "]")) {
-        expression = node.getAttribute("[" + key + "]");
-      } else if (node.hasAttribute(key)) {
-        var attribute = node.getAttribute(key).replace(/({{)|(}})|(")/g, function (substring, a, b, c) {
-          if (a) {
-            return '"+';
-          }
-
-          if (b) {
-            return '+"';
-          }
-
-          if (c) {
-            return '\"';
-          }
-
-          return '';
-        });
-        expression = "\"" + attribute + "\"";
-      }
-
-      if (expression) {
-        input = this.makeFunction(expression);
-      }
-
-      return input;
-    };
-
-    _proto.makeInputs = function makeInputs(meta, instance) {
-      var _this5 = this;
-
-      var inputs = {};
-
-      if (meta.inputs) {
-        meta.inputs.forEach(function (key, i) {
-          var input = _this5.makeInput(instance, key);
-
-          if (input) {
-            inputs[key] = input;
-          }
-        });
-      }
-
-      return inputs;
-    };
-
-    _proto.makeOutput = function makeOutput(instance, key) {
-      var _this6 = this;
-
-      var context = getContext(instance);
-      var node = context.node;
-      var parentInstance = context.parentInstance;
-      var expression = node.getAttribute("(" + key + ")");
-      var outputFunction = expression ? this.makeFunction(expression, ['$event']) : null;
-      var output$ = new rxjs.Subject().pipe(operators.tap(function (event) {
-        if (outputFunction) {
-          _this6.resolve(outputFunction, parentInstance, event);
-        }
-      }));
-      output$.pipe(operators.takeUntil(instance.unsubscribe$)).subscribe();
-      instance[key] = output$;
-      return output$;
-    };
-
-    _proto.makeOutputs = function makeOutputs(meta, instance) {
-      var _this7 = this;
-
-      var outputs = {};
-
-      if (meta.outputs) {
-        meta.outputs.forEach(function (key) {
-          var output = _this7.makeOutput(instance, key);
-
-          if (output) {
-            outputs[key] = output;
-          }
-        });
-      }
-
-      return outputs;
-    };
-
-    _proto.resolveInputsOutputs = function resolveInputsOutputs(instance, changes) {
-      var context = getContext(instance);
-      var parentInstance = context.parentInstance;
-      var inputs = context.inputs;
-
-      for (var key in inputs) {
-        var inputFunction = inputs[key];
-        var value = this.resolve(inputFunction, parentInstance, instance);
-        instance[key] = value;
-      }
-    };
-
-    Module.parseExpression = function parseExpression(expression) {
-      var l = '┌';
-      var r = '┘';
-      var rx1 = /(\()([^\(\)]*)(\))/;
-
-      while (expression.match(rx1)) {
-        expression = expression.replace(rx1, function (substring) {
-          return "" + l + Module.parsePipes(arguments.length <= 2 ? undefined : arguments[2]) + r;
-        });
-      }
-
-      expression = Module.parsePipes(expression);
-      expression = expression.replace(/(┌)|(┘)/g, function (substring) {
-        return (arguments.length <= 1 ? undefined : arguments[1]) ? '(' : ')';
-      });
-      return Module.parseOptionalChaining(expression);
-    };
-
-    Module.parsePipes = function parsePipes(expression) {
-      var l = '┌';
-      var r = '┘';
-      var rx1 = /(.*?[^\|])\|([^\|]+)/;
-
-      while (expression.match(rx1)) {
-        expression = expression.replace(rx1, function (substring) {
-          for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-            args[_key - 1] = arguments[_key];
-          }
-
-          var value = args[0].trim();
-          var params = Module.parsePipeParams(args[1]);
-          var func = params.shift().trim();
-          return "$$pipes." + func + ".transform" + l + [value].concat(params) + r;
-        });
-      }
-
-      return expression;
-    };
-
-    Module.parsePipeParams = function parsePipeParams(expression) {
-      var segments = [];
-      var i = 0,
-          word = '',
-          block = 0;
-      var t = expression.length;
-
-      while (i < t) {
-        var c = expression.substr(i, 1);
-
-        if (c === '{' || c === '(' || c === '[') {
-          block++;
-        }
-
-        if (c === '}' || c === ')' || c === ']') {
-          block--;
-        }
-
-        if (c === ':' && block === 0) {
-          if (word.length) {
-            segments.push(word.trim());
-          }
-
-          word = '';
-        } else {
-          word += c;
-        }
-
-        i++;
-      }
-
-      if (word.length) {
-        segments.push(word.trim());
-      }
-
-      return segments;
-    };
-
-    Module.parseOptionalChaining = function parseOptionalChaining(expression) {
-      var regex = /(\w+(\?\.))+([\.|\w]+)/g;
-      var previous;
-      expression = expression.replace(regex, function (substring) {
-        var tokens = substring.split('?.');
-
-        for (var i = 0; i < tokens.length - 1; i++) {
-          var a = i > 0 ? "(" + tokens[i] + " = " + previous + ")" : tokens[i];
-          var b = tokens[i + 1];
-          previous = i > 0 ? a + "." + b : "(" + a + " ? " + a + "." + b + " : void 0)";
-        }
-
-        return previous || '';
-      });
-      return expression;
-    };
-
-    Module.makeContext = function makeContext(module, instance, parentInstance, node, factory, selector) {
-      instance.rxcompId = ++ID;
-      var context = {
-        module: module,
-        instance: instance,
-        parentInstance: parentInstance,
-        node: node,
-        factory: factory,
-        selector: selector
-      };
-      var rxcompNodeId = node.rxcompId = node.rxcompId || instance.rxcompId;
-      var nodeContexts = NODES[rxcompNodeId] || (NODES[rxcompNodeId] = []);
-      nodeContexts.push(context);
-      CONTEXTS[instance.rxcompId] = context;
-      return context;
-    };
-
-    Module.deleteContext = function deleteContext(id, keepContext) {
-      var keepContexts = [];
-      var nodeContexts = NODES[id];
-
-      if (nodeContexts) {
-        nodeContexts.forEach(function (context) {
-          if (context === keepContext) {
-            keepContexts.push(keepContext);
-          } else {
-            var instance = context.instance;
-            instance.unsubscribe$.next();
-            instance.unsubscribe$.complete();
-            instance.onDestroy();
-            delete CONTEXTS[instance.rxcompId];
-          }
-        });
-
-        if (keepContexts.length) {
-          NODES[id] = keepContexts;
-        } else {
-          delete NODES[id];
-        }
-      }
-
-      return keepContexts;
-    };
-
-    Module.matchSelectors = function matchSelectors(node, selectors, results) {
-      for (var i = 0; i < selectors.length; i++) {
-        var selectorResult = selectors[i](node);
-
-        if (selectorResult) {
-          var factory = selectorResult.factory;
-
-          if (factory.prototype instanceof Component && factory.meta.template) {
-            node.innerHTML = factory.meta.template;
-          }
-
-          results.push(selectorResult);
-
-          if (factory.prototype instanceof Structure) {
-            break;
-          }
-        }
-      }
-
-      return results;
-    };
-
-    Module.querySelectorsAll = function querySelectorsAll(node, selectors, results) {
-      if (node.nodeType === 1) {
-        var selectorResults = this.matchSelectors(node, selectors, []);
-        results = results.concat(selectorResults);
-        var structure = selectorResults.find(function (x) {
-          return x.factory.prototype instanceof Structure;
-        });
-
-        if (structure) {
-          return results;
-        }
-
-        var childNodes = node.childNodes;
-
-        for (var i = 0; i < childNodes.length; i++) {
-          results = this.querySelectorsAll(childNodes[i], selectors, results);
-        }
-      }
-
-      return results;
-    };
-
-    Module.traverseUp = function traverseUp(node, callback, i) {
-      if (i === void 0) {
-        i = 0;
-      }
-
-      if (!node) {
-        return;
-      }
-
-      var result = callback(node, i);
-
-      if (result) {
-        return result;
-      }
-
-      return this.traverseUp(node.parentNode, callback, i + 1);
-    };
-
-    Module.traverseDown = function traverseDown(node, callback, i) {
-      if (i === void 0) {
-        i = 0;
-      }
-
-      if (!node) {
-        return;
-      }
-
-      var result = callback(node, i);
-
-      if (result) {
-        return result;
-      }
-
-      if (node.nodeType === 1) {
-        var j = 0,
-            t = node.childNodes.length;
-
-        while (j < t && !result) {
-          result = this.traverseDown(node.childNodes[j], callback, i + 1);
-          j++;
-        }
-      }
-
-      return result;
-    };
-
-    Module.traversePrevious = function traversePrevious(node, callback, i) {
-      if (i === void 0) {
-        i = 0;
-      }
-
-      if (!node) {
-        return;
-      }
-
-      var result = callback(node, i);
-
-      if (result) {
-        return result;
-      }
-
-      return this.traversePrevious(node.previousSibling, callback, i + 1);
-    };
-
-    Module.traverseNext = function traverseNext(node, callback, i) {
-      if (i === void 0) {
-        i = 0;
-      }
-
-      if (!node) {
-        return;
-      }
-
-      var result = callback(node, i);
-
-      if (result) {
-        return result;
-      }
-
-      return this.traverseNext(node.nextSibling, callback, i + 1);
-    };
-
-    return Module;
-  }();
-  function getContextByNode(node) {
-    var context;
-    var rxcompId = node.rxcompId;
-
-    if (rxcompId) {
-      var nodeContexts = NODES[rxcompId];
-
-      if (nodeContexts) {
-        context = nodeContexts.reduce(function (previous, current) {
-          if (current.factory.prototype instanceof Component) {
-            return current;
-          } else if (current.factory.prototype instanceof Context) {
-            return previous ? previous : current;
-          } else {
-            return previous;
-          }
-        }, undefined);
-      }
-    }
-
-    return context;
-  }
-  function getHost(instance, factory, node) {
-    if (!node) {
-      node = getContext(instance).node;
-    }
-
-    if (node.rxcompId) {
-      var nodeContexts = NODES[node.rxcompId];
-
-      if (nodeContexts) {
-        for (var i = 0; i < nodeContexts.length; i++) {
-          var context = nodeContexts[i];
-
-          if (context.instance !== instance) {
-            if (context.instance instanceof factory) {
-              return context.instance;
-            }
-          }
-        }
-      }
-    }
-
-    if (node.parentNode) {
-      return getHost(instance, factory, node.parentNode);
     } else {
-      return undefined;
+      node.nodeExpressions = expressions;
     }
-  }
-
-  var SrcDirective = function (_Directive) {
-    _inheritsLoose(SrcDirective, _Directive);
-
-    function SrcDirective() {
-      return _Directive.apply(this, arguments) || this;
-    }
-
-    var _proto = SrcDirective.prototype;
-
-    _proto.onChanges = function onChanges() {
-      var _getContext = getContext(this),
-          node = _getContext.node;
-
-      if (this.src) {
-        node.setAttribute('src', this.src);
-      } else {
-        node.removeAttribute('src');
-      }
-    };
-
-    return SrcDirective;
-  }(Directive);
-  SrcDirective.meta = {
-    selector: '[[src]]',
-    inputs: ['src']
   };
 
-  var StyleDirective = function (_Directive) {
-    _inheritsLoose(StyleDirective, _Directive);
-
-    function StyleDirective() {
-      return _Directive.apply(this, arguments) || this;
-    }
-
-    var _proto = StyleDirective.prototype;
-
-    _proto.onChanges = function onChanges() {
-      var _getContext = getContext(this),
-          node = _getContext.node;
-
-      var style = this.style;
-      var previousStyle = this.previousStyle;
-
-      if (previousStyle) {
-        for (var key in previousStyle) {
-          if (!style || !style[key]) {
-            var splitted = key.split('.');
-            var propertyName = splitted.shift();
-            node.style.removeProperty(propertyName);
-          }
-        }
-      }
-
-      if (style) {
-        for (var _key in style) {
-          if (!previousStyle || previousStyle[_key] !== style[_key]) {
-            var _splitted = _key.split('.');
-
-            var _propertyName = _splitted.shift();
-
-            var value = style[_key] + (_splitted.length ? _splitted[0] : '');
-            node.style.setProperty(_propertyName, value);
-          }
-        }
-      }
-
-      this.previousStyle = style;
-    };
-
-    return StyleDirective;
-  }(Directive);
-  StyleDirective.meta = {
-    selector: "[[style]]",
-    inputs: ['style']
+  _proto.pushFragment = function pushFragment(nodeValue, from, to, expressions) {
+    var fragment = nodeValue.substring(from, to);
+    expressions.push(fragment);
   };
 
-  var factories = [ClassDirective, EventDirective, ForStructure, HrefDirective, IfStructure, InnerHtmlDirective, SrcDirective, StyleDirective];
-  var pipes = [JsonPipe];
+  _proto.parseTextNodeExpression = function parseTextNodeExpression(nodeValue) {
+    var expressions = [];
+    var regex = /\{{2}((([^{}])|(\{([^{}]|(\{.*?\}))+?\}))*?)\}{2}/g;
+    var lastIndex = 0,
+        matches;
 
-  var CoreModule = function (_Module) {
-    _inheritsLoose(CoreModule, _Module);
+    while ((matches = regex.exec(nodeValue)) !== null) {
+      var index = regex.lastIndex - matches[0].length;
 
-    function CoreModule() {
-      return _Module.apply(this, arguments) || this;
+      if (index > lastIndex) {
+        this.pushFragment(nodeValue, index, lastIndex, expressions);
+      }
+
+      lastIndex = regex.lastIndex;
+      var expression = this.makeFunction(matches[1]);
+      expressions.push(expression);
     }
 
-    return CoreModule;
-  }(Module);
-  CoreModule.meta = {
-    declarations: [].concat(factories, pipes),
-    exports: [].concat(factories, pipes)
+    var length = nodeValue.length;
+
+    if (length > lastIndex) {
+      this.pushFragment(nodeValue, lastIndex, length, expressions);
+    }
+
+    if (expressions.find(function (x) {
+      return typeof x === 'function';
+    })) {
+      return expressions;
+    } else {
+      return [];
+    }
   };
 
-  var ORDER = [Structure, Component, Directive];
-
-  var Platform = function () {
-    function Platform() {}
-
-    Platform.bootstrap = function bootstrap(moduleFactory) {
-      if (!moduleFactory) {
-        throw 'missing moduleFactory';
-      }
-
-      if (!moduleFactory.meta) {
-        throw 'missing moduleFactory meta';
-      }
-
-      if (!moduleFactory.meta.bootstrap) {
-        throw 'missing bootstrap';
-      }
-
-      if (!moduleFactory.meta.bootstrap.meta) {
-        throw 'missing bootstrap meta';
-      }
-
-      if (!moduleFactory.meta.bootstrap.meta.selector) {
-        throw 'missing bootstrap meta selector';
-      }
-
-      var meta = this.resolveMeta(moduleFactory);
-      var module = new moduleFactory();
-      module.meta = meta;
-      var instances = module.compile(meta.node, window);
-      var root = instances[0];
-      root.pushChanges();
-      return module;
-    };
-
-    Platform.isBrowser = function isBrowser() {
-      return Boolean(window);
-    };
-
-    Platform.querySelector = function querySelector(selector) {
-      return document.querySelector(selector);
-    };
-
-    Platform.resolveMeta = function resolveMeta(moduleFactory) {
-      var meta = this.resolveImportedMeta(moduleFactory);
-      var bootstrap = moduleFactory.meta.bootstrap;
-      var node = this.querySelector(bootstrap.meta.selector);
-
-      if (!node) {
-        throw "missing node " + bootstrap.meta.selector;
-      }
-
-      var nodeInnerHTML = node.innerHTML;
-      var pipes = this.resolvePipes(meta);
-      var factories = this.resolveFactories(meta);
-      this.sortFactories(factories);
-      factories.unshift(bootstrap);
-      var selectors = this.unwrapSelectors(factories);
-      return {
-        factories: factories,
-        pipes: pipes,
-        selectors: selectors,
-        bootstrap: bootstrap,
-        node: node,
-        nodeInnerHTML: nodeInnerHTML
-      };
-    };
-
-    Platform.resolveImportedMeta = function resolveImportedMeta(moduleFactory) {
-      var _this = this;
-
-      var meta = Object.assign({
-        imports: [],
-        declarations: [],
-        pipes: [],
-        exports: []
-      }, moduleFactory.meta);
-      meta.imports = (moduleFactory.meta.imports || []).map(function (moduleFactory) {
-        return _this.resolveImportedMeta(moduleFactory);
+  _proto.makeHosts = function makeHosts(meta, instance, node) {
+    if (meta.hosts) {
+      Object.keys(meta.hosts).forEach(function (key) {
+        var factory = meta.hosts[key];
+        instance[key] = getHost(instance, factory, node);
       });
-      return meta;
-    };
+    }
+  };
 
-    Platform.resolvePipes = function resolvePipes(meta, exported) {
-      var _this2 = this;
+  _proto.makeInput = function makeInput(instance, key) {
+    var _getContext = getContext(instance),
+        node = _getContext.node;
 
-      var importedPipes = meta.imports.map(function (importMeta) {
-        return _this2.resolvePipes(importMeta, true);
-      });
-      var pipes = {};
-      var pipeList = (exported ? meta.exports : meta.declarations).filter(function (x) {
-        return x.prototype instanceof Pipe;
-      });
-      pipeList.forEach(function (pipeFactory) {
-        return pipes[pipeFactory.meta.name] = pipeFactory;
-      });
-      return Object.assign.apply(Object, [{}].concat(importedPipes, [pipes]));
-    };
+    var input = null,
+        expression = null;
 
-    Platform.resolveFactories = function resolveFactories(meta, exported) {
-      var _this3 = this,
-          _Array$prototype$conc;
-
-      var importedFactories = meta.imports.map(function (importMeta) {
-        return _this3.resolveFactories(importMeta, true);
-      });
-      var factoryList = (exported ? meta.exports : meta.declarations).filter(function (x) {
-        return x.prototype instanceof Factory;
-      });
-      return (_Array$prototype$conc = Array.prototype.concat).call.apply(_Array$prototype$conc, [factoryList].concat(importedFactories));
-    };
-
-    Platform.sortFactories = function sortFactories(factories) {
-      factories.sort(function (a, b) {
-        var ai = ORDER.reduce(function (p, c, i) {
-          return a.prototype instanceof c ? i : p;
-        }, -1);
-        var bi = ORDER.reduce(function (p, c, i) {
-          return b.prototype instanceof c ? i : p;
-        }, -1);
-        var o = ai - bi;
-
-        if (o === 0) {
-          return (a.meta.hosts ? 1 : 0) - (b.meta.hosts ? 1 : 0);
+    if (node.hasAttribute("[" + key + "]")) {
+      expression = node.getAttribute("[" + key + "]");
+    } else if (node.hasAttribute(key)) {
+      var attribute = node.getAttribute(key).replace(/({{)|(}})|(")/g, function (substring, a, b, c) {
+        if (a) {
+          return '"+';
         }
 
-        return o;
-      });
-    };
-
-    Platform.getExpressions = function getExpressions(selector) {
-      var matchers = [];
-      selector.replace(/\.([\w\-\_]+)|\[(.+?\]*)(\=)(.*?)\]|\[(.+?\]*)\]|([\w\-\_]+)/g, function (value, c1, a2, u3, v4, a5, e6) {
-        if (c1) {
-          matchers.push(function (node) {
-            return node.classList.contains(c1);
-          });
+        if (b) {
+          return '+"';
         }
 
-        if (a2) {
-          matchers.push(function (node) {
-            return node.hasAttribute(a2) && node.getAttribute(a2) === v4 || node.hasAttribute("[" + a2 + "]") && node.getAttribute("[" + a2 + "]") === v4;
-          });
-        }
-
-        if (a5) {
-          matchers.push(function (node) {
-            return node.hasAttribute(a5) || node.hasAttribute("[" + a5 + "]");
-          });
-        }
-
-        if (e6) {
-          matchers.push(function (node) {
-            return node.nodeName.toLowerCase() === e6.toLowerCase();
-          });
+        if (c) {
+          return '\"';
         }
 
         return '';
       });
-      return matchers;
-    };
-
-    Platform.unwrapSelectors = function unwrapSelectors(factories) {
-      var _this4 = this;
-
-      var selectors = [];
-      factories.forEach(function (factory) {
-        if (factory.meta && factory.meta.selector) {
-          factory.meta.selector.split(',').forEach(function (selector) {
-            selector = selector.trim();
-            var excludes = [];
-            var matchSelector = selector.replace(/\:not\((.+?)\)/g, function (value, unmatchSelector) {
-              excludes = _this4.getExpressions(unmatchSelector);
-              return '';
-            });
-
-            var includes = _this4.getExpressions(matchSelector);
-
-            selectors.push(function (node) {
-              var included = includes.reduce(function (p, match) {
-                return p && match(node);
-              }, true);
-              var excluded = excludes.reduce(function (p, match) {
-                return p || match(node);
-              }, false);
-
-              if (included && !excluded) {
-                return {
-                  node: node,
-                  factory: factory,
-                  selector: selector
-                };
-              } else {
-                return false;
-              }
-            });
-          });
-        }
-      });
-      return selectors;
-    };
-
-    return Platform;
-  }();
-
-  var Browser = function (_Platform) {
-    _inheritsLoose(Browser, _Platform);
-
-    function Browser() {
-      return _Platform.apply(this, arguments) || this;
+      expression = "\"" + attribute + "\"";
     }
 
-    return Browser;
-  }(Platform);
+    if (expression) {
+      input = this.makeFunction(expression);
+    }
 
-  exports.Browser = Browser;
-  exports.ClassDirective = ClassDirective;
-  exports.Component = Component;
-  exports.Context = Context;
-  exports.CoreModule = CoreModule;
-  exports.Directive = Directive;
-  exports.EventDirective = EventDirective;
-  exports.Factory = Factory;
-  exports.ForItem = ForItem;
-  exports.ForStructure = ForStructure;
-  exports.HrefDirective = HrefDirective;
-  exports.IfStructure = IfStructure;
-  exports.InnerHtmlDirective = InnerHtmlDirective;
-  exports.JsonPipe = JsonPipe;
-  exports.Module = Module;
-  exports.Pipe = Pipe;
-  exports.Platform = Platform;
-  exports.SrcDirective = SrcDirective;
-  exports.Structure = Structure;
-  exports.StyleDirective = StyleDirective;
-  exports.getContext = getContext;
-  exports.getContextByNode = getContextByNode;
-  exports.getHost = getHost;
+    return input;
+  };
 
-  return exports;
+  _proto.makeInputs = function makeInputs(meta, instance) {
+    var _this5 = this;
 
-}({}, rxjs, rxjs.operators));
+    var inputs = {};
 
+    if (meta.inputs) {
+      meta.inputs.forEach(function (key, i) {
+        var input = _this5.makeInput(instance, key);
+
+        if (input) {
+          inputs[key] = input;
+        }
+      });
+    }
+
+    return inputs;
+  };
+
+  _proto.makeOutput = function makeOutput(instance, key) {
+    var _this6 = this;
+
+    var context = getContext(instance);
+    var node = context.node;
+    var parentInstance = context.parentInstance;
+    var expression = node.getAttribute("(" + key + ")");
+    var outputFunction = expression ? this.makeFunction(expression, ['$event']) : null;
+    var output$ = new rxjs.Subject().pipe(operators.tap(function (event) {
+      if (outputFunction) {
+        _this6.resolve(outputFunction, parentInstance, event);
+      }
+    }));
+    output$.pipe(operators.takeUntil(instance.unsubscribe$)).subscribe();
+    instance[key] = output$;
+    return output$;
+  };
+
+  _proto.makeOutputs = function makeOutputs(meta, instance) {
+    var _this7 = this;
+
+    var outputs = {};
+
+    if (meta.outputs) {
+      meta.outputs.forEach(function (key) {
+        var output = _this7.makeOutput(instance, key);
+
+        if (output) {
+          outputs[key] = output;
+        }
+      });
+    }
+
+    return outputs;
+  };
+
+  _proto.resolveInputsOutputs = function resolveInputsOutputs(instance, changes) {
+    var context = getContext(instance);
+    var parentInstance = context.parentInstance;
+    var inputs = context.inputs;
+
+    for (var key in inputs) {
+      var inputFunction = inputs[key];
+      var value = this.resolve(inputFunction, parentInstance, instance);
+      instance[key] = value;
+    }
+  };
+
+  Module.parseExpression = function parseExpression(expression) {
+    var l = '┌';
+    var r = '┘';
+    var rx1 = /(\()([^\(\)]*)(\))/;
+
+    while (expression.match(rx1)) {
+      expression = expression.replace(rx1, function (substring) {
+        return "" + l + Module.parsePipes(arguments.length <= 2 ? undefined : arguments[2]) + r;
+      });
+    }
+
+    expression = Module.parsePipes(expression);
+    expression = expression.replace(/(┌)|(┘)/g, function (substring) {
+      return (arguments.length <= 1 ? undefined : arguments[1]) ? '(' : ')';
+    });
+    return Module.parseOptionalChaining(expression);
+  };
+
+  Module.parsePipes = function parsePipes(expression) {
+    var l = '┌';
+    var r = '┘';
+    var rx1 = /(.*?[^\|])\|([^\|]+)/;
+
+    while (expression.match(rx1)) {
+      expression = expression.replace(rx1, function (substring) {
+        for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+          args[_key - 1] = arguments[_key];
+        }
+
+        var value = args[0].trim();
+        var params = Module.parsePipeParams(args[1]);
+        var func = params.shift().trim();
+        return "$$pipes." + func + ".transform" + l + [value].concat(params) + r;
+      });
+    }
+
+    return expression;
+  };
+
+  Module.parsePipeParams = function parsePipeParams(expression) {
+    var segments = [];
+    var i = 0,
+        word = '',
+        block = 0;
+    var t = expression.length;
+
+    while (i < t) {
+      var c = expression.substr(i, 1);
+
+      if (c === '{' || c === '(' || c === '[') {
+        block++;
+      }
+
+      if (c === '}' || c === ')' || c === ']') {
+        block--;
+      }
+
+      if (c === ':' && block === 0) {
+        if (word.length) {
+          segments.push(word.trim());
+        }
+
+        word = '';
+      } else {
+        word += c;
+      }
+
+      i++;
+    }
+
+    if (word.length) {
+      segments.push(word.trim());
+    }
+
+    return segments;
+  };
+
+  Module.parseOptionalChaining = function parseOptionalChaining(expression) {
+    var regex = /(\w+(\?\.))+([\.|\w]+)/g;
+    var previous;
+    expression = expression.replace(regex, function (substring) {
+      var tokens = substring.split('?.');
+
+      for (var i = 0; i < tokens.length - 1; i++) {
+        var a = i > 0 ? "(" + tokens[i] + " = " + previous + ")" : tokens[i];
+        var b = tokens[i + 1];
+        previous = i > 0 ? a + "." + b : "(" + a + " ? " + a + "." + b + " : void 0)";
+      }
+
+      return previous || '';
+    });
+    return expression;
+  };
+
+  Module.makeContext = function makeContext(module, instance, parentInstance, node, factory, selector) {
+    instance.rxcompId = ++ID;
+    var context = {
+      module: module,
+      instance: instance,
+      parentInstance: parentInstance,
+      node: node,
+      factory: factory,
+      selector: selector
+    };
+    var rxcompNodeId = node.rxcompId = node.rxcompId || instance.rxcompId;
+    var nodeContexts = NODES[rxcompNodeId] || (NODES[rxcompNodeId] = []);
+    nodeContexts.push(context);
+    CONTEXTS[instance.rxcompId] = context;
+    return context;
+  };
+
+  Module.deleteContext = function deleteContext(id, keepContext) {
+    var keepContexts = [];
+    var nodeContexts = NODES[id];
+
+    if (nodeContexts) {
+      nodeContexts.forEach(function (context) {
+        if (context === keepContext) {
+          keepContexts.push(keepContext);
+        } else {
+          var instance = context.instance;
+          instance.unsubscribe$.next();
+          instance.unsubscribe$.complete();
+          instance.onDestroy();
+          delete CONTEXTS[instance.rxcompId];
+        }
+      });
+
+      if (keepContexts.length) {
+        NODES[id] = keepContexts;
+      } else {
+        delete NODES[id];
+      }
+    }
+
+    return keepContexts;
+  };
+
+  Module.matchSelectors = function matchSelectors(node, selectors, results) {
+    for (var i = 0; i < selectors.length; i++) {
+      var selectorResult = selectors[i](node);
+
+      if (selectorResult) {
+        var factory = selectorResult.factory;
+
+        if (factory.prototype instanceof Component && factory.meta.template) {
+          node.innerHTML = factory.meta.template;
+        }
+
+        results.push(selectorResult);
+
+        if (factory.prototype instanceof Structure) {
+          break;
+        }
+      }
+    }
+
+    return results;
+  };
+
+  Module.querySelectorsAll = function querySelectorsAll(node, selectors, results) {
+    if (node.nodeType === 1) {
+      var selectorResults = this.matchSelectors(node, selectors, []);
+      results = results.concat(selectorResults);
+      var structure = selectorResults.find(function (x) {
+        return x.factory.prototype instanceof Structure;
+      });
+
+      if (structure) {
+        return results;
+      }
+
+      var childNodes = node.childNodes;
+
+      for (var i = 0; i < childNodes.length; i++) {
+        results = this.querySelectorsAll(childNodes[i], selectors, results);
+      }
+    }
+
+    return results;
+  };
+
+  Module.traverseUp = function traverseUp(node, callback, i) {
+    if (i === void 0) {
+      i = 0;
+    }
+
+    if (!node) {
+      return;
+    }
+
+    var result = callback(node, i);
+
+    if (result) {
+      return result;
+    }
+
+    return this.traverseUp(node.parentNode, callback, i + 1);
+  };
+
+  Module.traverseDown = function traverseDown(node, callback, i) {
+    if (i === void 0) {
+      i = 0;
+    }
+
+    if (!node) {
+      return;
+    }
+
+    var result = callback(node, i);
+
+    if (result) {
+      return result;
+    }
+
+    if (node.nodeType === 1) {
+      var j = 0,
+          t = node.childNodes.length;
+
+      while (j < t && !result) {
+        result = this.traverseDown(node.childNodes[j], callback, i + 1);
+        j++;
+      }
+    }
+
+    return result;
+  };
+
+  Module.traversePrevious = function traversePrevious(node, callback, i) {
+    if (i === void 0) {
+      i = 0;
+    }
+
+    if (!node) {
+      return;
+    }
+
+    var result = callback(node, i);
+
+    if (result) {
+      return result;
+    }
+
+    return this.traversePrevious(node.previousSibling, callback, i + 1);
+  };
+
+  Module.traverseNext = function traverseNext(node, callback, i) {
+    if (i === void 0) {
+      i = 0;
+    }
+
+    if (!node) {
+      return;
+    }
+
+    var result = callback(node, i);
+
+    if (result) {
+      return result;
+    }
+
+    return this.traverseNext(node.nextSibling, callback, i + 1);
+  };
+
+  return Module;
+}();
+function getParsableContextByNode(node) {
+  var context;
+  var rxcompId = node.rxcompId;
+
+  if (rxcompId) {
+    var nodeContexts = NODES[rxcompId];
+
+    if (nodeContexts) {
+      context = nodeContexts.reduce(function (previous, current) {
+        if (current.factory.prototype instanceof Component) {
+          return current;
+        } else if (current.factory.prototype instanceof Context) {
+          return previous ? previous : current;
+        } else {
+          return previous;
+        }
+      }, undefined);
+    }
+  }
+
+  return context;
+}
+function getContextByNode(node) {
+  var context = getParsableContextByNode(node);
+
+  if (context && context.factory.prototype instanceof Structure) {
+    context = undefined;
+  }
+
+  return context;
+}
+function getHost(instance, factory, node) {
+  if (!node) {
+    node = getContext(instance).node;
+  }
+
+  if (node.rxcompId) {
+    var nodeContexts = NODES[node.rxcompId];
+
+    if (nodeContexts) {
+      for (var i = 0; i < nodeContexts.length; i++) {
+        var context = nodeContexts[i];
+
+        if (context.instance !== instance) {
+          if (context.instance instanceof factory) {
+            return context.instance;
+          }
+        }
+      }
+    }
+  }
+
+  if (node.parentNode) {
+    return getHost(instance, factory, node.parentNode);
+  } else {
+    return undefined;
+  }
+}var SrcDirective = function (_Directive) {
+  _inheritsLoose(SrcDirective, _Directive);
+
+  function SrcDirective() {
+    return _Directive.apply(this, arguments) || this;
+  }
+
+  _createClass(SrcDirective, [{
+    key: "src",
+    set: function set(src) {
+      if (this.src_ !== src) {
+        this.src_ = src;
+
+        var _getContext = getContext(this),
+            node = _getContext.node;
+
+        src ? node.setAttribute('src', src) : node.removeAttribute('src');
+      }
+    },
+    get: function get() {
+      return this.src_;
+    }
+  }]);
+
+  return SrcDirective;
+}(Directive);
+SrcDirective.meta = {
+  selector: '[[src]]',
+  inputs: ['src']
+};var StyleDirective = function (_Directive) {
+  _inheritsLoose(StyleDirective, _Directive);
+
+  function StyleDirective() {
+    return _Directive.apply(this, arguments) || this;
+  }
+
+  var _proto = StyleDirective.prototype;
+
+  _proto.onChanges = function onChanges() {
+    var _getContext = getContext(this),
+        node = _getContext.node;
+
+    var style = this.style;
+    var previousStyle = this.previousStyle;
+
+    if (previousStyle) {
+      for (var key in previousStyle) {
+        if (!style || !style[key]) {
+          var splitted = key.split('.');
+          var propertyName = splitted.shift();
+          node.style.removeProperty(propertyName);
+        }
+      }
+    }
+
+    if (style) {
+      for (var _key in style) {
+        if (!previousStyle || previousStyle[_key] !== style[_key]) {
+          var _splitted = _key.split('.');
+
+          var _propertyName = _splitted.shift();
+
+          var value = style[_key] + (_splitted.length ? _splitted[0] : '');
+          node.style.setProperty(_propertyName, value);
+        }
+      }
+    }
+
+    this.previousStyle = style;
+  };
+
+  return StyleDirective;
+}(Directive);
+StyleDirective.meta = {
+  selector: "[[style]]",
+  inputs: ['style']
+};var factories = [ClassDirective, EventDirective, ForStructure, HrefDirective, IfStructure, InnerHtmlDirective, JsonComponent, SrcDirective, StyleDirective];
+var pipes = [JsonPipe];
+
+var CoreModule = function (_Module) {
+  _inheritsLoose(CoreModule, _Module);
+
+  function CoreModule() {
+    var _this;
+
+    _this = _Module.call(this) || this;
+    errors$.pipe(operators.takeUntil(_this.unsubscribe$)).subscribe();
+    return _this;
+  }
+
+  return CoreModule;
+}(Module);
+CoreModule.meta = {
+  declarations: [].concat(factories, pipes),
+  exports: [].concat(factories, pipes)
+};var Browser = function (_Platform) {
+  _inheritsLoose(Browser, _Platform);
+
+  function Browser() {
+    return _Platform.apply(this, arguments) || this;
+  }
+
+  Browser.bootstrap = function bootstrap(moduleFactory) {
+    if (!isPlatformBrowser) {
+      throw new ModuleError('missing platform browser, window not found');
+    }
+
+    if (!moduleFactory) {
+      throw new ModuleError('missing moduleFactory');
+    }
+
+    if (!moduleFactory.meta) {
+      throw new ModuleError('missing moduleFactory meta');
+    }
+
+    if (!moduleFactory.meta.bootstrap) {
+      throw new ModuleError('missing bootstrap');
+    }
+
+    if (!moduleFactory.meta.bootstrap.meta) {
+      throw new ModuleError('missing bootstrap meta');
+    }
+
+    if (!moduleFactory.meta.bootstrap.meta.selector) {
+      throw new ModuleError('missing bootstrap meta selector');
+    }
+
+    var meta = this.resolveMeta(moduleFactory);
+    var module = new moduleFactory();
+    module.meta = meta;
+    meta.imports.forEach(function (moduleFactory) {
+      moduleFactory.prototype.constructor.call(module);
+    });
+
+    if (window.rxcomp_hydrate_) {
+      var _meta$node$parentNode;
+
+      var clonedNode = meta.node.cloneNode();
+      clonedNode.innerHTML = meta.nodeInnerHTML = window.rxcomp_hydrate_.innerHTML;
+      var instances = module.compile(clonedNode, window);
+      module.instances = instances;
+      var root = instances[0];
+      root.pushChanges();
+      (_meta$node$parentNode = meta.node.parentNode) == null ? void 0 : _meta$node$parentNode.replaceChild(clonedNode, meta.node);
+    } else {
+      var _instances = module.compile(meta.node, window);
+
+      module.instances = _instances;
+      var _root = _instances[0];
+
+      _root.pushChanges();
+    }
+
+    return module;
+  };
+
+  return Browser;
+}(Platform);function getLocationComponents(href) {
+  var protocol = '';
+  var host = '';
+  var hostname = '';
+  var port = '';
+  var pathname = '';
+  var search = '';
+  var hash = '';
+  var regExp = /^((http\:|https\:)?\/\/)?((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])|(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])|locahost)?(\:([^\/]+))?(\.?\/[^\?]+)?(\?[^\#]+)?(\#.+)?$/g;
+  var matches = href.matchAll(regExp);
+
+  for (var _iterator = _createForOfIteratorHelperLoose(matches), _step; !(_step = _iterator()).done;) {
+    var match = _step.value;
+    protocol = match[2] || '';
+    host = hostname = match[3] || '';
+    port = match[11] || '';
+    pathname = match[12] || '';
+    search = match[13] || '';
+    hash = match[14] || '';
+  }
+
+  return {
+    href: href,
+    protocol: protocol,
+    host: host,
+    hostname: hostname,
+    port: port,
+    pathname: pathname,
+    search: search,
+    hash: hash
+  };
+}var TransferService = function () {
+  function TransferService() {}
+
+  TransferService.makeKey = function makeKey(base, params) {
+    var paramsKey = params ? optionsToKey(params) : '';
+    var key = "rxcomp-hydrate-" + base + "-" + paramsKey;
+    key = key.replace(/(\s+)|(\W+)/g, function () {
+      return (arguments.length <= 1 ? undefined : arguments[1]) ? '' : '_';
+    });
+    return key;
+  };
+
+  TransferService.has = function has(key) {
+    var script = document.querySelector("#" + key);
+    return script !== null;
+  };
+
+  TransferService.get = function get(key) {
+    var node = document.querySelector("#" + key);
+
+    if (node && node.firstChild) {
+      var json = node.firstChild.nodeValue;
+      return json ? Serializer.decode(json, [_decodeJson]) : undefined;
+    } else {
+      return undefined;
+    }
+  };
+
+  TransferService.set = function set(key, value) {
+    var json = Serializer.encode(value, [_encodeJson]);
+
+    if (!json) {
+      return;
+    }
+
+    var text = document.createTextNode(json);
+    var node = document.querySelector("#" + key);
+
+    if (!node) {
+      node = document.createElement('script');
+      node.setAttribute('id', key);
+      node.setAttribute('type', 'text/template');
+      node.append(text);
+      document.head.append(node);
+    } else {
+      node.replaceChild(text, node.firstChild);
+    }
+  };
+
+  TransferService.remove = function remove(key) {
+    var node = document.querySelector("#" + key);
+
+    if (node && node.parentNode) {
+      node.parentNode.removeChild(node);
+    }
+  };
+
+  return TransferService;
+}();
+function optionsToKey(v, s) {
+  if (s === void 0) {
+    s = '';
+  }
+
+  if (typeof v === 'number') {
+    s += '-' + v.toString();
+  } else if (typeof v === 'string') {
+    s += '-' + v.substr(0, 20);
+  } else if (v && Array.isArray(v)) {
+    s += '-' + v.map(function (v) {
+      return optionsToKey(v);
+    }).join('');
+  } else if (v && typeof v === 'object') {
+    s += '-' + Object.keys(v).map(function (k) {
+      return k + optionsToKey(v[k]);
+    }).join('-');
+  }
+
+  return s;
+}exports.Browser=Browser;exports.ClassDirective=ClassDirective;exports.Component=Component;exports.Context=Context;exports.CoreModule=CoreModule;exports.DefaultErrorHandler=DefaultErrorHandler;exports.Directive=Directive;exports.ErrorInterceptorHandler=ErrorInterceptorHandler;exports.ErrorInterceptors=ErrorInterceptors;exports.EventDirective=EventDirective;exports.ExpressionError=ExpressionError;exports.Factory=Factory;exports.ForItem=ForItem;exports.ForStructure=ForStructure;exports.HrefDirective=HrefDirective;exports.IfStructure=IfStructure;exports.InnerHtmlDirective=InnerHtmlDirective;exports.JsonComponent=JsonComponent;exports.JsonPipe=JsonPipe;exports.Module=Module;exports.ModuleError=ModuleError;exports.PLATFORM_BROWSER=PLATFORM_BROWSER;exports.PLATFORM_JS_DOM=PLATFORM_JS_DOM;exports.PLATFORM_NODE=PLATFORM_NODE;exports.PLATFORM_WEB_WORKER=PLATFORM_WEB_WORKER;exports.Pipe=Pipe;exports.Platform=Platform;exports.Serializer=Serializer;exports.SrcDirective=SrcDirective;exports.Structure=Structure;exports.StyleDirective=StyleDirective;exports.TransferService=TransferService;exports.decodeBase64=_decodeBase;exports.decodeJson=_decodeJson;exports.encodeBase64=_encodeBase;exports.encodeJson=_encodeJson;exports.encodeJsonWithOptions=encodeJsonWithOptions;exports.errors$=errors$;exports.getContext=getContext;exports.getContextByNode=getContextByNode;exports.getHost=getHost;exports.getLocationComponents=getLocationComponents;exports.getParsableContextByNode=getParsableContextByNode;exports.isPlatformBrowser=isPlatformBrowser;exports.isPlatformServer=isPlatformServer;exports.isPlatformWorker=isPlatformWorker;exports.nextError$=nextError$;exports.optionsToKey=optionsToKey;return exports;}({},rxjs,rxjs.operators));
 /**
  * @license rxcomp-form v1.0.0-beta.9
  * (c) 2020 Luca Zampetti <lzampetti@gmail.com>
@@ -21225,7 +21817,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
 }(this, (function (exports) { 'use strict';
 
 	/*!
-	 * EasePack 3.2.1
+	 * EasePack 3.5.1
 	 * https://greensock.com
 	 *
 	 * @license Copyright 2008-2020, GreenSock. All rights reserved.
@@ -21421,7 +22013,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
 
 	for (var p in EasePack) {
 	  EasePack[p].register = _initCore;
-	  EasePack[p].version = "3.2.1";
+	  EasePack[p].version = "3.5.1";
 	}
 
 	_getGSAP() && gsap.registerPlugin(SlowMo);
@@ -21457,7 +22049,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
   }
 
   /*!
-   * GSAP 3.2.1
+   * GSAP 3.5.1
    * https://greensock.com
    *
    * @license Copyright 2008-2020, GreenSock. All rights reserved.
@@ -21510,12 +22102,12 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
       _isFuncOrString = function _isFuncOrString(value) {
     return _isFunction(value) || _isString(value);
   },
+      _isTypedArray = typeof ArrayBuffer === "function" && ArrayBuffer.isView || function () {},
       _isArray = Array.isArray,
       _strictNumExp = /(?:-?\.?\d|\.)+/gi,
       _numExp = /[-+=.]*\d+[.e\-+]*\d*[e\-\+]*\d*/g,
       _numWithUnitExp = /[-+=.]*\d+[.e-]*\d*[a-z%]*/g,
       _complexStringNumExp = /[-+=.]*\d+(?:\.|e-|e)*\d*/gi,
-      _parenthesesExp = /\(([^()]+)\)/i,
       _relExp = /[+-]=-?[\.\d]+/,
       _delimitedValueExp = /[#\-+.]*\b[a-z\d-=+%.]+/gi,
       _globalTimeline,
@@ -21553,10 +22145,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
     var target = targets[0],
         harnessPlugin,
         i;
-
-    if (!_isObject(target) && !_isFunction(target)) {
-      targets = [targets];
-    }
+    _isObject(target) || _isFunction(target) || (targets = [targets]);
 
     if (!(harnessPlugin = (target._gsap || {}).harness)) {
       i = _harnessPlugins.length;
@@ -21577,9 +22166,8 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
       _getCache = function _getCache(target) {
     return target._gsap || _harness(toArray(target))[0]._gsap;
   },
-      _getProperty = function _getProperty(target, property) {
-    var currentValue = target[property];
-    return _isFunction(currentValue) ? target[property]() : _isUndefined(currentValue) && target.getAttribute(property) || currentValue;
+      _getProperty = function _getProperty(target, property, v) {
+    return (v = target[property]) && _isFunction(v) ? target[property]() : _isUndefined(v) && target.getAttribute && target.getAttribute(property) || v;
   },
       _forEachName = function _forEachName(names, func) {
     return (names = names.split(",")).forEach(func) || names;
@@ -21601,10 +22189,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
         vars = params[varsIndex],
         irVars;
 
-    if (isLegacy) {
-      vars.duration = params[1];
-    }
-
+    isLegacy && (vars.duration = params[1]);
     vars.parent = parent;
 
     if (type) {
@@ -21616,12 +22201,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
       }
 
       vars.immediateRender = _isNotFalse(irVars.immediateRender);
-
-      if (type < 2) {
-        vars.runBackwards = 1;
-      } else {
-        vars.startAt = params[varsIndex - 1];
-      }
+      type < 2 ? vars.runBackwards = 1 : vars.startAt = params[varsIndex - 1];
     }
 
     return vars;
@@ -21637,44 +22217,31 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
 
     for (i = 0; i < l; i++) {
       tween = a[i];
-
-      if (tween && tween._lazy) {
-        tween.render(tween._lazy[0], tween._lazy[1], true)._lazy = 0;
-      }
+      tween && tween._lazy && (tween.render(tween._lazy[0], tween._lazy[1], true)._lazy = 0);
     }
   },
       _lazySafeRender = function _lazySafeRender(animation, time, suppressEvents, force) {
-    if (_lazyTweens.length) {
-      _lazyRender();
-    }
-
+    _lazyTweens.length && _lazyRender();
     animation.render(time, suppressEvents, force);
-
-    if (_lazyTweens.length) {
-      _lazyRender();
-    }
+    _lazyTweens.length && _lazyRender();
   },
       _numericIfPossible = function _numericIfPossible(value) {
     var n = parseFloat(value);
-    return (n || n === 0) && (value + "").match(_delimitedValueExp).length < 2 ? n : value;
+    return (n || n === 0) && (value + "").match(_delimitedValueExp).length < 2 ? n : _isString(value) ? value.trim() : value;
   },
       _passThrough = function _passThrough(p) {
     return p;
   },
       _setDefaults = function _setDefaults(obj, defaults) {
     for (var p in defaults) {
-      if (!(p in obj)) {
-        obj[p] = defaults[p];
-      }
+      p in obj || (obj[p] = defaults[p]);
     }
 
     return obj;
   },
       _setKeyframeDefaults = function _setKeyframeDefaults(obj, defaults) {
     for (var p in defaults) {
-      if (!(p in obj) && p !== "duration" && p !== "ease") {
-        obj[p] = defaults[p];
-      }
+      p in obj || p === "duration" || p === "ease" || (obj[p] = defaults[p]);
     }
   },
       _merge = function _merge(base, toMerge) {
@@ -21696,9 +22263,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
         p;
 
     for (p in obj) {
-      if (!(p in excluding)) {
-        copy[p] = obj[p];
-      }
+      p in excluding || (copy[p] = obj[p]);
     }
 
     return copy;
@@ -21710,7 +22275,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
     if (_isNotFalse(vars.inherit)) {
       while (parent) {
         func(vars, parent.vars.defaults);
-        parent = parent.parent;
+        parent = parent.parent || parent._dp;
       }
     }
 
@@ -21759,7 +22324,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
     }
 
     child._prev = prev;
-    child.parent = parent;
+    child.parent = child._dp = parent;
     return child;
   },
       _removeLinkedListItem = function _removeLinkedListItem(parent, child, firstProp, lastProp) {
@@ -21786,22 +22351,20 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
       parent[lastProp] = prev;
     }
 
-    child._dp = parent;
     child._next = child._prev = child.parent = null;
   },
       _removeFromParent = function _removeFromParent(child, onlyIfParentHasAutoRemove) {
-    if (child.parent && (!onlyIfParentHasAutoRemove || child.parent.autoRemoveChildren)) {
-      child.parent.remove(child);
-    }
-
+    child.parent && (!onlyIfParentHasAutoRemove || child.parent.autoRemoveChildren) && child.parent.remove(child);
     child._act = 0;
   },
-      _uncache = function _uncache(animation) {
-    var a = animation;
+      _uncache = function _uncache(animation, child) {
+    if (animation && (!child || child._end > animation._dur || child._start < 0)) {
+      var a = animation;
 
-    while (a) {
-      a._dirty = 1;
-      a = a.parent;
+      while (a) {
+        a._dirty = 1;
+        a = a.parent;
+      }
     }
 
     return animation;
@@ -21830,9 +22393,46 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
     return (parentTime - child._start) * child._ts + (child._ts >= 0 ? 0 : child._dirty ? child.totalDuration() : child._tDur);
   },
       _setEnd = function _setEnd(animation) {
-    return animation._end = _round(animation._start + (animation._tDur / Math.abs(animation._ts || animation._pauseTS || _tinyNum) || 0));
+    return animation._end = _round(animation._start + (animation._tDur / Math.abs(animation._ts || animation._rts || _tinyNum) || 0));
   },
-      _addToTimeline = function _addToTimeline(timeline, child, position) {
+      _alignPlayhead = function _alignPlayhead(animation, totalTime) {
+    var parent = animation._dp;
+
+    if (parent && parent.smoothChildTiming && animation._ts) {
+      animation._start = _round(animation._dp._time - (animation._ts > 0 ? totalTime / animation._ts : ((animation._dirty ? animation.totalDuration() : animation._tDur) - totalTime) / -animation._ts));
+
+      _setEnd(animation);
+
+      parent._dirty || _uncache(parent, animation);
+    }
+
+    return animation;
+  },
+      _postAddChecks = function _postAddChecks(timeline, child) {
+    var t;
+
+    if (child._time || child._initted && !child._dur) {
+      t = _parentToChildTotalTime(timeline.rawTime(), child);
+
+      if (!child._dur || _clamp(0, child.totalDuration(), t) - child._tTime > _tinyNum) {
+        child.render(t, true);
+      }
+    }
+
+    if (_uncache(timeline, child)._dp && timeline._initted && timeline._time >= timeline._dur && timeline._ts) {
+      if (timeline._dur < timeline.duration()) {
+        t = timeline;
+
+        while (t._dp) {
+          t.rawTime() >= 0 && t.totalTime(t._tTime);
+          t = t._dp;
+        }
+      }
+
+      timeline._zTime = -_tinyNum;
+    }
+  },
+      _addToTimeline = function _addToTimeline(timeline, child, position, skipChecks) {
     child.parent && _removeFromParent(child);
     child._start = _round(position + child._delay);
     child._end = _round(child._start + (child.totalDuration() / Math.abs(child.timeScale()) || 0));
@@ -21840,29 +22440,11 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
     _addLinkedListItem(timeline, child, "_first", "_last", timeline._sort ? "_start" : 0);
 
     timeline._recent = child;
-
-    if (child._time || !child._dur && child._initted) {
-      var curTime = (timeline.rawTime() - child._start) * child._ts;
-
-      if (!child._dur || _clamp(0, child.totalDuration(), curTime) - child._tTime > _tinyNum) {
-        child.render(curTime, true);
-      }
-    }
-
-    if (_uncache(timeline)._dp && timeline._initted && timeline._time >= timeline._dur && timeline._ts) {
-      if (timeline._dur < timeline.duration()) {
-        var tl = timeline;
-
-        while (tl._dp) {
-          tl.rawTime() >= 0 && tl.totalTime(tl._tTime);
-          tl = tl._dp;
-        }
-      }
-
-      timeline._zTime = -_tinyNum;
-    }
-
+    skipChecks || _postAddChecks(timeline, child);
     return timeline;
+  },
+      _scrollTrigger = function _scrollTrigger(animation, trigger) {
+    return (_globals.ScrollTrigger || _missingPlugin("scrollTrigger", trigger)) && _globals.ScrollTrigger.create(trigger, animation);
   },
       _attemptInitTween = function _attemptInitTween(tween, totalTime, force, suppressEvents) {
     _initTween(tween, totalTime);
@@ -21879,8 +22461,8 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
     }
   },
       _renderZeroDurationTween = function _renderZeroDurationTween(tween, totalTime, suppressEvents, force) {
-    var prevRatio = tween._zTime < 0 ? 0 : 1,
-        ratio = totalTime < 0 ? 0 : 1,
+    var prevRatio = tween.ratio,
+        ratio = totalTime < 0 || !totalTime && prevRatio && !tween._start && tween._zTime > _tinyNum && !tween._dp._lock || (tween._ts < 0 || tween._dp._ts < 0) && tween.data !== "isFromStart" && tween.data !== "isStart" ? 0 : 1,
         repeatDelay = tween._rDelay,
         tTime = 0,
         pt,
@@ -21894,32 +22476,23 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
 
       if (iteration !== prevIteration) {
         prevRatio = 1 - ratio;
-
-        if (tween.vars.repeatRefresh && tween._initted) {
-          tween.invalidate();
-        }
+        tween.vars.repeatRefresh && tween._initted && tween.invalidate();
       }
-    }
-
-    if (!tween._initted && _attemptInitTween(tween, totalTime, force, suppressEvents)) {
-      return;
     }
 
     if (ratio !== prevRatio || force || tween._zTime === _tinyNum || !totalTime && tween._zTime) {
-      tween._zTime = totalTime || (suppressEvents ? _tinyNum : 0);
-      tween.ratio = ratio;
-
-      if (tween._from) {
-        ratio = 1 - ratio;
+      if (!tween._initted && _attemptInitTween(tween, totalTime, force, suppressEvents)) {
+        return;
       }
 
+      prevIteration = tween._zTime;
+      tween._zTime = totalTime || (suppressEvents ? _tinyNum : 0);
+      suppressEvents || (suppressEvents = totalTime && !prevIteration);
+      tween.ratio = ratio;
+      tween._from && (ratio = 1 - ratio);
       tween._time = 0;
       tween._tTime = tTime;
-
-      if (!suppressEvents) {
-        _callback(tween, "onStart");
-      }
-
+      suppressEvents || _callback(tween, "onStart");
       pt = tween._pt;
 
       while (pt) {
@@ -21927,27 +22500,21 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
         pt = pt._next;
       }
 
-      if (!ratio && tween._startAt && !tween._onUpdate && tween._start) {
-        tween._startAt.render(totalTime, true, force);
-      }
-
-      if (tween._onUpdate && !suppressEvents) {
-        _callback(tween, "onUpdate");
-      }
-
-      if (tTime && tween._repeat && !suppressEvents && tween.parent) {
-        _callback(tween, "onRepeat");
-      }
+      tween._startAt && totalTime < 0 && tween._startAt.render(totalTime, true, true);
+      tween._onUpdate && !suppressEvents && _callback(tween, "onUpdate");
+      tTime && tween._repeat && !suppressEvents && tween.parent && _callback(tween, "onRepeat");
 
       if ((totalTime >= tween._tDur || totalTime < 0) && tween.ratio === ratio) {
-        tween.ratio && _removeFromParent(tween, 1);
+        ratio && _removeFromParent(tween, 1);
 
         if (!suppressEvents) {
-          _callback(tween, tween.ratio ? "onComplete" : "onReverseComplete", true);
+          _callback(tween, ratio ? "onComplete" : "onReverseComplete", true);
 
           tween._prom && tween._prom();
         }
       }
+    } else if (!tween._zTime) {
+      tween._zTime = totalTime;
     }
   },
       _findNextPauseTween = function _findNextPauseTween(animation, prevTime, time) {
@@ -21975,14 +22542,15 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
       }
     }
   },
-      _setDuration = function _setDuration(animation, duration, skipUncache) {
+      _setDuration = function _setDuration(animation, duration, skipUncache, leavePlayhead) {
     var repeat = animation._repeat,
-        dur = _round(duration);
-
+        dur = _round(duration) || 0,
+        totalProgress = animation._tTime / animation._tDur;
+    totalProgress && !leavePlayhead && (animation._time *= dur / animation._dur);
     animation._dur = dur;
-    animation._tDur = !repeat ? dur : repeat < 0 ? 1e12 : _round(dur * (repeat + 1) + animation._rDelay * repeat);
-    !skipUncache && _uncache(animation.parent);
-    animation.parent && _setEnd(animation);
+    animation._tDur = !repeat ? dur : repeat < 0 ? 1e10 : _round(dur * (repeat + 1) + animation._rDelay * repeat);
+    totalProgress && !leavePlayhead ? _alignPlayhead(animation, animation._tTime = animation._tDur * totalProgress) : animation.parent && _setEnd(animation);
+    skipUncache || _uncache(animation.parent, animation);
     return animation;
   },
       _onUpdateTotalDuration = function _onUpdateTotalDuration(animation) {
@@ -22009,10 +22577,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
       i = position.indexOf("=");
 
       if (i < 0) {
-        if (!(position in labels)) {
-          labels[position] = clippedDuration;
-        }
-
+        position in labels || (labels[position] = clippedDuration);
         return labels[position];
       }
 
@@ -22029,7 +22594,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
     return value < min ? min : value > max ? max : value;
   },
       getUnit = function getUnit(value) {
-    return (value + "").substr((parseFloat(value) + "").length);
+    return (value = (value + "").substr((parseFloat(value) + "").length)) && isNaN(value) ? value : "";
   },
       clamp = function clamp(min, max, value) {
     return _conditionalReturn(value, function (v) {
@@ -22122,14 +22687,8 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
           x = j % wrapAt - originX;
           y = originY - (j / wrapAt | 0);
           distances[j] = d = !axis ? _sqrt(x * x + y * y) : Math.abs(axis === "y" ? y : x);
-
-          if (d > max) {
-            max = d;
-          }
-
-          if (d < min) {
-            min = d;
-          }
+          d > max && (max = d);
+          d < min && (min = d);
         }
 
         from === "random" && shuffle(distances);
@@ -22148,7 +22707,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
       _roundModifier = function _roundModifier(v) {
     var p = v < 1 ? Math.pow(10, (v + "").length - 2) : 1;
     return function (raw) {
-      return ~~(Math.round(parseFloat(raw) / v) * v * p) / p + (_isNumber(raw) ? 0 : getUnit(raw));
+      return Math.floor(Math.round(parseFloat(raw) / v) * v * p) / p + (_isNumber(raw) ? 0 : getUnit(raw));
     };
   },
       snap = function snap(snapTo, value) {
@@ -22203,7 +22762,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
   },
       random = function random(min, max, roundingIncrement, returnFunction) {
     return _conditionalReturn(_isArray(min) ? !max : roundingIncrement === true ? !!(roundingIncrement = 0) : !returnFunction, function () {
-      return _isArray(min) ? min[~~(Math.random() * min.length)] : (roundingIncrement = roundingIncrement || 1e-5) && (returnFunction = roundingIncrement < 1 ? Math.pow(10, (roundingIncrement + "").length - 2) : 1) && ~~(Math.round((min + Math.random() * (max - min)) / roundingIncrement) * roundingIncrement * returnFunction) / returnFunction;
+      return _isArray(min) ? min[~~(Math.random() * min.length)] : (roundingIncrement = roundingIncrement || 1e-5) && (returnFunction = roundingIncrement < 1 ? Math.pow(10, (roundingIncrement + "").length - 2) : 1) && Math.floor(Math.round((min + Math.random() * (max - min)) / roundingIncrement) * roundingIncrement * returnFunction) / returnFunction;
     });
   },
       pipe = function pipe() {
@@ -22240,7 +22799,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
     var range = max - min,
         total = range * 2;
     return _isArray(min) ? _wrapArray(min, wrapYoyo(0, min.length - 1), max) : _conditionalReturn(value, function (value) {
-      value = (total + (value - min) % total) % total;
+      value = (total + (value - min) % total) % total || 0;
       return min + (value > range ? total - value : value);
     });
   },
@@ -22256,7 +22815,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
       end = value.indexOf(")", i);
       isArray = value.charAt(i + 7) === "[";
       nums = value.substr(i + 7, end - i - 7).match(isArray ? _delimitedValueExp : _strictNumExp);
-      s += value.substr(prev, i - prev) + random(isArray ? nums : +nums[0], +nums[1], +nums[2] || 1e-5);
+      s += value.substr(prev, i - prev) + random(isArray ? nums : +nums[0], isArray ? 0 : +nums[1], +nums[2] || 1e-5);
       prev = end + 1;
     }
 
@@ -22266,7 +22825,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
     var inRange = inMax - inMin,
         outRange = outMax - outMin;
     return _conditionalReturn(value, function (value) {
-      return outMin + (value - inMin) / inRange * outRange;
+      return outMin + ((value - inMin) / inRange * outRange || 0);
     });
   },
       interpolate = function interpolate(start, end, progress, mutate) {
@@ -22363,10 +22922,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
       _interrupt = function _interrupt(animation) {
     _removeFromParent(animation);
 
-    if (animation.progress() < 1) {
-      _callback(animation, "onInterrupt");
-    }
-
+    animation.progress() < 1 && _callback(animation, "onInterrupt");
     return animation;
   },
       _quickTween,
@@ -22418,9 +22974,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
 
     _addGlobal(name, Plugin);
 
-    if (config.register) {
-      config.register(gsap, Plugin, PropTween);
-    }
+    config.register && config.register(gsap, Plugin, PropTween);
   },
       _255 = 255,
       _colorLookup = {
@@ -22487,11 +23041,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
           l = +a[2] / 100;
           g = l <= .5 ? l * (s + 1) : l + s - l * s;
           r = l * 2 - g;
-
-          if (a.length > 3) {
-            a[3] *= 1;
-          }
-
+          a.length > 3 && (a[3] *= 1);
           a[0] = _hue(h + 1 / 3, r, g);
           a[1] = _hue(h, r, g);
           a[2] = _hue(h - 1 / 3, r, g);
@@ -22617,41 +23167,42 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
         _adjustedLag = 33,
         _startTime = _getTime(),
         _lastUpdate = _startTime,
-        _gap = 1 / 240,
+        _gap = 1000 / 240,
         _nextTime = _gap,
         _listeners = [],
         _id,
         _req,
         _raf,
         _self,
+        _delta,
+        _i,
         _tick = function _tick(v) {
       var elapsed = _getTime() - _lastUpdate,
           manual = v === true,
           overlap,
-          dispatch;
+          dispatch,
+          time,
+          frame;
 
-      if (elapsed > _lagThreshold) {
-        _startTime += elapsed - _adjustedLag;
-      }
-
+      elapsed > _lagThreshold && (_startTime += elapsed - _adjustedLag);
       _lastUpdate += elapsed;
-      _self.time = (_lastUpdate - _startTime) / 1000;
-      overlap = _self.time - _nextTime;
+      time = _lastUpdate - _startTime;
+      overlap = time - _nextTime;
 
       if (overlap > 0 || manual) {
-        _self.frame++;
-        _nextTime += overlap + (overlap >= _gap ? 0.004 : _gap - overlap);
+        frame = ++_self.frame;
+        _delta = time - _self.time * 1000;
+        _self.time = time = time / 1000;
+        _nextTime += overlap + (overlap >= _gap ? 4 : _gap - overlap);
         dispatch = 1;
       }
 
-      if (!manual) {
-        _id = _req(_tick);
-      }
+      manual || (_id = _req(_tick));
 
       if (dispatch) {
-        _listeners.forEach(function (l) {
-          return l(_self.time, elapsed, _self.frame, v);
-        });
+        for (_i = 0; _i < _listeners.length; _i++) {
+          _listeners[_i](time, _delta, frame, v);
+        }
       }
     };
 
@@ -22660,6 +23211,9 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
       frame: 0,
       tick: function tick() {
         _tick(true);
+      },
+      deltaRatio: function deltaRatio(fps) {
+        return _delta / (1000 / (fps || 60));
       },
       wake: function wake() {
         if (_coreReady) {
@@ -22677,7 +23231,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
           _id && _self.sleep();
 
           _req = _raf || function (f) {
-            return setTimeout(f, (_nextTime - _self.time) * 1000 + 1 | 0);
+            return setTimeout(f, _nextTime - _self.time * 1000 + 1 | 0);
           };
 
           _tickerActive = 1;
@@ -22695,8 +23249,8 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
         _adjustedLag = Math.min(adjustedLag, _lagThreshold, 0);
       },
       fps: function fps(_fps) {
-        _gap = 1 / (_fps || 240);
-        _nextTime = _self.time + _gap;
+        _gap = 1000 / (_fps || 240);
+        _nextTime = _self.time * 1000 + _gap;
       },
       add: function add(callback) {
         _listeners.indexOf(callback) < 0 && _listeners.push(callback);
@@ -22705,7 +23259,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
       },
       remove: function remove(callback) {
         var i;
-        ~(i = _listeners.indexOf(callback)) && _listeners.splice(i, 1);
+        ~(i = _listeners.indexOf(callback)) && _listeners.splice(i, 1) && _i >= i && _i--;
       },
       _listeners: _listeners
     };
@@ -22737,15 +23291,42 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
 
     return obj;
   },
+      _valueInParentheses = function _valueInParentheses(value) {
+    var open = value.indexOf("(") + 1,
+        close = value.indexOf(")"),
+        nested = value.indexOf("(", open);
+    return value.substring(open, ~nested && nested < close ? value.indexOf(")", close + 1) : close);
+  },
       _configEaseFromString = function _configEaseFromString(name) {
     var split = (name + "").split("("),
         ease = _easeMap[split[0]];
-    return ease && split.length > 1 && ease.config ? ease.config.apply(null, ~name.indexOf("{") ? [_parseObjectInString(split[1])] : _parenthesesExp.exec(name)[1].split(",").map(_numericIfPossible)) : _easeMap._CE && _customEaseExp.test(name) ? _easeMap._CE("", name) : ease;
+    return ease && split.length > 1 && ease.config ? ease.config.apply(null, ~name.indexOf("{") ? [_parseObjectInString(split[1])] : _valueInParentheses(name).split(",").map(_numericIfPossible)) : _easeMap._CE && _customEaseExp.test(name) ? _easeMap._CE("", name) : ease;
   },
       _invertEase = function _invertEase(ease) {
     return function (p) {
       return 1 - ease(1 - p);
     };
+  },
+      _propagateYoyoEase = function _propagateYoyoEase(timeline, isYoyo) {
+    var child = timeline._first,
+        ease;
+
+    while (child) {
+      if (child instanceof Timeline) {
+        _propagateYoyoEase(child, isYoyo);
+      } else if (child.vars.yoyoEase && (!child._yoyo || !child._repeat) && child._yoyo !== isYoyo) {
+        if (child.timeline) {
+          _propagateYoyoEase(child.timeline, isYoyo);
+        } else {
+          ease = child._ease;
+          child._ease = child._yEase;
+          child._yEase = ease;
+          child._yoyo = isYoyo;
+        }
+      }
+
+      child = child._next;
+    }
   },
       _parseEase = function _parseEase(ease, defaultEase) {
     return !ease ? defaultEase : (_isFunction(ease) ? ease : _easeMap[ease] || _configEaseFromString(ease)) || defaultEase;
@@ -22864,7 +23445,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
   });
 
   _insertEase("Sine", function (p) {
-    return -_cos(p * _HALF_PI) + 1;
+    return p === 1 ? 1 : -_cos(p * _HALF_PI) + 1;
   });
 
   _insertEase("Back", _configBack("in"), _configBack("out"), _configBack());
@@ -22911,12 +23492,12 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
 
       this._ts = 1;
 
-      _setDuration(this, +vars.duration, 1);
+      _setDuration(this, +vars.duration, 1, 1);
 
       this.data = vars.data;
       _tickerActive || _ticker.wake();
-      parent && _addToTimeline(parent, this, time || time === 0 ? time : parent._time);
-      vars.reversed && this.reversed(true);
+      parent && _addToTimeline(parent, this, time || time === 0 ? time : parent._time, 1);
+      vars.reversed && this.reverse();
       vars.paused && this.paused(true);
     }
 
@@ -22924,6 +23505,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
 
     _proto.delay = function delay(value) {
       if (value || value === 0) {
+        this.parent && this.parent.smoothChildTiming && this.startTime(this._start + value - this._delay);
         this._delay = value;
         return this;
       }
@@ -22932,7 +23514,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
     };
 
     _proto.duration = function duration(value) {
-      return arguments.length ? _setDuration(this, value) : this.totalDuration() && this._dur;
+      return arguments.length ? this.totalDuration(this._repeat > 0 ? value + (value + this._rDelay) * this._repeat : value) : this.totalDuration() && this._dur;
     };
 
     _proto.totalDuration = function totalDuration(value) {
@@ -22951,16 +23533,10 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
         return this._tTime;
       }
 
-      var parent = this.parent || this._dp;
+      var parent = this._dp;
 
       if (parent && parent.smoothChildTiming && this._ts) {
-        this._start = _round(parent._time - (this._ts > 0 ? _totalTime / this._ts : ((this._dirty ? this.totalDuration() : this._tDur) - _totalTime) / -this._ts));
-
-        _setEnd(this);
-
-        if (!parent._dirty) {
-          _uncache(parent);
-        }
+        _alignPlayhead(this, _totalTime);
 
         while (parent.parent) {
           if (parent.parent._time !== parent._start + (parent._ts >= 0 ? parent._tTime / parent._ts : (parent.totalDuration() - parent._tTime) / -parent._ts)) {
@@ -22970,12 +23546,12 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
           parent = parent.parent;
         }
 
-        if (!this.parent && this._dp.autoRemoveChildren) {
+        if (!this.parent && this._dp.autoRemoveChildren && (this._ts > 0 && _totalTime < this._tDur || this._ts < 0 && _totalTime > 0 || !this._tDur && !_totalTime)) {
           _addToTimeline(this._dp, this, this._start - this._delay);
         }
       }
 
-      if (this._tTime !== _totalTime || !this._dur && !suppressEvents || Math.abs(this._zTime) === _tinyNum) {
+      if (this._tTime !== _totalTime || !this._dur && !suppressEvents || this._initted && Math.abs(this._zTime) === _tinyNum || !_totalTime && !this._initted && (this.add || this._ptLookup)) {
         this._ts || (this._pTime = _totalTime);
 
         _lazySafeRender(this, _totalTime, suppressEvents);
@@ -23004,36 +23580,34 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
 
     _proto.timeScale = function timeScale(value) {
       if (!arguments.length) {
-        return this._ts || this._pauseTS || 0;
+        return this._rts === -_tinyNum ? 0 : this._rts;
       }
 
-      if (this._pauseTS !== null) {
-        this._pauseTS = value;
+      if (this._rts === value) {
         return this;
       }
 
       var tTime = this.parent && this._ts ? _parentToChildTotalTime(this.parent._time, this) : this._tTime;
-      this._ts = value;
-      return _recacheAncestors(this.totalTime(tTime, true));
+      this._rts = +value || 0;
+      this._ts = this._ps || value === -_tinyNum ? 0 : this._rts;
+      return _recacheAncestors(this.totalTime(_clamp(-this._delay, this._tDur, tTime), true));
     };
 
     _proto.paused = function paused(value) {
-      var isPaused = !this._ts;
-
       if (!arguments.length) {
-        return isPaused;
+        return this._ps;
       }
 
-      if (isPaused !== value) {
+      if (this._ps !== value) {
+        this._ps = value;
+
         if (value) {
-          this._pauseTS = this._ts;
           this._pTime = this._tTime || Math.max(-this._delay, this.rawTime());
           this._ts = this._act = 0;
         } else {
           _wake();
 
-          this._ts = this._pauseTS || 1;
-          this._pauseTS = null;
+          this._ts = this._rts;
           this.totalTime(this.parent && !this.parent.smoothChildTiming ? this.rawTime() : this._tTime || this._pTime, this.progress() === 1 && (this._tTime -= _tinyNum) && Math.abs(this._zTime) !== _tinyNum);
         }
       }
@@ -23043,10 +23617,9 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
 
     _proto.startTime = function startTime(value) {
       if (arguments.length) {
-        if (this.parent && this.parent._sort) {
-          _addToTimeline(this.parent, this, value - this._delay);
-        }
-
+        this._start = value;
+        var parent = this.parent || this._dp;
+        parent && (parent._sort || !this.parent) && _addToTimeline(parent, this, value - this._delay);
         return this;
       }
 
@@ -23060,6 +23633,18 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
     _proto.rawTime = function rawTime(wrapRepeats) {
       var parent = this.parent || this._dp;
       return !parent ? this._tTime : wrapRepeats && (!this._ts || this._repeat && this._time && this.totalProgress() < 1) ? this._tTime % (this._dur + this._rDelay) : !this._ts ? this._tTime : _parentToChildTotalTime(parent.rawTime(wrapRepeats), this);
+    };
+
+    _proto.globalTime = function globalTime(rawTime) {
+      var animation = this,
+          time = arguments.length ? rawTime : animation.rawTime();
+
+      while (animation) {
+        time = animation._start + time / (animation._ts || 1);
+        animation = animation._dp;
+      }
+
+      return time;
     };
 
     _proto.repeat = function repeat(value) {
@@ -23098,26 +23683,17 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
     };
 
     _proto.play = function play(from, suppressEvents) {
-      if (from != null) {
-        this.seek(from, suppressEvents);
-      }
-
+      from != null && this.seek(from, suppressEvents);
       return this.reversed(false).paused(false);
     };
 
     _proto.reverse = function reverse(from, suppressEvents) {
-      if (from != null) {
-        this.seek(from || this.totalDuration(), suppressEvents);
-      }
-
+      from != null && this.seek(from || this.totalDuration(), suppressEvents);
       return this.reversed(true).paused(false);
     };
 
     _proto.pause = function pause(atTime, suppressEvents) {
-      if (atTime != null) {
-        this.seek(atTime, suppressEvents);
-      }
-
+      atTime != null && this.seek(atTime, suppressEvents);
       return this.paused(true);
     };
 
@@ -23126,18 +23702,12 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
     };
 
     _proto.reversed = function reversed(value) {
-      var ts = this._ts || this._pauseTS || 0;
-
       if (arguments.length) {
-        if (value !== this.reversed()) {
-          this[this._pauseTS === null ? "_ts" : "_pauseTS"] = Math.abs(ts) * (value ? -1 : 1);
-          this.totalTime(this._tTime, true);
-        }
-
+        !!value !== this.reversed() && this.timeScale(-this._rts || (value ? -_tinyNum : 0));
         return this;
       }
 
-      return ts < 0;
+      return this._rts < 0;
     };
 
     _proto.invalidate = function invalidate() {
@@ -23146,11 +23716,11 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
       return this;
     };
 
-    _proto.isActive = function isActive(hasStarted) {
+    _proto.isActive = function isActive() {
       var parent = this.parent || this._dp,
           start = this._start,
           rawTime;
-      return !!(!parent || this._ts && (this._initted || !hasStarted) && parent.isActive(hasStarted) && (rawTime = parent.rawTime(true)) >= start && rawTime < this.endTime(true) - _tinyNum);
+      return !!(!parent || this._ts && this._initted && parent.isActive() && (rawTime = parent.rawTime(true)) >= start && rawTime < this.endTime(true) - _tinyNum);
     };
 
     _proto.eventCallback = function eventCallback(type, callback, params) {
@@ -23161,14 +23731,8 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
           delete vars[type];
         } else {
           vars[type] = callback;
-
-          if (params) {
-            vars[type + "Params"] = params;
-          }
-
-          if (type === "onUpdate") {
-            this._onUpdate = callback;
-          }
+          params && (vars[type + "Params"] = params);
+          type === "onUpdate" && (this._onUpdate = callback);
         }
 
         return this;
@@ -23221,7 +23785,8 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
     ratio: 0,
     _zTime: -_tinyNum,
     _prom: 0,
-    _pauseTS: null
+    _ps: false,
+    _rts: 1
   });
 
   var Timeline = function (_Animation) {
@@ -23239,6 +23804,8 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
       _this.smoothChildTiming = !!vars.smoothChildTiming;
       _this.autoRemoveChildren = !!vars.autoRemoveChildren;
       _this._sort = _isNotFalse(vars.sortChildren);
+      _this.parent && _postAddChecks(_this.parent, _assertThisInitialized(_this));
+      vars.scrollTrigger && _scrollTrigger(_assertThisInitialized(_this), vars.scrollTrigger);
       return _this;
     }
 
@@ -23262,13 +23829,9 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
     _proto2.set = function set(targets, vars, position) {
       vars.duration = 0;
       vars.parent = this;
-
-      if (!vars.repeatDelay) {
-        vars.repeat = 0;
-      }
-
+      _inheritDefaults(vars).repeatDelay || (vars.repeat = 0);
       vars.immediateRender = !!vars.immediateRender;
-      new Tween(targets, vars, _parsePosition(this, position));
+      new Tween(targets, vars, _parsePosition(this, position), 1);
       return this;
     };
 
@@ -23288,13 +23851,13 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
 
     _proto2.staggerFrom = function staggerFrom(targets, duration, vars, stagger, position, onCompleteAll, onCompleteAllParams) {
       vars.runBackwards = 1;
-      vars.immediateRender = _isNotFalse(vars.immediateRender);
+      _inheritDefaults(vars).immediateRender = _isNotFalse(vars.immediateRender);
       return this.staggerTo(targets, duration, vars, stagger, position, onCompleteAll, onCompleteAllParams);
     };
 
     _proto2.staggerFromTo = function staggerFromTo(targets, duration, fromVars, toVars, stagger, position, onCompleteAll, onCompleteAllParams) {
       toVars.startAt = fromVars;
-      toVars.immediateRender = _isNotFalse(toVars.immediateRender);
+      _inheritDefaults(toVars).immediateRender = _isNotFalse(toVars.immediateRender);
       return this.staggerTo(targets, duration, toVars, stagger, position, onCompleteAll, onCompleteAllParams);
     };
 
@@ -23329,13 +23892,8 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
         prevPaused = !timeScale;
 
         if (crossingStart) {
-          if (!dur) {
-            prevTime = this._zTime;
-          }
-
-          if (totalTime || !suppressEvents) {
-            this._zTime = totalTime;
-          }
+          dur || (prevTime = this._zTime);
+          (totalTime || !suppressEvents) && (this._zTime = totalTime);
         }
 
         if (this._repeat) {
@@ -23343,18 +23901,22 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
           cycleDuration = dur + this._rDelay;
           time = _round(tTime % cycleDuration);
 
-          if (time > dur || tDur === tTime) {
+          if (tTime === tDur) {
+            iteration = this._repeat;
             time = dur;
-          }
+          } else {
+            iteration = ~~(tTime / cycleDuration);
 
-          iteration = ~~(tTime / cycleDuration);
+            if (iteration && iteration === tTime / cycleDuration) {
+              time = dur;
+              iteration--;
+            }
 
-          if (iteration && iteration === tTime / cycleDuration) {
-            time = dur;
-            iteration--;
+            time > dur && (time = dur);
           }
 
           prevIteration = _animationCycle(this._tTime, cycleDuration);
+          !prevTime && this._tTime && prevIteration !== iteration && (prevIteration = iteration);
 
           if (yoyo && iteration & 1) {
             time = dur - time;
@@ -23364,28 +23926,23 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
           if (iteration !== prevIteration && !this._lock) {
             var rewinding = yoyo && prevIteration & 1,
                 doesWrap = rewinding === (yoyo && iteration & 1);
-
-            if (iteration < prevIteration) {
-              rewinding = !rewinding;
-            }
-
+            iteration < prevIteration && (rewinding = !rewinding);
             prevTime = rewinding ? 0 : dur;
             this._lock = 1;
-            this.render(prevTime, suppressEvents, !dur)._lock = 0;
-
-            if (!suppressEvents && this.parent) {
-              _callback(this, "onRepeat");
-            }
-
+            this.render(prevTime || (isYoyo ? 0 : _round(iteration * cycleDuration)), suppressEvents, !dur)._lock = 0;
+            !suppressEvents && this.parent && _callback(this, "onRepeat");
             this.vars.repeatRefresh && !isYoyo && (this.invalidate()._lock = 1);
 
             if (prevTime !== this._time || prevPaused !== !this._ts) {
               return this;
             }
 
+            dur = this._dur;
+            tDur = this._tDur;
+
             if (doesWrap) {
               this._lock = 2;
-              prevTime = rewinding ? dur + 0.0001 : -0.0001;
+              prevTime = rewinding ? dur : -0.0001;
               this.render(prevTime, true);
               this.vars.repeatRefresh && !isYoyo && this.invalidate();
             }
@@ -23395,6 +23952,8 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
             if (!this._ts && !prevPaused) {
               return this;
             }
+
+            _propagateYoyoEase(this, isYoyo);
           }
         }
 
@@ -23416,9 +23975,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
           this._zTime = totalTime;
         }
 
-        if (!prevTime && time && !suppressEvents) {
-          _callback(this, "onStart");
-        }
+        !prevTime && time && !suppressEvents && _callback(this, "onStart");
 
         if (time >= prevTime && totalTime >= 0) {
           child = this._first;
@@ -23480,17 +24037,14 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
           }
         }
 
-        if (this._onUpdate && !suppressEvents) {
-          _callback(this, "onUpdate", true);
-        }
+        this._onUpdate && !suppressEvents && _callback(this, "onUpdate", true);
+        if (tTime === tDur && tDur >= this.totalDuration() || !tTime && prevTime) if (prevStart === this._start || Math.abs(timeScale) !== Math.abs(this._ts)) if (!this._lock) {
+          (totalTime || !dur) && (tTime === tDur && this._ts > 0 || !tTime && this._ts < 0) && _removeFromParent(this, 1);
 
-        if (tTime === tDur && tDur >= this.totalDuration() || !tTime && this._ts < 0) if (prevStart === this._start || Math.abs(timeScale) !== Math.abs(this._ts)) {
-          (totalTime || !dur) && (totalTime && this._ts > 0 || !tTime && this._ts < 0) && _removeFromParent(this, 1);
-
-          if (!suppressEvents && !(totalTime < 0 && !prevTime)) {
+          if (!suppressEvents && !(totalTime < 0 && !prevTime) && (tTime || prevTime)) {
             _callback(this, tTime === tDur ? "onComplete" : "onReverseComplete", true);
 
-            this._prom && this._prom();
+            this._prom && !(tTime < tDur && this.timeScale() > 0) && this._prom();
           }
         }
       }
@@ -23510,7 +24064,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
           child.forEach(function (obj) {
             return _this2.add(obj, position);
           });
-          return _uncache(this);
+          return this;
         }
 
         if (_isString(child)) {
@@ -23550,17 +24104,10 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
       while (child) {
         if (child._start >= ignoreBeforeTime) {
           if (child instanceof Tween) {
-            if (tweens) {
-              a.push(child);
-            }
+            tweens && a.push(child);
           } else {
-            if (timelines) {
-              a.push(child);
-            }
-
-            if (nested) {
-              a.push.apply(a, child.getChildren(true, tweens, timelines));
-            }
+            timelines && a.push(child);
+            nested && a.push.apply(a, child.getChildren(true, tweens, timelines));
           }
         }
 
@@ -23606,7 +24153,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
 
       this._forcing = 1;
 
-      if (!this.parent && !this._dp && this._ts) {
+      if (!this._dp && this._ts) {
         this._start = _round(_ticker.time - (this._ts > 0 ? _totalTime2 / this._ts : (this.totalDuration() - _totalTime2) / -this._ts));
       }
 
@@ -23661,11 +24208,12 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
       var a = [],
           parsedTargets = toArray(targets),
           child = this._first,
+          isGlobalTime = _isNumber(onlyActive),
           children;
 
       while (child) {
         if (child instanceof Tween) {
-          if (_arrayContainsAny(child._targets, parsedTargets) && (!onlyActive || child.isActive(onlyActive === "started"))) {
+          if (_arrayContainsAny(child._targets, parsedTargets) && (isGlobalTime ? (!_overwritingTween || child._initted && child._ts) && child.globalTime(0) <= onlyActive && child.globalTime(child.totalDuration()) > onlyActive : !onlyActive || child.isActive())) {
             a.push(child);
           }
         } else if ((children = child.getTweensOf(parsedTargets, onlyActive)).length) {
@@ -23691,18 +24239,13 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
         ease: "none",
         lazy: false,
         time: endTime,
-        duration: vars.duration || Math.abs(endTime - (startAt && "time" in startAt ? startAt.time : tl._time)) / tl.timeScale() || _tinyNum,
+        overwrite: "auto",
+        duration: vars.duration || Math.abs((endTime - (startAt && "time" in startAt ? startAt.time : tl._time)) / tl.timeScale()) || _tinyNum,
         onStart: function onStart() {
           tl.pause();
-          var duration = vars.duration || Math.abs(endTime - tl._time) / tl.timeScale();
-
-          if (tween._dur !== duration) {
-            _setDuration(tween, duration).render(tween._time, true, true);
-          }
-
-          if (_onStart) {
-            _onStart.apply(tween, onStartParams || []);
-          }
+          var duration = vars.duration || Math.abs((endTime - tl._time) / tl.timeScale());
+          tween._dur !== duration && _setDuration(tween, duration, 0, 1).render(tween._time, true, true);
+          _onStart && _onStart.apply(tween, onStartParams || []);
         }
       }));
 
@@ -23753,6 +24296,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
       while (child) {
         if (child._start >= ignoreBeforeTime) {
           child._start += amount;
+          child._end += amount;
         }
 
         child = child._next;
@@ -23795,12 +24339,8 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
         child = next;
       }
 
-      this._time = this._tTime = 0;
-
-      if (includeLabels) {
-        this.labels = {};
-      }
-
+      this._time = this._tTime = this._pTime = 0;
+      includeLabels && (this.labels = {});
       return _uncache(this);
     };
 
@@ -23810,12 +24350,11 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
           child = self._last,
           prevStart = _bigNum,
           prev,
-          end,
           start,
           parent;
 
       if (arguments.length) {
-        return self._repeat < 0 ? self : self.timeScale(self.totalDuration() / value);
+        return self.timeScale((self._repeat < 0 ? self.duration() : self.totalDuration()) / (self.reversed() ? -value : value));
       }
 
       if (self._dirty) {
@@ -23823,16 +24362,12 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
 
         while (child) {
           prev = child._prev;
-
-          if (child._dirty) {
-            child.totalDuration();
-          }
-
+          child._dirty && child.totalDuration();
           start = child._start;
 
           if (start > prevStart && self._sort && child._ts && !self._lock) {
             self._lock = 1;
-            _addToTimeline(self, child, start - child._delay)._lock = 0;
+            _addToTimeline(self, child, start - child._delay, 1)._lock = 0;
           } else {
             prevStart = start;
           }
@@ -23846,20 +24381,15 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
               self._tTime -= start;
             }
 
-            self.shiftChildren(-start, false, -1e20);
+            self.shiftChildren(-start, false, -1e999);
             prevStart = 0;
           }
 
-          end = _setEnd(child);
-
-          if (end > max && child._ts) {
-            max = end;
-          }
-
+          child._end > max && child._ts && (max = child._end);
           child = prev;
         }
 
-        _setDuration(self, self === _globalTimeline && self._time > max ? self._time : Math.min(_bigNum, max), 1);
+        _setDuration(self, self === _globalTimeline && self._time > max ? self._time : max, 1, 1);
 
         self._dirty = 0;
       }
@@ -23882,9 +24412,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
             child = child._next;
           }
 
-          if (!child) {
-            _ticker.sleep();
-          }
+          child || _ticker.sleep();
         }
       }
     };
@@ -23962,10 +24490,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
     return pt;
   },
       _addPropTween = function _addPropTween(target, prop, start, end, index, targets, modifier, stringFilter, funcParam) {
-    if (_isFunction(end)) {
-      end = end(index || 0, target, targets);
-    }
-
+    _isFunction(end) && (end = end(index || 0, target, targets));
     var currentValue = target[prop],
         parsedStart = start !== "get" ? start : !_isFunction(currentValue) ? currentValue : funcParam ? target[prop.indexOf("set") || !_isFunction(target["get" + prop.substr(3)]) ? prop : "get" + prop.substr(3)](funcParam) : target[prop](),
         setter = !_isFunction(currentValue) ? _setterPlain : funcParam ? _setterFuncWithParam : _setterFunc,
@@ -23982,17 +24507,10 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
     }
 
     if (parsedStart !== end) {
-      if (!isNaN(parsedStart + end)) {
+      if (!isNaN(parsedStart * end)) {
         pt = new PropTween(this._pt, target, prop, +parsedStart || 0, end - (parsedStart || 0), typeof currentValue === "boolean" ? _renderBoolean : _renderPlain, 0, setter);
-
-        if (funcParam) {
-          pt.fp = funcParam;
-        }
-
-        if (modifier) {
-          pt.modifier(modifier, this, target);
-        }
-
+        funcParam && (pt.fp = funcParam);
+        modifier && pt.modifier(modifier, this, target);
         return this._pt = pt;
       }
 
@@ -24001,11 +24519,9 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
     }
   },
       _processVars = function _processVars(vars, index, target, targets, tween) {
-    if (_isFunction(vars)) {
-      vars = _parseFuncOrString(vars, tween, index, target, targets);
-    }
+    _isFunction(vars) && (vars = _parseFuncOrString(vars, tween, index, target, targets));
 
-    if (!_isObject(vars) || vars.style && vars.nodeType || _isArray(vars)) {
+    if (!_isObject(vars) || vars.style && vars.nodeType || _isArray(vars) || _isTypedArray(vars)) {
       return _isString(vars) ? _parseFuncOrString(vars, tween, index, target, targets) : vars;
     }
 
@@ -24068,12 +24584,9 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
         plugin,
         ptLookup,
         index,
-        harnessVars;
-
-    if (tl && (!keyframes || !ease)) {
-      ease = "none";
-    }
-
+        harnessVars,
+        overwritten;
+    tl && (!keyframes || !ease) && (ease = "none");
     tween._ease = _parseEase(ease, _defaults.ease);
     tween._yEase = yoyoEase ? _invertEase(_parseEase(yoyoEase === true ? ease : yoyoEase, _defaults.ease)) : 0;
 
@@ -24084,9 +24597,10 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
     }
 
     if (!tl) {
-      if (prevStartAt) {
-        prevStartAt.render(-1, true).kill();
-      }
+      harness = targets[0] ? _getCache(targets[0]).harness : 0;
+      harnessVars = harness && vars[harness.prop];
+      cleanVars = _copyExcluding(vars, _reservedProps);
+      prevStartAt && prevStartAt.render(-1, true).kill();
 
       if (startAt) {
         _removeFromParent(tween._startAt = Tween.set(targets, _setDefaults({
@@ -24105,8 +24619,9 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
 
         if (immediateRender) {
           if (time > 0) {
-            !autoRevert && (tween._startAt = 0);
-          } else if (dur) {
+            autoRevert || (tween._startAt = 0);
+          } else if (dur && !(time < 0 && prevStartAt)) {
+            time && (tween._zTime = time);
             return;
           }
         }
@@ -24114,18 +24629,18 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
         if (prevStartAt) {
           !autoRevert && (tween._startAt = 0);
         } else {
-          if (time) {
-            immediateRender = false;
-          }
-
-          _removeFromParent(tween._startAt = Tween.set(targets, _merge(_copyExcluding(vars, _reservedProps), {
+          time && (immediateRender = false);
+          p = _setDefaults({
             overwrite: false,
             data: "isFromStart",
             lazy: immediateRender && _isNotFalse(lazy),
             immediateRender: immediateRender,
             stagger: 0,
             parent: parent
-          })));
+          }, cleanVars);
+          harnessVars && (p[harness.prop] = harnessVars);
+
+          _removeFromParent(tween._startAt = Tween.set(targets, p));
 
           if (!immediateRender) {
             _initTween(tween._startAt, _tinyNum);
@@ -24135,21 +24650,14 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
         }
       }
 
-      cleanVars = _copyExcluding(vars, _reservedProps);
       tween._pt = 0;
-      harness = targets[0] ? _getCache(targets[0]).harness : 0;
-      harnessVars = harness && vars[harness.prop];
       lazy = dur && _isNotFalse(lazy) || lazy && !dur;
 
       for (i = 0; i < targets.length; i++) {
         target = targets[i];
         gsData = target._gsap || _harness(targets)[i]._gsap;
         tween._ptLookup[i] = ptLookup = {};
-
-        if (_lazyLookup[gsData.id]) {
-          _lazyRender();
-        }
-
+        _lazyLookup[gsData.id] && _lazyTweens.length && _lazyRender();
         index = fullTargets === targets ? i : fullTargets.indexOf(target);
 
         if (harness && (plugin = new harness()).init(target, harnessVars || cleanVars, tween, index, fullTargets) !== false) {
@@ -24159,52 +24667,40 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
             ptLookup[name] = pt;
           });
 
-          if (plugin.priority) {
-            hasPriority = 1;
-          }
+          plugin.priority && (hasPriority = 1);
         }
 
         if (!harness || harnessVars) {
           for (p in cleanVars) {
             if (_plugins[p] && (plugin = _checkPlugin(p, cleanVars, tween, index, target, fullTargets))) {
-              if (plugin.priority) {
-                hasPriority = 1;
-              }
+              plugin.priority && (hasPriority = 1);
             } else {
               ptLookup[p] = pt = _addPropTween.call(tween, target, p, "get", cleanVars[p], index, fullTargets, 0, vars.stringFilter);
             }
           }
         }
 
-        if (tween._op && tween._op[i]) {
-          tween.kill(target, tween._op[i]);
-        }
+        tween._op && tween._op[i] && tween.kill(target, tween._op[i]);
 
         if (autoOverwrite && tween._pt) {
           _overwritingTween = tween;
 
-          _globalTimeline.killTweensOf(target, ptLookup, "started");
+          _globalTimeline.killTweensOf(target, ptLookup, tween.globalTime(0));
 
+          overwritten = !tween.parent;
           _overwritingTween = 0;
         }
 
-        if (tween._pt && lazy) {
-          _lazyLookup[gsData.id] = 1;
-        }
+        tween._pt && lazy && (_lazyLookup[gsData.id] = 1);
       }
 
-      if (hasPriority) {
-        _sortPropTweensByPriority(tween);
-      }
-
-      if (tween._onInit) {
-        tween._onInit(tween);
-      }
+      hasPriority && _sortPropTweensByPriority(tween);
+      tween._onInit && tween._onInit(tween);
     }
 
     tween._from = !tl && !!vars.runBackwards;
     tween._onUpdate = onUpdate;
-    tween._initted = 1;
+    tween._initted = (!tween._op || tween._pt) && !overwritten;
   },
       _addAliasesToVars = function _addAliasesToVars(targets, vars) {
     var harness = targets[0] ? _getCache(targets[0]).harness : 0,
@@ -24237,12 +24733,12 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
     return _isFunction(value) ? value.call(tween, i, target, targets) : _isString(value) && ~value.indexOf("random(") ? _replaceRandom(value) : value;
   },
       _staggerTweenProps = _callbackNames + "repeat,repeatDelay,yoyo,repeatRefresh,yoyoEase",
-      _staggerPropsToSkip = (_staggerTweenProps + ",id,stagger,delay,duration,paused").split(",");
+      _staggerPropsToSkip = (_staggerTweenProps + ",id,stagger,delay,duration,paused,scrollTrigger").split(",");
 
   var Tween = function (_Animation2) {
     _inheritsLoose(Tween, _Animation2);
 
-    function Tween(targets, vars, time) {
+    function Tween(targets, vars, time, skipInherit) {
       var _this3;
 
       if (typeof vars === "number") {
@@ -24251,7 +24747,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
         time = null;
       }
 
-      _this3 = _Animation2.call(this, _inheritDefaults(vars), time) || this;
+      _this3 = _Animation2.call(this, skipInherit ? vars : _inheritDefaults(vars), time) || this;
       var _this3$vars = _this3.vars,
           duration = _this3$vars.duration,
           delay = _this3$vars.delay,
@@ -24260,7 +24756,10 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
           overwrite = _this3$vars.overwrite,
           keyframes = _this3$vars.keyframes,
           defaults = _this3$vars.defaults,
-          parsedTargets = (_isArray(targets) ? _isNumber(targets[0]) : "length" in vars) ? [targets] : toArray(targets),
+          scrollTrigger = _this3$vars.scrollTrigger,
+          yoyoEase = _this3$vars.yoyoEase,
+          parent = _this3.parent,
+          parsedTargets = (_isArray(targets) || _isTypedArray(targets) ? _isNumber(targets[0]) : "length" in vars) ? [targets] : toArray(targets),
           tl,
           i,
           copy,
@@ -24297,10 +24796,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
           if (_isObject(stagger)) {
             for (p in stagger) {
               if (~_staggerTweenProps.indexOf(p)) {
-                if (!staggerVarsToMerge) {
-                  staggerVarsToMerge = {};
-                }
-
+                staggerVarsToMerge || (staggerVarsToMerge = {});
                 staggerVarsToMerge[p] = stagger[p];
               }
             }
@@ -24316,15 +24812,8 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
             }
 
             copy.stagger = 0;
-
-            if (staggerVarsToMerge) {
-              _merge(copy, staggerVarsToMerge);
-            }
-
-            if (vars.yoyoEase && !vars.repeat) {
-              copy.yoyoEase = vars.yoyoEase;
-            }
-
+            yoyoEase && (copy.yoyoEase = yoyoEase);
+            staggerVarsToMerge && _merge(copy, staggerVarsToMerge);
             curTarget = parsedTargets[i];
             copy.duration = +_parseFuncOrString(duration, _assertThisInitialized(_this3), i, curTarget, parsedTargets);
             copy.delay = (+_parseFuncOrString(delay, _assertThisInitialized(_this3), i, curTarget, parsedTargets) || 0) - _this3._delay;
@@ -24338,7 +24827,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
             tl.to(curTarget, copy, staggerFunc(i, curTarget, parsedTargets));
           }
 
-          duration = delay = 0;
+          tl.duration() ? duration = delay = 0 : _this3.timeline = 0;
         }
 
         duration || _this3.duration(duration = tl.duration());
@@ -24354,12 +24843,15 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
         _overwritingTween = 0;
       }
 
-      if (immediateRender || !duration && !keyframes && _this3._start === _this3.parent._time && _isNotFalse(immediateRender) && _hasNoPausedAncestors(_assertThisInitialized(_this3)) && _this3.parent.data !== "nested") {
+      parent && _postAddChecks(parent, _assertThisInitialized(_this3));
+
+      if (immediateRender || !duration && !keyframes && _this3._start === _round(parent._time) && _isNotFalse(immediateRender) && _hasNoPausedAncestors(_assertThisInitialized(_this3)) && parent.data !== "nested") {
         _this3._tTime = -_tinyNum;
 
         _this3.render(Math.max(0, -delay));
       }
 
+      scrollTrigger && _scrollTrigger(_assertThisInitialized(_this3), scrollTrigger);
       return _this3;
     }
 
@@ -24390,15 +24882,18 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
           cycleDuration = dur + this._rDelay;
           time = _round(tTime % cycleDuration);
 
-          if (time > dur || tDur === tTime) {
+          if (tTime === tDur) {
+            iteration = this._repeat;
             time = dur;
-          }
+          } else {
+            iteration = ~~(tTime / cycleDuration);
 
-          iteration = ~~(tTime / cycleDuration);
+            if (iteration && iteration === tTime / cycleDuration) {
+              time = dur;
+              iteration--;
+            }
 
-          if (iteration && iteration === tTime / cycleDuration) {
-            time = dur;
-            iteration--;
+            time > dur && (time = dur);
           }
 
           isYoyo = this._yoyo && iteration & 1;
@@ -24415,16 +24910,24 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
           }
 
           if (iteration !== prevIteration) {
+            timeline && this._yEase && _propagateYoyoEase(timeline, isYoyo);
+
             if (this.vars.repeatRefresh && !isYoyo && !this._lock) {
               this._lock = force = 1;
-              this.render(cycleDuration * iteration, true).invalidate()._lock = 0;
+              this.render(_round(cycleDuration * iteration), true).invalidate()._lock = 0;
             }
           }
         }
 
-        if (!this._initted && _attemptInitTween(this, time, force, suppressEvents)) {
-          this._tTime = 0;
-          return this;
+        if (!this._initted) {
+          if (_attemptInitTween(this, totalTime < 0 ? totalTime : time, force, suppressEvents)) {
+            this._tTime = 0;
+            return this;
+          }
+
+          if (dur !== this._dur) {
+            return this.render(totalTime, suppressEvents, force);
+          }
         }
 
         this._tTime = tTime;
@@ -24441,10 +24944,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
           this.ratio = ratio = 1 - ratio;
         }
 
-        if (!prevTime && time && !suppressEvents) {
-          _callback(this, "onStart");
-        }
-
+        time && !prevTime && !suppressEvents && _callback(this, "onStart");
         pt = this._pt;
 
         while (pt) {
@@ -24455,28 +24955,21 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
         timeline && timeline.render(totalTime < 0 ? totalTime : !time && isYoyo ? -_tinyNum : timeline._dur * ratio, suppressEvents, force) || this._startAt && (this._zTime = totalTime);
 
         if (this._onUpdate && !suppressEvents) {
-          if (totalTime < 0 && this._startAt) {
-            this._startAt.render(totalTime, true, force);
-          }
+          totalTime < 0 && this._startAt && this._startAt.render(totalTime, true, force);
 
           _callback(this, "onUpdate");
         }
 
-        if (this._repeat) if (iteration !== prevIteration && this.vars.onRepeat && !suppressEvents && this.parent) {
-          _callback(this, "onRepeat");
-        }
+        this._repeat && iteration !== prevIteration && this.vars.onRepeat && !suppressEvents && this.parent && _callback(this, "onRepeat");
 
         if ((tTime === this._tDur || !tTime) && this._tTime === tTime) {
-          if (totalTime < 0 && this._startAt && !this._onUpdate) {
-            this._startAt.render(totalTime, true, force);
-          }
+          totalTime < 0 && this._startAt && !this._onUpdate && this._startAt.render(totalTime, true, true);
+          (totalTime || !dur) && (tTime === this._tDur && this._ts > 0 || !tTime && this._ts < 0) && _removeFromParent(this, 1);
 
-          (totalTime || !dur) && (totalTime && this._ts > 0 || !tTime && this._ts < 0) && _removeFromParent(this, 1);
-
-          if (!suppressEvents && !(totalTime < 0 && !prevTime)) {
+          if (!suppressEvents && !(totalTime < 0 && !prevTime) && (tTime || prevTime)) {
             _callback(this, tTime === tDur ? "onComplete" : "onReverseComplete", true);
 
-            this._prom && this._prom();
+            this._prom && !(tTime < tDur && this.timeScale() > 0) && this._prom();
           }
         }
       }
@@ -24491,11 +24984,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
     _proto3.invalidate = function invalidate() {
       this._pt = this._op = this._startAt = this._onUpdate = this._act = this._lazy = 0;
       this._ptLookup = [];
-
-      if (this.timeline) {
-        this.timeline.invalidate();
-      }
-
+      this.timeline && this.timeline.invalidate();
       return _Animation2.prototype.invalidate.call(this);
     };
 
@@ -24513,7 +25002,9 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
       }
 
       if (this.timeline) {
-        this.timeline.killTweensOf(targets, vars, _overwritingTween && _overwritingTween.vars.overwrite !== true);
+        var tDur = this.timeline.totalDuration();
+        this.timeline.killTweensOf(targets, vars, _overwritingTween && _overwritingTween.vars.overwrite !== true)._first || _interrupt(this);
+        this.parent && tDur !== this.timeline.totalDuration() && _setDuration(this, this._dur * this.timeline._tDur / tDur, 0, 1);
         return this;
       }
 
@@ -24530,6 +25021,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
           i;
 
       if ((!vars || vars === "all") && _arraysMatch(parsedTargets, killingTargets)) {
+        vars === "all" && (this._pt = 0);
         return _interrupt(this);
       }
 
@@ -24582,10 +25074,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
         }
       }
 
-      if (this._initted && !this._pt && firstPT) {
-        _interrupt(this);
-      }
-
+      this._initted && !this._pt && firstPT && _interrupt(this);
       return this;
     };
 
@@ -24617,11 +25106,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
 
     Tween.set = function set(targets, vars) {
       vars.duration = 0;
-
-      if (!vars.repeatDelay) {
-        vars.repeat = 0;
-      }
-
+      vars.repeatDelay || (vars.repeat = 0);
       return new Tween(targets, vars);
     };
 
@@ -24704,11 +25189,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
 
     while (pt) {
       next = pt._next;
-
-      if (pt.p === property) {
-        pt.modifier(modifier, tween, target);
-      }
-
+      pt.p === property && pt.modifier(modifier, tween, target);
       pt = next;
     }
   },
@@ -24797,7 +25278,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
     return PropTween;
   }();
 
-  _forEachName(_callbackNames + "parent,duration,ease,delay,overwrite,runBackwards,startAt,yoyo,immediateRender,repeat,repeatDelay,data,paused,reversed,lazy,callbackScope,stringFilter,id,yoyoEase,stagger,inherit,repeatRefresh,keyframes,autoRevert", function (name) {
+  _forEachName(_callbackNames + "parent,duration,ease,delay,overwrite,runBackwards,startAt,yoyo,immediateRender,repeat,repeatDelay,data,paused,reversed,lazy,callbackScope,stringFilter,id,yoyoEase,stagger,inherit,repeatRefresh,keyframes,autoRevert,scrollTrigger", function (name) {
     return _reservedProps[name] = 1;
   });
 
@@ -24828,17 +25309,12 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
       return _globalTimeline.getTweensOf(targets, onlyActive);
     },
     getProperty: function getProperty(target, property, unit, uncache) {
-      if (_isString(target)) {
-        target = toArray(target)[0];
-      }
+      _isString(target) && (target = toArray(target)[0]);
 
       var getter = _getCache(target || {}).get,
           format = unit ? _passThrough : _numericIfPossible;
 
-      if (unit === "native") {
-        unit = "";
-      }
-
+      unit === "native" && (unit = "");
       return !target ? target : !property ? function (property, unit, uncache) {
         return format((_plugins[property] && _plugins[property].get || getter)(target, property, unit, uncache));
       } : format((_plugins[property] && _plugins[property].get || getter)(target, property, unit, uncache));
@@ -24864,26 +25340,24 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
 
       var Plugin = _plugins[property],
           cache = _getCache(target),
+          p = cache.harness && (cache.harness.aliases || {})[property] || property,
           setter = Plugin ? function (value) {
         var p = new Plugin();
         _quickTween._pt = 0;
         p.init(target, unit ? value + unit : value, _quickTween, 0, [target]);
         p.render(1, p);
         _quickTween._pt && _renderPropTweens(1, _quickTween);
-      } : cache.set(target, property);
+      } : cache.set(target, p);
 
       return Plugin ? setter : function (value) {
-        return setter(target, property, unit ? value + unit : value, cache, 1);
+        return setter(target, p, unit ? value + unit : value, cache, 1);
       };
     },
     isTweening: function isTweening(targets) {
       return _globalTimeline.getTweensOf(targets, true).length > 0;
     },
     defaults: function defaults(value) {
-      if (value && value.ease) {
-        value.ease = _parseEase(value.ease, _defaults.ease);
-      }
-
+      value && value.ease && (value.ease = _parseEase(value.ease, _defaults.ease));
       return _mergeDeep(_defaults, value || {});
     },
     config: function config(value) {
@@ -24899,13 +25373,13 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
         return pluginName && !_plugins[pluginName] && !_globals[pluginName] && _warn(name + " effect requires " + pluginName + " plugin.");
       });
 
-      _effects[name] = function (targets, vars) {
-        return effect(toArray(targets), _setDefaults(vars || {}, defaults));
+      _effects[name] = function (targets, vars, tl) {
+        return effect(toArray(targets), _setDefaults(vars || {}, defaults), tl);
       };
 
       if (extendTimeline) {
         Timeline.prototype[name] = function (targets, vars, position) {
-          return this.add(_effects[name](targets, _isObject(vars) ? vars : (position = vars) && {}), position);
+          return this.add(_effects[name](targets, _isObject(vars) ? vars : (position = vars) && {}, this), position);
         };
       }
     },
@@ -25060,8 +25534,11 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
   var gsap = _gsap.registerPlugin({
     name: "attr",
     init: function init(target, vars, tween, index, targets) {
-      for (var p in vars) {
-        this.add(target, "setAttribute", (target.getAttribute(p) || 0) + "", vars[p], index, targets, 0, 0, p);
+      var p, pt;
+
+      for (p in vars) {
+        pt = this.add(target, "setAttribute", (target.getAttribute(p) || 0) + "", vars[p], index, targets, 0, 0, p);
+        pt && (pt.op = p);
 
         this._props.push(p);
       }
@@ -25076,7 +25553,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
       }
     }
   }, _buildModifierPlugin("roundProps", _roundModifier), _buildModifierPlugin("modifiers"), _buildModifierPlugin("snap", snap)) || _gsap;
-  Tween.version = Timeline.version = gsap.version = "3.2.1";
+  Tween.version = Timeline.version = gsap.version = "3.5.1";
   _coreReady = 1;
 
   if (_windowExists()) {
@@ -25194,7 +25671,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
     return i < 0 ? null : (i === 3 ? "ms" : i >= 0 ? _prefixes[i] : "") + property;
   },
       _initCore = function _initCore() {
-    if (_windowExists$1()) {
+    if (_windowExists$1() && window.document) {
       _win$1 = window;
       _doc$1 = _win$1.document;
       _docElement = _doc$1.documentElement;
@@ -25203,7 +25680,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
       };
       _tempDivStyler = _createElement("div");
       _transformProp = _checkPropPrefix(_transformProp);
-      _transformOriginProp = _checkPropPrefix(_transformOriginProp);
+      _transformOriginProp = _transformProp + "Origin";
       _tempDiv.style.cssText = "border-width:0;line-height:0;position:absolute;padding:0";
       _supports3D = !!_checkPropPrefix("perspective");
       _pluginInitted = 1;
@@ -25262,7 +25739,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
       bounds = _getBBoxHack.call(target, true);
     }
 
-    bounds && bounds.width || (bounds = _getBBoxHack.call(target, true));
+    bounds && (bounds.width || bounds.height) || target.getBBox === _getBBoxHack || (bounds = _getBBoxHack.call(target, true));
     return bounds && !bounds.width && !bounds.x && !bounds.y ? {
       x: +_getAttributeFallbacks(target, ["x", "cx", "x1"]) || 0,
       y: +_getAttributeFallbacks(target, ["y", "cy", "y1"]) || 0,
@@ -25277,7 +25754,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
     if (property) {
       var style = target.style;
 
-      if (property in _transformProps) {
+      if (property in _transformProps && property !== _transformOriginProp) {
         property = _transformProp;
       }
 
@@ -25316,6 +25793,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
         measureProperty = (isRootSVG ? "client" : "offset") + (horizontal ? "Width" : "Height"),
         amount = 100,
         toPixels = unit === "px",
+        toPercent = unit === "%",
         px,
         parent,
         cache,
@@ -25325,9 +25803,10 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
       return curValue;
     }
 
+    curUnit !== "px" && !toPixels && (curValue = _convertToUnit(target, property, value, "px"));
     isSVG = target.getCTM && _isSVG(target);
 
-    if (unit === "%" && (_transformProps[property] || ~property.indexOf("adius"))) {
+    if (toPercent && (_transformProps[property] || ~property.indexOf("adius"))) {
       return _round(curValue / (isSVG ? target.getBBox()[horizontal ? "width" : "height"] : target[measureProperty]) * amount);
     }
 
@@ -25344,30 +25823,28 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
 
     cache = parent._gsap;
 
-    if (cache && unit === "%" && cache.width && horizontal && cache.time === _ticker.time) {
+    if (cache && toPercent && cache.width && horizontal && cache.time === _ticker.time) {
       return _round(curValue / cache.width * amount);
     } else {
+      (toPercent || curUnit === "%") && (style.position = _getComputedProperty(target, "position"));
       parent === target && (style.position = "static");
       parent.appendChild(_tempDiv);
       px = _tempDiv[measureProperty];
       parent.removeChild(_tempDiv);
       style.position = "absolute";
 
-      if (horizontal && unit === "%") {
+      if (horizontal && toPercent) {
         cache = _getCache(parent);
         cache.time = _ticker.time;
         cache.width = parent[measureProperty];
       }
     }
 
-    return _round(toPixels ? px * curValue / amount : amount / px * curValue);
+    return _round(toPixels ? px * curValue / amount : px && curValue ? amount / px * curValue : 0);
   },
       _get = function _get(target, property, unit, uncache) {
     var value;
-
-    if (!_pluginInitted) {
-      _initCore();
-    }
+    _pluginInitted || _initCore();
 
     if (property in _propertyAliases && property !== "transform") {
       property = _propertyAliases[property];
@@ -25398,6 +25875,8 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
       if (s && s !== start) {
         prop = p;
         start = s;
+      } else if (prop === "borderColor") {
+        start = _getComputedProperty(target, "borderTopColor");
       }
     }
 
@@ -25523,6 +26002,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
       var target = data.t,
           style = target.style,
           props = data.u,
+          cache = target._gsap,
           prop,
           clearTransforms,
           i;
@@ -25549,14 +26029,12 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
       if (clearTransforms) {
         _removeProperty(target, _transformProp);
 
-        clearTransforms = target._gsap;
-
-        if (clearTransforms) {
-          if (clearTransforms.svg) {
-            target.removeAttribute("transform");
-          }
+        if (cache) {
+          cache.svg && target.removeAttribute("transform");
 
           _parseTransform(target, 1);
+
+          cache.uncache = 1;
         }
       }
     }
@@ -25611,21 +26089,10 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
       }
 
       matrix = _getComputedTransformMatrixAsArray(target);
-
-      if (temp) {
-        style.display = temp;
-      } else {
-        _removeProperty(target, "display");
-      }
+      temp ? style.display = temp : _removeProperty(target, "display");
 
       if (addedToDOM) {
-        if (nextSibling) {
-          parent.insertBefore(target, nextSibling);
-        } else if (parent) {
-          parent.appendChild(target);
-        } else {
-          _docElement.removeChild(target);
-        }
+        nextSibling ? parent.insertBefore(target, nextSibling) : parent ? parent.appendChild(target) : _docElement.removeChild(target);
       }
     }
 
@@ -25838,9 +26305,9 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
       }
 
       if (cache.svg) {
-        matrix = target.getAttribute("transform");
+        t1 = target.getAttribute("transform");
         cache.forceCSS = target.setAttribute("transform", "") || !_isNullTransform(_getComputedProperty(target, _transformProp));
-        matrix && target.setAttribute("transform", matrix);
+        t1 && target.setAttribute("transform", t1);
       }
     }
 
@@ -26179,10 +26646,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
           cache,
           smooth,
           hasPriority;
-
-      if (!_pluginInitted) {
-        _initCore();
-      }
+      _pluginInitted || _initCore();
 
       for (p in vars) {
         if (p === "autoRound") {
@@ -26213,7 +26677,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
           }
         } else if (p.substr(0, 2) === "--") {
           this.add(style, "setProperty", getComputedStyle(target).getPropertyValue(p) + "", endValue + "", index, targets, 0, 0, p);
-        } else {
+        } else if (type !== "undefined") {
           startValue = _get(target, p);
           startNum = parseFloat(startValue);
           relative = type === "string" && endValue.charAt(1) === "=" ? +(endValue.charAt(0) + "1") : 0;
@@ -26235,10 +26699,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
 
             if (p !== "scale" && p !== "transform") {
               p = _propertyAliases[p];
-
-              if (~p.indexOf(",")) {
-                p = p.split(",")[0];
-              }
+              ~p.indexOf(",") && (p = p.split(",")[0]);
             }
           }
 
@@ -26264,10 +26725,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
                 _applySVGOrigin(target, endValue, 0, smooth, 0, this);
               } else {
                 endUnit = parseFloat(endValue.split(" ")[2]) || 0;
-
-                if (endUnit !== cache.zOrigin) {
-                  _addNonTweeningPT(this, cache, "zOrigin", cache.zOrigin, endUnit);
-                }
+                endUnit !== cache.zOrigin && _addNonTweeningPT(this, cache, "zOrigin", cache.zOrigin, endUnit);
 
                 _addNonTweeningPT(this, style, p, _firstTwoOnly(startValue), _firstTwoOnly(endValue));
               }
@@ -26300,12 +26758,8 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
           if (isTransformRelated || (endNum || endNum === 0) && (startNum || startNum === 0) && !_complexExp.test(endValue) && p in style) {
             startUnit = (startValue + "").substr((startNum + "").length);
             endNum || (endNum = 0);
-            endUnit = (endValue + "").substr((endNum + "").length) || (p in _config.units ? _config.units[p] : startUnit);
-
-            if (startUnit !== endUnit) {
-              startNum = _convertToUnit(target, p, startValue, endUnit);
-            }
-
+            endUnit = getUnit(endValue) || (p in _config.units ? _config.units[p] : startUnit);
+            startUnit !== endUnit && (startNum = _convertToUnit(target, p, startValue, endUnit));
             this._pt = new PropTween(this._pt, isTransformRelated ? cache : style, p, startNum, relative ? relative * endNum : endNum - startNum, endUnit === "px" && vars.autoRound !== false && !isTransformRelated ? _renderRoundedCSSProp : _renderCSSProp);
             this._pt.u = endUnit || 0;
 
@@ -26329,9 +26783,7 @@ this.rxcomp.form = (function (exports, rxcomp, rxjs, operators) {
         }
       }
 
-      if (hasPriority) {
-        _sortPropTweensByPriority(this);
-      }
+      hasPriority && _sortPropTweensByPriority(this);
     },
     get: _get,
     aliases: _propertyAliases,

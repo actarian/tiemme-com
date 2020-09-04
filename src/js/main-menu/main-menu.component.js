@@ -13,6 +13,10 @@ export default class MainMenuComponent extends Component {
 		this.pushChanges();
 	}
 
+	onToggleMenu(event) {
+		this.toggle.next('main');
+	}
+
 	onSearch(url, query) {
 		console.log(query);
 		window.location.href = `${url}?txtSiteSearch=${query}`;
@@ -21,4 +25,5 @@ export default class MainMenuComponent extends Component {
 
 MainMenuComponent.meta = {
 	selector: '[main-menu]',
+	outputs: ['toggle'],
 };

@@ -1,0 +1,694 @@
+<script type="text/javascript">
+	window.filters = {
+		departments: {
+			label: "Departments",
+			placeholder: "all departments",
+			mode: "or",
+			options: [{
+				value: 101,
+				label: "Componenti Idraulici",
+			}, {
+				value: 102,
+				label: "Sistemi Radianti",
+			}, {
+				value: 103,
+				label: "Centrale Termica",
+			}, {
+				value: 105,
+				label: "Rubinetteria Cromata",
+			}]
+		},
+	};
+	window.technicians = [{
+		id: 1,
+		department: {
+			id: 103,
+			name: "Centrale Termica",
+		},
+		title: "Pannelli solari termici in zone di montagna?",
+		abstract: "<p>Nella strutturazione delle baite di montagna che si utilizza come casa vacanza o per il weekend.</p><p>Ci viene richiesto l’installazione dei pannelli solari termici per mantenere l’acqua calda nei boiler a valori di accettabilità. I pannelli solari verrebbero anche utilizzati con integrazione per il riscaldamento radiante ma di questo vi chiederemo successivamente consiglio. Oggi ci preoccupa il periodo autunnale e invernale dove pur essendoci un’ottima insolazione nell’arco della giornata si verificano gelate e stratificazione della neve. Come risolvereste questa situazione?</p>",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		}
+	}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		title: "Normativa caldaie a gas e a pellet",
+		abstract: "<p><b>Per quanto riguarda le caldaie tradizionali, ogni quanto bisogna far verificare i fumi? Ogni quanto bisogna fare la pulizia?</b><br>La caldaia è installata in Lombardia.</p><p><b>Per quanto riguarda le stufe a pellet quali controlli si richiedono? E ogni quanto tempo?</b><br>Anche in questo caso la stufa è installata in Lombardia.</p>",
+		link: {
+			url: "/tiemme-com/download/951. Normativa caldaie a gas e a pellet.pdf",
+			target: "_blank",
+			fileSize: 485000,
+		}
+	}, {
+		id: 3,
+		department: {
+			id: 101,
+			name: "Componenti Idraulici",
+		},
+		title: "Perdite d\'acqua negli impianti",
+		abstract: "<p>Come potremmo ovviare a particolari rotture accidentali o sfilamenti di tubazioni negli impianti radianti.</p>",
+		link: {
+			url: "/tiemme-com/download/763. Perdite d\"acqua negli impianti.pdf",
+			target: "_blank",
+			fileSize: 274000,
+		}
+	}, {
+		id: 4,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		title: "“Come fare il Calcolo dispersioni di un impianto a pavimento per ville a schiera a due piani?„",
+		abstract: "<p>Nella progettazione di un impianto di riscaldamento a pavimento oltre a stabilire la potenza termica radiante volta all’ambiente abitativo, si deve considerare anche la quantità di calore che viene dispersa verso il piano inferiore.</p><p>Una delle prove che il tecnico dell’impresa deve effettuare per valutare l’efficienza del pannello radiante è quello di misurare la temperatura sul soffitto che deve essere di circa -3°C rispetto alla temperatura ambiente...</p>",
+		link: {
+			url: "/tiemme-com/download/316.Calcolo dispersioni villetta a due piani.pdf",
+			target: "_blank",
+			fileSize: 519000,
+		}
+	}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "s_t_012_1_separatore_idraulico_in_ottone_tecnico-det_302.php",
+		title: "S.T.012.1 Separatore idraulico in Ottone",
+		abstract: "<p>Separatore idraulico in ottone con o senza valvole a sfera indicato per portate massime di 2,5 m3/h</p>",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+		}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "951_normativa_caldaie_a_gas_e_a_pellet_tecnico-det_303.php",
+		title: "951. Normativa caldaie a gas e a pellet",
+		abstract: "<p>- Per quanto riguarda le caldaie tradizionali, ogni quanto bisogna far verificare i fumi? Ogni quanto bisogna fare la pulizia? La caldaia è installata in Lombardia. -Per quanto riguarda...",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+		}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "919_p_r_strato_di_protezione_uni_1264_4_tecnico-det_300.php",
+		title: "919. P.R. strato di protezione UNI 1264.4",
+		abstract: "<p>Nella preventivazione degli impianti radianti a pavimento mi trovo di fronte ad una concorrenza che non applicando lo strato di protezione (foglio di polietilene) in aderenza al pavimento viene favorito",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+		}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "797_sistema_a_battiscopa_tecnico-det_283.php",
+		title: "797. Sistema a battiscopa",
+		abstract: "<p>All’expo di Milano 2016 ho avuto l’occasione di &nbsp; visitare il Vostro stand prestando una certa attenzione al sistema di riscaldamento a battiscopa “EQUOCLIMA”. Gradirei avere",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+		}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "772_coibentazione_edificio_tecnico-det_268.php",
+		title: "772. Coibentazione edificio",
+		abstract: "<p>Siamo in Emilia-Romagna, in una u.i. condominiale viene sostituito l'impianto termico/ACS, nuovo in tutti gli aspetti. I muri esterni non sono interessati alle lavorazioni edili, però il committente",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+		}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "769_p_r_p_tubazione_polietilene_o_multistrato_tecnico-det_274.php",
+		title: "769. P.R.P. Tubazione Polietilene o Multistrato",
+		abstract: "<p>Nella progettazione impianti radianti a pavimento nello specifico sulla scelta delle tubazioni che costituiranno la pannellatura radiante, mi devo a volte consultare con l’impresa idraulica che",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+		}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "763_perdite_d_27acqua_negli_impianti_tecnico-det_277.php",
+		title: "763. Perdite d'acqua negli impianti",
+		abstract: "<p>Come potremmo ovviare a particolari rotture accidentali o sfilamenti &nbsp;di tubazioni negli impianti radianti.</p>",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+		}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "758_responsabile_tecnico_dimensionamento_impianti_tecnico-det_262.php",
+		title: "758. Responsabile tecnico dimensionamento impianti",
+		abstract: "<p>Nella qualità di responsabile tecnico ho il compito di dimensionare un impianto a pannelli radianti per un edificio residenziale ( villa ) di 260 m2 posto su due piani. Per queste dimensioni dove",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+		}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "744_regolazione_flussimetri_collettori_tecnico-det_258.php",
+		title: "744. Regolazione flussimetri collettori",
+		abstract: "<p>Abbiamo installato in una abitazione un impianto a pannelli radianti Tiemme gestito da una pompa di calore,con la pompa di circolazione a tre velocità attualmente nella posizione...",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+		}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "743_pannelli_coibenti_per_pr_a_pavimento_tecnico-det_265.php",
+		title: "743. Pannelli coibenti per PR a pavimento",
+		abstract: "<p>Nella realizzazione dei pannelli radianti a pavimento si presentano molte proposte di coibenti termici come propormi in una scelta oculata?</p>",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+		}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "635_pannelli_radianti_posa_della_rete_antiritiro_tecnico-det_247.php",
+		title: "635.Pannelli radianti posa della rete antiritiro",
+		abstract: "<p>Nella realizzazione dei pannelli radianti a pavimento il progettista richiede la posa della rete antiritiro del massetto non è sufficiente l’aggiunta delle fibre polimeriche?</p>",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+		}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "626_rottura_tubazioni_sotto_traccia_tecnico-det_256.php",
+		title: "626. Rottura tubazioni sotto traccia",
+		abstract: "<p>Abbiamo avuto un problema inerente alla rottura di una tubazione sottotraccia di un pannello radiante in un sistema industriale con grande difficoltà nel rintracciare la zona della perdita. Abbiamo",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+		}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "613_la_realizzazione_dei_massetti_radianti_tecnico-det_253.php",
+		title: "613. La realizzazione dei massetti radianti",
+		abstract: "<p>Parlando con &nbsp;il tecnico &nbsp;dei massetti radianti nelle &nbsp;fasi di una gettata&nbsp;di&nbsp; una&nbsp; soletta&nbsp; per pannelli radianti a pavimento in un edificio &nbsp;condominiale&nbsp;",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+		}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "498_pavimenti_autilivellanti_tecnico-det_200.php",
+		title: "498.Pavimenti autilivellanti",
+		abstract: "<p>Dobbiamo scegliere un prodotto autolivellante per pannelli radianti. Ci suggeriscono prodotti al Solfato di Calcio. Nella pubblicità dei produttori le garanzie sono sempre ottime. Come acculturarci",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+	}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "486_regolazione_della_portata_dei_flussimetri_tecnico-det_180.php",
+		title: "486. Regolazione della portata dei flussimetri",
+		abstract: "<p>Ho acquistato una nuova abitazione dove è presente un impianto di riscaldamento/raffrescamento a pavimento con sistema a pompa di calore della ditta X. L'impresa idraulica che ha realizzato l'impianto",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+	}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "471_sistemi_radianti_su_edificio_in_ristrutturazione_tecnico-det_174.php",
+		title: "471. Sistemi Radianti su edificio in ristrutturazione",
+		abstract: "<p>Devo ristrutturare una casa su tre livelli in un centro storico la cui&nbsp;superficie, al lordo delle scale, è complessivamente di 87 m2. La committenza richiede l'impianto a pavimento. Essendo",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+	}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "427_additivazioni_chimiche_negli_impianti_a_pannelli_radianti_tecnico-det_230.php",
+		title: "427.Additivazioni chimiche negli impianti a pannelli radianti",
+		abstract: "<p>Nelle varie tipologie d’impianti radianti, ci consigliano diutilizzare additivi per preservare la funzionalità dell’impianto. Gradiremmo sapere la funzione di queste additivazioni.",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+	}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "413_tubazioni_per_pannelli_radianti_a_pavimento_tecnico-det_50.php",
+		title: "413.Tubazioni per pannelli radianti a pavimento",
+		abstract: "<p>Sono titolare di un’impresa di costruzioni e mi trovo spesso nella condizione di decidere quale tubo scegliere per gli impianti di riscaldamento a pavimento. Ho visto delle prove di allungamento",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+	}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "409_pannello_silento_tecnico-det_49.php",
+		title: "409.Pannello Silento",
+		abstract: "<p>Sul vostro sito internet (www.tiemme.com) ho letto del sistema a pannelli radianti “SILENTO”. Ritengo che questo sistema voglia mettersi in linee con la normativa vigente inerente all’attenuazione",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+	}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "373_computo_acqua_impianti_tecnico-det_48.php",
+		title: "373.Computo acqua impianti",
+		abstract: "<p>Spesso mi trovo a fare valutazioni sull’utilizzo di componenti per impianti di riscaldamento / climatizzazione in cui una delle incognite è la quantità d’acqua dell’impianto.",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+	}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "372_preriscaldo_del_massetto_radiante_tecnico-det_47.php",
+		title: "372.Preriscaldo del massetto radiante ",
+		abstract: "<p>Prendo come riferimento la norma tecnica UNI EN 1264-4 che ha come titolo “Riscaldamento a pavimento”. Al punto 4.4 dà le seguenti indicazioni: Avviamento iniziale del riscaldamento: ",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+	}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "358_portata_di_spillamento_tecnico-det_46.php",
+		title: "358.Portata di spillamento",
+		abstract: "<p>Come possiamo calcolare la portata di spillamento quando si utilizzano centraline a punto fisso o con climatica?</p>",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+	}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "336_distribuzione_per_zone_in_edifici_a_torre_tecnico-det_45.php",
+		title: "336.Distribuzione per zone in edifici a torre",
+		abstract: "<p>In una distribuzione a torre dobbiamo presentare una soluzione di distribuzione per piani per il raffrescamento a pavimento. Prima di compiere una preventivazione, potete indicarci una possibile soluzione?",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+	}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "320_stacco_e_ripristino_dall_27impianto_condominiale_con_pr_tecnico-det_44.php",
+		title: "320.Stacco e ripristino dall'impianto condominiale con PR",
+		abstract: "<p>In relazione al distacco dall’ impianto condominiale, anche noi vorremmo acquisire la nostra indipendenza, senza penalizzare il centralizzato che comunque presenta determinati benefici comuni.",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+	}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "316_calcolo_dispersioni_villetta_a_due_piani_tecnico-det_54.php",
+		title: "316.Calcolo dispersioni villetta a due piani",
+		abstract: "<p>Ci è stata commissionata la realizzazione d’impianti di riscaldamento con distribuzione a pavimento in ville a schiera posti su due piani di cui uno adibito a taverna. Essendo unità",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+	}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "303_il_massetto_radiante_tecnico-det_232.php",
+		title: "303.Il massetto radiante",
+		abstract: "<p>Gradirei un’informazione tecnica sui massetti per pannelli radianti nelle tipologie: calcestruzzo, premiscelati ed autolivellanti.</p>",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+	}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "289_pannelli_radianti_con_coibenti_termici_di_sughero_tecnico-det_43.php",
+		title: "289.Pannelli radianti con coibenti termici di sughero",
+		abstract: "<p>Fra i sistemi relativi alla coibentazione termica dei pannelli radianti, ci presentate pannelli di Sughero. Il prodotto non è una novità per molti settori in cui viene impiegato già",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+	}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "284_pannelli_in_polistirene_tecnico-det_42.php",
+		title: "284.Pannelli in polistirene",
+		abstract: "<p>Gradiremmo avere una sintesi inerente ai pannelli coibenti che si utilizzano nella realizzazione dei sistemi radianti a pavimento con particolare riferimento al residenziale e commerciale.</p>",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+	}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "258_deumidificazione_ambienti_tecnico-det_53.php",
+		title: "258.Deumidificazione ambienti",
+		abstract: "<p>Nella realizzazione degli impianti a pannelli radianti a pavimento abbiamo bisogno di applicare un deumidificatore per contenere l’umidità dell’ambiente fra il 55-60%. Dovendo provvedere",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+	}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "255_applicazioni_satellitari_per_un_grattacielo_tecnico-det_41.php",
+		title: "255.Applicazioni satellitari per un grattacielo",
+		abstract: "<p>Per un edificio a torre composto da 15 piani di cui 3 interrati si propone un impianto di riscaldamento con la centrale termica sull’ultimo piano. Su ciascun piano sono presenti 4 appartamenti.",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+	}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "251_modulo_di_riscaldamento_2c_raffrescamento_e_condizionamento_tecnico-det_16.php",
+		title: "251.Modulo di Riscaldamento, Raffrescamento e Condizionamento",
+		abstract: "<p>Le Aziende si prodigano a fornire soluzioni diverse.Non dimentichiamo che ogni possibile iniziativa presenta un investimento non indifferente. La differenza, oggi, si deve porre in primo piano in un ",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+	}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "243_p_r_pav_punto_fisso_collettore_1_27_271_2f4_15vie_tecnico-det_52.php",
+		title: "243.P.R. Pav. punto fisso collettore 1''1/4 15vie",
+		abstract: "<p>Abbiamo la necessità di realizzare un sistema di riscaldamento a punto fisso con un collettore a 15 vie. Il sistema di distribuzione a punto fisso è posizionato in un locale tecnico, mentre",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+	}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "240_portata_gruppo_di_rilancio_28art_5535g_29_e_gruppo_di_miscelazione_28art_3896pf_29_tecnico-det_15.php",
+		title: "240.Portata gruppo di rilancio (art.5535G) e gruppo di miscelazione (art.3896PF)",
+		abstract: "<p>Nella conversione di edifici industriali in unità commerciali dobbiamo provvedere all’ inserimento di sistemi di riscaldamento a pannelli radianti a pavimento.Per quanto riguarda il programma ",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+	}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "239_portata_acqua_di_spillamento_tecnico-det_14.php",
+		title: "239.Portata acqua di spillamento",
+		abstract: "<p>Con un impianto di riscaldamento, utilizzando una centralina a punto fisso, potete indicarci una procedura per determinare, dopo aver predisposto la temperatura della caldaia a condensazione a 65° C...",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+	}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "231_portata_pannelli_di_polistirene_p_r_tecnico-det_13.php",
+		title: "231.Portata pannelli di Polistirene P.R",
+		abstract: "<p>Nella realizzazione dei massetti dei pannelli radianti vengono proposti sistemi autolivellanti e non.Gradirei sapere quanto ciò possa incidere sulla resistenza del massetto medesimo e che influenza ",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+	}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "225_regolazione_flussimetri_collettori_tecnico-det_51.php",
+		title: "225.Regolazione flussimetri collettori",
+		abstract: "<p>Nella regolazione dei flussimetri posti sui collettori che utilizziamo per i pannelli radianti a pavimento, abbiamo difficoltà nell’impostazione della portata ad impianto avviato, in particolare",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+	}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		url: "1335_vmc_e2_80_93_manutenzione_dei_filtri_tecnico-det_311.php",
+		title: "1335. VMC – Manutenzione dei filtri",
+		abstract: "<p>Siamo un’azienda attualmente impegnata in alcuni cantieri all’estero dove stiamo rivedendo gli impianti di gestione dell’aria di alcuni edifici residenziali per ridurre il loro consumo",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		},
+	}];
+
+	window.technicians_ = [{
+		id: 1,
+		department: {
+			id: 103,
+			name: "Centrale Termica",
+		},
+		title: "Pannelli solari termici in zone di montagna?",
+		abstract: "<p>Nella strutturazione delle baite di montagna che si utilizza come casa vacanza o per il weekend.</p><p>Ci viene richiesto l’installazione dei pannelli solari termici per mantenere l’acqua calda nei boiler a valori di accettabilità. I pannelli solari verrebbero anche utilizzati con integrazione per il riscaldamento radiante ma di questo vi chiederemo successivamente consiglio. Oggi ci preoccupa il periodo autunnale e invernale dove pur essendoci un’ottima insolazione nell’arco della giornata si verificano gelate e stratificazione della neve. Come risolvereste questa situazione?</p>",
+		link: {
+			url: "/tiemme-com/download/855. P.S. termici zone di montagna.pdf",
+			target: "_blank",
+			fileSize: 363000,
+		}
+	}, {
+		id: 2,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		title: "Normativa caldaie a gas e a pellet",
+		abstract: "<p><b>Per quanto riguarda le caldaie tradizionali, ogni quanto bisogna far verificare i fumi? Ogni quanto bisogna fare la pulizia?</b><br>La caldaia è installata in Lombardia.</p><p><b>Per quanto riguarda le stufe a pellet quali controlli si richiedono? E ogni quanto tempo?</b><br>Anche in questo caso la stufa è installata in Lombardia.</p>",
+		link: {
+			url: "/tiemme-com/download/951. Normativa caldaie a gas e a pellet.pdf",
+			target: "_blank",
+			fileSize: 485000,
+		}
+	}, {
+		id: 3,
+		department: {
+			id: 101,
+			name: "Componenti Idraulici",
+		},
+		title: "Perdite d\'acqua negli impianti",
+		abstract: "<p>Come potremmo ovviare a particolari rotture accidentali o sfilamenti di tubazioni negli impianti radianti.</p>",
+		link: {
+			url: "/tiemme-com/download/763. Perdite d\"acqua negli impianti.pdf",
+			target: "_blank",
+			fileSize: 274000,
+		}
+	}, {
+		id: 4,
+		department: {
+			id: 102,
+			name: "Sistemi Radianti",
+		},
+		title: "“Come fare il Calcolo dispersioni di un impianto a pavimento per ville a schiera a due piani?„",
+		abstract: "<p>Nella progettazione di un impianto di riscaldamento a pavimento oltre a stabilire la potenza termica radiante volta all’ambiente abitativo, si deve considerare anche la quantità di calore che viene dispersa verso il piano inferiore.</p><p>Una delle prove che il tecnico dell’impresa deve effettuare per valutare l’efficienza del pannello radiante è quello di misurare la temperatura sul soffitto che deve essere di circa -3°C rispetto alla temperatura ambiente...</p>",
+		link: {
+			url: "/tiemme-com/download/316.Calcolo dispersioni villetta a due piani.pdf",
+			target: "_blank",
+			fileSize: 519000,
+		}
+	}];
+
+</script>
+
+<div technician-library>
+	<section class="section--serp">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-4 col-md-3 col-lg-2">
+					<!-- filters -->
+					<ul class="nav--aside">
+						<li *for="let [key, filter] of filters" [class]="{ active: filter.active }">
+							<span class="label" [innerHTML]="filter.label" (click)="toggleFilter(filter)"></span> <svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
+							<ul class="nav--options">
+								<li class="nav--options__item" *for="let item of filter.options">
+									<span class="option" [class]="{ active: filter.has(item), disabled: item.disabled }" (click)="filter.toggle(item)">
+										<span class="name" [innerHTML]="item.label"></span>
+										<span class="count" [innerHTML]="item.count || ''"></span>
+									</span>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<div class="col-sm-8 col-md-9 col-lg-10">
+					<!-- results -->
+					<div class="listing listing--media">
+						<div class="listing__item" *for="let item of items">
+							<div class="card--technician" appear>
+								<div class="content">
+									<div class="category" [innerHTML]="item.department.name"></div>
+									<div class="title" [innerHTML]="item.title | html"></div>
+									<div class="abstract" [innerHTML]="item.abstract | html" *if="item.abstract"></div>
+									<div class="group--cta">
+										<a class="btn--download" [href]="item.link.url" [target]="item.link.target" download><svg class="icon icon--download"><use xlink:href="#download"></use></svg> <span>continua a leggere</span></a>
+										<div class="size">
+											<svg class="icon icon--insights"><use xlink:href="#insights"></use></svg>
+											<span [innerHTML]="item.link.fileSize | fileSize"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>

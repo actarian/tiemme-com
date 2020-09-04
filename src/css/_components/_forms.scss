@@ -159,7 +159,6 @@ $invalid: #dc1216;
 		margin-top: -14px;
 		left: 0;
 	}
-
 }
 
 .group--error {
@@ -499,12 +498,10 @@ errors-component {
 	}
 
 	@include media-up(md) {
-
 		.dropdown {
 			top: -65px;
 			left: 100%;
 		}
-
 	}
 }
 

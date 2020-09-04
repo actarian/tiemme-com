@@ -1,0 +1,206 @@
+%flex-row {
+	@include media-up(md) {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: flex-start;
+
+		&.flex__item {
+			flex: 1 1 20%;
+		}
+
+		&>.flex__item+.flex__item {
+			margin-left: 15px;
+		}
+	}
+}
+
+%flex-table {
+	margin-bottom: 30px;
+	// margin-left: -15px; // !!! rimosso
+	// margin-right: -15px; // !!! rimosso
+
+	@include media-up(md) {
+		&>.flex--row {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: flex-start;
+
+			&.flex__item {
+				flex: 1 1 20%;
+			}
+
+			&>.flex__item+.flex__item {
+				margin-left: 15px;
+			}
+		}
+	}
+
+	@include media-down(sm) {
+		margin: 0;
+		white-space: nowrap;
+		overflow-x: auto;
+		display: flex;
+		flex-direction: column;
+
+		&>.flex--row {
+			display: inline-flex;
+			width: auto;
+			flex: 1 1 auto;
+			padding: 20px 15px;
+
+			&>.flex__item {
+				flex: 1 1 25%;
+				min-width: 140px;
+				padding: 0;
+			}
+		}
+	}
+}
+
+.flex--table {
+	@extend %flex-table;
+}
+
+%flex-table-dimensions {
+	@extend %flex-table;
+
+	.flex--row {
+		justify-content: flex-start;
+		padding: 10px 0;
+		border-top: 1px solid $background-secondary;
+
+		&>.flex__item {
+			&:first-child {
+				flex: 1 1 23%;
+				font-weight: $font-semibold;
+			}
+
+			&:last-child {
+				flex: 1 1 77%;
+			}
+		}
+	}
+
+	@include media-up(sm) {
+		.flex--row {
+			&>.flex__item+.flex__item {
+				margin-left: 15px;
+			}
+		}
+	}
+}
+
+.flex--table-dimensions {
+	@extend %flex-table-dimensions;
+}
+
+%flex-table-codes {
+	@extend %flex-table;
+
+	.flex--row {
+		justify-content: flex-start;
+		padding: 20px 0;
+		margin-bottom: 6px;
+
+		&:first-child {
+			font-size: 18px;
+			font-family: $font-secondary;
+			text-transform: uppercase;
+			color: black;
+		}
+
+		&:not(:first-child) {
+			background: $background-tertiary;
+
+			&>.flex__item:first-child {
+				font-weight: $font-semibold;
+			}
+		}
+
+		&>.flex__item {
+			flex: 1 1 25%;
+			padding: 0 15px;
+		}
+	}
+
+	@include media-up(sm) {
+		.flex--row {
+			&>.flex__item+.flex__item {
+				margin-left: 15px;
+			}
+		}
+	}
+}
+
+.flex--table-codes {
+	@extend %flex-table-codes;
+}
+
+%flex-table-link {
+	@extend %flex-table;
+	margin-bottom: 30px;
+	// margin-left: -15px; // !!! rimosso
+	// margin-right: -15px; // !!! rimosso
+
+	.flex--row {
+		position: relative;
+		justify-content: space-between;
+		padding: 20px 0;
+		margin-bottom: 6px;
+		line-height: 1;
+		cursor: pointer;
+
+		&:before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: $background-tertiary;
+			transition: all ease-in-out 350ms;
+		}
+
+		&>.flex__item {
+			position: relative;
+			padding: 0 15px;
+			font-size: 15px;
+
+			&:first-child {
+				flex: 1 1 auto;
+				font-weight: $font-semibold;
+			}
+		}
+
+		&:hover {
+			z-index: 10;
+
+			&:before {
+				top: -6px;
+				left: -6px;
+				right: -6px;
+				bottom: -6px;
+				background: white;
+				box-shadow: 0 20px 20px -10px rgba(0, 0, 0, 0.15);
+			}
+
+			.btn--download {
+				opacity: 1;
+			}
+		}
+	}
+
+	@include media-up(sm) {
+		.flex--row {
+			&>.flex__item+.flex__item {
+				margin-left: 15px;
+			}
+		}
+	}
+}
+
+.flex--table-link {
+	@extend %flex-table-link;
+}

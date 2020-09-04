@@ -1,5 +1,7 @@
 import { CoreModule, Module } from 'rxcomp';
 import { FormModule } from 'rxcomp-form';
+import AccordionItemDirective from './accordion/accordion-item.directive';
+import AccordionDirective from './accordion/accordion.directive';
 import AgentsComponent from './agents/agents.component';
 import AppComponent from './app.component';
 import AppearDirective from './appear/appear.directive';
@@ -53,13 +55,15 @@ import SecureDirective from './secure/secure.directive';
 import FileSizePipe from './size/size.pipe';
 import SwiperListingDirective from './swiper/swiper-listing.directive';
 import SwiperSlidesDirective from './swiper/swiper-slides.directive';
+import SwiperTechnicianDirective from './swiper/swiper-technician.directive';
 import SwiperDirective from './swiper/swiper.directive';
+import TechnicianLibraryComponent from './technician-library/technician-library';
 import VideoComponent from './video/video.component';
 import WorkWithUsComponent from './work-with-us/work-with-us.component';
 import YoutubeComponent from './youtube/youtube.component';
 import ZoomableDirective from './zoomable/zoomable.directive';
 
-export default class AppModule extends Module {}
+export default class AppModule extends Module { }
 
 AppModule.meta = {
 	imports: [
@@ -67,6 +71,8 @@ AppModule.meta = {
 		FormModule,
 	],
 	declarations: [
+		AccordionDirective,
+		AccordionItemDirective,
 		AgentsComponent,
 		AppearDirective,
 		BimLibraryComponent,
@@ -118,6 +124,8 @@ AppModule.meta = {
 		SwiperDirective,
 		SwiperListingDirective,
 		SwiperSlidesDirective,
+		SwiperTechnicianDirective,
+		TechnicianLibraryComponent,
 		TestComponent,
 		// ValueDirective,
 		VideoComponent,

@@ -28,6 +28,8 @@ export default class SecureDirective extends Directive {
 	}
 
 	tryDownloadHref() {
+		this.onChanges();
+
 		HttpService.get$(this.href, undefined, 'blob').pipe(
 			first(),
 		).subscribe(blob => {

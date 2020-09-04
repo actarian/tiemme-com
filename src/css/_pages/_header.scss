@@ -78,6 +78,18 @@
 		@include scrollbar();
 	}
 
+	@include media-up(md) {
+		.btn--menu {
+			display: none;
+		}
+
+		.fixed & {
+			.btn--menu {
+				display: block;
+			}
+		}
+	}
+
 	@include media-down(sm) {
 		background: white;
 
@@ -118,7 +130,7 @@
 		align-items: center;
 	}
 
-	h1{
+	h1 {
 		margin: 0;
 	}
 
@@ -177,7 +189,7 @@
 
 	@include media-down(lg) {
 		width: 54px;
-		height: 35px;
+		height: 45px;
 
 		&>span {
 			width: 34px;

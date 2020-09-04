@@ -1,6 +1,23 @@
 <!-- @@master = ./templates/layout.html-->
 
 <!-- @@block = main-->
+<section class="section--hero-tertiary">
+	<div class="background"></div>
+</section>
+
+<section class="section--headline">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-10">
+				<div class="category">New Classic Graphite</div>
+				<div class="title">Art. 4500GRF</div>
+				<div class="abstract">Pannello isolante termico in polistirene espanso sinterizzato EPS con grafite, con bugne in rilievo per il bloccaggio del tubo passo 50 mm e multipli.</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!--
 <section class="section--hero">
 	<div class="background">
 		<img lazy="/tiemme-com/img/products/radiant-floor-graphite/hero.jpg" />
@@ -10,11 +27,12 @@
 			<div class="col-md-10">
 				<div class="category">New Classic Graphite</div>
 				<div class="title">Art. 4500GRF</div>
-				<div class="abstract">Pannello isolante termico in polistirene espanso sinterizzato EPS con grafite, con bugne in rilievo per il bloccaggio del tubo passo 50 mm e multipli.</div>
+				<div class="abstract">Pannello isolante termico in polistirene espanso sinterizzato EPS con grafite, con bugne in rilievo per il bloccaggio del tubo passo 50 mm e multipli.</div>
 			</div>
 		</div>
 	</div>
 </section>
+-->
 
 <!-- @@include ./templates/shared/product-menu-radiant-floor-graphite.html -->
 
@@ -41,14 +59,14 @@
 
 <section class="section--dimensions">
 	<div class="container">
-		<div class="flex--table">
+		<div class="flex--table flex--table-dimensions">
 			<div class="flex--row">
 				<div class="flex__item">Dimensioni totali in pianta</div>
 				<div class="flex__item">1220x820 mm. </div>
 			</div>
 			<div class="flex--row">
 				<div class="flex__item">Spessori isolanti disponibili</div>
-				<div class="flex__item"><b>10 mm</b> (RD = 0,50 m² K/W), <b>17 mm</b> (RD = 0,75 m² K/W), <b>32 mm</b> (RD = 1,25 m² K/W), <b>40 mm</b> (RD = 1,50 m² K/W), <b>55 mm</b> (RD = 2,00 m² K/W)</div>
+				<div class="flex__item"><b>10 mm</b> (RD = 0,50 m² K/W), <b>17 mm</b> (RD = 0,75 m² K/W), <b>32 mm</b> (RD = 1,25 m² K/W), <b>40 mm</b> (RD = 1,50 m² K/W), <b>55 mm</b> (RD = 2,00 m² K/W)</div>
 			</div>
 		</div>
 	</div>
@@ -56,42 +74,48 @@
 
 <section class="section--codes">
 	<div class="container">
-		<div class="flex--table">
-			<div class="flex--row">
-				<div class="flex__item">Codice</div>
-				<div class="flex__item">Dimensione</div>
-				<div class="flex__item">Confezione min</div>
-				<div class="flex__item">Qta per scatola</div>
-			</div>
-			<div class="flex--row">
-				<div class="flex__item">4500479</div>
-				<div class="flex__item">10 mm 250 kPa</div>
-				<div class="flex__item">21,12</div>
-				<div class="flex__item">84,48</div>
-			</div>
-			<div class="flex--row">
-				<div class="flex__item">4500480</div>
-				<div class="flex__item">17 mm 150 kPa</div>
-				<div class="flex__item">13,44</div>
-				<div class="flex__item">67,20</div>
-			</div>
-			<div class="flex--row">
-				<div class="flex__item">4500481</div>
-				<div class="flex__item">32 mm 150 kPa</div>
-				<div class="flex__item">9,60</div>
-				<div class="flex__item">48</div>
-			</div>
-			<div class="flex--row">
-				<div class="flex__item">4500482</div>
-				<div class="flex__item">40 mm 150 kPa</div>
-				<div class="flex__item">7,68</div>
-				<div class="flex__item">38,40</div>
-			</div>
-			<div class="flex--row">
-				<div class="flex__item">4500483</div>
-				<div class="flex__item">55 mm 150 kPa</div>
-				<div class="flex__item">7,68</div>
-				<div class="flex__item">30,72</div>
+		<div accordion="1">
+			<div class="accordion__title">Gamma</div>
+			<svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
+		</div>
+		<div accordion-item="1">
+			<div class="flex--table flex--table-codes">
+				<div class="flex--row">
+					<div class="flex__item">Codice</div>
+					<div class="flex__item">Dimensione</div>
+					<div class="flex__item">Confezione min</div>
+					<div class="flex__item">Qta per scatola</div>
+				</div>
+				<div class="flex--row">
+					<div class="flex__item">4500479</div>
+					<div class="flex__item">10 mm 250 kPa</div>
+					<div class="flex__item">21,12</div>
+					<div class="flex__item">84,48</div>
+				</div>
+				<div class="flex--row">
+					<div class="flex__item">4500480</div>
+					<div class="flex__item">17 mm 150 kPa</div>
+					<div class="flex__item">13,44</div>
+					<div class="flex__item">67,20</div>
+				</div>
+				<div class="flex--row">
+					<div class="flex__item">4500481</div>
+					<div class="flex__item">32 mm 150 kPa</div>
+					<div class="flex__item">9,60</div>
+					<div class="flex__item">48</div>
+				</div>
+				<div class="flex--row">
+					<div class="flex__item">4500482</div>
+					<div class="flex__item">40 mm 150 kPa</div>
+					<div class="flex__item">7,68</div>
+					<div class="flex__item">38,40</div>
+				</div>
+				<div class="flex--row">
+					<div class="flex__item">4500483</div>
+					<div class="flex__item">55 mm 150 kPa</div>
+					<div class="flex__item">7,68</div>
+					<div class="flex__item">30,72</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -99,31 +123,184 @@
 
 <section class="section--technical-sheet">
 	<div class="container">
-		<div class="section--technical-sheet__title">Schede Tecniche</div>
-		<div class="flex--table">
-			<a class="flex--row" href="http://www.tiemme.com/radianti/download_techsheet_4500GRF-ENU.pdf" target="_blank" download secure>
-				<div class="flex__item">4500GRF - ENU (3,48 MB)</div>
-				<div class="flex__item">
-					<span class="btn--download"><svg class="icon icon--download"><use xlink:href="#download"></use></svg> <span>download</span></span>
-				</div>
-			</a>
-			<a class="flex--row" href="http://www.tiemme.com/radianti/download_techsheet_4500GRF-ENU.pdf" target="_blank" download secure>
-				<div class="flex__item">4500GRF - ESP (3,66 MB)</div>
-				<div class="flex__item">
-					<span class="btn--download"><svg class="icon icon--download"><use xlink:href="#download"></use></svg> <span>download</span></span>
-				</div>
-			</a>
-			<a class="flex--row" href="http://www.tiemme.com/radianti/download_techsheet_4500GRF-ITA.pdf" target="_blank" download secure>
-				<div class="flex__item">4500GRF - ITA (3,59 MB)</div>
-				<div class="flex__item">
-					<span class="btn--download"><svg class="icon icon--download"><use xlink:href="#download"></use></svg> <span>download</span></span>
-				</div>
-			</a>
+		<div accordion="2">
+			<div class="accordion__title">Schede Tecniche</div>
+			<svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
 		</div>
-		<!-- @@include ./templates/shared/register-or-login.html -->
+		<div class="accordion" accordion-item="2">
+			<div class="flex--table flex--table-link">
+				<a class="flex--row" href="http://www.tiemme.com/radianti/download_techsheet_4500GRF-ENU.pdf" target="_blank" download secure>
+					<div class="flex__item">4500GRF - ENU (3,48 MB)</div>
+					<div class="flex__item">
+						<span class="btn--download"><svg class="icon icon--download"><use xlink:href="#download"></use></svg> <span>download</span></span>
+					</div>
+				</a>
+				<a class="flex--row" href="http://www.tiemme.com/radianti/download_techsheet_4500GRF-ENU.pdf" target="_blank" download secure>
+					<div class="flex__item">4500GRF - ESP (3,66 MB)</div>
+					<div class="flex__item">
+						<span class="btn--download"><svg class="icon icon--download"><use xlink:href="#download"></use></svg> <span>download</span></span>
+					</div>
+				</a>
+				<a class="flex--row" href="http://www.tiemme.com/radianti/download_techsheet_4500GRF-ITA.pdf" target="_blank" download secure>
+					<div class="flex__item">4500GRF - ITA (3,59 MB)</div>
+					<div class="flex__item">
+						<span class="btn--download"><svg class="icon icon--download"><use xlink:href="#download"></use></svg> <span>download</span></span>
+					</div>
+				</a>
+			</div>
+		</div>
 	</div>
 </section>
 
+<script>
+	window.certifications = [{
+		id: 'download_certification_S51.pdf',
+		name: 'S51 - AENOR - ESP - TECNICO (0,25 MB)',
+		url: 'download_certification_S51.pdf',
+	}, {
+		id: 'download_certification_S52.pdf',
+		name: 'S52 - AENOR - ESP - TECNICO (0,25 MB)',
+		url: 'download_certification_S52.pdf',
+	}, {
+		id: 'download_certification_S53.pdf',
+		name: 'S53 - AENOR - ESP - TECNICO (0,25 MB)',
+		url: 'download_certification_S53.pdf',
+	}];
+
+</script>
+
+<section class="section--certifications">
+	<div class="container">
+		<div accordion="3">
+			<div class="accordion__title">Certificazioni</div>
+			<svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
+		</div>
+		<div class="accordion" accordion-item="3">
+			<div class="flex--table flex--table-link">
+				<a class="flex--row" *for="let item of window.certifications">
+					<div class="flex__item" [href]="item.url" download secure [innerHTML]="item.name"></div>
+					<div class="flex__item" [href]="item.url" download secure>
+						<span class="btn--download"><svg class="icon icon--download"><use xlink:href="#download"></use></svg> <span>download</span></span>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	window.conformities = [{
+		id: 'download_certification_S51.pdf',
+		name: 'DC-00C - ENU - Assicurazione di prodotto (0,6 MB)',
+		url: 'download_certification_S51.pdf',
+	}, {
+		id: 'download_certification_S52.pdf',
+		name: 'DC-01C - ENU - Assicurazione di prodotto (0,6 MB)',
+		url: 'download_certification_S52.pdf',
+	}, {
+		id: 'download_certification_S53.pdf',
+		name: 'DC-02C - ENU - Assicurazione di prodotto (0,6 MB)',
+		url: 'download_certification_S53.pdf',
+	}];
+
+</script>
+
+<section class="section--conformities">
+	<div class="container">
+		<div accordion="4">
+			<div class="accordion__title">Dichiarazione di conformità</div>
+			<svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
+		</div>
+		<div class="accordion" accordion-item="4">
+			<div class="flex--table flex--table-link">
+				<a class="flex--row" *for="let item of window.conformities">
+					<div class="flex__item" [href]="item.url" download secure [innerHTML]="item.name"></div>
+					<div class="flex__item" [href]="item.url" download secure>
+						<span class="btn--download"><svg class="icon icon--download"><use xlink:href="#download"></use></svg> <span>download</span></span>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	window.performances = [{
+		id: 'download_certification_S51.pdf',
+		name: '4500480 - DP-028 - ENU - CPR 305/2011 (0,25 MB)',
+		url: 'download_certification_S51.pdf',
+	}, {
+		id: 'download_certification_S52.pdf',
+		name: '4500481 - DP-028 - ENU - CPR 305/2011 (0,25 MB)',
+		url: 'download_certification_S52.pdf',
+	}, {
+		id: 'download_certification_S53.pdf',
+		name: '4500482 - DP-028 - ENU - CPR 305/2011 (0,25 MB)',
+		url: 'download_certification_S53.pdf',
+	}];
+
+</script>
+
+<section class="section--performances">
+	<div class="container">
+		<div accordion="5">
+			<div class="accordion__title">Dichiarazione di prestazione</div>
+			<svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
+		</div>
+		<div class="accordion" accordion-item="5">
+			<div class="flex--table flex--table-link">
+				<a class="flex--row" *for="let item of window.performances">
+					<div class="flex__item" [href]="item.url" download secure [innerHTML]="item.name"></div>
+					<div class="flex__item" [href]="item.url" download secure>
+						<span class="btn--download"><svg class="icon icon--download"><use xlink:href="#download"></use></svg> <span>download</span></span>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	window.bims = [{
+		id: 1,
+		name: 'Tiemme 4500GRF-Cooling',
+		url: 'download_techsheet_4500GRF-ENU.pdf',
+	}, {
+		id: 2,
+		name: 'Tiemme 4500GRF-Cooling',
+		url: 'download_techsheet_4500GRF-ESP.pdf',
+	}, {
+		id: 3,
+		name: 'Tiemme 4500GRF-Cooling',
+		url: 'download_techsheet_4500GRF-ITA.pdf',
+	}];
+
+</script>
+
+<section class="section--bims">
+	<div class="container">
+		<div accordion="6">
+			<div class="accordion__title"><svg class="icon icon--bim"><use xlink:href="#bim"></use></svg> TIEMME è <b>Bim</b> Ready</div>
+			<svg class="icon icon--caret-down"><use xlink:href="#caret-down"></use></svg>
+		</div>
+		<div class="accordion" accordion-item="6">
+			<div class="flex--table flex--table-link">
+				<a class="flex--row" *for="let item of window.bims">
+					<div class="flex__item" [href]="item.url" download secure [innerHTML]="item.name"></div>
+					<div class="flex__item" [href]="item.url" download secure>
+						<span class="btn--download"><svg class="icon icon--download"><use xlink:href="#download"></use></svg> <span>download</span></span>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div class="container">
+	<!-- @@include ./templates/shared/register-or-login.html -->
+</div>
+
+<!--
 <section class="section--catalogue background--gradient-inverted">
 	<div class="container">
 		<div class="row">
@@ -133,7 +310,7 @@
 					<div class="picture picture--catalogue">
 						<div class="inner">
 							<div class="category">Catalogo Listino</div>
-							<div class="name">Sistemi Radianti2019</div>
+							<div class="name">Sistemi Radianti 2019</div>
 							<img src="/tiemme-com/img/svg/logo.svg" title="Tiemme" />
 						</div>
 					</div>
@@ -149,7 +326,7 @@
 					<div class="picture picture--catalogue">
 						<div class="inner">
 							<div class="category">Catalogo Listino</div>
-							<div class="name">Generale2019</div>
+							<div class="name">Generale 2019</div>
 							<img src="/tiemme-com/img/svg/logo.svg" title="Tiemme" />
 						</div>
 					</div>
@@ -161,83 +338,9 @@
 		</div>
 	</div>
 </section>
+-->
 
-<section class="section--bim background--gradient-inverted">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6">
-				<div class="title"><svg class="icon icon--bim"><use xlink:href="#bim"></use></svg> <span>TIEMME è <b>Bim</b> Ready</span></div>
-				<div class="abstract">
-					<p>Il <b>Building Information Modeling</b> è il futuro della progettazione edilizia, contiene in modo dinamico tutte le informazioni del progetto come i materiali, i calcoli strutturali, le prestazioni energetiche e i costi.</p>
-					<p>Per questo motivo scegliamo di agevolarli rendendo disponibili i nostri modelli 3d nei formati compatibili con le applicazioni BIM più diffuse.</p>
-				</div>
-				<div class="flex--table">
-					<div class="flex--row">
-						<div class="flex__item">Tiemme 4500GRF-Cooling</div>
-						<div class="flex__item"><a href="http://www.tiemme.com/radianti/download_techsheet_4500GRF-ENU.pdf" class="btn--download" target="_blank" download secure><svg class="icon icon--download"><use xlink:href="#download"></use></svg> <span>download</span></a></div>
-					</div>
-					<div class="flex--row">
-						<div class="flex__item">Tiemme 4500GRF-Cooling</div>
-						<div class="flex__item"><a href="http://www.tiemme.com/radianti/download_techsheet_4500GRF-ESP.pdf" class="btn--download" target="_blank" download secure><svg class="icon icon--download"><use xlink:href="#download"></use></svg> <span>download</span></a></div>
-					</div>
-					<div class="flex--row">
-						<div class="flex__item">Tiemme 4500GRF-Cooling</div>
-						<div class="flex__item"><a href="http://www.tiemme.com/radianti/download_techsheet_4500GRF-ITA.pdf" class="btn--download" target="_blank" download secure><svg class="icon icon--download"><use xlink:href="#download"></use></svg> <span>download</span></a></div>
-					</div>
-				</div>
-				<!-- @@include ./templates/shared/register-or-login.html -->
-			</div>
-			<div class="col-md-6">
-				<div class="picture picture--bim">
-					<img lazy="/tiemme-com/img/products/bim.png" />
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
-<script>
-	window.certifications = [{
-		id: 'download_certification_S51.pdf',
-		name: 'S51 - AENOR - ESP - TECNICO (0,25 MB)',
-	}, {
-		id: 'download_certification_S52.pdf',
-		name: 'S52 - AENOR - ESP - TECNICO (0,25 MB)',
-	}, {
-		id: 'download_certification_S53.pdf',
-		name: 'S53 - AENOR - ESP - TECNICO (0,25 MB)',
-	}];
-
-</script>
-
-<script>
-	window.conformities = [{
-		id: 'download_certification_S51.pdf',
-		name: 'DC-00C - ENU - Assicurazione di prodotto (0,6 MB)',
-	}, {
-		id: 'download_certification_S52.pdf',
-		name: 'DC-01C - ENU - Assicurazione di prodotto (0,6 MB)',
-	}, {
-		id: 'download_certification_S53.pdf',
-		name: 'DC-02C - ENU - Assicurazione di prodotto (0,6 MB)',
-	}];
-
-</script>
-
-<script>
-	window.performances = [{
-		id: 'download_certification_S51.pdf',
-		name: '4500480 - DP-028 - ENU - CPR 305/2011 (0,25 MB)',
-	}, {
-		id: 'download_certification_S52.pdf',
-		name: '4500481 - DP-028 - ENU - CPR 305/2011 (0,25 MB)',
-	}, {
-		id: 'download_certification_S53.pdf',
-		name: '4500482 - DP-028 - ENU - CPR 305/2011 (0,25 MB)',
-	}];
-
-</script>
-
+<!--
 <section class="section--downloads">
 	<div class="container">
 		<div class="group--downloads" downloads="certifications">
@@ -257,7 +360,9 @@
 		</div>
 	</div>
 </section>
+-->
 
+<!--
 <section class="section--certifications">
 	<div class="container">
 		<div class="row">
@@ -295,9 +400,44 @@
 				</div>
 			</div>
 		</div>
-		<!-- @@include ./templates/shared/register-or-login.html -->
 	</div>
 </section>
+-->
+
+<!--
+<section class="section--bim background--gradient-inverted">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="title"><svg class="icon icon--bim"><use xlink:href="#bim"></use></svg> <span>TIEMME è <b>Bim</b> Ready</span></div>
+				<div class="abstract">
+					<p>Il <b>Building Information Modeling</b> è il futuro della progettazione edilizia, contiene in modo dinamico tutte le informazioni del progetto come i materiali, i calcoli strutturali, le prestazioni energetiche e i costi.</p>
+					<p>Per questo motivo scegliamo di agevolarli rendendo disponibili i nostri modelli 3d nei formati compatibili con le applicazioni BIM più diffuse.</p>
+				</div>
+				<div class="flex--table-link">
+					<div class="flex--row">
+						<div class="flex__item">Tiemme 4500GRF-Cooling</div>
+						<div class="flex__item"><a href="http://www.tiemme.com/radianti/download_techsheet_4500GRF-ENU.pdf" class="btn--download" target="_blank" download secure><svg class="icon icon--download"><use xlink:href="#download"></use></svg> <span>download</span></a></div>
+					</div>
+					<div class="flex--row">
+						<div class="flex__item">Tiemme 4500GRF-Cooling</div>
+						<div class="flex__item"><a href="http://www.tiemme.com/radianti/download_techsheet_4500GRF-ESP.pdf" class="btn--download" target="_blank" download secure><svg class="icon icon--download"><use xlink:href="#download"></use></svg> <span>download</span></a></div>
+					</div>
+					<div class="flex--row">
+						<div class="flex__item">Tiemme 4500GRF-Cooling</div>
+						<div class="flex__item"><a href="http://www.tiemme.com/radianti/download_techsheet_4500GRF-ITA.pdf" class="btn--download" target="_blank" download secure><svg class="icon icon--download"><use xlink:href="#download"></use></svg> <span>download</span></a></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="picture picture--bim">
+					<img lazy="/tiemme-com/img/products/bim.png" />
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+-->
 
 <section class="section--related">
 	<div class="container">

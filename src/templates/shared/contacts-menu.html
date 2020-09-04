@@ -1,7 +1,10 @@
-<div class="sticky--menu" main-menu>
+<div class="sticky--menu" main-menu (toggle)="onToggleMenu($event)">
 	<section class="section--menu" [class]="{ active: sticky }">
 		<div class="container-fluid">
 			<ul class="nav--menu nav--menu--primary">
+				<li class="nav--menu__main">
+					<button type="button" class="btn--menu" (click)="onToggleMenu()"><span></span><span></span><span></span></button>
+				</li>
 				<li>
 					<a href="/tiemme-com/contacts-contact-us.html" class="<!--@@var=a-->">
 						<span>Contattaci</span>

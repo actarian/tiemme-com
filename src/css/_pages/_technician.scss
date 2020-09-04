@@ -1,5 +1,10 @@
 .section--technician {
 	padding: 80px 0 0 0;
+	border-top: 1px solid #b9bdcd;
+
+	.swiper-container {
+		@extend %swiper;
+	}
 
 	.row {
 		align-items: flex-end;
@@ -12,22 +17,12 @@
 		background: transparent;
 	}
 
-	.category {
-		@extend %category;
-		margin-bottom: 20px;
+	.card--preview {
+		margin-bottom: 60px;
 	}
 
-	.title {
-		@extend %title;
-		margin-bottom: 30px;
-	}
-
-	.abstract {
-		@extend %abstract;
-	}
-
-	.group--cta {
-		margin-bottom: 80px;
+	.swiper-slide>.card--preview {
+		margin-bottom: 15px;
 	}
 
 	@include media-down(sm) {
@@ -44,10 +39,5 @@
 				margin: 0 auto;
 			}
 		}
-
-		.group--cta {
-			margin-bottom: 40px;
-		}
 	}
-
 }

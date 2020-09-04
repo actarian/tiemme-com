@@ -1,0 +1,65 @@
+<script>
+	window.technicians = [{
+		id: 1,
+		title: "Pannelli solari termici in zone di montagna?",
+		abstract: "<p>Nella strutturazione delle baite di montagna che si utilizza come casa vacanza o per il weekend.</p><p>Ci viene richiesto l’installazione dei pannelli solari termici per mantenere l’acqua calda nei boiler a valori di accettabilità. I pannelli solari verrebbero anche utilizzati con integrazione per il riscaldamento radiante ma di questo vi chiederemo successivamente consiglio. Oggi ci preoccupa il periodo autunnale e invernale dove pur essendoci un’ottima insolazione nell’arco della giornata si verificano gelate e stratificazione della neve. Come risolvereste questa situazione?</p>",
+		link: {
+			url: '/tiemme-com/download/855. P.S. termici zone di montagna.pdf',
+			target: '_blank',
+		}
+	}, {
+		id: 2,
+		title: "Normativa caldaie a gas e a pellet",
+		abstract: "<p><b>Per quanto riguarda le caldaie tradizionali, ogni quanto bisogna far verificare i fumi? Ogni quanto bisogna fare la pulizia?</b><br>La caldaia è installata in Lombardia.</p><p><b>Per quanto riguarda le stufe a pellet quali controlli si richiedono? E ogni quanto tempo?</b><br>Anche in questo caso la stufa è installata in Lombardia.</p>",
+		link: {
+			url: '/tiemme-com/download/951. Normativa caldaie a gas e a pellet.pdf',
+			target: '_blank',
+		}
+	}, {
+		id: 3,
+		title: "Perdite d\'acqua negli impianti",
+		abstract: "<p>Come potremmo ovviare a particolari rotture accidentali o sfilamenti  di tubazioni negli impianti radianti.</p>",
+		link: {
+			url: '/tiemme-com/download/763. Perdite d\'acqua negli impianti.pdf',
+			target: '_blank',
+		}
+	}, {
+		id: 4,
+		title: "“Come fare il Calcolo dispersioni di un impianto a pavimento per ville a schiera a due piani?„",
+		abstract: "<p>Nella progettazione di un impianto di riscaldamento a pavimento oltre a stabilire la potenza termica radiante volta all’ambiente abitativo, si deve considerare anche la quantità di calore che viene dispersa verso il piano inferiore.</p><p>Una delle prove che il tecnico dell’impresa deve effettuare per valutare l’efficienza del pannello radiante è quello di misurare la temperatura sul soffitto che deve essere di circa -3°C rispetto alla temperatura ambiente...</p>",
+		link: {
+			url: '/tiemme-com/download/316.Calcolo dispersioni villetta a due piani.pdf',
+			target: '_blank',
+		}
+	}];
+
+</script>
+
+<section class="section--technician background--gradient">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 o-2">
+				<div class="picture picture--technician">
+					<img lazy="/tiemme-com/img/technician/technician.png" />
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="swiper-container" swiper-technician>
+					<div class="swiper-wrapper">
+						<div class="swiper-slide" *for="let item of window.technicians">
+							<div class="card--preview">
+								<a href="/tiemme-com/technician.html" class="category"><svg class="icon icon--bullet"><use xlink:href="#bullet"></use></svg> Il Tecnico Risponde</a>
+								<div class="title" [innerHTML]="item.title | html"></div>
+								<div class="abstract" [innerHTML]="item.abstract | html"></div>
+								<div class="group--cta">
+									<a [href]="item.link.url" [target]="item.link.target" download class="btn--link"><span>leggi di più</span></a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="swiper-pagination swiper-pagination-white"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

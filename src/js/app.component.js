@@ -1,6 +1,7 @@
 import { Component, getContext } from 'rxcomp';
 import { takeUntil } from 'rxjs/operators';
 import { STATIC } from './environment/environment';
+import HeaderComponent from './header/header.component';
 import LocationService from './location/location.service';
 import ModalService, { ModalResolveEvent } from './modal/modal.service';
 import UserService from './user/user.service';
@@ -16,7 +17,7 @@ export default class AppComponent extends Component {
 		UserService.user$.pipe(
 			takeUntil(this.unsubscribe$)
 		).subscribe(user => {
-			console.log('AppComponent.user$', user);
+			// console.log('AppComponent.user$', user);
 			this.user = user;
 			this.pushChanges();
 		});
@@ -26,7 +27,12 @@ export default class AppComponent extends Component {
 	}
 
 	onDropped(id) {
-		console.log('AppComponent.onDropped', id);
+		// console.log('AppComponent.onDropped', id);
+	}
+
+	onToggleMenu(event) {
+		HeaderComponent.state.menu = HeaderComponent.state.menu !== event ? event : null;
+		this.pushChanges();
 	}
 
 	parseQueryString() {
